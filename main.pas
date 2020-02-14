@@ -284,7 +284,7 @@ begin
   //Prüfung auf neue Version
   HTTP := THTTPSend.Create;
   try                                                                 //ab hier Spionage
-    if not HTTP.HTTPMethod('GET', 'www.w-werner.de/GE_BUCH/version.txt?V'+sProductVersionString+'_PC_'+GetComputerName+'_USER_'+GetUserName)
+    if not HTTP.HTTPMethod('GET', 'www.w-werner.de/GE_BUCH/version.txt?V'+sProductVersionString+'_PC_'+replacechar(GetComputerName, ' ', '_')+'_USER_'+replacechar(GetUserName, ' ', '_'))
       then
         begin
 	  myDebugLN('ERROR HTTPGET, Resultcode: '+inttostr(Http.Resultcode)+' '+Http.Resultstring);
@@ -301,26 +301,34 @@ begin
           myDebugLN('Http.headers.text  : '+#13#10+Http.headers.text);
           myDebugLN('Http.Document      : '+#13#10+slHelp.Text);
 
-          sNewVers := slHelp.Strings[0];
-          if GetProductVersionString < sNewVers
+          if Http.Resultcode = 200
             then
               begin
-                slHelp.Delete(0);
-                labVersionNeu.Caption := labVersionNeu.Caption+sNewVers;
-                labVersionNeu.Hint    := slHelp.Text;
-                labVersionNeu.Cursor  := crHandPoint;
+                sNewVers := slHelp.Strings[0];
+                if GetProductVersionString < sNewVers
+                  then
+                    begin
+                      slHelp.Delete(0);
+                      labVersionNeu.Caption := labVersionNeu.Caption+sNewVers;
+                      labVersionNeu.Hint    := slHelp.Text;
+                      labVersionNeu.Cursor  := crHandPoint;
+                    end
+                  else
+                    begin
+                      labVersionNeu.Font.Size := -10;
+                      labVersionNeu.OnClick   := nil;
+                      if GetProductVersionString = sNewVers
+                        then
+                          begin
+                            labVersionNeu.Caption   := 'Das Programm ist aktuell';
+                            labVersionNeu.Color     := clNone;
+                          end
+                        else labVersionNeu.Caption   := 'Das Programm ist neuer. Aktuelle Version im Internet: '+sNewVers;
+                    end;
               end
             else
               begin
-                labVersionNeu.Font.Size := -10;
-                labVersionNeu.OnClick   := nil;
-                if GetProductVersionString = sNewVers
-                  then
-                    begin
-                      labVersionNeu.Caption   := 'Das Programm ist aktuell';
-                      labVersionNeu.Color     := clNone;
-                    end
-                  else labVersionNeu.Caption   := 'Das Programm ist neuer. Aktuelle Version im Internet: '+sNewVers;
+                labVersionNeu.Caption := 'Fehler bei der Abfrage';
               end;
         end;
   finally
