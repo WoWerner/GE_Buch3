@@ -1,0 +1,220 @@
+object frmBanken: TfrmBanken
+  Left = 340
+  Height = 500
+  Top = 181
+  Width = 636
+  BorderStyle = bsDialog
+  Caption = 'Banken'
+  ClientHeight = 500
+  ClientWidth = 636
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '1.6.4.0'
+  object DBGridBankListe: TDBGrid
+    Left = 0
+    Height = 338
+    Top = 0
+    Width = 636
+    Align = alClient
+    Color = clWindow
+    Columns = <>
+    DataSource = frmDM.dsBanken
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+    ReadOnly = True
+    Scrollbars = ssAutoVertical
+    TabOrder = 0
+    OnDrawColumnCell = DBGridBankListeDrawColumnCell
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 162
+    Top = 338
+    Width = 636
+    Align = alBottom
+    BevelOuter = bvNone
+    ClientHeight = 162
+    ClientWidth = 636
+    TabOrder = 1
+    object btnClose: TButton
+      Left = 496
+      Height = 25
+      Top = 129
+      Width = 136
+      Caption = 'Schließen'
+      OnClick = btnCloseClick
+      TabOrder = 0
+    end
+    object btnHilfe: TButton
+      Left = 496
+      Height = 25
+      Top = 99
+      Width = 136
+      Caption = 'Hilfe'
+      OnClick = btnHilfeClick
+      TabOrder = 1
+    end
+    object btnAbbrechen: TButton
+      Left = 352
+      Height = 25
+      Top = 99
+      Width = 136
+      Caption = 'Abbrechen'
+      OnClick = btnAbbrechenClick
+      TabOrder = 2
+      Visible = False
+    end
+    object btnSpeichern: TButton
+      Left = 352
+      Height = 25
+      Top = 129
+      Width = 136
+      Caption = 'Speichern'
+      OnClick = btnSpeichernClick
+      TabOrder = 3
+      Visible = False
+    end
+    object btnDelete: TButton
+      Left = 352
+      Height = 25
+      Top = 69
+      Width = 136
+      Caption = 'Löschen'
+      OnClick = btnDeleteClick
+      TabOrder = 4
+    end
+    object btnAendern: TButton
+      Left = 352
+      Height = 25
+      Hint = 'Die BankNr und der Kontostand dürfen nicht geändert werden'
+      Top = 39
+      Width = 136
+      Caption = 'Ändern'
+      OnClick = btnAendernClick
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 5
+    end
+    object btnNeu: TButton
+      Left = 352
+      Height = 25
+      Top = 9
+      Width = 136
+      Caption = 'Neu'
+      OnClick = btnNeuClick
+      TabOrder = 6
+    end
+    object Label5: TLabel
+      Left = 8
+      Height = 15
+      Top = 11
+      Width = 39
+      Caption = 'BankNr'
+      ParentColor = False
+    end
+    object ediBankNr: TSpinEdit
+      Left = 88
+      Height = 23
+      Top = 11
+      Width = 56
+      MaxValue = 199
+      MinValue = 1
+      OnExit = ediBankNrExit
+      ParentShowHint = False
+      TabOrder = 7
+      Value = 100
+    end
+    object Label1: TLabel
+      Left = 8
+      Height = 15
+      Top = 71
+      Width = 26
+      Caption = 'Bank'
+      ParentColor = False
+    end
+    object ediBank: TEdit
+      Left = 88
+      Height = 23
+      Top = 71
+      Width = 256
+      OnEnter = ediBankEnter
+      TabOrder = 10
+    end
+    object Label2: TLabel
+      Left = 8
+      Height = 15
+      Top = 101
+      Width = 32
+      Caption = 'Konto'
+      ParentColor = False
+    end
+    object ediKonto: TEdit
+      Left = 88
+      Height = 23
+      Top = 101
+      Width = 256
+      OnEnter = ediKontoEnter
+      TabOrder = 11
+    end
+    object Label3: TLabel
+      Left = 8
+      Height = 15
+      Top = 131
+      Width = 61
+      Caption = 'Kontostand'
+      ParentColor = False
+    end
+    object ediKontostand: TEdit
+      Left = 88
+      Height = 23
+      Hint = 'Eingabe in Cent oder in Euro mit Komma'
+      Top = 131
+      Width = 88
+      Alignment = taRightJustify
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 12
+    end
+    object Label4: TLabel
+      Left = 8
+      Height = 15
+      Top = 41
+      Width = 80
+      Caption = 'Sortier Position'
+      ParentColor = False
+    end
+    object ediSortPos: TSpinEdit
+      Left = 88
+      Height = 23
+      Top = 41
+      Width = 56
+      MaxValue = 199
+      MinValue = 1
+      TabOrder = 9
+      Value = 100
+    end
+    object Label6: TLabel
+      Left = 160
+      Height = 15
+      Top = 11
+      Width = 80
+      Caption = 'Statistikbereich'
+      ParentColor = False
+    end
+    object ediStatistik: TSpinEdit
+      Left = 248
+      Height = 23
+      Hint = 'Statistikbereiche:'#13#10'11 Kassen'#13#10'12 Giro'#13#10'13 Festgeld, Sparbuch'#13#10'15 Forderungen '#13#10'16 Darlehnsforderungen'#13#10'17 Darlehnsverbindlichkeiten'#13#10'18 Sonstige Verbindlichkeiten'#13#10'19 Verbindlichkeiten aus Etatumlage'#13#10'20 Nicht erfassen'
+      Top = 11
+      Width = 56
+      MaxValue = 20
+      MinValue = 11
+      OnExit = ediBankNrExit
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 8
+      Value = 11
+    end
+  end
+end

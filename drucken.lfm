@@ -1,0 +1,389 @@
+object frmDrucken: TfrmDrucken
+  Left = 415
+  Height = 339
+  Top = 150
+  Width = 633
+  BorderStyle = bsDialog
+  Caption = 'Drucken'
+  ClientHeight = 339
+  ClientWidth = 633
+  OnClose = FormClose
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '1.8.0.6'
+  object Shape3: TShape
+    Left = 0
+    Height = 75
+    Top = 187
+    Width = 212
+    Brush.Color = clSilver
+    Pen.Color = clSilver
+    Visible = False
+  end
+  object Shape1: TShape
+    Left = 211
+    Height = 339
+    Top = 0
+    Width = 208
+    Brush.Color = clSilver
+    Pen.Color = clSilver
+    Visible = False
+  end
+  object btnEinAus: TButton
+    Left = 216
+    Height = 25
+    Top = 82
+    Width = 200
+    Caption = 'Ein / Ausgaben (gefiltert)'
+    OnClick = btnEinAusClick
+    OnContextPopup = btnEinAusContextPopup
+    TabOrder = 16
+  end
+  object btnJournaldruck: TButton
+    Left = 8
+    Height = 25
+    Top = 8
+    Width = 200
+    Caption = 'Journal'
+    OnClick = btnJournaldruckClick
+    OnContextPopup = btnJournaldruckContextPopup
+    TabOrder = 0
+  end
+  object btnSchliessen: TButton
+    Left = 424
+    Height = 25
+    Top = 304
+    Width = 200
+    Caption = 'Schließen'
+    OnClick = btnSchliessenClick
+    TabOrder = 1
+  end
+  object btnSummenliste: TButton
+    Left = 8
+    Height = 25
+    Hint = 'Übersicht aller Konten'
+    Top = 119
+    Width = 200
+    Caption = 'Summenliste (opt. Datumsfilter)'
+    OnClick = btnSummenlisteClick
+    OnContextPopup = btnSummenlisteContextPopup
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 2
+  end
+  object btnPersonenliste: TButton
+    Left = 424
+    Height = 25
+    Top = 80
+    Width = 200
+    Caption = 'Personenliste'
+    OnClick = btnPersonenlisteClick
+    OnContextPopup = btnPersonenlisteContextPopup
+    TabOrder = 3
+  end
+  object btnJahresabschluss: TButton
+    Left = 8
+    Height = 25
+    Hint = 'Bericht für die Kirchenleitung'
+    Top = 267
+    Width = 200
+    Caption = 'Finanzbericht (für AKK)'
+    OnClick = btnJahresabschlussClick
+    OnContextPopup = btnJahresabschlussContextPopup
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 4
+  end
+  object btnZuwendungsbescheinigungen: TButton
+    Left = 8
+    Height = 25
+    Top = 304
+    Width = 200
+    Caption = 'Zuwendungsbescheinigungen'
+    OnClick = btnZuwendungsbescheinigungenClick
+    OnContextPopup = btnZuwendungsbescheinigungenContextPopup
+    TabOrder = 5
+  end
+  object btnBankenliste: TButton
+    Left = 424
+    Height = 25
+    Top = 8
+    Width = 200
+    Caption = 'Bankenliste'
+    OnClick = btnBankenlisteClick
+    OnContextPopup = btnBankenlisteContextPopup
+    TabOrder = 6
+  end
+  object btnSachkontenliste: TButton
+    Left = 424
+    Height = 25
+    Top = 45
+    Width = 200
+    Caption = 'Sachkontenliste'
+    OnClick = btnSachkontenlisteClick
+    OnContextPopup = btnSachkontenlisteContextPopup
+    TabOrder = 7
+  end
+  object btnBeitragsliste: TButton
+    Left = 8
+    Height = 25
+    Hint = 'Übersicht aller Sachkonten'#13#10'Optional mit Datumsfilter'
+    Top = 193
+    Width = 200
+    Caption = 'Zahler- / Empfängerliste (SK)'
+    OnClick = btnBeitragslisteClick
+    OnContextPopup = btnBeitragslisteContextPopup
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 8
+  end
+  object btnPersonenlisteKompakt: TButton
+    Left = 424
+    Height = 25
+    Top = 119
+    Width = 200
+    Caption = 'Personenliste (kompakt)'
+    OnClick = btnPersonenlisteKompaktClick
+    OnContextPopup = btnPersonenlisteKompaktContextPopup
+    TabOrder = 9
+  end
+  object btnDurchGang: TButton
+    Left = 8
+    Height = 25
+    Hint = 'Übersicht aller Durchgangskonten'
+    Top = 156
+    Width = 200
+    Caption = 'Durchgangskontenübersicht'
+    OnClick = btnDurchGangClick
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 10
+  end
+  object btnZahlerliste: TButton
+    Left = 8
+    Height = 25
+    Hint = 'Übersicht aller Zahlungen nach Personen'
+    Top = 230
+    Width = 200
+    Caption = 'Zahlungsliste nach Zahlern'
+    OnClick = btnZahlerlisteClick
+    OnContextPopup = btnZahlerlisteContextPopup
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 11
+  end
+  object btnJournalFiltered: TButton
+    Left = 216
+    Height = 25
+    Hint = 'Journal mit Bemerkungen'
+    Top = 8
+    Width = 200
+    Caption = 'Journal m. Bemerk. (gefiltert)'
+    OnClick = btnJournalFilteredClick
+    OnContextPopup = btnJournalFilteredContextPopup
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 12
+  end
+  object rgFilter: TRadioGroup
+    Left = 216
+    Height = 125
+    Top = 119
+    Width = 200
+    AutoFill = True
+    Caption = 'Filter'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.TopBottomSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 105
+    ClientWidth = 196
+    ItemIndex = 0
+    Items.Strings = (
+      'Alle (= ohne Filter)'
+      'Nur BankNr.'
+      'Nur SachkontoNr.'
+      'Nur PersonenNr.'
+      'Bemerkung enthält'
+    )
+    OnSelectionChanged = rgFilterSelectionChanged
+    TabOrder = 13
+  end
+  object ediFilter: TLabeledEdit
+    Left = 216
+    Height = 23
+    Top = 269
+    Width = 200
+    EditLabel.AnchorSideLeft.Control = ediFilter
+    EditLabel.AnchorSideRight.Control = ediFilter
+    EditLabel.AnchorSideRight.Side = asrBottom
+    EditLabel.AnchorSideBottom.Control = ediFilter
+    EditLabel.Left = 216
+    EditLabel.Height = 15
+    EditLabel.Top = 251
+    EditLabel.Width = 200
+    EditLabel.Caption = 'Filter Nr. oder Text'
+    EditLabel.ParentColor = False
+    EditLabel.ParentFont = False
+    Enabled = False
+    TabOrder = 14
+  end
+  object btnJournalKompaktFiltered: TButton
+    Left = 216
+    Height = 25
+    Hint = 'Journal mit Bemerkungen'
+    Top = 45
+    Width = 200
+    Caption = 'Journal kompakt (gefiltert)'
+    OnClick = btnJournalKompaktFilteredClick
+    OnContextPopup = btnJournalKompaktFilteredContextPopup
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 15
+  end
+  object btnJournalBKdruck: TButton
+    Left = 8
+    Height = 25
+    Top = 45
+    Width = 200
+    Caption = 'Journal nach Banken gruppiert'
+    OnClick = btnJournalBKdruckClick
+    OnContextPopup = btnJournalBKdruckContextPopup
+    TabOrder = 17
+  end
+  object btnJournalSKdruck: TButton
+    Left = 8
+    Height = 25
+    Top = 82
+    Width = 200
+    Caption = 'Journal nach Sachk. gruppiert'
+    OnClick = btnJournalSKdruckClick
+    OnContextPopup = btnJournalSKdruckContextPopup
+    TabOrder = 18
+  end
+  object DateTimePickerBis: TDateTimePicker
+    Left = 337
+    Height = 23
+    Top = 305
+    Width = 79
+    CenturyFrom = 1941
+    MaxDate = 2958465
+    MinDate = -53780
+    TabOrder = 20
+    Enabled = False
+    TrailingSeparator = False
+    TextForNullDate = 'NULL'
+    LeadingZeros = True
+    Kind = dtkDate
+    TimeFormat = tf24
+    TimeDisplay = tdHMS
+    DateMode = dmComboBox
+    Date = 1.7E308
+    Time = 1.7E308
+    UseDefaultSeparators = True
+    HideDateTimeParts = []
+    MonthNames = 'Long'
+  end
+  object cbDatum: TCheckBox
+    Left = 216
+    Height = 19
+    Top = 307
+    Width = 20
+    OnChange = cbDatumChange
+    TabOrder = 21
+  end
+  object DateTimePickerVon: TDateTimePicker
+    Left = 235
+    Height = 23
+    Top = 305
+    Width = 79
+    CenturyFrom = 1941
+    MaxDate = 2958465
+    MinDate = -53780
+    TabOrder = 19
+    Enabled = False
+    TrailingSeparator = False
+    TextForNullDate = 'NULL'
+    LeadingZeros = True
+    Kind = dtkDate
+    TimeFormat = tf24
+    TimeDisplay = tdHMS
+    DateMode = dmComboBox
+    Date = 1.7E308
+    Time = 1.7E308
+    UseDefaultSeparators = True
+    HideDateTimeParts = []
+    MonthNames = 'Long'
+  end
+  object Label2: TLabel
+    Left = 317
+    Height = 15
+    Top = 309
+    Width = 15
+    Caption = 'bis'
+    ParentColor = False
+  end
+  object Shape2: TShape
+    Left = 0
+    Height = 38
+    Top = 113
+    Width = 212
+    Brush.Color = clSilver
+    Pen.Color = clSilver
+    Visible = False
+  end
+  object frReport: TfrReport
+    DefaultCopies = 0
+    InitialZoom = pzOnePage
+    Options = []
+    PreviewButtons = [pbZoom, pbLoad, pbSave, pbPrint, pbFind, pbHelp, pbExit]
+    DataType = dtDataSet
+    OnBeginDoc = frReportBeginDoc
+    OnBeginPage = frReportBeginPage
+    OnBeginBand = frReportBeginBand
+    OnGetValue = frReportGetValue
+    OnEnterRect = frReportEnterRect
+    OnPrintColumn = frReportPrintColumn
+    left = 432
+    top = 152
+  end
+  object frDBDataSet: TfrDBDataSet
+    DataSet = frmDM.ZQueryDrucken
+    DataSource = frmDM.dsDrucken
+    left = 432
+    top = 256
+  end
+  object frDesigner: TfrDesigner
+    left = 408
+    top = 200
+  end
+  object frDBDataSetDetail: TfrDBDataSet
+    DataSet = frmDM.ZQueryDruckenDetail
+    DataSource = frmDM.dsDruckenDetail
+    left = 496
+    top = 256
+  end
+  object frHTMExport: TfrHTMExport
+    left = 528
+    top = 200
+  end
+  object frCSVExport: TfrCSVExport
+    left = 464
+    top = 200
+  end
+  object frTextExport: TfrTextExport
+    ShowExportParamsDlg = False
+    left = 592
+    top = 200
+  end
+  object frDBDataSetDetail1: TfrDBDataSet
+    DataSet = frmDM.ZQueryDruckenDetail1
+    DataSource = frmDM.dsDruckenDetail1
+    left = 584
+    top = 256
+  end
+end

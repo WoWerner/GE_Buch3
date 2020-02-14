@@ -1,0 +1,15 @@
+﻿Basis für diese Aufteilung ist der Berichtsbogen der SELK
+   http://www.selk.de/download/Statistische%20Berichte.xls
+   und der Kontenrahmenplan von 2014 der SELK.
+   
+Alle Konten die mit 1 beginnen sind interne Umbuchungs-Konten. 
+   Sie sollten am Jahresende auf 0 sein.
+Alle Konten die mit 2 beginnen sind durchlaufende EINNAHME-Konten.  
+Alle Konten die mit 3...7 beginnen sind AUSGABE-Konten.
+  Wenn Sie eigene AUSGABEN-Konten anlegen wollen, benutzen Sie bitte den Bereich 7xx.
+Alle Konten die mit 8 beginnen sind EINNAHME-Konten.
+   Wenn Sie eigene EINNAHME-Konten anlegen wollen, benutzen Sie bitte den Bereich 88x und 89x.  
+Alle Konten die mit 9 beginnen sind durchlaufende AUSGABE-Konten. 
+   Diese Konten sind die Spiegelbilder zu 2
+
+Diese Annahmen werden auch für die Reports gebraucht um eine Zuordnung zu erreichen.   

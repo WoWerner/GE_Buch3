@@ -1,0 +1,468 @@
+object frmMain: TfrmMain
+  Left = 387
+  Height = 420
+  Top = 349
+  Width = 581
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'GE_Buch'
+  ClientHeight = 400
+  ClientWidth = 581
+  Menu = MainMenu
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '1.6.4.0'
+  object imgSELK: TImage
+    Cursor = crHandPoint
+    Left = 328
+    Height = 240
+    Top = 70
+    Width = 240
+    OnClick = imgSELKClick
+    Stretch = True
+    Transparent = True
+  end
+  object btnBankkonten: TButton
+    Left = 210
+    Height = 25
+    Top = 314
+    Width = 163
+    Caption = 'Bankkonten und Barkassen'
+    OnClick = btnBankkontenClick
+    TabOrder = 2
+  end
+  object btnSachkonten: TButton
+    Left = 210
+    Height = 25
+    Top = 342
+    Width = 163
+    Caption = 'Sachkonten'
+    OnClick = btnSachkontenClick
+    TabOrder = 3
+  end
+  object btnPersonen: TButton
+    Left = 210
+    Height = 25
+    Top = 370
+    Width = 163
+    Caption = 'Personen'
+    OnClick = btnPersonenClick
+    TabOrder = 4
+  end
+  object lb_Name: TLabel
+    Left = 40
+    Height = 55
+    Top = 8
+    Width = 506
+    Caption = 'Gemeinde-Buchhaltung'
+    Font.Color = clPurple
+    Font.Height = -48
+    Font.Name = 'Arial'
+    ParentColor = False
+    ParentFont = False
+  end
+  object labVersion: TLabel
+    Left = 16
+    Height = 19
+    Top = 72
+    Width = 60
+    Caption = 'Version:'
+    Font.Color = clBlack
+    Font.Height = 19
+    Font.Name = 'Arial'
+    ParentColor = False
+    ParentFont = False
+  end
+  object LabMyName: TLabel
+    Left = 72
+    Height = 16
+    Top = 210
+    Width = 112
+    Caption = 'Wolfgang Werner'
+    Font.Color = clNavy
+    Font.Height = 16
+    Font.Name = 'Arial'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object labMyStreet: TLabel
+    Left = 72
+    Height = 16
+    Top = 230
+    Width = 287
+    Caption = 'Ulmtalstr. 26, 35753 Greifenstein / Holzhausen'
+    Font.Color = clNavy
+    Font.Height = 16
+    Font.Name = 'Arial'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object labMyTelNr: TLabel
+    Left = 224
+    Height = 16
+    Top = 210
+    Width = 104
+    Caption = '06478 / 43 29 840'
+    Font.Color = clNavy
+    Font.Height = 16
+    Font.Name = 'Arial'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object labMyMail: TLabel
+    Cursor = crHandPoint
+    Left = 72
+    Height = 16
+    Top = 250
+    Width = 120
+    Caption = 'mail@w-werner.de'
+    Font.Color = clNavy
+    Font.Height = 16
+    Font.Name = 'Arial'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+    OnClick = labMyMailClick
+  end
+  object labMyWeb: TLabel
+    Cursor = crHandPoint
+    Left = 224
+    Height = 16
+    Top = 250
+    Width = 116
+    Caption = 'www.w-werner.de'
+    Font.Color = clNavy
+    Font.Height = 16
+    Font.Name = 'Arial'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+    OnClick = labMyWebClick
+  end
+  object LabGemeinde1: TLabel
+    Cursor = crHandPoint
+    Left = 72
+    Height = 16
+    Top = 130
+    Width = 106
+    Caption = 'Mustergemeinde'
+    Font.Color = clNavy
+    Font.Height = 16
+    Font.Name = 'Arial'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+    OnClick = mnuEinstellungenClick
+  end
+  object LabGemeinde2: TLabel
+    Cursor = crHandPoint
+    Left = 72
+    Height = 16
+    Top = 146
+    Width = 113
+    Caption = 'Mustergemeinde2'
+    Font.Color = clNavy
+    Font.Height = 16
+    Font.Name = 'Arial'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+    OnClick = mnuEinstellungenClick
+  end
+  object Label1: TLabel
+    Left = 16
+    Height = 15
+    Top = 130
+    Width = 18
+    Caption = 'für:'
+    ParentColor = False
+  end
+  object Label2: TLabel
+    Left = 16
+    Height = 15
+    Top = 210
+    Width = 23
+    Caption = 'von:'
+    ParentColor = False
+  end
+  object labVersionNeu: TLabel
+    Left = 16
+    Height = 19
+    Top = 95
+    Width = 182
+    Caption = 'Neue Version verfügbar: '
+    Color = clYellow
+    Font.Color = clBlack
+    Font.Height = 19
+    Font.Name = 'Arial'
+    ParentColor = False
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    Transparent = False
+    OnClick = labVersionNeuClick
+  end
+  object btnJournal: TButton
+    Left = 16
+    Height = 25
+    Top = 314
+    Width = 163
+    Caption = 'Journal'
+    Default = True
+    OnClick = btnJournalClick
+    TabOrder = 0
+  end
+  object btnDrucken: TButton
+    Left = 16
+    Height = 25
+    Top = 370
+    Width = 163
+    Caption = 'Drucken'
+    OnClick = btnDruckenClick
+    TabOrder = 1
+  end
+  object Label3: TLabel
+    Left = 16
+    Height = 15
+    Top = 170
+    Width = 47
+    Caption = 'Rendant:'
+    ParentColor = False
+  end
+  object LabRendant1: TLabel
+    Cursor = crHandPoint
+    Left = 72
+    Height = 16
+    Top = 170
+    Width = 95
+    Caption = 'MusterRendant'
+    Font.Color = clNavy
+    Font.Height = 16
+    Font.Name = 'Arial'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+    OnClick = mnuEinstellungenClick
+  end
+  object LabRendant2: TLabel
+    Cursor = crHandPoint
+    Left = 72
+    Height = 16
+    Top = 186
+    Width = 102
+    Caption = 'MusterRendant2'
+    Font.Color = clNavy
+    Font.Height = 16
+    Font.Name = 'Arial'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+    OnClick = mnuEinstellungenClick
+  end
+  object btnClose: TButton
+    Left = 404
+    Height = 25
+    Top = 370
+    Width = 163
+    Caption = 'Schließen'
+    OnClick = btnCloseClick
+    TabOrder = 5
+  end
+  object labDatensicherung: TLabel
+    Left = 16
+    Height = 15
+    Top = 277
+    Width = 99
+    Caption = 'labDatensicherung'
+    Font.Height = 16
+    ParentColor = False
+    ParentFont = False
+  end
+  object labBJahr: TLabel
+    Left = 210
+    Height = 15
+    Top = 277
+    Width = 103
+    Caption = 'Buchungsjahr: 2012'
+    Font.Height = 16
+    ParentColor = False
+    ParentFont = False
+  end
+  object btnAktuelles: TButton
+    Left = 404
+    Height = 25
+    Top = 342
+    Width = 163
+    Caption = 'Aktuelles'
+    OnClick = btnAktuellesClick
+    TabOrder = 6
+    Visible = False
+  end
+  object OpenDialog: TOpenDialog
+    left = 368
+    top = 160
+  end
+  object SaveDialog: TSaveDialog
+    left = 368
+    top = 88
+  end
+  object MainMenu: TMainMenu
+    left = 16
+    top = 8
+    object MenuItem4: TMenuItem
+      Caption = 'Datei'
+      object mnuJahresabschluss: TMenuItem
+        Caption = 'Jahresabschluss'
+        OnClick = mnuJahresabschlussClick
+      end
+      object MenuItem1: TMenuItem
+        Caption = '-'
+      end
+      object nmuDatensicherung: TMenuItem
+        Caption = 'Datensicherung'
+        OnClick = nmuDatensicherungClick
+      end
+      object MenuItem2: TMenuItem
+        Caption = '-'
+      end
+      object mnuExport: TMenuItem
+        Caption = 'Export'
+        object mnuExpJournal: TMenuItem
+          Caption = 'Journal (Benutzerfreundlich)'
+          OnClick = mnuExpJournalClick
+        end
+        object mnuExpJournalRAW: TMenuItem
+          Caption = 'Journal (Rohdaten)'
+          OnClick = mnuExpJournalRAWClick
+        end
+        object mnuExportPersonen: TMenuItem
+          Caption = 'Personen'
+          OnClick = mnuExportPersonenClick
+        end
+        object mnuExportZuwendung: TMenuItem
+          Caption = 'Zuwendungsbescheinigungen'
+          OnClick = mnuExportZuwendungClick
+        end
+      end
+      object mnuImport: TMenuItem
+        Caption = 'Import'
+        object mnuAbgleich: TMenuItem
+          Caption = 'Personenabgleich mit GE_Kart'
+          OnClick = mnuAbgleichClick
+        end
+        object mnuWB_Imp_Pers: TMenuItem
+          Caption = 'Personen von Winbuch'
+          OnClick = mnuWB_Imp_PersClick
+        end
+      end
+    end
+    object MenuItem6: TMenuItem
+      Caption = 'Tools'
+      object mnuDelOld: TMenuItem
+        Caption = 'Löche alte Einträge'
+        OnClick = mnuDelOldClick
+      end
+      object mnuDelOldPersonen: TMenuItem
+        Caption = 'Lösche abgegangene Personen'
+        OnClick = mnuDelOldPersonenClick
+      end
+      object MenuItem7: TMenuItem
+        Caption = '-'
+      end
+      object mnuCleanAutoBuchen: TMenuItem
+        Caption = 'Bereinige die "Import.ini" Datei von alten Einträgen'
+        OnClick = mnuCleanAutoBuchenClick
+      end
+      object MenuItem5: TMenuItem
+        Caption = '-'
+      end
+      object mnuExecSQLSingle: TMenuItem
+        Caption = 'SQL ausführen (einzelner Befehl)'
+        OnClick = mnuExecSQLSingleClick
+      end
+      object mnuExecSQLBatch: TMenuItem
+        Caption = 'SQL ausführen (Batch Mode)'
+        OnClick = mnuExecSQLBatchClick
+      end
+      object MenuItem10: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem3: TMenuItem
+        Caption = 'Analyse'
+        object mnuZahlerBetrag: TMenuItem
+          Caption = 'Zahlerverteilung (Betrag)'
+          OnClick = mnuZahlerBetragClick
+        end
+        object mnuZahlerverteilungAlter: TMenuItem
+          Caption = 'Zahlerverteilung (Alter)'
+          OnClick = mnuZahlerverteilungAlterClick
+        end
+        object MenuItem11: TMenuItem
+          Caption = '-'
+        end
+        object mnuFehlerSuchen: TMenuItem
+          Caption = 'Fehler in der Datenbank suchen'
+          OnClick = mnuFehlerSuchenClick
+        end
+      end
+    end
+    object mnuEinstellungenMain: TMenuItem
+      Caption = 'Einstellungen'
+      object mnuEinstellungen: TMenuItem
+        Caption = 'Allgemeine Einstellungen'
+        OnClick = mnuEinstellungenClick
+      end
+      object mnuSuchtexteImport: TMenuItem
+        Caption = 'Suchtexte für Import'
+        OnClick = mnuSuchtexteImportClick
+      end
+      object mnuTausender: TMenuItem
+        Caption = 'Beträge mit Tausendertrennzeichen'
+        OnClick = mnuTausenderClick
+      end
+      object mnuEuroModus: TMenuItem
+        Caption = 'Beträge ohne Komma als Euro'
+        OnClick = mnuEuroModusClick
+      end
+      object mnuJournalJump: TMenuItem
+        Caption = 'Journal: zu fehlerhaftem Eintrag springen'
+        OnClick = mnuJournalJumpClick
+      end
+      object MenuItem8: TMenuItem
+        Caption = '-'
+      end
+      object mnuLimitsZahlerBetrag: TMenuItem
+        Caption = 'Grenzen Zahlerverteilung (Betrag)'
+        OnClick = mnuLimitsZahlerBetragClick
+      end
+      object mnuLimitsZahlerverteilungAlter: TMenuItem
+        Caption = 'Grenzen Zahlerverteilung (Alter)'
+        OnClick = mnuLimitsZahlerverteilungAlterClick
+      end
+      object MenuItem9: TMenuItem
+        Caption = '-'
+      end
+      object mnuDebug: TMenuItem
+        Caption = 'Debug'
+        OnClick = mnuDebugClick
+      end
+      object mnuSQLDebug: TMenuItem
+        Caption = 'SQL Debug'
+        OnClick = mnuSQLDebugClick
+      end
+      object mnuShowDebug: TMenuItem
+        Caption = 'Zeige Debug'
+        OnClick = mnuShowDebugClick
+      end
+    end
+    object mnuHilfe: TMenuItem
+      Caption = 'Hilfe'
+      OnClick = mnuHilfeClick
+    end
+  end
+end

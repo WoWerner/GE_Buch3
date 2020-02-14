@@ -1,0 +1,743 @@
+object frmJournal: TfrmJournal
+  Left = 200
+  Height = 593
+  Hint = 'Rechtsklick für Listen'
+  Top = 89
+  Width = 900
+  Caption = 'Journal'
+  ClientHeight = 593
+  ClientWidth = 900
+  Constraints.MinHeight = 580
+  Constraints.MinWidth = 900
+  KeyPreview = True
+  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
+  OnShow = FormShow
+  PopupMenu = mnuPopup
+  Position = poScreenCenter
+  ShowHint = True
+  LCLVersion = '1.6.4.0'
+  object panDaten: TPanel
+    Left = 0
+    Height = 280
+    Top = 0
+    Width = 900
+    Align = alClient
+    BevelOuter = bvNone
+    ClientHeight = 280
+    ClientWidth = 900
+    TabOrder = 0
+    object DBGridJournal: TDBGrid
+      Left = 0
+      Height = 218
+      Top = 0
+      Width = 900
+      Align = alClient
+      Color = clWindow
+      Columns = <>
+      DataSource = frmDM.dsJournal
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+      ReadOnly = True
+      Scrollbars = ssAutoBoth
+      TabOrder = 0
+      OnColumnSized = DBGridJournalColumnSized
+      OnDrawColumnCell = DBGridJournalDrawColumnCell
+    end
+    object panCSVImportData: TPanel
+      Left = 0
+      Height = 62
+      Top = 218
+      Width = 900
+      Align = alBottom
+      BevelOuter = bvNone
+      ClientHeight = 62
+      ClientWidth = 900
+      TabOrder = 1
+      object sgImportData: TStringGrid
+        Left = 0
+        Height = 44
+        Top = 18
+        Width = 900
+        Align = alBottom
+        BorderStyle = bsNone
+        ColCount = 7
+        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goSmoothScroll]
+        ParentShowHint = False
+        RowCount = 2
+        ScrollBars = ssNone
+        ShowHint = True
+        TabOrder = 0
+        OnResize = sgImportDataResize
+      end
+      object labImportMode: TLabel
+        Left = 0
+        Height = 18
+        Top = 0
+        Width = 900
+        Align = alClient
+        Alignment = taCenter
+        AutoSize = False
+        Caption = 'Zu importierende Daten'
+        Color = clSkyBlue
+        ParentColor = False
+        Transparent = False
+      end
+    end
+  end
+  object panSteuerung: TPanel
+    Left = 0
+    Height = 313
+    Top = 280
+    Width = 900
+    Align = alBottom
+    BevelOuter = bvNone
+    ClientHeight = 313
+    ClientWidth = 900
+    TabOrder = 1
+    object panSummen: TPanel
+      Left = 440
+      Height = 106
+      Top = 54
+      Width = 240
+      BevelOuter = bvNone
+      ClientHeight = 106
+      ClientWidth = 240
+      TabOrder = 0
+      object Label15: TLabel
+        Left = 33
+        Height = 15
+        Top = 0
+        Width = 37
+        Caption = 'Vorjahr'
+        ParentColor = False
+      end
+      object lab_A_SK: TLabel
+        Left = 0
+        Height = 16
+        Top = 19
+        Width = 70
+        Alignment = taRightJustify
+        AutoSize = False
+        Caption = '0,00'
+        ParentColor = False
+      end
+      object Label16: TLabel
+        Left = 75
+        Height = 15
+        Top = 0
+        Width = 78
+        Caption = 'Laufendes Jahr'
+        ParentColor = False
+      end
+      object lab_N_SK: TLabel
+        Left = 83
+        Height = 16
+        Top = 19
+        Width = 70
+        Alignment = taRightJustify
+        AutoSize = False
+        Caption = '0,00'
+        ParentColor = False
+      end
+      object lab_A_Pers: TLabel
+        Left = 0
+        Height = 16
+        Top = 51
+        Width = 70
+        Alignment = taRightJustify
+        AutoSize = False
+        Caption = '0,00'
+        ParentColor = False
+      end
+      object lab_N_Pers: TLabel
+        Left = 83
+        Height = 16
+        Top = 51
+        Width = 70
+        Alignment = taRightJustify
+        AutoSize = False
+        Caption = '0,00'
+        ParentColor = False
+      end
+      object Label17: TLabel
+        Left = 57
+        Height = 15
+        Top = 70
+        Width = 13
+        Caption = 'alt'
+        ParentColor = False
+      end
+      object lab_A_Konto: TLabel
+        Left = 0
+        Height = 16
+        Top = 85
+        Width = 70
+        Alignment = taRightJustify
+        AutoSize = False
+        Caption = '0,00'
+        ParentColor = False
+      end
+      object lab_N_Konto: TLabel
+        Left = 83
+        Height = 16
+        Top = 85
+        Width = 70
+        Alignment = taRightJustify
+        AutoSize = False
+        Caption = '0,00'
+        ParentColor = False
+      end
+      object Label18: TLabel
+        Left = 133
+        Height = 15
+        Top = 70
+        Width = 20
+        Caption = 'neu'
+        ParentColor = False
+      end
+      object lab_KontoStart: TLabel
+        Left = 165
+        Height = 16
+        Top = 85
+        Width = 70
+        Alignment = taRightJustify
+        AutoSize = False
+        Caption = '0,00'
+        ParentColor = False
+      end
+      object Label19: TLabel
+        Left = 180
+        Height = 15
+        Top = 70
+        Width = 55
+        Caption = 'Jahresstart'
+        ParentColor = False
+      end
+    end
+    object btnClose: TButton
+      Left = 728
+      Height = 25
+      Top = 283
+      Width = 164
+      Caption = 'Schließen'
+      OnClick = btnCloseClick
+      TabOrder = 1
+    end
+    object ediBetrag: TEdit
+      Left = 125
+      Height = 23
+      Top = 167
+      Width = 95
+      OnExit = ediBetragExit
+      TabOrder = 12
+    end
+    object Label1: TLabel
+      Left = 16
+      Height = 15
+      Top = 106
+      Width = 36
+      Caption = 'Person'
+      ParentColor = False
+    end
+    object Label2: TLabel
+      Left = 16
+      Height = 15
+      Top = 170
+      Width = 34
+      Caption = 'Betrag'
+      ParentColor = False
+    end
+    object btnNeueBuchung: TButton
+      Left = 728
+      Height = 25
+      Hint = 'Neuer Datensatz mit Übernahme der aktuellen Daten'#13#10#13#10'Felder:'#13#10'Datum'#13#10'Sachkonto'#13#10'Personen'#13#10'Bank'#13#10'Betrag'#13#10'Buchungstext'#13#10'Bemerkung'#13#10'Belegnummer'#13#10'Aufwendungsersatz'
+      Top = 35
+      Width = 164
+      Caption = 'Neu (Übernahme)'
+      OnClick = btnNeueBuchungClick
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 2
+    end
+    object btnAendern: TButton
+      Left = 728
+      Height = 25
+      Top = 97
+      Width = 164
+      Caption = 'Datensatz bearbeiten'
+      OnClick = btnAendernClick
+      TabOrder = 3
+    end
+    object btnAbbrechen: TButton
+      Left = 728
+      Height = 25
+      Top = 252
+      Width = 164
+      Caption = 'Abbrechen / Beenden'
+      OnClick = btnAbbrechenClick
+      TabOrder = 19
+    end
+    object Label3: TLabel
+      Left = 16
+      Height = 15
+      Top = 42
+      Width = 88
+      Caption = 'Buchungsdatum'
+      ParentColor = False
+    end
+    object DateEditBuchungsdatum: TDateEdit
+      Left = 125
+      Height = 23
+      Hint = 'Cursor hoch = + ein Tag'#13#10'Cursor runter = - ein Tag'#13#10#13#10'Buchen nur im aktuellen Jahr erlaubt'#13#10#13#10'Rechtsklick: Korrektur Datum'
+      Top = 40
+      Width = 112
+      CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
+      DateOrder = doNone
+      ButtonWidth = 23
+      NumGlyphs = 1
+      MaxLength = 0
+      OnExit = DateEditBuchungsdatumExit
+      OnKeyDown = DateEditBuchungsdatumKeyDown
+      PopupMenu = PopupMenuDatum
+      TabOrder = 5
+    end
+    object ediBuchungsjahr: TSpinEdit
+      Left = 125
+      Height = 23
+      Top = 7
+      Width = 59
+      MaxValue = 2099
+      MinValue = 2000
+      OnChange = ediBuchungsjahrChange
+      TabOrder = 4
+      Value = 2000
+    end
+    object Label4: TLabel
+      Left = 16
+      Height = 15
+      Top = 11
+      Width = 73
+      Caption = 'Buchungsjahr'
+      ParentColor = False
+    end
+    object Label5: TLabel
+      Left = 16
+      Height = 15
+      Top = 74
+      Width = 102
+      Caption = 'Sachkontonummer'
+      ParentColor = False
+    end
+    object ediSachKontoNummer: TEdit
+      Left = 125
+      Height = 23
+      Top = 71
+      Width = 42
+      OnExit = ediSachKontoNummerExit
+      TabOrder = 6
+    end
+    object cbSachkonto: TComboBox
+      Left = 174
+      Height = 23
+      Top = 71
+      Width = 218
+      ItemHeight = 15
+      OnChange = cbSachkontoChange
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 7
+      Text = 'cbSachkonto'
+    end
+    object cbPersonenname: TComboBox
+      Left = 173
+      Height = 23
+      Top = 103
+      Width = 218
+      ItemHeight = 15
+      OnChange = cbPersonennameChange
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 9
+      Text = 'cbPersonenname'
+    end
+    object Label6: TLabel
+      Left = 16
+      Height = 15
+      Top = 135
+      Width = 72
+      Caption = 'Banknummer'
+      ParentColor = False
+    end
+    object ediBankNr: TEdit
+      Left = 125
+      Height = 23
+      Top = 133
+      Width = 42
+      OnExit = ediBankNrExit
+      TabOrder = 10
+    end
+    object cbKonto: TComboBox
+      Left = 174
+      Height = 23
+      Top = 133
+      Width = 218
+      ItemHeight = 15
+      OnChange = cbKontoChange
+      TabOrder = 11
+      Text = 'cbKonto'
+    end
+    object Label7: TLabel
+      Left = 16
+      Height = 15
+      Top = 202
+      Width = 72
+      Caption = 'Buchungstext'
+      ParentColor = False
+    end
+    object Label8: TLabel
+      Left = 16
+      Height = 15
+      Top = 234
+      Width = 75
+      Caption = 'Belegnummer'
+      ParentColor = False
+    end
+    object ediBelegnummer: TEdit
+      Left = 96
+      Height = 23
+      Hint = 'Bei Eingabe einer Zahl wird sie automatisch erhöht'
+      Top = 231
+      Width = 616
+      OnExit = ediBelegnummerExit
+      TabOrder = 14
+    end
+    object btnSpeichern: TButton
+      Left = 728
+      Height = 25
+      Hint = 'Hotkey: ALT-S'
+      Top = 190
+      Width = 164
+      Caption = '&Speichern'
+      OnClick = btnSpeichernClick
+      TabOrder = 17
+    end
+    object ediPersonenID: TEdit
+      Left = 125
+      Height = 23
+      Top = 103
+      Width = 42
+      OnExit = ediPersonenIDExit
+      TabOrder = 8
+    end
+    object btnImport: TButton
+      Left = 728
+      Height = 25
+      Top = 66
+      Width = 164
+      Caption = 'Kontoauszugsimport (CSV)'
+      OnClick = btnImportClick
+      TabOrder = 20
+    end
+    object cbCSVAutomatik: TCheckBox
+      Left = 623
+      Height = 19
+      Top = 69
+      Width = 101
+      Caption = 'autom. buchen'
+      Checked = True
+      State = cbChecked
+      TabOrder = 22
+    end
+    object btnSpeichernAuto: TButton
+      Left = 728
+      Height = 25
+      Hint = 'Hotkey: ALT-A'#13#10#13#10'Speichert auch die Informationen für automatische Buchen'
+      Top = 221
+      Width = 164
+      Caption = 'Speichern für &Autom.'
+      OnClick = btnSpeichernAutoClick
+      TabOrder = 18
+    end
+    object btnLoeschen: TButton
+      Left = 728
+      Height = 25
+      Top = 128
+      Width = 164
+      Caption = 'Löschen'
+      OnClick = btnLoeschenClick
+      TabOrder = 23
+    end
+    object Label9: TLabel
+      Left = 16
+      Height = 15
+      Top = 267
+      Width = 61
+      Caption = 'Bemerkung'
+      ParentColor = False
+    end
+    object ediBemerkung: TEdit
+      Left = 96
+      Height = 23
+      Top = 264
+      Width = 616
+      OnExit = ediBelegnummerExit
+      ParentShowHint = False
+      TabOrder = 15
+    end
+    object panFilter: TPanel
+      Left = 398
+      Height = 116
+      Top = 52
+      Width = 50
+      BevelOuter = bvNone
+      ClientHeight = 116
+      ClientWidth = 50
+      Color = clSilver
+      ParentColor = False
+      TabOrder = 24
+      object Label20: TLabel
+        Left = 2
+        Height = 15
+        Top = 0
+        Width = 39
+        Caption = 'FilterNr'
+        ParentColor = False
+      end
+      object ediSachKontoNummerFilter: TEdit
+        Left = 5
+        Height = 23
+        Hint = 'Hier kann zur Kontrolle die ... Nummer eingegeben werden. '#13#10'Buchungen sind dann nicht möglich.'#13#10#13#10'Rechtsklick löscht den Filter'
+        Top = 18
+        Width = 40
+        Alignment = taRightJustify
+        OnContextPopup = FilterPopUp
+        OnExit = ediFilterExit
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 0
+      end
+      object ediPersonenNummerFilter: TEdit
+        Left = 5
+        Height = 23
+        Hint = 'Hier kann zur Kontrolle die ... Nummer eingegeben werden. '#13#10'Buchungen sind dann nicht möglich.'#13#10#13#10'Rechtsklick löscht den Filter'
+        Top = 51
+        Width = 40
+        Alignment = taRightJustify
+        OnContextPopup = FilterPopUp
+        OnExit = ediFilterExit
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 1
+      end
+      object ediBankNummerFilter: TEdit
+        Left = 5
+        Height = 23
+        Hint = 'Hier kann zur Kontrolle die ... Nummer eingegeben werden. '#13#10'Buchungen sind dann nicht möglich.'#13#10#13#10'Rechtsklick löscht den Filter'
+        Top = 81
+        Width = 40
+        Alignment = taRightJustify
+        OnContextPopup = FilterPopUp
+        OnExit = ediFilterExit
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 2
+      end
+    end
+    object panFilter1: TPanel
+      Left = 320
+      Height = 30
+      Top = 164
+      Width = 394
+      BevelOuter = bvNone
+      ClientHeight = 30
+      ClientWidth = 394
+      Color = clSilver
+      ParentColor = False
+      TabOrder = 25
+      object Label21: TLabel
+        Left = 4
+        Height = 15
+        Top = 7
+        Width = 66
+        Caption = 'FreiTextFilter'
+        ParentColor = False
+      end
+      object ediTextFilter: TEdit
+        Left = 83
+        Height = 23
+        Hint = 'Hier kann ein Textfilter eingegeben werden. '#13#10'Gesucht wird in Personen, Buchungstext, Belegnummer und Bemerkung. '#13#10'Buchungen sind dann nicht möglich.'#13#10#13#10'Rechtsklick löscht den Filter'
+        Top = 3
+        Width = 309
+        OnContextPopup = FilterPopUp
+        OnExit = ediFilterExit
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 0
+      end
+    end
+    object labFilter: TLabel
+      Left = 398
+      Height = 24
+      Top = 27
+      Width = 131
+      Caption = 'Filter ist aktiv!'
+      Font.CharSet = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -21
+      Font.Name = 'Arial'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentColor = False
+      ParentFont = False
+      Visible = False
+    end
+    object btnSkip: TButton
+      Left = 728
+      Height = 25
+      Top = 159
+      Width = 164
+      Caption = 'Datensatz überspringen'
+      OnClick = btnSkipClick
+      TabOrder = 21
+    end
+    object rgSort: TRadioGroup
+      Left = 254
+      Height = 57
+      Top = 7
+      Width = 98
+      AutoFill = True
+      Caption = 'Sortierung'
+      ChildSizing.LeftRightSpacing = 6
+      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+      ChildSizing.EnlargeVertical = crsHomogenousChildResize
+      ChildSizing.ShrinkHorizontal = crsScaleChilds
+      ChildSizing.ShrinkVertical = crsScaleChilds
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 1
+      ClientHeight = 37
+      ClientWidth = 94
+      ItemIndex = 0
+      Items.Strings = (
+        'LaufendeNr'
+        'Datum'
+      )
+      OnClick = rgSortClick
+      TabOrder = 26
+    end
+    object cbBuchungstext: TComboBox
+      Left = 96
+      Height = 23
+      Top = 200
+      Width = 616
+      AutoComplete = True
+      AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
+      ItemHeight = 15
+      OnExit = cbBuchungstextExit
+      TabOrder = 13
+    end
+    object btnNeueBuchungLeer: TButton
+      Left = 728
+      Height = 25
+      Hint = 'Neuer Datensatz ohne Übernahme der Daten (leer)'
+      Top = 4
+      Width = 164
+      Caption = 'Neu (Leer)'
+      OnClick = btnNeueBuchungLeerClick
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 27
+    end
+    object labVZ: TLabel
+      Left = 224
+      Height = 18
+      Top = 170
+      Width = 83
+      Caption = 'Vorzeichen!'
+      Font.CharSet = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -15
+      Font.Name = 'Arial'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Visible = False
+    end
+    object cbAufwendungen: TCheckBox
+      Left = 96
+      Height = 19
+      Top = 290
+      Width = 391
+      Caption = 'Es handelt sich um den Verzicht auf die Erstattung von Aufwendungen'
+      TabOrder = 16
+    end
+    object labModus: TLabel
+      Left = 360
+      Height = 22
+      Top = 4
+      Width = 124
+      Caption = 'Journalmodus:'
+      Font.CharSet = ANSI_CHARSET
+      Font.Height = -19
+      Font.Name = 'Arial'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentColor = False
+      ParentFont = False
+    end
+  end
+  object mnuPopup: TPopupMenu
+    left = 528
+    top = 96
+    object mnuSachkontenliste: TMenuItem
+      Caption = 'Zeige Sachkonten'
+      OnClick = mnuSachkontenlisteClick
+    end
+    object mnuShowPersonenName: TMenuItem
+      Caption = 'Zeige Personen, Sortierung Name'
+      OnClick = mnuShowPersonenNameClick
+    end
+    object mnuShowPersonenID: TMenuItem
+      Caption = 'Zeige Personen, Sortierung Nummer'
+      OnClick = mnuShowPersonenIDClick
+    end
+    object mnuBankenliste: TMenuItem
+      Caption = 'Zeige Banken, Sortierung Sortpos'
+      OnClick = mnuBankenlisteClick
+    end
+    object mnuBankenliste_Nr: TMenuItem
+      Caption = 'Zeige Banken, Sortierung Banknr'
+      OnClick = mnuBankenliste_NrClick
+    end
+    object MenuItem1: TMenuItem
+      Caption = '-'
+    end
+    object mnuInternBank: TMenuItem
+      Caption = 'Zeige interne Bankenliste'
+      OnClick = mnuInternBankClick
+    end
+  end
+  object OpenDialog: TOpenDialog
+    Title = 'Datei öffnen'
+    left = 624
+    top = 112
+  end
+  object PopupMenuDatum: TPopupMenu
+    left = 48
+    top = 304
+    object mnuKorrDatum: TMenuItem
+      Caption = 'Korrigiere Datum'
+      OnClick = mnuKorrDatumClick
+    end
+  end
+  object TimCheckSettingsForSave: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = TimCheckSettingsForSaveTimer
+    left = 616
+    top = 280
+  end
+end

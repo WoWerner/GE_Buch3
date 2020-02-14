@@ -1,0 +1,14 @@
+﻿Basis für diese Aufteilung ist der Berichtsbogen der SELK
+   http://www.selk.de/download/Statistische%20Berichte.xls
+   und der Kontenrahmenplan von 1972 der SELK.
+
+Statistikbereiche:   
+11 Kassen
+12 Giro
+13 Festgeld, Sparbuch
+15 Forderungen 
+16 Darlehnsforderungen
+17 Darlehnsverbindlichkeiten
+18 Sonstige Verbindlichkeiten
+19 Verbindlichkeiten aus Etatumlage
+20 Nicht erfassen

@@ -1,0 +1,12 @@
+﻿Änderungen in der Version 1.9.7.0
+
+Drucken: Bei 3 Listen das Filtern nach Datum freigegeben
+Journal: Rote Farbkennzeichnung in hellrot geändert
+Journal: Sonderzeichen im Buchungstext erlaubt   
+Journal: Datumseingabe mit der Tastatur vereinfacht   
+CSV-Import: Getrennte Schlüsselfelder für Personen und Sachkonten erlaubt
+
+Diese Informationen finden Sie auch in der Datei releasenote_1.9.7.0.txt
+
+
+Soll die Meldung noch einmal angezeigt werden?

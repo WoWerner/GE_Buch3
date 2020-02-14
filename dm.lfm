@@ -1,0 +1,184 @@
+object frmDM: TfrmDM
+  Left = 407
+  Height = 351
+  Top = 178
+  Width = 780
+  Caption = 'DM'
+  OnCreate = FormCreate
+  LCLVersion = '1.6.4.0'
+  object ZQueryBanken: TZQuery
+    Connection = ZConnectionBuch
+    AfterScroll = ZQueryBankenAfterScroll
+    Params = <>
+    left = 136
+    top = 72
+  end
+  object dsBanken: TDataSource
+    DataSet = ZQueryBanken
+    left = 232
+    top = 72
+  end
+  object ZQueryHelp: TZQuery
+    Connection = ZConnectionBuch
+    Params = <>
+    left = 480
+    top = 16
+  end
+  object dsHelp: TDataSource
+    DataSet = ZQueryHelp
+    left = 597
+    top = 16
+  end
+  object ZQueryInit: TZQuery
+    Connection = ZConnectionBuch
+    SQL.Strings = (
+      'select * from init'
+    )
+    Params = <>
+    left = 136
+    top = 16
+  end
+  object dsInit: TDataSource
+    DataSet = ZQueryInit
+    left = 232
+    top = 16
+  end
+  object ZQueryPersonen: TZQuery
+    Connection = ZConnectionBuch
+    SQL.Strings = (
+      ''
+    )
+    Params = <>
+    left = 136
+    top = 179
+  end
+  object dsPersonen: TDataSource
+    DataSet = ZQueryPersonen
+    left = 232
+    top = 179
+  end
+  object ZQueryGE_Kart_Personen: TZQuery
+    Connection = ZConnectionGE_Kart
+    SQL.Strings = (
+      ''
+    )
+    Params = <>
+    left = 480
+    top = 291
+  end
+  object ZQuerySachkonten: TZQuery
+    Connection = ZConnectionBuch
+    AfterScroll = ZQuerySachkontenAfterScroll
+    SQL.Strings = (
+      ''
+    )
+    Params = <>
+    left = 136
+    top = 235
+  end
+  object dsSachkonten: TDataSource
+    DataSet = ZQuerySachkonten
+    left = 232
+    top = 235
+  end
+  object ZQueryJournal: TZQuery
+    Connection = ZConnectionBuch
+    AfterScroll = ZQueryJournalAfterScroll
+    SQL.Strings = (
+      ''
+    )
+    Params = <>
+    left = 136
+    top = 291
+  end
+  object dsJournal: TDataSource
+    DataSet = ZQueryJournal
+    left = 232
+    top = 291
+  end
+  object ZQueryBankenAbschluss: TZQuery
+    Connection = ZConnectionBuch
+    Params = <>
+    left = 136
+    top = 128
+  end
+  object ZQueryDrucken: TZQuery
+    Connection = ZConnectionBuch
+    SQL.Strings = (
+      'select * from journal'
+    )
+    Params = <>
+    left = 480
+    top = 128
+  end
+  object dsDrucken: TDataSource
+    DataSet = ZQueryDrucken
+    left = 597
+    top = 128
+  end
+  object ZQueryDruckenDetail: TZQuery
+    Connection = ZConnectionBuch
+    SQL.Strings = (
+      'select * from journal'
+    )
+    Params = <>
+    MasterSource = dsDrucken
+    left = 480
+    top = 179
+  end
+  object dsDruckenDetail: TDataSource
+    DataSet = ZQueryDruckenDetail
+    left = 597
+    top = 179
+  end
+  object ZQueryDruckenDetail1: TZQuery
+    Connection = ZConnectionBuch
+    SQL.Strings = (
+      'select * from journal'
+    )
+    Params = <>
+    MasterSource = dsDrucken
+    left = 480
+    top = 235
+  end
+  object dsDruckenDetail1: TDataSource
+    DataSet = ZQueryDruckenDetail1
+    left = 597
+    top = 235
+  end
+  object ZQueryHelp1: TZQuery
+    Connection = ZConnectionBuch
+    Params = <>
+    left = 480
+    top = 72
+  end
+  object ZConnectionGE_Kart: TZConnection
+    ControlsCodePage = cCP_UTF8
+    AutoEncodeStrings = False
+    Properties.Strings = (
+      'AutoEncodeStrings='
+    )
+    Port = 0
+    Protocol = 'sqlite-3'
+    left = 352
+    top = 291
+  end
+  object ZSQLMonitor: TZSQLMonitor
+    FileName = 'sql_debug.txt'
+    MaxTraceCount = 100
+    OnLogTrace = ZSQLMonitorLogTrace
+    left = 40
+    top = 72
+  end
+  object ZConnectionBuch: TZConnection
+    ControlsCodePage = cCP_UTF8
+    AutoEncodeStrings = False
+    Properties.Strings = (
+      'AutoEncodeStrings='
+    )
+    Port = 0
+    Protocol = 'sqlite-3'
+    left = 40
+    top = 16
+  end
+end
