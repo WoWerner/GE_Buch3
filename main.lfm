@@ -13,7 +13,7 @@ object frmMain: TfrmMain
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.6.4.0'
+  LCLVersion = '1.8.0.6'
   object imgSELK: TImage
     Cursor = crHandPoint
     Left = 328
