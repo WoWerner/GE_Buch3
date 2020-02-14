@@ -8,11 +8,10 @@
       <Unit0>
         <Filename Value="GE_Buch.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="22"/>
         <CursorPos Y="54"/>
         <UsageCount Value="200"/>
-        <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="main.pas"/>
@@ -22,8 +21,8 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Main"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="345"/>
-        <CursorPos X="67" Y="304"/>
+        <TopLine Value="354"/>
+        <CursorPos X="11" Y="362"/>
         <UsageCount Value="200"/>
       </Unit1>
       <Unit2>
@@ -118,8 +117,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1368"/>
-        <CursorPos X="51" Y="1463"/>
+        <TopLine Value="830"/>
+        <CursorPos X="149" Y="856"/>
         <UsageCount Value="200"/>
       </Unit11>
       <Unit12>
@@ -140,8 +139,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="385"/>
-        <CursorPos X="20" Y="414"/>
+        <TopLine Value="834"/>
+        <CursorPos X="73" Y="866"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -324,123 +323,123 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="drucken.pas"/>
-        <Caret Line="1318" Column="20" TopLine="1311"/>
+        <Caret Line="316" Column="46" TopLine="284"/>
       </Position1>
       <Position2>
         <Filename Value="drucken.pas"/>
-        <Caret Line="28" Column="94" TopLine="15"/>
+        <Caret Line="1488" Column="37" TopLine="1461"/>
       </Position2>
       <Position3>
         <Filename Value="drucken.pas"/>
-        <Caret Line="40" Column="33" TopLine="15"/>
+        <Caret Line="1018" Column="8" TopLine="999"/>
       </Position3>
       <Position4>
         <Filename Value="drucken.pas"/>
-        <Caret Column="9"/>
+        <Caret Line="1484" Column="39" TopLine="1466"/>
       </Position4>
       <Position5>
         <Filename Value="drucken.pas"/>
-        <Caret Line="40" Column="33" TopLine="12"/>
+        <Caret Line="1260" Column="9" TopLine="1254"/>
       </Position5>
       <Position6>
         <Filename Value="drucken.pas"/>
-        <Caret Line="279" Column="125" TopLine="191"/>
+        <Caret Line="1263" Column="25" TopLine="1254"/>
       </Position6>
       <Position7>
         <Filename Value="drucken.pas"/>
-        <Caret Line="1033" Column="29" TopLine="1031"/>
+        <Caret Line="1048" Column="31" TopLine="1034"/>
       </Position7>
       <Position8>
         <Filename Value="drucken.pas"/>
-        <Caret Line="41" Column="31" TopLine="24"/>
+        <Caret Line="40" Column="33" TopLine="20"/>
       </Position8>
       <Position9>
         <Filename Value="drucken.pas"/>
-        <Caret Line="314" Column="46"/>
+        <Caret Line="200" Column="22" TopLine="188"/>
       </Position9>
       <Position10>
         <Filename Value="drucken.pas"/>
-        <Caret Line="315" Column="46" TopLine="283"/>
+        <Caret Line="1042" Column="3" TopLine="1040"/>
       </Position10>
       <Position11>
         <Filename Value="drucken.pas"/>
-        <Caret Line="316" Column="46" TopLine="284"/>
+        <Caret Line="1036" Column="29" TopLine="1034"/>
       </Position11>
       <Position12>
         <Filename Value="drucken.pas"/>
-        <Caret Line="315" Column="46" TopLine="283"/>
+        <Caret Line="41" Column="31" TopLine="24"/>
       </Position12>
       <Position13>
         <Filename Value="drucken.pas"/>
-        <Caret Line="316" Column="46" TopLine="284"/>
+        <Caret Line="415" Column="20" TopLine="386"/>
       </Position13>
       <Position14>
         <Filename Value="drucken.pas"/>
-        <Caret Line="317" Column="46" TopLine="285"/>
+        <Caret Line="33" Column="29" TopLine="18"/>
       </Position14>
       <Position15>
         <Filename Value="drucken.pas"/>
-        <Caret Line="316" Column="46" TopLine="284"/>
+        <Caret Line="67" Column="19" TopLine="39"/>
       </Position15>
       <Position16>
         <Filename Value="drucken.pas"/>
-        <Caret Line="315" Column="46" TopLine="283"/>
+        <Caret Line="121" Column="29" TopLine="94"/>
       </Position16>
       <Position17>
         <Filename Value="drucken.pas"/>
-        <Caret Line="314" Column="46" TopLine="282"/>
+        <Caret Line="122" Column="29" TopLine="95"/>
       </Position17>
       <Position18>
         <Filename Value="drucken.pas"/>
-        <Caret Line="315" Column="46" TopLine="283"/>
+        <Caret Line="308" Column="60" TopLine="281"/>
       </Position18>
       <Position19>
         <Filename Value="drucken.pas"/>
-        <Caret Line="316" Column="46" TopLine="284"/>
+        <Caret Line="421" Column="60" TopLine="394"/>
       </Position19>
       <Position20>
         <Filename Value="drucken.pas"/>
-        <Caret Line="1488" Column="37" TopLine="1461"/>
+        <Caret Line="824" Column="28"/>
       </Position20>
       <Position21>
         <Filename Value="drucken.pas"/>
-        <Caret Line="1018" Column="8" TopLine="999"/>
+        <Caret Line="660" Column="121" TopLine="650"/>
       </Position21>
       <Position22>
         <Filename Value="drucken.pas"/>
-        <Caret Line="1484" Column="39" TopLine="1466"/>
+        <Caret Line="716" Column="125" TopLine="698"/>
       </Position22>
       <Position23>
         <Filename Value="drucken.pas"/>
-        <Caret Line="1260" Column="9" TopLine="1254"/>
+        <Caret Line="770" Column="15" TopLine="743"/>
       </Position23>
       <Position24>
         <Filename Value="drucken.pas"/>
-        <Caret Line="1263" Column="25" TopLine="1254"/>
+        <Caret Line="826" Column="15" TopLine="803"/>
       </Position24>
       <Position25>
         <Filename Value="drucken.pas"/>
-        <Caret Line="1048" Column="31" TopLine="1034"/>
+        <Caret Line="604" Column="92" TopLine="588"/>
       </Position25>
       <Position26>
         <Filename Value="drucken.pas"/>
-        <Caret Line="40" Column="33" TopLine="20"/>
+        <Caret Line="7" Column="59"/>
       </Position26>
       <Position27>
         <Filename Value="drucken.pas"/>
-        <Caret Line="200" Column="22" TopLine="188"/>
+        <Caret Line="604" Column="92" TopLine="577"/>
       </Position27>
       <Position28>
         <Filename Value="drucken.pas"/>
-        <Caret Line="1042" Column="3" TopLine="1040"/>
+        <Caret Line="657" Column="92" TopLine="630"/>
       </Position28>
       <Position29>
         <Filename Value="drucken.pas"/>
-        <Caret Line="1036" Column="29" TopLine="1034"/>
+        <Caret Line="604" Column="92" TopLine="588"/>
       </Position29>
       <Position30>
         <Filename Value="drucken.pas"/>
-        <Caret Line="41" Column="31" TopLine="24"/>
+        <Caret Line="128" Column="100" TopLine="118"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>
