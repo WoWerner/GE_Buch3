@@ -1,4 +1,8 @@
-﻿Änderungen in der Version 1.9.7.4
+﻿Änderungen in der Version 1.9.7.5
+
+Drucken: Durchgangskontenübersicht kommt auch mit 4 stelligen Kontennummern klar
+
+Änderungen in der Version 1.9.7.4
 
 Journal: Popup durch dauerhaft angezeigtes Fenster beim Import ersetzt.
 
