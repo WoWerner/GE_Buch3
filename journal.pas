@@ -243,10 +243,13 @@ end;
 procedure TfrmJournal.CheckSettingsForSave;
 
 begin
-  {$ifdef DebugCallStack} myDebugLN('CheckSettingsForSave'); {$endif}
-  TimCheckSettingsForSave.Enabled := true;
-  //Jetzt kan z.B. der Abbruchbutton ausgewertet werden. Ansonsten hängt man duch das SetFocus fest
-  {$ifdef DebugCallStack} myDebugLN('CheckSettingsForSave finished'); {$endif}
+  if Modus in [append_TakeOver, append_Empty, edit, import]
+     then
+       begin
+         TimCheckSettingsForSave.Enabled := true;
+         //Jetzt kan z.B. der Abbruchbutton ausgewertet werden. Ansonsten hängt man duch das SetFocus fest
+         {$ifdef DebugCallStack} myDebugLN('TimCheckSettingsForSave.Enabled := true'); {$endif}
+       end;
 end;
 
 procedure TfrmJournal.CheckSettingsForSave2;
@@ -573,6 +576,7 @@ begin
                  frmImportData.Top          := frmJournal.Top+20+GetCaptionHeight;
                  frmImportData.Width        := frmJournal.Width-20;
                  frmImportData.visible      := true;
+                 frmImportData.BringToFront;
 
                  panSummen.Visible          := false;
                  frmJournal.Caption         := 'Journalmodus: importieren';
@@ -1199,10 +1203,17 @@ begin
         DateEditBuchungsdatum.Text := ReplaceChars(DateEditBuchungsdatum.Text, ['-', '/', ','], '.');
         DateEditBuchungsdatum.Text := DateToStr(DateEditBuchungsdatum.Date);
 
-        if year(DateEditBuchungsdatum.Text) <> inttostr(nBuchungsjahr)
-          then DateEditBuchungsdatum.Color := $8080FF
-          else DateEditBuchungsdatum.Color := clDefault;
-        CheckSettingsForSave;
+        case Modus of
+          append_TakeOver,
+          append_Empty,
+          edit,
+          import   : begin
+                       if year(DateEditBuchungsdatum.Text) <> inttostr(nBuchungsjahr)
+                         then DateEditBuchungsdatum.Color := $8080FF
+                         else DateEditBuchungsdatum.Color := clDefault;
+                       CheckSettingsForSave;
+                     end;
+        end;
       end;
   {$ifdef DebugCallStack} myDebugLN('DateEditBuchungsdatumExit finished'); {$endif}
 end;

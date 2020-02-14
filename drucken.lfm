@@ -1,7 +1,7 @@
 object frmDrucken: TfrmDrucken
-  Left = 415
+  Left = 416
   Height = 339
-  Top = 150
+  Top = 152
   Width = 633
   BorderStyle = bsDialog
   Caption = 'Drucken'
@@ -147,14 +147,14 @@ object frmDrucken: TfrmDrucken
     OnContextPopup = btnPersonenlisteKompaktContextPopup
     TabOrder = 9
   end
-  object btnDurchGang: TButton
+  object btnDurchgang: TButton
     Left = 8
     Height = 25
     Hint = 'Übersicht aller Durchgangskonten'
     Top = 156
     Width = 200
     Caption = 'Durchgangskontenübersicht'
-    OnClick = btnDurchGangClick
+    OnClick = btnDurchgangClick
     ParentShowHint = False
     ShowHint = True
     TabOrder = 10

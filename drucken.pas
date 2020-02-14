@@ -69,7 +69,7 @@ type
     btnPersonenliste: TButton;
     btnJahresabschluss: TButton;
     btnBeitragsliste: TButton;
-    btnDurchGang: TButton;
+    btnDurchgang: TButton;
     btnZuwendungsbescheinigungen: TButton;
     cbDatum: TCheckBox;
     DateTimePickerVon: TDateTimePicker;
@@ -103,7 +103,7 @@ type
     procedure btnZahlerlisteClick(Sender: TObject);
     procedure btnBeitragslisteClick(Sender: TObject);
     procedure btnBeitragslisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
-    procedure btnDurchGangClick(Sender: TObject);
+    procedure btnDurchgangClick(Sender: TObject);
     procedure btnJahresabschlussClick(Sender: TObject);
     procedure btnJahresabschlussContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnJournaldruckClick(Sender: TObject);
@@ -1137,7 +1137,7 @@ begin
   Handled := true;
 end;
 
-procedure TfrmDrucken.btnDurchGangClick(Sender: TObject);
+procedure TfrmDrucken.btnDurchgangClick(Sender: TObject);
 
 type
   T5ColReport =  record
@@ -1150,7 +1150,7 @@ type
 
 var
   FileName : String;
-  Daten    : array[0..99] of T5ColReport;
+  Daten    : array[0..999] of T5ColReport;
   sHelp    : String;
   nHelp    : integer;
   f        : TextFile;
@@ -1160,7 +1160,7 @@ begin
   Error := false;
   FileName := sAppDir+'DurchgangUebersicht.csv';
 
-  for nHelp := 0 to 99 do
+  for nHelp := 0 to 999 do
     begin
       Daten[nHelp].SK1Betrag := 0;
       Daten[nHelp].SK2Betrag := 0;
@@ -1179,7 +1179,7 @@ begin
         then
           begin
             sHelp := frmDM.ZQueryDrucken.FieldByName('SachkontoNr').AsString;
-            nHelp := StrtoInt(copy(sHelp,2,2));
+            nHelp := StrtoInt(copy(sHelp,2,3));
             if frmDM.ZQueryDrucken.FieldByName('Kontotype').AsString = 'DE'
               then
                 begin
@@ -1211,7 +1211,7 @@ begin
       WriteLn(F, '"Eingangskonto";"Nr";"Betrag";"Nr";"Betrag";"Differenz"');
 
       //Daten
-      for nHelp := 0 to 99 do
+      for nHelp := 0 to 999 do
         begin
           if Daten[nHelp].SK1Name <> ''
             then
