@@ -1,0 +1,12 @@
+﻿Änderungen in der Version 1.9.7.2
+
+Drucken: Kleiner Fehler bei der Filterung beseitigt
+Hauptprogramm: Kleiner Fehler bei der suche nach neuen Versionen beseitigt
+Journal: Unnötige (falsche) Nachricht ausgeblendet beim CSV Import
+
+Intern: Neue Lazerusversion 1.8.0
+
+Diese Informationen finden Sie auch in der Datei releasenote_1.9.7.2.txt
+
+
+Soll die Meldung noch einmal angezeigt werden?
