@@ -843,18 +843,17 @@ begin
       then myDebugLN('Person: '+ediPersonenID.Text+' gefunden über '+CSVKeyPers+' in der INI-Datei');
     ediPersonenIDExit(self);  //Comboboxen richtig einstellen
 
+    sLine := '';
     if ediPersonenID.Text = '0'
       then  //Kandidatensuche über DB
         begin
-          sLine := '';
           frmDM.ZQueryPersonen.First;
           while not frmDM.ZQueryPersonen.EOF do
             begin
               if (pos(Uppercase(frmDM.ZQueryPersonen.FieldByName('Nachname').AsString+frmDM.ZQueryPersonen.FieldByName('Vorname').AsString), CSVKeyPersII) <> 0) or
                  (pos(Uppercase(frmDM.ZQueryPersonen.FieldByName('Vorname').AsString+frmDM.ZQueryPersonen.FieldByName('Nachname').AsString), CSVKeyPersII) <> 0)
                  then
-                   sLine := sLine + frmDM.ZQueryPersonen.FieldByName('Nachname').AsString+', '+frmDM.ZQueryPersonen.FieldByName('Vorname').AsString+
-                   '    ID: '+frmDM.ZQueryPersonen.FieldByName('PersonenID').AsString+#13;
+                   sLine := sLine + frmDM.ZQueryPersonen.FieldByName('Nachname').AsString+', '+frmDM.ZQueryPersonen.FieldByName('Vorname').AsString+'    ID: '+frmDM.ZQueryPersonen.FieldByName('PersonenID').AsString+#13;
               frmDM.ZQueryPersonen.Next;
             end;
         end;
