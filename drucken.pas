@@ -712,6 +712,7 @@ begin
               //Part 3 Durchgang
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenJournalDurchgang.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
+              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
               frmDM.ZQueryDrucken.Open;
                 //Überschrift Part 3
               inc(FRow);
@@ -765,6 +766,7 @@ begin
               //Part 3b Umbuchungen
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenJournalUmbuchungen.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
+              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
               frmDM.ZQueryDrucken.Open;
                 //Überschrift Part 3b
               inc(FRow);
@@ -821,7 +823,7 @@ begin
               frmDM.ZQueryDrucken.Open;
                 //Überschrift Part 4
               inc(FRow);
-              TwoColReportData[FRow].Name := 'Kassenstände';
+              TwoColReportData[FRow].Name := 'Kassenstände (ohne Filter)';
               TwoColReportData[FRow].Col1 := inttostr(nBuchungsjahr);
               TwoColReportData[FRow].Col2 := inttostr(nBuchungsjahr-1);
               TwoColReportData[FRow].typ  := header;

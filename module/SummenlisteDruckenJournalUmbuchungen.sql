@@ -5,5 +5,5 @@ select banken.BankNr as BankNr,
 from banken
 left join journal on journal.BankNr=banken.BankNr
 where (journal.BuchungsJahr=:BJAHR or journal.BuchungsJahr=:BJAHR-1) and 
-      (journal.SachkontoNr = 1)
+      (journal.SachkontoNr = 1) :AddWhere
 Group by journal.BankNr, journal.BuchungsJahr
