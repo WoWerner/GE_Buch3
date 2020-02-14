@@ -1,0 +1,16 @@
+﻿Änderungen in der Version 2.0.0.0
+
+Neue Hauptversion wegen Erweiterung der Personendaten
+Personen: Neue Felder Notiz und Gemeindeglied. Gemeindeglied wird beim Anlegen automatisch auf 'ja' gesetzt. Dienen nur zur Info.
+Personen: Anrede editierbar (war ein Bug in der alten Lazarus Version)
+Journal: Beim manuellen buchen kann der letzte Betrag bei Personen automatisch vorgeschlagen werden.
+Banken und Sachkonten: Hinweis, warum ein Konto nicht gelöscht werden kann, eingefügt.
+Finanzbericht (für AKK): Konten 61-65 hinzugefügt
+
+Interne Änderungen
+SQLITE 3.31.1
+Lazarus 2.0.6
+Zeos 7.2.6-stable
+
+
+Soll die Meldung noch einmal angezeigt werden?
