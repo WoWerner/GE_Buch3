@@ -28,7 +28,7 @@ uses
   uStrToDateFmt,
   PgmUpdate,
   input,
-  help, journal_import_data;
+  help;
 
 {$R *.res}
 
@@ -50,7 +50,6 @@ begin
   Application.CreateForm(TfrmJournal_CSV_Import, frmJournal_CSV_Import);
   HighDPI(nDefDPI);  //Scaliert alle Formulare bei anderen Schriftarten
   if ParamCount = 1 then sPW := ParamStr(1) else sPW := '';
-  Application.CreateForm(TfrmImportData, frmImportData);
   Application.Run;
 end.
 

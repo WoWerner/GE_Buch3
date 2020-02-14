@@ -1,8 +1,8 @@
 object frmJournal: TfrmJournal
-  Left = 257
+  Left = 1419
   Height = 593
   Hint = 'Rechtsklick für Listen'
-  Top = 39
+  Top = -290
   Width = 900
   Caption = 'Journal'
   ClientHeight = 593
@@ -31,7 +31,7 @@ object frmJournal: TfrmJournal
     TabOrder = 0
     object DBGridJournal: TDBGrid
       Left = 0
-      Height = 280
+      Height = 192
       Top = 0
       Width = 900
       Align = alClient
@@ -44,6 +44,78 @@ object frmJournal: TfrmJournal
       TabOrder = 0
       OnColumnSized = DBGridJournalColumnSized
       OnDrawColumnCell = DBGridJournalDrawColumnCell
+    end
+    object panImportData: TPanel
+      Left = 0
+      Height = 88
+      Top = 192
+      Width = 900
+      Align = alBottom
+      BevelOuter = bvNone
+      ClientHeight = 88
+      ClientWidth = 900
+      TabOrder = 1
+      object panHinweise: TPanel
+        Left = 0
+        Height = 26
+        Top = 62
+        Width = 900
+        Align = alClient
+        BevelColor = clMoneyGreen
+        BevelOuter = bvNone
+        ClientHeight = 26
+        ClientWidth = 900
+        Color = clMoneyGreen
+        ParentColor = False
+        TabOrder = 0
+        object labHinweis: TLabel
+          Left = 12
+          Height = 15
+          Top = 4
+          Width = 48
+          Caption = 'Hinweise'
+          ParentColor = False
+        end
+      end
+      object panCSVImportData: TPanel
+        Left = 0
+        Height = 62
+        Top = 0
+        Width = 900
+        Align = alTop
+        BevelOuter = bvNone
+        ClientHeight = 62
+        ClientWidth = 900
+        TabOrder = 1
+        object sgImportData: TStringGrid
+          Left = 0
+          Height = 44
+          Top = 18
+          Width = 900
+          Align = alBottom
+          BorderStyle = bsNone
+          ColCount = 7
+          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goSmoothScroll]
+          ParentShowHint = False
+          RowCount = 2
+          ScrollBars = ssNone
+          ShowHint = True
+          TabOrder = 0
+        end
+        object labImportMode: TLabel
+          Left = 0
+          Height = 18
+          Top = 0
+          Width = 900
+          Align = alClient
+          Alignment = taCenter
+          AutoSize = False
+          Caption = 'Zu importierende Daten'
+          Color = clSkyBlue
+          ParentColor = False
+          Transparent = False
+        end
+      end
     end
   end
   object panSteuerung: TPanel
@@ -352,7 +424,7 @@ object frmJournal: TfrmJournal
       Left = 16
       Height = 15
       Top = 202
-      Width = 72
+      Width = 73
       Caption = 'Buchungstext'
       ParentColor = False
     end

@@ -1,3 +1,4 @@
 84;Beitrag
 84;Kirchgeld
+84;Kirchensteuer
 241;Mission

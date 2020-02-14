@@ -11,7 +11,7 @@ object frmSachkonten: TfrmSachkonten
   OnClose = FormClose
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.6.4.0'
+  LCLVersion = '1.8.0.6'
   object DBGridSachkontenliste: TDBGrid
     Left = 0
     Height = 368
@@ -25,7 +25,6 @@ object frmSachkonten: TfrmSachkonten
     ReadOnly = True
     Scrollbars = ssAutoBoth
     TabOrder = 0
-    OnDrawColumnCell = DBGridSachkontenlisteDrawColumnCell
     OnPrepareCanvas = DBGridSachkontenlistePrepareCanvas
   end
   object Panel1: TPanel

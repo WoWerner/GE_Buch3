@@ -59,7 +59,7 @@ type
     procedure btnSetFreistellungClick(Sender: TObject);
     procedure btnSetFreistellungContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnSpeichernClick(Sender: TObject);
-    procedure DBGridSachkontenlisteDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    //procedure DBGridSachkontenlisteDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure DBGridSachkontenlistePrepareCanvas(sender: TObject; DataCol: Integer; Column: TColumn; AState: TGridDrawState);
     procedure ediSachkontoEnter(Sender: TObject);
     procedure ediSachkontonummerExit(Sender: TObject);
@@ -115,15 +115,15 @@ end;
 procedure TfrmSachkonten.AfterScroll;
 begin
   //Hier wegen Query Refresh
-  DBGridSachkontenliste.Columns.Items[0].Width        :=  80;    //SachkontoNr
-  DBGridSachkontenliste.Columns.Items[1].Width        := 375;    //SachKonto
-  DBGridSachkontenliste.Columns.Items[2].Width        :=  80;    //Letzter Betrag
-  DBGridSachkontenliste.Columns.Items[3].Width        :=  50;    //Sortpos
-  DBGridSachkontenliste.Columns.Items[4].Width        :=  70;    //KontoType
-  DBGridSachkontenliste.Columns.Items[5].Width        :=  60;    //Statistik
-  DBGridSachkontenliste.Columns.Items[6].Width        := 100;    //Finanzamt
-  DBGridSachkontenliste.Columns.Items[7].Width        := 100;    //Finanzamt vom
-  DBGridSachkontenliste.Columns.Items[8].Width        := 100;    //Finanzamt am
+  DBGridSachkontenliste.Columns.Items[0].Width   :=  80;    //SachkontoNr
+  DBGridSachkontenliste.Columns.Items[1].Width   := 375;    //SachKonto
+  DBGridSachkontenliste.Columns.Items[2].Visible := false;  //Letzter Betrag
+  DBGridSachkontenliste.Columns.Items[3].Width   :=  50;    //Sortpos
+  DBGridSachkontenliste.Columns.Items[4].Width   :=  70;    //KontoType
+  DBGridSachkontenliste.Columns.Items[5].Width   :=  60;    //Statistik
+  DBGridSachkontenliste.Columns.Items[6].Width   := 180;    //Finanzamt
+  DBGridSachkontenliste.Columns.Items[7].Width   := 100;    //Finanzamt vom
+  DBGridSachkontenliste.Columns.Items[8].Width   := 100;    //Finanzamt am
 
   ediSachkontonummer.Value := frmDM.ZQuerySachkonten.FieldByName('SachkontoNr').AsInteger;
   ediSachkonto.Text        := frmDM.ZQuerySachkonten.FieldByName('SachKonto').AsString;
@@ -162,6 +162,7 @@ begin
   frmDM.ZQuerySachkonten.Close;
 end;
 
+{
 procedure TfrmSachkonten.DBGridSachkontenlisteDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
 
 begin
@@ -174,6 +175,7 @@ begin
         DBGridSachkontenliste.Canvas.TextRect(Rect,Rect.Left+4,Rect.Top+2,Format('€ %m',[Column.Field.AsLongint/100]));
       end;
 end;
+}
 
 procedure TfrmSachkonten.DBGridSachkontenlistePrepareCanvas(sender: TObject; DataCol: Integer; Column: TColumn; AState: TGridDrawState);
 
