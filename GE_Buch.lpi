@@ -19,7 +19,7 @@
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="9"/>
       <RevisionNr Value="7"/>
-      <BuildNr Value="3"/>
+      <BuildNr Value="4"/>
       <Language Value="0407"/>
       <StringTable ProductVersion="1.9.7.0"/>
     </VersionInfo>
@@ -60,7 +60,7 @@
         <PackageName Value="LCL"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="22">
+    <Units Count="23">
       <Unit0>
         <Filename Value="GE_Buch.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -193,6 +193,13 @@
         <Filename Value="..\GE_Kart\GE_Kart7\uhttpdownloader.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit21>
+      <Unit22>
+        <Filename Value="journal_import_data.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmImportData"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit22>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -45,6 +45,7 @@ const
   CSV_Delimiter        = ';';
   sJa                  = 'Ja';
   sNein                = 'Nein';
+  KeyDelChars          = [' ', ',', '.', ':', '_', '-', '+', '*'];
 
 var
   sAppDir              : String;

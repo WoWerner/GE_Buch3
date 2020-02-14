@@ -1,7 +1,7 @@
 object frmJournal_CSV_Import: TfrmJournal_CSV_Import
-  Left = 290
+  Left = 320
   Height = 500
-  Top = 185
+  Top = 138
   Width = 800
   Caption = 'Journal CSV Import'
   ClientHeight = 500
@@ -10,7 +10,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
   Constraints.MinWidth = 800
   OnClose = FormClose
   OnShow = FormShow
-  LCLVersion = '1.6.4.0'
+  LCLVersion = '1.8.0.6'
   object Panel1: TPanel
     Left = 0
     Height = 180

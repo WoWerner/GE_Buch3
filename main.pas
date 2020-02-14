@@ -1353,7 +1353,7 @@ begin
               do
                 begin
                   OrgKey := sl.Strings[i];
-                  NewKey := DeleteChars(OrgKey, [' ', ',', '.', ':']); //Behn 30.12.15
+                  NewKey := DeleteChars(OrgKey, KeyDelChars); //Behn 30.12.15
                   s := ini.ReadString('Key', OrgKey, '0');
                   if (s = '0') or (s = '')
                     then

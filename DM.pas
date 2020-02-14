@@ -245,7 +245,7 @@ begin
   ExecSQL('Update journal set ResS1='''+sNein+''' where ((ResS1='''') or (ResS1 is Null))' , false, false);
 
   //Prüfung auf zu neue DB Version
-  result := not (strtoint(DigitsOnly(sHelp)) > 19);       //Im Fehlerfall result auf false
+  result := not (strtoint(XCharsOnly(sHelp, ['0'..'9'])) > 19);       //Im Fehlerfall result auf false
 end;
 
 procedure TfrmDM.ZQueryBankenAfterScroll(DataSet: TDataSet);

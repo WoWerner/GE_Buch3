@@ -76,7 +76,6 @@ type
     Label8: TLabel;
     Label9: TLabel;
     labVZ: TLabel;
-    labImportMode: TLabel;
     lab_A_Konto: TLabel;
     lab_A_Pers: TLabel;
     lab_A_SK: TLabel;
@@ -95,14 +94,12 @@ type
     mnuPopup: TPopupMenu;
     OpenDialog: TOpenDialog;
     panDaten: TPanel;
-    panCSVImportData: TPanel;
     panSteuerung: TPanel;
     panFilter: TPanel;
     panFilter1: TPanel;
     panSummen: TPanel;
     PopupMenuDatum: TPopupMenu;
     rgSort: TRadioGroup;
-    sgImportData: TStringGrid;
     TimCheckSettingsForSave: TTimer;
     procedure btnAbbrechenClick(Sender: TObject);
     procedure btnAendernClick(Sender: TObject);
@@ -144,18 +141,17 @@ type
     procedure mnuShowPersonenIDClick(Sender: TObject);
     procedure mnuShowPersonenNameClick(Sender: TObject);
     procedure rgSortClick(Sender: TObject);
-    procedure sgImportDataResize(Sender: TObject);
   private
     { private declarations }
     Modus                : TMode;
     slBankenStartSaldo   : TStringList;
     slSuchTexteImport    : TStringList;
-    bStartFinished       : boolean;
     CSVImportRow         : integer;
     CSVKeySK             : String;
     CSVKeyPers           : String;
     Save_BankNr          : integer;
     Save_Startkontostand : integer;
+    bStartFinished       : boolean;
     procedure ZeigeListe(SQL: String);
     procedure SetMode(aModus : TMode; RecNo: integer = 0);
     procedure SetFormular;
@@ -186,6 +182,7 @@ implementation
 uses
   dm,
   Journal_CSV_Import,
+  journal_import_data,
   uStrToDateFmt,
   db_liste,
   help,
@@ -512,7 +509,7 @@ begin
   btnNeueBuchungLeer.Visible := false;
   btnAendern.Visible         := false;
   btnLoeschen.Visible        := false;
-  panCSVImportData.Visible   := false;
+  frmImportData.Visible      := false;
   btnClose.Visible           := false;
   btnSkip.Visible            := false;
   btnAbbrechen.Visible       := false;
@@ -571,7 +568,12 @@ begin
                  btnSpeichernAuto.Visible   := true;
                  btnAbbrechen.Visible       := true;
                  btnSkip.Visible            := true;
-                 panCSVImportData.Visible   := true;
+
+                 frmImportData.Left         := frmJournal.Left+10;
+                 frmImportData.Top          := frmJournal.Top+20+GetCaptionHeight;
+                 frmImportData.Width        := frmJournal.Width-20;
+                 frmImportData.visible      := true;
+
                  panSummen.Visible          := false;
                  frmJournal.Caption         := 'Journalmodus: importieren';
                end;
@@ -745,7 +747,7 @@ var
     if Suchtext <> ''
       then
         begin
-          sLine := sgImportData.Cells[ImpColBuTxt ,1]; //Buchungstext holen
+          sLine := frmImportData.sgImportData.Cells[ImpColBuTxt ,1]; //Buchungstext holen
           myPos := pos(Suchtext, sLine);               //Schlüsselwort suchen
           if myPos <> 0                                //Schlüsselwort vorhanden
             then
@@ -753,7 +755,7 @@ var
                 if Richtung
                   then delete(sLine,1,myPos-1)
                   else delete(sLine,myPos,999);
-                  sgImportData.Cells[ImpColBuTxt ,1] := sLine;
+                  frmImportData.sgImportData.Cells[ImpColBuTxt ,1] := sLine;
               end;
         end;
   end;
@@ -765,20 +767,20 @@ begin
 
     //Übernahme in lokales Grid
       //Zeile
-    sgImportData.Cells[ImpColZeile,1]   := inttostr(CSVImportRow);
+    frmImportData.sgImportData.Cells[ImpColZeile,1]   := inttostr(CSVImportRow);
       //Datum
-    sgImportData.Cells[ImpColDatum,1]   := frmJournal_CSV_Import.StringGridDaten.Cells[frmJournal_CSV_Import.ColDatum, CSVImportRow];
+    frmImportData.sgImportData.Cells[ImpColDatum,1]   := frmJournal_CSV_Import.StringGridDaten.Cells[frmJournal_CSV_Import.ColDatum, CSVImportRow];
       //Buchungstext
-    sgImportData.Cells[ImpColBuTxt ,1]  := frmJournal_CSV_Import.GetRowBuchungstext(CSVImportRow);
+    frmImportData.sgImportData.Cells[ImpColBuTxt ,1]  := frmJournal_CSV_Import.GetRowBuchungstext(CSVImportRow);
       //Schlüsselfelder
-    sgImportData.Cells[ImpColKeySK,1]   := frmJournal_CSV_Import.GetRowKeySK(CSVImportRow);
-    sgImportData.Cells[ImpColKeyPers,1] := frmJournal_CSV_Import.GetRowKeyPers(CSVImportRow);
+    frmImportData.sgImportData.Cells[ImpColKeySK,1]   := frmJournal_CSV_Import.GetRowKeySK(CSVImportRow);
+    frmImportData.sgImportData.Cells[ImpColKeyPers,1] := frmJournal_CSV_Import.GetRowKeyPers(CSVImportRow);
       //Betrag
-    sgImportData.Cells[ImpColBetrag,1]  := frmJournal_CSV_Import.StringGridDaten.Cells[frmJournal_CSV_Import.ColBetrag, CSVImportRow];
+    frmImportData.sgImportData.Cells[ImpColBetrag,1]  := frmJournal_CSV_Import.StringGridDaten.Cells[frmJournal_CSV_Import.ColBetrag, CSVImportRow];
       //Soll/Haben
     if frmJournal_CSV_Import.ColSollHaben > 0
-      then sgImportData.Cells[ImpColSoll_H,1] := frmJournal_CSV_Import.StringGridDaten.Cells[frmJournal_CSV_Import.ColSollHaben, CSVImportRow]
-      else sgImportData.Cells[ImpColSoll_H,1] := '';
+      then frmImportData.sgImportData.Cells[ImpColSoll_H,1] := frmJournal_CSV_Import.StringGridDaten.Cells[frmJournal_CSV_Import.ColSollHaben, CSVImportRow]
+      else frmImportData.sgImportData.Cells[ImpColSoll_H,1] := '';
 
 //Nachbearbeitung
 
@@ -792,22 +794,22 @@ begin
     CutBuchungstextInGrid(frmJournal_CSV_Import.ediDelStr3.Text, frmJournal_CSV_Import.DelUntil3.Checked);
 
     //Lange Texte als Hint lesbar machen
-    sgImportData.Hint := 'Buchungstext: '  +sgImportData.Cells[ImpColBuTxt ,1]+#13+
-                         'Schlüssel-SK: '  +sgImportData.Cells[ImpColKeySK,1]+#13+
-                         'Schlüssel-Pers: '+sgImportData.Cells[ImpColKeyPers,1];
+    frmImportData.sgImportData.Hint := 'Buchungstext: '  +frmImportData.sgImportData.Cells[ImpColBuTxt ,1]+#13+
+                         'Schlüssel-SK: '  +frmImportData.sgImportData.Cells[ImpColKeySK,1]+#13+
+                         'Schlüssel-Pers: '+frmImportData.sgImportData.Cells[ImpColKeyPers,1];
 
     //Manche Banken liefern ganze Eurobeträge ohne ",00"
-    if (pos(DefaultFormatSettings.DecimalSeparator , sgImportData.Cells[ImpColBetrag,1]) = 0) and
-       (pos(DefaultFormatSettings.ThousandSeparator, sgImportData.Cells[ImpColBetrag,1]) = 0)
-      then sgImportData.Cells[ImpColBetrag,1] := sgImportData.Cells[ImpColBetrag,1]+',00';
+    if (pos(DefaultFormatSettings.DecimalSeparator , frmImportData.sgImportData.Cells[ImpColBetrag,1]) = 0) and
+       (pos(DefaultFormatSettings.ThousandSeparator, frmImportData.sgImportData.Cells[ImpColBetrag,1]) = 0)
+      then frmImportData.sgImportData.Cells[ImpColBetrag,1] := frmImportData.sgImportData.Cells[ImpColBetrag,1]+',00';
 
-    //Keys ohne Lehrzeichen, Komma, Punkt und Doppelpunkt erstellen.
+    //Keys ohne Spezialzeichen erstellen.
     //Aus dem Key das Buchungsjahr ausfiltern.
-    CSVKeySK     := DeleteChars(Uppercase(sgImportData.Cells[ImpColKeySK,1]), [' ', ',', '.', ':']);
+    CSVKeySK     := DeleteChars(Uppercase(frmImportData.sgImportData.Cells[ImpColKeySK,1]), KeyDelChars);
     CSVKeySK     := StringReplace(CSVKeySK, ediBuchungsjahr.Text, '', [rfReplaceAll]);
-    CSVKeyPers   := DeleteChars(Uppercase(sgImportData.Cells[ImpColKeyPers,1]), [' ', ',', '.', ':']);
+    CSVKeyPers   := DeleteChars(Uppercase(frmImportData.sgImportData.Cells[ImpColKeyPers,1]), KeyDelChars);
     CSVKeyPers   := StringReplace(CSVKeyPers, ediBuchungsjahr.Text, '', [rfReplaceAll]);
-    CSVKeyPersII := CSVKeyPers + DeleteChars(Uppercase(sgImportData.Cells[ImpColBuTxt ,1]), [' ', ',', '.', ':']);
+    CSVKeyPersII := CSVKeyPers + DeleteChars(Uppercase(frmImportData.sgImportData.Cells[ImpColBuTxt ,1]), KeyDelChars);
 
 //Füllen der Eingabefelder
 
@@ -850,14 +852,17 @@ begin
           frmDM.ZQueryPersonen.First;
           while not frmDM.ZQueryPersonen.EOF do
             begin
-              if (pos(Uppercase(frmDM.ZQueryPersonen.FieldByName('Nachname').AsString+frmDM.ZQueryPersonen.FieldByName('Vorname').AsString), CSVKeyPersII) <> 0) or
-                 (pos(Uppercase(frmDM.ZQueryPersonen.FieldByName('Vorname').AsString+frmDM.ZQueryPersonen.FieldByName('Nachname').AsString), CSVKeyPersII) <> 0)
+              if (pos(DeleteChars(Uppercase(frmDM.ZQueryPersonen.FieldByName('Nachname').AsString+frmDM.ZQueryPersonen.FieldByName('Vorname').AsString), KeyDelChars), CSVKeyPersII) <> 0) or
+                 (pos(DeleteChars(Uppercase(frmDM.ZQueryPersonen.FieldByName('Vorname').AsString+frmDM.ZQueryPersonen.FieldByName('Nachname').AsString), KeyDelChars), CSVKeyPersII) <> 0)
                  then
-                   sLine := sLine + frmDM.ZQueryPersonen.FieldByName('Nachname').AsString+', '+frmDM.ZQueryPersonen.FieldByName('Vorname').AsString+'    ID: '+frmDM.ZQueryPersonen.FieldByName('PersonenID').AsString+#13;
+                   sLine := sLine + frmDM.ZQueryPersonen.FieldByName('Nachname').AsString+', '+frmDM.ZQueryPersonen.FieldByName('Vorname').AsString+', '+frmDM.ZQueryPersonen.FieldByName('Strasse').AsString+', ID: '+frmDM.ZQueryPersonen.FieldByName('PersonenID').AsString+#13;
               frmDM.ZQueryPersonen.Next;
             end;
         end;
-    if sLine <> '' then MessageDlg('Kandidatensuche anhand der Datenbank in Buchungstext und Schlüssel(Pers):'+#13#13+sLine, mtInformation, [mbOK],0);
+    if sLine <> ''
+       then frmImportData.labHinweis.Caption := 'Kandidatensuche anhand der Datenbank in Buchungstext und Schlüssel(Pers):'+#13#13+sLine
+       else frmImportData.labHinweis.Caption := '';
+    frmImportData.CheckHeight;
 
     //Für Einnahmekonten soll es ein Zahler geben
     if (pos('E-', cbSachkonto.Text) > 0)
@@ -875,17 +880,17 @@ begin
         sWord := GetCSVRecordItem(i, frmJournal_CSV_Import.Datumsformat, [','], ' ');
       end;
 
-    DateEditBuchungsdatum.Date := StrToDateFmt(sgImportData.Cells[ImpColDatum,1], DateFormat);
+    DateEditBuchungsdatum.Date := StrToDateFmt(frmImportData.sgImportData.Cells[ImpColDatum,1], DateFormat);
     DateEditBuchungsdatumExit(self);
 
     //Buchngstext
-    cbBuchungstext.Text := sgImportData.Cells[ImpColBuTxt ,1];
+    cbBuchungstext.Text := frmImportData.sgImportData.Cells[ImpColBuTxt ,1];
     cbBuchungstext.Hint := cbBuchungstext.Text;
 
     //Betrag
-    ediBetrag.Text := IntToCurrency(CurrencyToInt(sgImportData.Cells[ImpColBetrag,1], bEuroModus)); // Damit die Zahl 1.0 in 1,0 gewandelt wird
+    ediBetrag.Text := IntToCurrency(CurrencyToInt(frmImportData.sgImportData.Cells[ImpColBetrag,1], bEuroModus)); // Damit die Zahl 1.0 in 1,0 gewandelt wird
     //Sonderbehandlung negative Zahlen
-    if (frmJournal_CSV_Import.ColSollHaben > 0) and (frmJournal_CSV_Import.StrSollHaben = sgImportData.Cells[ImpColSoll_H,1])
+    if (frmJournal_CSV_Import.ColSollHaben > 0) and (frmJournal_CSV_Import.StrSollHaben = frmImportData.sgImportData.Cells[ImpColSoll_H,1])
       then ediBetrag.Text := '-'+ediBetrag.Text;
 
     ediBemerkung.Text := ''; //Damit nicht überall die gleiche Bemerkung steht....
@@ -1054,20 +1059,20 @@ begin
                bStartFinished := true;
 
                //Sonderbehandlung negative Zahlen
-               if frmJournal_CSV_Import.StrSollHaben = sgImportData.Cells[ImpColSoll_H,1]
-                 then Sollbetrag := CurrencyToInt('-'+sgImportData.Cells[ImpColBetrag,1], bEuroModus)
-                 else Sollbetrag := CurrencyToInt(sgImportData.Cells[ImpColBetrag,1], bEuroModus);
+               if frmJournal_CSV_Import.StrSollHaben = frmImportData.sgImportData.Cells[ImpColSoll_H,1]
+                 then Sollbetrag := CurrencyToInt('-'+frmImportData.sgImportData.Cells[ImpColBetrag,1], bEuroModus)
+                 else Sollbetrag := CurrencyToInt(frmImportData.sgImportData.Cells[ImpColBetrag,1], bEuroModus);
 
                //Splittbuchung?
                if Betrag <> Sollbetrag
                  then
                    begin
-                     labImportMode.Color                := clYellow;
-                     Sollbetrag                         := Sollbetrag-Betrag;
-                     ediBetrag.Text                     := IntToCurrency(Sollbetrag);
-                     sgImportData.Cells[ImpColBetrag,1] := ediBetrag.Text;
-                     labImportMode.Caption              := 'Splitbuchung. Restbetrag: '+ediBetrag.Text;
-                     btnSkip.Enabled                    := false;
+                     frmImportData.labImportMode.Color                := clYellow;
+                     Sollbetrag                                       := Sollbetrag-Betrag;
+                     ediBetrag.Text                                   := IntToCurrency(Sollbetrag);
+                     frmImportData.sgImportData.Cells[ImpColBetrag,1] := ediBetrag.Text;
+                     frmImportData.labImportMode.Caption              := 'Splitbuchung. Restbetrag: '+ediBetrag.Text;
+                     btnSkip.Enabled                                  := false;
                    end
                  else
                    begin
@@ -1080,7 +1085,7 @@ begin
   case Modus of
     import : begin
                //Inc Belegnummer                       bei Splitbuchung nicht erhöhen        nur bei Sortorder LaufendeNr
-               if OnlyDigits(ediBelegnummer.Text) and (labImportMode.Color = clSkyBlue) and (rgSort.ItemIndex = 0)
+               if OnlyDigits(ediBelegnummer.Text) and (frmImportData.labImportMode.Color = clSkyBlue) and (rgSort.ItemIndex = 0)
                  then ediBelegnummer.Text := inttostr(strtoint(ediBelegnummer.Text)+1);
              end;
   end;
@@ -1102,8 +1107,8 @@ var
 begin
   {$ifdef DebugCallStack} myDebugLN('GetNextImportRec'); {$endif}
   aModus := Modus;
-  labImportMode.Caption := 'Zu importierende Daten';
-  labImportMode.Color   := clSkyBlue; // hebt die Splitbucheung auf
+  frmImportData.labImportMode.Caption := 'Zu importierende Daten';
+  frmImportData.labImportMode.Color   := clSkyBlue; // hebt die Splitbucheung auf
 
   //Nächster Datensatz
   if frmJournal_CSV_Import.Richtung = 0
@@ -1125,6 +1130,7 @@ begin
       end
     else
       begin
+        frmImportData.Visible := false;
         ShowMessage('Alle Daten importiert');
         bStartFinished := false;
         frmDM.ZQueryJournal.Refresh;
@@ -1437,13 +1443,13 @@ begin
   help.WriteIniInt(sIniFile, 'Journal', 'WinTop'      , self.Top);
   help.WriteIniInt(sIniFile, 'Journal', 'WinWidth'    , self.Width);
   help.WriteIniInt(sIniFile, 'Journal', 'WinHeight'   , self.Height);
-  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol0Width', sgImportData.ColWidths[0]);
-  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol1Width', sgImportData.ColWidths[1]);
-  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol2Width', sgImportData.ColWidths[2]);
-  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol3Width', sgImportData.ColWidths[3]);
-  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol4Width', sgImportData.ColWidths[4]);
-  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol5Width', sgImportData.ColWidths[5]);
-  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol6Width', sgImportData.ColWidths[6]);
+  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol0Width', frmImportData.sgImportData.ColWidths[0]);
+  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol1Width', frmImportData.sgImportData.ColWidths[1]);
+  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol2Width', frmImportData.sgImportData.ColWidths[2]);
+  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol3Width', frmImportData.sgImportData.ColWidths[3]);
+  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol4Width', frmImportData.sgImportData.ColWidths[4]);
+  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol5Width', frmImportData.sgImportData.ColWidths[5]);
+  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol6Width', frmImportData.sgImportData.ColWidths[6]);
 
   frmDM.ZQueryJournal.Close;
   frmDM.ZQueryBanken.Close;
@@ -1515,20 +1521,20 @@ begin
   self.Width   := WinWidth;
   self.Height  := WinHeight;
 
-  sgImportData.Cells[ImpColZeile  ,0] := 'Zeile';
-  sgImportData.Cells[ImpColDatum  ,0] := 'Datum';
-  sgImportData.Cells[ImpColBuTxt  ,0] := 'Buchungstext';
-  sgImportData.Cells[ImpColBetrag ,0] := 'Betrag';
-  sgImportData.Cells[ImpColSoll_H ,0] := 'Soll / Haben';
-  sgImportData.Cells[ImpColKeySK  ,0] := 'Schlüsselfeld SK';
-  sgImportData.Cells[ImpColKeyPers,0] := 'Schlüsselfeld Pers';
-  sgImportData.ColWidths[0] := ImpCol0Width;
-  sgImportData.ColWidths[1] := ImpCol1Width;
-  sgImportData.ColWidths[2] := ImpCol2Width;
-  sgImportData.ColWidths[3] := ImpCol3Width;
-  sgImportData.ColWidths[4] := ImpCol4Width;
-  sgImportData.ColWidths[5] := ImpCol5Width;
-  sgImportData.ColWidths[6] := ImpCol6Width;
+  frmImportData.sgImportData.Cells[ImpColZeile  ,0] := 'Zeile';
+  frmImportData.sgImportData.Cells[ImpColDatum  ,0] := 'Datum';
+  frmImportData.sgImportData.Cells[ImpColBuTxt  ,0] := 'Buchungstext';
+  frmImportData.sgImportData.Cells[ImpColBetrag ,0] := 'Betrag';
+  frmImportData.sgImportData.Cells[ImpColSoll_H ,0] := 'Soll / Haben';
+  frmImportData.sgImportData.Cells[ImpColKeySK  ,0] := 'Schlüsselfeld SK';
+  frmImportData.sgImportData.Cells[ImpColKeyPers,0] := 'Schlüsselfeld Pers';
+  frmImportData.sgImportData.ColWidths[0] := ImpCol0Width;
+  frmImportData.sgImportData.ColWidths[1] := ImpCol1Width;
+  frmImportData.sgImportData.ColWidths[2] := ImpCol2Width;
+  frmImportData.sgImportData.ColWidths[3] := ImpCol3Width;
+  frmImportData.sgImportData.ColWidths[4] := ImpCol4Width;
+  frmImportData.sgImportData.ColWidths[5] := ImpCol5Width;
+  frmImportData.sgImportData.ColWidths[6] := ImpCol6Width;
 
   ediBuchungsjahr.Value    := nBuchungsjahr;
   ediBuchungsjahr.MaxValue := nBuchungsjahr;
@@ -1667,19 +1673,6 @@ begin
   if self.Visible then ediFilterExit(Sender);
 end;
 
-procedure TfrmJournal.sgImportDataResize(Sender: TObject);
-begin
-  if bStartFinished
-    then
-      begin
-        ImpCol0Width := sgImportData.ColWidths[0];
-        ImpCol1Width := sgImportData.ColWidths[1];
-        ImpCol2Width := sgImportData.ColWidths[2];
-        ImpCol3Width := sgImportData.ColWidths[3];
-        ImpCol4Width := sgImportData.ColWidths[4];
-        ImpCol5Width := sgImportData.ColWidths[5];
-      end;
-end;
 
 end.
 

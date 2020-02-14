@@ -1,8 +1,8 @@
 object frmJournal: TfrmJournal
-  Left = 200
+  Left = 257
   Height = 593
   Hint = 'Rechtsklick für Listen'
-  Top = 89
+  Top = 39
   Width = 900
   Caption = 'Journal'
   ClientHeight = 593
@@ -18,7 +18,7 @@ object frmJournal: TfrmJournal
   PopupMenu = mnuPopup
   Position = poScreenCenter
   ShowHint = True
-  LCLVersion = '1.6.4.0'
+  LCLVersion = '1.8.0.6'
   object panDaten: TPanel
     Left = 0
     Height = 280
@@ -31,7 +31,7 @@ object frmJournal: TfrmJournal
     TabOrder = 0
     object DBGridJournal: TDBGrid
       Left = 0
-      Height = 218
+      Height = 280
       Top = 0
       Width = 900
       Align = alClient
@@ -44,46 +44,6 @@ object frmJournal: TfrmJournal
       TabOrder = 0
       OnColumnSized = DBGridJournalColumnSized
       OnDrawColumnCell = DBGridJournalDrawColumnCell
-    end
-    object panCSVImportData: TPanel
-      Left = 0
-      Height = 62
-      Top = 218
-      Width = 900
-      Align = alBottom
-      BevelOuter = bvNone
-      ClientHeight = 62
-      ClientWidth = 900
-      TabOrder = 1
-      object sgImportData: TStringGrid
-        Left = 0
-        Height = 44
-        Top = 18
-        Width = 900
-        Align = alBottom
-        BorderStyle = bsNone
-        ColCount = 7
-        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goSmoothScroll]
-        ParentShowHint = False
-        RowCount = 2
-        ScrollBars = ssNone
-        ShowHint = True
-        TabOrder = 0
-        OnResize = sgImportDataResize
-      end
-      object labImportMode: TLabel
-        Left = 0
-        Height = 18
-        Top = 0
-        Width = 900
-        Align = alClient
-        Alignment = taCenter
-        AutoSize = False
-        Caption = 'Zu importierende Daten'
-        Color = clSkyBlue
-        ParentColor = False
-        Transparent = False
-      end
     end
   end
   object panSteuerung: TPanel
