@@ -192,6 +192,7 @@ begin
   if frmDM.ZQueryPersonen.Active         then  frmDM.ZQueryPersonen.Close;
   if frmDM.ZQueryInit.Active             then  frmDM.ZQueryInit.Close;
   if frmDM.ZQueryHelp.Active             then  frmDM.ZQueryHelp.Close;
+  if frmDM.ZQueryHelp1.Active            then  frmDM.ZQueryHelp1.Close;
   if frmDM.ZQueryGE_Kart_Personen.Active then  frmDM.ZQueryGE_Kart_Personen.Close;
   if frmDM.ZQuerySachkonten.Active       then  frmDM.ZQuerySachkonten.Close;
   if frmDM.ZQueryJournal.Active          then  frmDM.ZQueryJournal.Close;

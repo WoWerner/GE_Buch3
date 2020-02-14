@@ -174,6 +174,8 @@ var
   sName            : string;
   sLastName        : string;
   sHelp            : string;
+  Col1Summe        : longint;
+  Col2Summe        : longint;
   Col1SummePart1   : longint;
   Col2SummePart1   : longint;
   Col1SummePart2   : longint;
@@ -566,6 +568,8 @@ begin
           Col2SummePart3b  := 0;
           Col1SummePart4   := 0;
           Col2SummePart4   := 0;
+          Col1Summe        := 0;
+          Col2Summe        := 0;
           sLastSachkontoNr := '';
           sSachkontoNr     := '';
 
@@ -590,6 +594,7 @@ begin
           //Part 3b Umbuchungen
           //Part 4 Kassenstände
           //Part 5 Ergebnis
+
           //Der "EinAus" Report enthält 2 Teile.
           //Part 1 Einnahmen
           //Part 2 Ausgaben
@@ -823,23 +828,81 @@ begin
               frmDM.ZQueryDrucken.Open;
                 //Überschrift Part 4
               inc(FRow);
-              TwoColReportData[FRow].Name := 'Kassenstände (ohne Filter)';
-              TwoColReportData[FRow].Col1 := inttostr(nBuchungsjahr);
-              TwoColReportData[FRow].Col2 := inttostr(nBuchungsjahr-1);
+              TwoColReportData[FRow].Name := 'Kassenstände';
               TwoColReportData[FRow].typ  := header;
 
-                //Daten Part 4
-              while not frmDM.ZQueryDrucken.EOF do
-                begin
-                  inc(FRow);
-                  TwoColReportData[FRow].Name := frmDM.ZQueryDrucken.FieldByName('Name').AsString;
-                  TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Kontostand').AsLongint);
-                  TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Anfangssaldo').AsLongint);
-                  TwoColReportData[FRow].typ  := line;
-                  Col1SummePart4 := Col1SummePart4 + frmDM.ZQueryDrucken.FieldByName('Kontostand').AsLongint;
-                  Col2SummePart4 := Col2SummePart4 + frmDM.ZQueryDrucken.FieldByName('Anfangssaldo').AsLongint;
-                  frmDM.ZQueryDrucken.Next;
-                end;
+              if cbDatum.Checked
+                then
+                  begin
+                    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenBankenUmsatz.sql');
+                    frmDM.ZQueryHelp.ParamByName('BJAHR').AsInteger := nBuchungsjahr;
+                    frmDM.ZQueryHelp.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd',DateTimePickerVon.Date-1);
+                    frmDM.ZQueryHelp.Open;
+
+                    frmDM.ZQueryHelp1.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenBankenUmsatz.sql');
+                    frmDM.ZQueryHelp1.ParamByName('BJAHR').AsInteger := nBuchungsjahr;
+                    frmDM.ZQueryHelp1.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd',DateTimePickerBis.Date);
+                    frmDM.ZQueryHelp1.Open;
+
+                    TwoColReportData[FRow].Col1 := DatetoStr(DateTimePickerBis.Date);
+                    TwoColReportData[FRow].Col2 := DatetoStr(DateTimePickerVon.Date-1);
+
+                      //Daten Part 4
+                    while not frmDM.ZQueryDrucken.EOF do
+                      begin
+                        inc(FRow);
+                        TwoColReportData[FRow].Name := frmDM.ZQueryDrucken.FieldByName('Name').AsString;
+
+                        if frmDM.ZQueryDrucken.FieldByName('BankNr').AsLongint = frmDM.ZQueryHelp1.FieldByName('BankNr').AsLongint
+                          then
+                            begin
+                              Col1Summe := frmDM.ZQueryDrucken.FieldByName('Anfangssaldo').AsLongint + frmDM.ZQueryHelp1.FieldByName('Summe').AsLongint;
+                              frmDM.ZQueryHelp1.Next;
+                            end
+                          else
+                            begin
+                              Col1Summe := frmDM.ZQueryDrucken.FieldByName('Anfangssaldo').AsLongint;
+                            end;
+                        if frmDM.ZQueryDrucken.FieldByName('BankNr').AsLongint = frmDM.ZQueryHelp.FieldByName('BankNr').AsLongint
+                          then
+                            begin
+                              Col2Summe := frmDM.ZQueryDrucken.FieldByName('Anfangssaldo').AsLongint + frmDM.ZQueryHelp.FieldByName('Summe').AsLongint;
+                              frmDM.ZQueryHelp.Next;
+                            end
+                          else
+                            begin
+                              Col2Summe := frmDM.ZQueryDrucken.FieldByName('Anfangssaldo').AsLongint;
+                            end;
+
+                        TwoColReportData[FRow].Col1 := IntToCurrency(Col1Summe);
+                        TwoColReportData[FRow].Col2 := IntToCurrency(Col2Summe);
+                        TwoColReportData[FRow].typ  := line;
+                        Col1SummePart4 := Col1SummePart4 + Col1Summe;
+                        Col2SummePart4 := Col2SummePart4 + Col2Summe;
+                        frmDM.ZQueryDrucken.Next;
+                      end;
+
+                    frmDM.ZQueryHelp.close;
+                    frmDM.ZQueryHelp1.close;
+                  end
+                else
+                  begin
+                    TwoColReportData[FRow].Col1 := inttostr(nBuchungsjahr);
+                    TwoColReportData[FRow].Col2 := '31.12.'+inttostr(nBuchungsjahr-1);
+                      //Daten Part 4
+                    while not frmDM.ZQueryDrucken.EOF do
+                      begin
+                        inc(FRow);
+                        TwoColReportData[FRow].Name := frmDM.ZQueryDrucken.FieldByName('Name').AsString;
+                        TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Kontostand').AsLongint);
+                        TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Anfangssaldo').AsLongint);
+                        TwoColReportData[FRow].typ  := line;
+                        Col1SummePart4 := Col1SummePart4 + frmDM.ZQueryDrucken.FieldByName('Kontostand').AsLongint;
+                        Col2SummePart4 := Col2SummePart4 + frmDM.ZQueryDrucken.FieldByName('Anfangssaldo').AsLongint;
+                        frmDM.ZQueryDrucken.Next;
+                      end;
+                  end;
+
               frmDM.ZQueryDrucken.Close;
 
                 //Abschluss Part 4
@@ -1106,6 +1169,7 @@ begin
 
   frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenJournalDurchgang.sql');
   frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
+  frmDM.ZQueryDrucken.SQL.Text := StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', '', [rfReplaceAll]);
   frmDM.ZQueryDrucken.Open;
   while not frmDM.ZQueryDrucken.EOF do
     begin
@@ -1519,7 +1583,6 @@ begin
          end;
   end;
 end;
-
 
 end.
 
