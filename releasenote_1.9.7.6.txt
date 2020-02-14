@@ -1,0 +1,16 @@
+﻿Änderungen in der Version 1.9.7.6
+
+Die Änderung aus der Version 1.9.7.4 (Importfenster) wieder rückgänging gemacht. Das Fenster war (manchmal) entweder störend oder nicht im Vordergrund.
+
+Änderungen in der Version 1.9.7.5
+
+Drucken: Durchgangskontenübersicht kommt auch mit 4 stelligen Kontennummern klar
+
+Änderungen in der Version 1.9.7.4
+
+Journal: Popup durch dauerhaft angezeigtes Fenster beim Import ersetzt.
+
+Diese Informationen finden Sie auch in der Datei releasenote_1.9.7.6.txt
+
+
+Soll die Meldung noch einmal angezeigt werden?
