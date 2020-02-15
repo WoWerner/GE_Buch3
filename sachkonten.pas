@@ -133,18 +133,33 @@ begin
   ediFinanzamt.Text        := frmDM.ZQuerySachkonten.FieldByName('Finanzamt').AsString;
   ediFinanzamtNr.Text      := frmDM.ZQuerySachkonten.FieldByName('FinanzamtNr').AsString;
   ediFinanzamtVom.Text     := frmDM.ZQuerySachkonten.FieldByName('FinanzamtVom').AsString;
+  btnDelete.ShowHint       := false;
   btnDelete.Enabled        := not ((frmDM.ZQuerySachkonten.FieldByName('SachkontoNr').AsInteger = 1) or
                                    (frmDM.ZQuerySachkonten.FieldByName('SachkontoNr').AsInteger = 999)); //Sammelkonten
   btnAendern.Enabled       := btnDelete.Enabled;
+
+  ediSachkontonummer.ShowHint:= false;
+  ediSachkontonummer.Enabled := btnDelete.Enabled;
+
   if btnDelete.Enabled
     then
       begin
-        frmDM.ZQueryHelp.SQL.Text:='select count(SachkontoNr) as c from journal where SachkontoNr='+inttostr(ediSachkontonummer.Value);
+        frmDM.ZQueryHelp.SQL.Text:='select count(SachkontoNr) as c, max(Buchungsjahr) as m from journal where SachkontoNr='+inttostr(ediSachkontonummer.Value);
         frmDM.ZQueryHelp.Open;
-        btnDelete.Enabled := (frmDM.ZQueryHelp.FieldByName('c').AsInteger = 0);
-        ediSachkontonummer.Enabled := btnDelete.Enabled;
+        if (frmDM.ZQueryHelp.FieldByName('c').AsInteger <> 0)
+          then
+            begin
+              btnDelete.Enabled := false;
+              btnDelete.Hint    := 'Sachkonto kann nicht gelöscht werden weil es im Buchungsjahr '+inttostr(frmDM.ZQueryHelp.FieldByName('m').AsInteger)+' noch verwendet wird';
+              btnDelete.ShowHint:= true;
+
+              ediSachkontonummer.Enabled := false;
+              ediSachkontonummer.Hint    := 'Sachkonto kann nicht editiert werden weil es im Buchungsjahr '+inttostr(frmDM.ZQueryHelp.FieldByName('m').AsInteger)+' noch verwendet wird';
+              ediSachkontonummer.ShowHint:= true;
+            end;
         frmDM.ZQueryHelp.Close;
       end;
+
   btnSetFreistellung.Hint := 'Setze für alle Einnahmekonten (Kennzeichnung E)'#13+
                              'Finanzamt auf "'+sFinanzamt+'"'#13+
                              'FinanzamtVom auf "'+sFinanzamtVom+'"'#13+

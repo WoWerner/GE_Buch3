@@ -100,19 +100,28 @@ begin
   ediSortPos.Value   := frmDM.ZQueryBanken.FieldByName('Sortpos').AsInteger;
   ediStatistik.Value := frmDM.ZQueryBanken.FieldByName('Statistik').AsInteger;
 
+  btnDelete.ShowHint := true;
   btnDelete.Enabled  := not ((frmDM.ZQueryBanken.FieldByName('BankNr').AsInteger = 1) or
                              (frmDM.ZQueryBanken.FieldByName('BankNr').AsInteger = 999)); //Sammelkonten
   btnAendern.Enabled := btnDelete.Enabled;
-  if btnDelete.Enabled then
-    begin
-      frmDM.ZQueryHelp.SQL.Text:='select count(BankNr) as c from journal where Banknr='+inttostr(ediBankNr.Value);
-      frmDM.ZQueryHelp.Open;
-      btnDelete.Enabled := (frmDM.ZQueryHelp.FieldByName('c').AsInteger = 0);
-      frmDM.ZQueryHelp.Close;
-    end;
 
-  ediKontostand.Enabled:= false;
-  ediBankNr.Enabled    := false;
+  if btnDelete.Enabled
+    then
+      begin
+        frmDM.ZQueryHelp.SQL.Text:='select count(BankNr) as c, max(Buchungsjahr) as m from journal where Banknr='+inttostr(ediBankNr.Value);
+        frmDM.ZQueryHelp.Open;
+        if (frmDM.ZQueryHelp.FieldByName('c').AsInteger <> 0)
+          then
+            begin
+              btnDelete.Enabled := false;
+              btnDelete.Hint    := 'Konto kann nicht gelöscht werden weil es im Buchungsjahr '+inttostr(frmDM.ZQueryHelp.FieldByName('m').AsInteger)+' noch verwendet wird';
+              btnDelete.ShowHint:= true;
+            end;
+        frmDM.ZQueryHelp.Close;
+      end;
+  btnAendern.Enabled    := btnDelete.Enabled;
+  ediKontostand.Enabled := false;
+  ediBankNr.Enabled     := false;
 end;
 
 procedure TfrmBanken.FormClose(Sender: TObject; var CloseAction: TCloseAction);
