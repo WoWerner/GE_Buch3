@@ -1,8 +1,8 @@
 object frmJournal: TfrmJournal
-  Left = 1419
+  Left = 905
   Height = 593
   Hint = 'Rechtsklick für Listen'
-  Top = -290
+  Top = 211
   Width = 900
   Caption = 'Journal'
   ClientHeight = 593

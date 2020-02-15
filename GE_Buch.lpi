@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="10"/>
+    <Version Value="11"/>
     <PathDelim Value="\"/>
     <General>
       <SessionStorage Value="InProjectDir"/>
@@ -16,10 +16,7 @@
     </i18n>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MajorVersionNr Value="1"/>
-      <MinorVersionNr Value="9"/>
-      <RevisionNr Value="7"/>
-      <BuildNr Value="6"/>
+      <MajorVersionNr Value="2"/>
       <Language Value="0407"/>
       <StringTable ProductVersion="1.9.7.0"/>
     </VersionInfo>
@@ -28,14 +25,19 @@
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
-      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
-      <ExcludeFileFilter Value="*.(bak|ppu|o|so);*~;backup"/>
     </PublishOptions>
     <RunParams>
       <local>
-        <FormatVersion Value="1"/>
         <CommandLineParams Value="GE_Buch"/>
       </local>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default">
+          <local>
+            <CommandLineParams Value="GE_Buch"/>
+          </local>
+        </Mode0>
+      </Modes>
     </RunParams>
     <RequiredPackages Count="7">
       <Item1>
@@ -163,34 +165,28 @@
         <IsPartOfProject Value="True"/>
       </Unit16>
       <Unit17>
-        <Filename Value="..\GE_Kart\GE_Kart7\input.pas"/>
+        <Filename Value="..\..\GE_Kart\GE_Kart7\ausgabe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="..\..\GE_Kart\GE_Kart7\input.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmInput"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit17>
-      <Unit18>
-        <Filename Value="..\GE_Kart\GE_Kart7\help.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit18>
-      <Unit19>
-        <Filename Value="..\GE_Kart\GE_Kart7\ausgabe.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmAusgabe"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="Ausgabe"/>
       </Unit19>
       <Unit20>
-        <Filename Value="..\GE_Kart\GE_Kart7\pgmupdate.pas"/>
+        <Filename Value="..\..\GE_Kart\GE_Kart7\pgmupdate.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmPgmUpdate"/>
         <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="PgmUpdate"/>
       </Unit20>
       <Unit21>
-        <Filename Value="..\GE_Kart\GE_Kart7\uhttpdownloader.pas"/>
+        <Filename Value="..\..\GE_Kart\GE_Kart7\uhttpdownloader.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit21>
     </Units>
@@ -203,7 +199,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\GE_Kart\GE_Kart7;C:\lazarus\components\synapse40\source\lib\"/>
+      <OtherUnitFiles Value="..\..\GE_Kart\GE_Kart7;C:\lazarus\components\synapse40\source\lib\"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
