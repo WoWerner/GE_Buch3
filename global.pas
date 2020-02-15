@@ -29,8 +29,8 @@ const
                          'Geburtstag'+#13#10+
                          'Abgang'+#13#10+
                          'eMail';
-  sInsertPersonen      = 'insert into personen (GE_KartID, BriefAnrede, Titel, Vorname, Vorname2, Nachname, Strasse, Land, PLZ, Ort, Ortsteil, TelPrivat, TelDienst, TelMobil, eMail, Geburtstag, Abgang, LetzterBetrag) values '+
-                                            '(%d, "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", %s, "%s", 0);';
+  sInsertPersonen      = 'insert into personen (GE_KartID, BriefAnrede, Titel, Vorname, Vorname2, Nachname, Strasse, Land, PLZ, Ort, Ortsteil, TelPrivat, TelDienst, TelMobil, eMail, Geburtstag, Abgang, LetzterBetrag, Notiz, Gemeindeglied) values '+
+                                            '(%d, "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", %s, "%s", 0, "", "true");';
   sInsertJournal       = 'insert into journal (Datum, SachkontoNr, BankNr, PersonenID, Betrag, Buchungstext, Belegnummer, BuchungsJahr, Bemerkung, ResS1) values '+
                                            '(%s, %s, %s, %s, %d, "%s", "%s", %d, "%s", "%s")';
   sSelectPersonenSort  = 'select * from Personen order by Nachname COLLATE NOCASE, Vorname COLLATE NOCASE, Ort COLLATE NOCASE, Strasse COLLATE NOCASE';
@@ -65,6 +65,7 @@ var
   sFinanzamtNr         : String;
   sPW                  : String;
   sAktuelles           : String;
+  sProductVersionString: String;
   sJournalCSVImportINI : string = 'JournalCSVImport.ini';
   nBuchungsjahr        : integer;
   bSQLDebug            : boolean;

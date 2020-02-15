@@ -237,8 +237,7 @@ end;
 procedure TfrmMain.FormCreate(Sender: TObject);
 
 var
-  sRelease,
-  sProductVersionString : String;
+  sRelease              : String;
   HTTP                  : THTTPSend;
   slHelp                : TStringlist;
 

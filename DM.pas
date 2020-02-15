@@ -173,7 +173,7 @@ var
     sHelp  := '';
     Fehler := false;
     try
-      frmMain.Datensicherung(true, false);
+      frmMain.Datensicherung(true, true);
     except
       on E: Exception do
         begin
@@ -240,12 +240,13 @@ begin
   if sHelp = '1.6' then sHelp := DoDBUpdate('1.7',sAppDir+'module\update17.sql');
   if sHelp = '1.7' then sHelp := DoDBUpdate('1.8',sAppDir+'module\update18.sql');
   if sHelp = '1.8' then sHelp := DoDBUpdate('1.9',sAppDir+'module\update19.sql');
+  if sHelp = '1.9' then sHelp := DoDBUpdate('2.0',sAppDir+'module\update20.sql');
 
   //ResS1 = Aufwandsspende  (Value Ja oder Nein)
   ExecSQL('Update journal set ResS1='''+sNein+''' where ((ResS1='''') or (ResS1 is Null))' , false, false);
 
   //Prüfung auf zu neue DB Version
-  result := not (strtoint(XCharsOnly(sHelp, ['0'..'9'])) > 19);       //Im Fehlerfall result auf false
+  result := not (strtoint(XCharsOnly(sHelp, ['0'..'9']))*100 > strtoint(XCharsOnly(sProductVersionString, ['0'..'9'])));       //Im Fehlerfall result auf false
 end;
 
 procedure TfrmDM.ZQueryBankenAfterScroll(DataSet: TDataSet);

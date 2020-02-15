@@ -25,6 +25,7 @@ type
     btnSchliessen: TButton;
     DBCBAnrede: TDBComboBox;
     DBCheckBoxAbgang: TDBCheckBox;
+    DBCheckBoxAbgang1: TDBCheckBox;
     dbediEMail: TDBEdit;
     dbediGeburtstag: TDBEdit;
     dbediGE_KartID: TDBEdit;
@@ -42,6 +43,7 @@ type
     dbediVorname: TDBEdit;
     dbediVorname2: TDBEdit;
     DBGridPersonen: TDBGrid;
+    DBMemo1: TDBMemo;
     DBNavigator1: TDBNavigator;
     Label1: TLabel;
     Label10: TLabel;
@@ -61,6 +63,7 @@ type
     Label8: TLabel;
     Label9: TLabel;
     Panel1: TPanel;
+    Panel2: TPanel;
     procedure btnSchliessenClick(Sender: TObject);
     procedure DBGridPersonenColumnSized(Sender: TObject);
     procedure DBNavigator1Click(Sender: TObject; Button: TDBNavButtonType);
@@ -188,6 +191,8 @@ begin
   DBGridPersonen.Columns.Items[16].Visible       :=  false;        //GE_KartID
   DBGridPersonen.Columns.Items[17].Width         :=  Col17Width;   //Geburtstag
   DBGridPersonen.Columns.Items[18].Visible       :=  false;        //Abgang
+  DBGridPersonen.Columns.Items[19].Visible       :=  false;        //Notiz
+  DBGridPersonen.Columns.Items[20].Visible       :=  false;        //Gemeindeglied
 end;
 
 procedure TfrmPersonen.btnSchliessenClick(Sender: TObject);
