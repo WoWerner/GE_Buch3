@@ -433,6 +433,10 @@ object frmMain: TfrmMain
         Caption = 'Journal: zu fehlerhaftem Eintrag springen'
         OnClick = mnuJournalJumpClick
       end
+      object mnuJournalLast: TMenuItem
+        Caption = 'Journal: letzter Beitrag vorschlagen'
+        OnClick = mnuJournalLastClick
+      end
       object MenuItem8: TMenuItem
         Caption = '-'
       end

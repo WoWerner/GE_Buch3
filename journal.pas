@@ -996,11 +996,10 @@ begin
                                                    bool2str(cbAufwendungen.Checked)]); // Aufwandsspende
                frmDM.ZQueryHelp.ExecSQL;
 
-               //Letzter Betrag nach Person oder Sachkonto
-               //if (ediPersonenID.Text = '') or (ediPersonenID.Text = '0')
-               //  then frmDM.ZQueryHelp.SQL.Text := 'update SachKonten set LetzterBetrag='+inttostr(betrag)+' where SachkontoNr='+ediSachKontoNummer.Text
-               //  else frmDM.ZQueryHelp.SQL.Text := 'update Personen set LetzterBetrag='+inttostr(betrag)+' where PersonenID='+ediPersonenID.Text;
-               //frmDM.ZQueryHelp.ExecSQL;
+               //Letzter Betrag nach Person
+               if (not ((ediPersonenID.Text = '') or (ediPersonenID.Text = '0'))) and bJournalLast
+                 then frmDM.ZQueryHelp.SQL.Text := 'update Personen set LetzterBetrag='+inttostr(betrag)+' where PersonenID='+ediPersonenID.Text;
+               frmDM.ZQueryHelp.ExecSQL;
              end;
     edit   : begin
                frmDM.ZQueryHelp.SQL.Text := 'update journal set ';
@@ -1331,12 +1330,13 @@ begin
         if ediPersonenID.Text <> '0'
           then
             begin
+              frmDM.ZQueryPersonen.Refresh;
               if frmDM.ZQueryPersonen.Locate('PersonenID', ediPersonenID.Text, [])
                 then
                   begin
                     cbPersonenname.Text:= frmDM.ZQueryPersonen.FieldByName('Nachname').AsString+', '+frmDM.ZQueryPersonen.FieldByName('Vorname').AsString;
-                    //if Modus in [append_TakeOver, append_Empty]
-                    //  then ediBetrag.Text := IntToCurrency(frmDM.ZQueryPersonen.FieldByName('LetzterBetrag').AsInteger);
+                    if (Modus in [append_TakeOver, append_Empty]) and bJournalLast
+                      then ediBetrag.Text := IntToCurrency(frmDM.ZQueryPersonen.FieldByName('LetzterBetrag').AsInteger);
                   end
                 else
                   begin

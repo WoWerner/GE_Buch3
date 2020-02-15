@@ -69,6 +69,7 @@ var
   nBuchungsjahr        : integer;
   bSQLDebug            : boolean;
   bJournalJump         : boolean;
+  bJournalLast         : boolean;
   WORKAREA             : TRect;
 
 implementation

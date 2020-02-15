@@ -54,6 +54,7 @@ type
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
     MenuItem11: TMenuItem;
+    mnuJournalLast: TMenuItem;
     mnuJournalJump: TMenuItem;
     mnuShowDebug: TMenuItem;
     mnuEuroModus: TMenuItem;
@@ -125,6 +126,7 @@ type
     procedure mnuHilfeClick(Sender: TObject);
     procedure mnuJahresabschlussClick(Sender: TObject);
     procedure mnuJournalJumpClick(Sender: TObject);
+    procedure mnuJournalLastClick(Sender: TObject);
     procedure mnuLimitsZahlerBetragClick(Sender: TObject);
     procedure mnuLimitsZahlerverteilungAlterClick(Sender: TObject);
     procedure mnuShowDebugClick(Sender: TObject);
@@ -256,11 +258,13 @@ begin
   bTausendertrennung     := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Programm', 'Tausendertrennzeichen', 'true', true));
   bEuroModus             := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Programm', 'EuroModus', 'false', true));
   bJournalJump           := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Programm', 'JournalJump', 'true', true));
+  bJournalLast           := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Programm', 'JournalLast', 'true', true));
   mnuSQLDebug.Checked    := bSQLDebug;
   mnuDebug.Checked       := bDebug;
   mnuTausender.Checked   := bTausendertrennung;
   mnuEuroModus.Checked   := bEuroModus;
   mnuJournalJump.Checked := bJournalJump;
+  mnuJournalLast.Checked := bJournalLast;
 
   frmMain.caption        := 'GE_Buch '+sProductVersionString;
   labVersion.Caption     := labVersion.Caption + ' ' + frmMain.caption;
@@ -733,6 +737,15 @@ begin
   if bJournalJump
     then help.WriteIniVal(sIniFile, 'Programm', 'JournalJump', 'true')
     else help.WriteIniVal(sIniFile, 'Programm', 'JournalJump', 'false');
+end;
+
+procedure TfrmMain.mnuJournalLastClick(Sender: TObject);
+begin
+  bJournalLast           := not bJournalLast;
+  mnuJournalLast.Checked := bJournalLast;
+  if bJournalLast
+    then help.WriteIniVal(sIniFile, 'Programm', 'JournalLast', 'true')
+    else help.WriteIniVal(sIniFile, 'Programm', 'JournalLast', 'false');
 end;
 
 procedure TfrmMain.mnuLimitsZahlerBetragClick(Sender: TObject);
