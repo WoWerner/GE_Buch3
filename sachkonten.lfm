@@ -11,7 +11,7 @@ object frmSachkonten: TfrmSachkonten
   OnClose = FormClose
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.8.0.6'
+  LCLVersion = '2.0.6.0'
   object DBGridSachkontenliste: TDBGrid
     Left = 0
     Height = 368

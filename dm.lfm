@@ -5,7 +5,7 @@ object frmDM: TfrmDM
   Width = 780
   Caption = 'DM'
   OnCreate = FormCreate
-  LCLVersion = '1.8.0.6'
+  LCLVersion = '2.0.6.0'
   object ZQueryBanken: TZQuery
     Connection = ZConnectionBuch
     AfterScroll = ZQueryBankenAfterScroll
@@ -154,7 +154,6 @@ object frmDM: TfrmDM
   end
   object ZConnectionGE_Kart: TZConnection
     ControlsCodePage = cCP_UTF8
-    AutoEncodeStrings = False
     Properties.Strings = (
       'AutoEncodeStrings='
     )
@@ -172,7 +171,6 @@ object frmDM: TfrmDM
   end
   object ZConnectionBuch: TZConnection
     ControlsCodePage = cCP_UTF8
-    AutoEncodeStrings = False
     Properties.Strings = (
       'AutoEncodeStrings='
     )
