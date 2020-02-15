@@ -7,7 +7,9 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, printer4lazarus, datetimectrls,
+  Forms,
+  printer4lazarus,
+  datetimectrls,
   Main,
   dm,
   zcomponent,
