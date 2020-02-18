@@ -1,4 +1,8 @@
-﻿Änderungen in der Version 2.0.0.0
+﻿Änderungen in der Version 2.0.0.1
+
+Im Journal wurden manche Buchungen doppelt ausgeführt
+
+Änderungen in der Version 2.0.0.0
 
 Neue Hauptversion wegen Erweiterung der Personendaten
 Personen: Neue Felder Notiz und Gemeindeglied. Gemeindeglied wird beim Anlegen automatisch auf 'ja' gesetzt. Dienen nur zur Info.
