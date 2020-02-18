@@ -998,8 +998,11 @@ begin
 
                //Letzter Betrag nach Person
                if (not ((ediPersonenID.Text = '') or (ediPersonenID.Text = '0'))) and bJournalLast
-                 then frmDM.ZQueryHelp.SQL.Text := 'update Personen set LetzterBetrag='+inttostr(betrag)+' where PersonenID='+ediPersonenID.Text;
-               frmDM.ZQueryHelp.ExecSQL;
+                 then
+                   begin
+                     frmDM.ZQueryHelp.SQL.Text := 'update Personen set LetzterBetrag='+inttostr(betrag)+' where PersonenID='+ediPersonenID.Text;
+                     frmDM.ZQueryHelp.ExecSQL;
+                   end;
              end;
     edit   : begin
                frmDM.ZQueryHelp.SQL.Text := 'update journal set ';
