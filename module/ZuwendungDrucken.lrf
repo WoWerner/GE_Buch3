@@ -7,7 +7,7 @@
     <KeyWords Value=""/>
     <Comments Value=""/>
     <ReportCreateDate Value="2014-03-16 20:56:49"/>
-    <ReportLastChange Value="2019-01-18 16:55:41"/>
+    <ReportLastChange Value="2020-02-25 21:31:18"/>
     <ReportVersionBuild Value=""/>
     <ReportVersionMajor Value=""/>
     <ReportVersionMinor Value=""/>
@@ -81,7 +81,7 @@
           </Size>
           <Flags Value="48"/>
           <Data>
-            <Script Value="if [frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] = [FinanzamtNr]  then&#xD;&#xA;  begin&#xD;&#xA;    memo6.visible:=true;&#xD;&#xA;    memo10.visible:=false;&#xD;&#xA;  end&#xD;&#xA;else&#xD;&#xA;  begin&#xD;&#xA;    memo6.visible:=false;&#xD;&#xA;    memo10.visible:=true;&#xD;&#xA;  end;&#xD;&#xA;"/>
+            <Script Value="if ([frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] = '') or ([frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] = [FinanzamtNr]) then&#xD;&#xA;  begin&#xD;&#xA;    MemEig.visible:=true;&#xD;&#xA;    memo10.visible:=false;&#xD;&#xA;    memEigFin.visible:=[frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] &lt;&gt; '';&#xD;&#xA;  end&#xD;&#xA;else&#xD;&#xA;  begin&#xD;&#xA;    MemEig.visible:=false;&#xD;&#xA;    memo10.visible:=true; &#xD;&#xA;    memEigFin.visible:=false;&#xD;&#xA;  end;&#xD;&#xA;"/>
             <GapX Value="0"/>
             <GapY Value="0"/>
           </Data>
@@ -1440,16 +1440,16 @@
           <Cursor Value="0"/>
         </Object29>
         <Object30>
-          <Name Value="Memo6"/>
+          <Name Value="MemEig"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
           <Typ Value="gtMemo"/>
           <StreamMode Value="0"/>
           <Size>
             <Left Value="112"/>
-            <Top Value="461"/>
+            <Top Value="459"/>
             <Width Value="602"/>
-            <Height Value="64"/>
+            <Height Value="31"/>
           </Size>
           <Flags Value="2"/>
           <FillColor Value="clNone"/>
@@ -1463,7 +1463,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="von uns unmittelbar für den angegebenen Zweck verwendet. (Empfänger = [frmDM.ZQueryDruckenDetail1.&quot;Empfaenger&quot;])&#xD;&#xA;Finanzamt [frmDM.ZQueryDruckenDetail1.&quot;Finanzamt&quot;] vom [frmDM.ZQueryDruckenDetail1.&quot;FinanzamtVom&quot;], StNr.: [frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;]&#xD;&#xA;"/>
+            <Memo Value="von uns unmittelbar für den angegebenen Zweck verwendet. (Empfänger = [frmDM.ZQueryDruckenDetail1.&quot;Empfaenger&quot;])&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -1559,7 +1559,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="76"/>
-            <Top Value="468"/>
+            <Top Value="462"/>
             <Width Value="24"/>
             <Height Value="26"/>
           </Size>
@@ -2081,7 +2081,63 @@
             <GapY Value="0"/>
           </Data>
         </Object41>
-        <ObjectCount Value="41"/>
+        <Object42>
+          <Name Value="memEigFin"/>
+          <ClassName Value="TfrMemoView"/>
+          <Visible Value="True"/>
+          <Typ Value="gtMemo"/>
+          <StreamMode Value="0"/>
+          <Size>
+            <Left Value="112"/>
+            <Top Value="491"/>
+            <Width Value="602"/>
+            <Height Value="32"/>
+          </Size>
+          <Flags Value="2"/>
+          <FillColor Value="clNone"/>
+          <Frames>
+            <FrameColor Value="clBlack"/>
+            <FrameStyle Value="frsSolid"/>
+            <FrameWidth Value="1"/>
+            <FrameBorders Value=""/>
+            <Restrictions Value=""/>
+          </Frames>
+          <Data>
+            <Format Value="556"/>
+            <FormatStr Value=""/>
+            <Memo Value="Finanzamt [frmDM.ZQueryDruckenDetail1.&quot;Finanzamt&quot;] vom [frmDM.ZQueryDruckenDetail1.&quot;FinanzamtVom&quot;], StNr.: [frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;]&#xD;&#xA;"/>
+            <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
+            <OnClick Value=""/>
+            <OnMouseEnter Value=""/>
+            <OnMouseLeave Value=""/>
+            <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
+          </Data>
+          <Tag Value=""/>
+          <FURLInfo Value=""/>
+          <Font>
+            <Name Value="Arial"/>
+            <Size Value="10"/>
+            <Color Value="clBlack"/>
+            <Charset Value="0"/>
+            <Style Value=""/>
+          </Font>
+          <Highlight>
+            <FontStyle Value="2"/>
+            <FontColor Value="clBlack"/>
+            <FillColor Value="clWhite"/>
+            <HighlightStr Value=""/>
+          </Highlight>
+          <Alignment Value="taLeftJustify"/>
+          <Layout Value="tlTop"/>
+          <Angle Value="0"/>
+          <Justify Value="False"/>
+          <Cursor Value="0"/>
+        </Object42>
+        <ObjectCount Value="42"/>
       </Page1>
       <FVal>
         <Count Value="1"/>
