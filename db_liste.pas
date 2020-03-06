@@ -18,7 +18,6 @@ type
     Panel1: TPanel;
     Panel2: TPanel;
     procedure btnCloseClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
@@ -42,23 +41,6 @@ uses
 procedure TfrmListe.btnCloseClick(Sender: TObject);
 begin
   close;
-end;
-
-procedure TfrmListe.FormCreate(Sender: TObject);
-
-begin
-  //Position
-  if nDefDPI = Screen.PixelsPerInch
-    then
-      begin
-        Self.Position := poDesigned;
-        Self.Left     := WORKAREA.Left + (WORKAREA.Right div 2)  - (self.Width div 2);
-        Self.Top      := WORKAREA.Top  + (WORKAREA.Bottom div 2) - (self.Height div 2);
-      end
-    else
-      begin
-        Self.Position := poScreenCenter;
-      end;
 end;
 
 procedure TfrmListe.FormShow(Sender: TObject);

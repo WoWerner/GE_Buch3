@@ -6,10 +6,9 @@ object frmListe: TfrmListe
   Caption = 'Liste'
   ClientHeight = 500
   ClientWidth = 780
-  OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.0.1.3'
+  LCLVersion = '2.0.6.0'
   object Panel1: TPanel
     Left = 0
     Height = 42

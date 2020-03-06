@@ -365,19 +365,6 @@ begin
 
   WORKAREA := GETMaxWindowsSize; //Verfügbarer Platz
 
-  //Position
-  if nDefDPI = Screen.PixelsPerInch
-    then
-      begin
-        Self.Position := poDesigned;
-        Self.Left     := WORKAREA.Left + (WORKAREA.Right div 2)  - (self.Width div 2);
-        Self.Top      := WORKAREA.Top  + (WORKAREA.Bottom div 2) - (self.Height div 2);
-      end
-    else
-      begin
-        Self.Position := poScreenCenter;
-      end;
-
   //Releasenote anzeigen
   sRelease := help.ReadIniVal(sIniFile, 'Programm', 'Version', '0', true);
   if sProductVersionString <> sRelease

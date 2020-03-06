@@ -58,7 +58,6 @@ type
     procedure ediKontoEnter(Sender: TObject);
     procedure ediKontostandEnter(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
@@ -128,23 +127,6 @@ procedure TfrmBanken.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   btnAbbrechenClick(self);
   frmDM.ZQueryBanken.Close;
-end;
-
-procedure TfrmBanken.FormCreate(Sender: TObject);
-
-begin
-  //Position
-  if nDefDPI = Screen.PixelsPerInch
-    then
-      begin
-        Self.Position := poDesigned;
-        Self.Left     := WORKAREA.Left + (WORKAREA.Right div 2)  - (self.Width div 2);
-        Self.Top      := WORKAREA.Top  + (WORKAREA.Bottom div 2) - (self.Height div 2);
-      end
-    else
-      begin
-        Self.Position := poScreenCenter;
-      end;
 end;
 
 procedure TfrmBanken.FormShow(Sender: TObject);

@@ -16,7 +16,6 @@ uses
   sachkonten,
   global,
   vinfo,
-  uscaledpi,
   appsettings,
   einstellungen,
   personen,
@@ -36,6 +35,7 @@ uses
 
 begin
   RequireDerivedFormResource := True;
+  Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TfrmDM, frmDM);
@@ -50,7 +50,6 @@ begin
   Application.CreateForm(TfrmAusgabe, frmAusgabe);
   Application.CreateForm(TfrmPgmUpdate,frmPgmUpdate);
   Application.CreateForm(TfrmJournal_CSV_Import, frmJournal_CSV_Import);
-  HighDPI(nDefDPI);  //Scaliert alle Formulare bei anderen Schriftarten
   if ParamCount = 1 then sPW := ParamStr(1) else sPW := '';
   Application.Run;
 end.
