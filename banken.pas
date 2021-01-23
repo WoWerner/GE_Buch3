@@ -118,7 +118,6 @@ begin
             end;
         frmDM.ZQueryHelp.Close;
       end;
-  btnAendern.Enabled    := btnDelete.Enabled;
   ediKontostand.Enabled := false;
   ediBankNr.Enabled     := false;
 end;
