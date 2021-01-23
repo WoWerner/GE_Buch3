@@ -154,6 +154,7 @@ object frmDM: TfrmDM
   end
   object ZConnectionGE_Kart: TZConnection
     ControlsCodePage = cCP_UTF8
+    AutoEncodeStrings = True
     Properties.Strings = (
       'AutoEncodeStrings='
     )
@@ -171,6 +172,7 @@ object frmDM: TfrmDM
   end
   object ZConnectionBuch: TZConnection
     ControlsCodePage = cCP_UTF8
+    AutoEncodeStrings = True
     Properties.Strings = (
       'AutoEncodeStrings='
     )

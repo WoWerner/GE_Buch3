@@ -264,11 +264,13 @@ end;
 
 
 procedure TfrmDM.ZQueryJournalAfterScroll(DataSet: TDataSet);
+
 begin
   if frmJournal.Visible then frmJournal.AfterScroll;
 end;
 
 procedure TfrmDM.ZQuerySachkontenAfterScroll(DataSet: TDataSet);
+
 begin
   if frmSachkonten.Visible then frmSachkonten.AfterScroll;
 end;
@@ -279,29 +281,25 @@ var
   sMes: String;
 
 begin
-  if bSQLDebug
-    then
-      begin
-        sMes := '';
-        case Event.Category of
-          lcConnect:      sMes := sMes + 'Connect           ';
-          lcDisconnect:   sMes := sMes + 'Disconnect        ';
-          lcTransaction:  sMes := sMes + 'Transaction       ';
-          lcExecute:      sMes := sMes + 'Execute           ';
-          lcPrepStmt:     sMes := sMes + 'Prepare           ';
-          lcBindPrepStmt: sMes := sMes + 'Bind prepared     ';
-          lcExecPrepStmt: sMes := sMes + 'Execute prepared  ';
-          lcUnprepStmt:   sMes := sMes + 'Unprepare prepared';
-        else
-                          sMes := sMes + 'Other             ';
-        end;
+  sMes := '';
+  case Event.Category of
+    lcConnect:      sMes := sMes + 'Connect           ';
+    lcDisconnect:   sMes := sMes + 'Disconnect        ';
+    lcTransaction:  sMes := sMes + 'Transaction       ';
+    lcExecute:      sMes := sMes + 'Execute           ';
+    lcPrepStmt:     sMes := sMes + 'Prepare           ';
+    lcBindPrepStmt: sMes := sMes + 'Bind prepared     ';
+    lcExecPrepStmt: sMes := sMes + 'Execute prepared  ';
+    lcUnprepStmt:   sMes := sMes + 'Unprepare prepared';
+  else
+                    sMes := sMes + 'Other             ';
+  end;
 
-        sMes := sMes +' ' + Event.Message;
+  sMes := sMes +' ' + Event.Message;
 
-        if Event.Error <> '' then sMes := sMes +', Err: ' + Event.error;
+  if Event.Error <> '' then sMes := sMes +', Err: ' + Event.error;
 
-         myDebugLN(sMes);
-      end;
+   myDebugLN(sMes);
 end;
 
 
