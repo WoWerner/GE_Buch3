@@ -45,7 +45,6 @@ type
     labMyMail: TLabel;
     LabMyName: TLabel;
     labMyStreet: TLabel;
-    labMyTelNr: TLabel;
     labMyWeb: TLabel;
     labVersion: TLabel;
     labVersionNeu: TLabel;
@@ -362,8 +361,6 @@ begin
     HTTP.Free;
     slHelp.Clear;
   end;
-
-  WORKAREA := GETMaxWindowsSize; //Verfügbarer Platz
 
   //Releasenote anzeigen
   sRelease := help.ReadIniVal(sIniFile, 'Programm', 'Version', '0', true);
@@ -783,7 +780,6 @@ begin
   bSQLDebug                := not bSQLDebug;
   mnuSQLDebug.Checked      := bSQLDebug;
   frmDM.ZSQLMonitor.Active := bSQLDebug;
-  //frmDM.ZSQLMonitor.AutoSave:=bSQLDebug;     //deaktiviert, weil in ZeosLib  7.1.4 der Monitor nicht mehr funktioniert
   if bSQLDebug
     then help.WriteIniVal(sIniFile, 'Debug', 'SQLDebug', 'true')
     else help.WriteIniVal(sIniFile, 'Debug', 'SQLDebug', 'false');
@@ -1189,6 +1185,7 @@ begin
     begin
       try
         screen.Cursor:=crHourglass;
+        slSQL.Add('Update Personen set Abgang=0;');
         frmDM.ZConnectionGE_Kart.Database:=OpenDialog.FileName;
         frmDM.ZConnectionGE_Kart.Connect;
         frmDM.ZQueryGE_Kart_Personen.SQL.Text:='Select * from Personen order by PersonenID';
@@ -1413,8 +1410,8 @@ begin
                 'Sicherheitsfunktion: Zum Fortfahren "Wiederholen" drücken!', mtConfirmation, [mbYes, mbRetry, mbNo],0) = mrRetry
     then
       begin
-        ExecSQL('Update journal set PersonenID = 0 where PersonenID in (Select PersonenID from Personen where Abgang = 1)', frmDM.ZQueryHelp, false);
-        LogAndShow(inttostr(ExecSQL('Delete from Personen where Abgang = 1', frmDM.ZQueryHelp, false))+' Personen gelöscht');
+        ExecSQL('Update journal set PersonenID = 0 where PersonenID in (Select PersonenID from Personen where (Abgang = 1) or (Abgang = ''true'') or (Abgang = ''True'') or (Abgang = ''Y''))', frmDM.ZQueryHelp, false);
+        LogAndShow(inttostr(ExecSQL('Delete from Personen where (Abgang = 1) or (Abgang = ''true'') or (Abgang = ''True'') or (Abgang = ''Y'')', frmDM.ZQueryHelp, false))+' Personen gelöscht');
       end;
 end;
 
