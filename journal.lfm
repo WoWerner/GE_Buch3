@@ -611,16 +611,13 @@ object frmJournal: TfrmJournal
     end
     object labFilter: TLabel
       Left = 398
-      Height = 24
-      Top = 27
-      Width = 131
+      Height = 30
+      Top = 24
+      Width = 140
       Caption = 'Filter ist aktiv!'
-      Font.CharSet = ANSI_CHARSET
       Font.Color = clRed
       Font.Height = -21
-      Font.Name = 'Arial'
-      Font.Pitch = fpVariable
-      Font.Quality = fqDraft
+      Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
       Visible = False
@@ -683,16 +680,12 @@ object frmJournal: TfrmJournal
     end
     object labVZ: TLabel
       Left = 224
-      Height = 18
-      Top = 170
-      Width = 83
+      Height = 20
+      Top = 168
+      Width = 81
       Caption = 'Vorzeichen!'
-      Font.CharSet = ANSI_CHARSET
       Font.Color = clRed
       Font.Height = -15
-      Font.Name = 'Arial'
-      Font.Pitch = fpVariable
-      Font.Quality = fqDraft
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
@@ -708,15 +701,11 @@ object frmJournal: TfrmJournal
     end
     object labModus: TLabel
       Left = 360
-      Height = 22
+      Height = 25
       Top = 4
-      Width = 124
+      Width = 123
       Caption = 'Journalmodus:'
-      Font.CharSet = ANSI_CHARSET
       Font.Height = -19
-      Font.Name = 'Arial'
-      Font.Pitch = fpVariable
-      Font.Quality = fqDraft
       ParentColor = False
       ParentFont = False
     end
