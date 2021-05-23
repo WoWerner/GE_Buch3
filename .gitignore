@@ -23,6 +23,7 @@ Thumbs.db
 [Dd]ebug*/
 *.lib
 *.sbr
+debug.txt
 obj/
 [Rr]elease*/
 _ReSharper*/
@@ -32,3 +33,4 @@ _ReSharper*/
 packages/
 lib/*
 backup/*
+Sicherung/*
