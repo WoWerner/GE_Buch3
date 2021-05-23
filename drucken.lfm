@@ -8,9 +8,10 @@ object frmDrucken: TfrmDrucken
   ClientHeight = 339
   ClientWidth = 633
   OnClose = FormClose
+  OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.8.0.6'
+  LCLVersion = '2.0.12.0'
   object Shape3: TShape
     Left = 0
     Height = 75
@@ -213,25 +214,6 @@ object frmDrucken: TfrmDrucken
     OnSelectionChanged = rgFilterSelectionChanged
     TabOrder = 13
   end
-  object ediFilter: TLabeledEdit
-    Left = 216
-    Height = 23
-    Top = 269
-    Width = 200
-    EditLabel.AnchorSideLeft.Control = ediFilter
-    EditLabel.AnchorSideRight.Control = ediFilter
-    EditLabel.AnchorSideRight.Side = asrBottom
-    EditLabel.AnchorSideBottom.Control = ediFilter
-    EditLabel.Left = 216
-    EditLabel.Height = 15
-    EditLabel.Top = 251
-    EditLabel.Width = 200
-    EditLabel.Caption = 'Filter Nr. oder Text'
-    EditLabel.ParentColor = False
-    EditLabel.ParentFont = False
-    Enabled = False
-    TabOrder = 14
-  end
   object btnJournalKompaktFiltered: TButton
     Left = 216
     Height = 25
@@ -265,59 +247,13 @@ object frmDrucken: TfrmDrucken
     OnContextPopup = btnJournalSKdruckContextPopup
     TabOrder = 18
   end
-  object DateTimePickerBis: TDateTimePicker
-    Left = 337
-    Height = 23
-    Top = 305
-    Width = 79
-    CenturyFrom = 1941
-    MaxDate = 2958465
-    MinDate = -53780
-    TabOrder = 20
-    Enabled = False
-    TrailingSeparator = False
-    TextForNullDate = 'NULL'
-    LeadingZeros = True
-    Kind = dtkDate
-    TimeFormat = tf24
-    TimeDisplay = tdHMS
-    DateMode = dmComboBox
-    Date = 1.7E308
-    Time = 1.7E308
-    UseDefaultSeparators = True
-    HideDateTimeParts = []
-    MonthNames = 'Long'
-  end
   object cbDatum: TCheckBox
     Left = 216
     Height = 19
     Top = 307
     Width = 20
     OnChange = cbDatumChange
-    TabOrder = 21
-  end
-  object DateTimePickerVon: TDateTimePicker
-    Left = 235
-    Height = 23
-    Top = 305
-    Width = 79
-    CenturyFrom = 1941
-    MaxDate = 2958465
-    MinDate = -53780
     TabOrder = 19
-    Enabled = False
-    TrailingSeparator = False
-    TextForNullDate = 'NULL'
-    LeadingZeros = True
-    Kind = dtkDate
-    TimeFormat = tf24
-    TimeDisplay = tdHMS
-    DateMode = dmComboBox
-    Date = 1.7E308
-    Time = 1.7E308
-    UseDefaultSeparators = True
-    HideDateTimeParts = []
-    MonthNames = 'Long'
   end
   object Label2: TLabel
     Left = 317
@@ -336,6 +272,64 @@ object frmDrucken: TfrmDrucken
     Pen.Color = clSilver
     Visible = False
   end
+  object ediFilter: TLabeledEdit
+    Left = 216
+    Height = 23
+    Top = 274
+    Width = 200
+    EditLabel.Height = 15
+    EditLabel.Width = 200
+    EditLabel.Caption = 'Nr. oder Text'
+    EditLabel.ParentColor = False
+    Enabled = False
+    TabOrder = 14
+  end
+  object DateTimePickerVon: TDateTimePicker
+    Left = 232
+    Height = 23
+    Top = 306
+    Width = 79
+    CenturyFrom = 1941
+    MaxDate = 2958465
+    MinDate = 36526
+    TabOrder = 20
+    Enabled = False
+    TrailingSeparator = False
+    TextForNullDate = 'NULL'
+    LeadingZeros = True
+    Kind = dtkDate
+    TimeFormat = tf24
+    TimeDisplay = tdHMS
+    DateMode = dmComboBox
+    Date = 44339
+    Time = 0.403961793977942
+    UseDefaultSeparators = True
+    HideDateTimeParts = []
+    MonthNames = 'Long'
+  end
+  object DateTimePickerBis: TDateTimePicker
+    Left = 337
+    Height = 23
+    Top = 306
+    Width = 79
+    CenturyFrom = 1941
+    MaxDate = 2958465
+    MinDate = 36526
+    TabOrder = 21
+    Enabled = False
+    TrailingSeparator = False
+    TextForNullDate = 'NULL'
+    LeadingZeros = True
+    Kind = dtkDate
+    TimeFormat = tf24
+    TimeDisplay = tdHMS
+    DateMode = dmComboBox
+    Date = 44339
+    Time = 0.401846296299482
+    UseDefaultSeparators = True
+    HideDateTimeParts = []
+    MonthNames = 'Long'
+  end
   object frReport: TfrReport
     DefaultCopies = 0
     InitialZoom = pzOnePage
@@ -348,42 +342,42 @@ object frmDrucken: TfrmDrucken
     OnGetValue = frReportGetValue
     OnEnterRect = frReportEnterRect
     OnPrintColumn = frReportPrintColumn
-    left = 432
-    top = 152
+    Left = 432
+    Top = 152
   end
   object frDBDataSet: TfrDBDataSet
     DataSet = frmDM.ZQueryDrucken
     DataSource = frmDM.dsDrucken
-    left = 432
-    top = 256
+    Left = 432
+    Top = 256
   end
   object frDesigner: TfrDesigner
-    left = 408
-    top = 200
+    Left = 408
+    Top = 200
   end
   object frDBDataSetDetail: TfrDBDataSet
     DataSet = frmDM.ZQueryDruckenDetail
     DataSource = frmDM.dsDruckenDetail
-    left = 496
-    top = 256
+    Left = 496
+    Top = 256
   end
   object frHTMExport: TfrHTMExport
-    left = 528
-    top = 200
+    Left = 528
+    Top = 200
   end
   object frCSVExport: TfrCSVExport
-    left = 464
-    top = 200
+    Left = 464
+    Top = 200
   end
   object frTextExport: TfrTextExport
     ShowExportParamsDlg = False
-    left = 592
-    top = 200
+    Left = 592
+    Top = 200
   end
   object frDBDataSetDetail1: TfrDBDataSet
     DataSet = frmDM.ZQueryDruckenDetail1
     DataSource = frmDM.dsDruckenDetail1
-    left = 584
-    top = 256
+    Left = 584
+    Top = 256
   end
 end

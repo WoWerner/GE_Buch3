@@ -122,6 +122,7 @@ type
     procedure btnSummenlisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure cbDatumChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure frReportBeginBand(Band: TfrBand);
     procedure frReportBeginDoc;
@@ -1367,6 +1368,17 @@ begin
   if frmDM.ZQueryDrucken.Active        then frmDM.ZQueryDrucken.Close;
 end;
 
+procedure TfrmDrucken.FormCreate(Sender: TObject);
+
+var
+  jahr_, monat_, tag_: word;
+
+begin
+  DecodeDate(now(), jahr_, monat_, tag_);
+  DateTimePickerVon.Date := EncodeDate(jahr_, 1, 1);
+  DateTimePickerBis.Date := EncodeDate(jahr_, 12, 31);
+end;
+
 
 procedure TfrmDrucken.FormShow(Sender: TObject);
 begin
@@ -1399,6 +1411,7 @@ procedure TfrmDrucken.frReportBeginDoc;
 
 var
   BandView: TfrBandView;
+  MemoView: TfrMemoView;
 
 begin
   case Druckmode of
@@ -1411,6 +1424,21 @@ begin
         BandView.DataSet := inttostr(FRowPart1);       // Anzahl Reihen definieren
         BandView := frReport.FindObject('CrossData1') as TfrBandView;
         BandView.DataSet := '2';                       // 2 Datenspalten
+      end;
+    Zuwendung:
+      begin
+        MemoView := frReport.FindObject('memTitel') as TfrMemoView;
+        MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'Titel', 'Sammelbestätigung über Geldzuwendungen', true);
+        MemoView := frReport.FindObject('memSubTitel') as TfrMemoView;
+        MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'SubTitel', 'im Sinne des § 10b des Einkommensteuergesetzes an inländische juristische Personen des öffentlichen Rechts oder inländische öffentliche Dienststellen:', true);
+        MemoView := frReport.FindObject('memFoerderung') as TfrMemoView;
+        MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'Foerderung', 'Es wird bestätigt, dass die Zuwendung nur zur Förderung kirchlicher Zwecke verwendet wird.', true);
+        MemoView := frReport.FindObject('memEigene') as TfrMemoView;
+        MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'Eigene', 'von uns unmittelbar für den angegebenen Zweck verwendet. (Empfänger = [Empfaenger])' , true);
+        MemoView := frReport.FindObject('memEigeneFinanzamt') as TfrMemoView;
+        MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'EigeneFinanzamt', 'Finanzamt [Finanzamt] vom [FinanzamtVom], StNr.: [FinanzamtNr]', true);
+        MemoView := frReport.FindObject('memWeiter') as TfrMemoView;
+        MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'Weitergeleitete', 'entsprechend den Angaben des Zuwendenden an [Empfaenger] weitergeleitet, die/der vom Finanzamt "[Finanzamt]", StNr. "[FinanzamtNr]" mit Freistellungsbescheid bzw. nach der Anlage zum Körperschaftsteuerbescheid vom "[FinanzamtVom]" von der Körperschaftssteuer und Gewerbesteuer befreit ist.', true);
       end;
   end;
 end;
@@ -1553,7 +1581,11 @@ begin
             s := ZahlInString(i div 100)+' EURO';
             if (i mod 100) <> 0 then s := s + ' und '+ZahlInString(i mod 100)+' CENT';
             ParValue := s;
-          end;
+          end
+        else if ParName = 'Empfaenger'   then ParValue := frmDM.ZQueryDruckenDetail1.FieldByName('Empfaenger').AsString
+        else if ParName = 'Finanzamt'    then ParValue := frmDM.ZQueryDruckenDetail1.FieldByName('Finanzamt').AsString
+        else if ParName = 'FinanzamtVom' then ParValue := frmDM.ZQueryDruckenDetail1.FieldByName('FinanzamtVom').AsString
+        else if ParName = 'FinanzamtNr'  then ParValue := frmDM.ZQueryDruckenDetail1.FieldByName('FinanzamtNr').AsString;
       end;
   end;
   //s := ParValue;

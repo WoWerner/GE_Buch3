@@ -7,7 +7,7 @@
     <KeyWords Value=""/>
     <Comments Value=""/>
     <ReportCreateDate Value="2014-03-16 20:56:49"/>
-    <ReportLastChange Value="2020-02-25 21:31:18"/>
+    <ReportLastChange Value="2021-05-23 10:09:48"/>
     <ReportVersionBuild Value=""/>
     <ReportVersionMajor Value=""/>
     <ReportVersionMinor Value=""/>
@@ -81,7 +81,7 @@
           </Size>
           <Flags Value="48"/>
           <Data>
-            <Script Value="if ([frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] = '') or ([frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] = [FinanzamtNr]) then&#xD;&#xA;  begin&#xD;&#xA;    MemEig.visible:=true;&#xD;&#xA;    memo10.visible:=false;&#xD;&#xA;    memEigFin.visible:=[frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] &lt;&gt; '';&#xD;&#xA;  end&#xD;&#xA;else&#xD;&#xA;  begin&#xD;&#xA;    MemEig.visible:=false;&#xD;&#xA;    memo10.visible:=true; &#xD;&#xA;    memEigFin.visible:=false;&#xD;&#xA;  end;&#xD;&#xA;"/>
+            <Script Value="if ([frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] = '') or ([frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] = [FinanzamtNr]) then&#xD;&#xA;  begin&#xD;&#xA;    memEigene.visible:=true;&#xD;&#xA;    memWeiter.visible:=false;&#xD;&#xA;    memEigeneFinanzamt.visible:=[frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] &lt;&gt; '';&#xD;&#xA;  end&#xD;&#xA;else&#xD;&#xA;  begin&#xD;&#xA;    memEigene.visible:=false;&#xD;&#xA;    memWeiter.visible:=true; &#xD;&#xA;    memEigeneFinanzamt.visible:=false;&#xD;&#xA;  end;&#xD;&#xA;"/>
             <GapX Value="0"/>
             <GapY Value="0"/>
           </Data>
@@ -320,7 +320,7 @@
           <Cursor Value="0"/>
         </Object9>
         <Object10>
-          <Name Value="Memo8"/>
+          <Name Value="memTitel"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
           <Typ Value="gtMemo"/>
@@ -328,7 +328,7 @@
           <Size>
             <Left Value="72"/>
             <Top Value="111"/>
-            <Width Value="348"/>
+            <Width Value="452"/>
             <Height Value="18"/>
           </Size>
           <Flags Value="3"/>
@@ -376,7 +376,7 @@
           <Cursor Value="0"/>
         </Object10>
         <Object11>
-          <Name Value="Memo9"/>
+          <Name Value="memSubTitel"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
           <Typ Value="gtMemo"/>
@@ -768,7 +768,7 @@
           <Cursor Value="0"/>
         </Object17>
         <Object18>
-          <Name Value="Memo27"/>
+          <Name Value="memFoerderung"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
           <Typ Value="gtMemo"/>
@@ -936,7 +936,7 @@
           <Cursor Value="0"/>
         </Object20>
         <Object21>
-          <Name Value="Memo10"/>
+          <Name Value="memWeiter"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
           <Typ Value="gtMemo"/>
@@ -1440,7 +1440,7 @@
           <Cursor Value="0"/>
         </Object29>
         <Object30>
-          <Name Value="MemEig"/>
+          <Name Value="memEigene"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
           <Typ Value="gtMemo"/>
@@ -2082,7 +2082,7 @@
           </Data>
         </Object41>
         <Object42>
-          <Name Value="memEigFin"/>
+          <Name Value="memEigeneFinanzamt"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
           <Typ Value="gtMemo"/>
