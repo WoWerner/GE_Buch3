@@ -167,6 +167,7 @@ uses
   drucken,
   einstellungen,
   httpsend,
+  ssl_openssl,
   personen,
   ausgabe,
   PgmUpdate,
@@ -287,7 +288,7 @@ begin
   //Prüfung auf neue Version
   HTTP := THTTPSend.Create;
   try                                                                 //ab hier Spionage
-    if not HTTP.HTTPMethod('GET', 'www.w-werner.de/GE_BUCH/version.txt?V'+sProductVersionString+'_PC_'+replacechar(GetComputerName, ' ', '_')+'_USER_'+replacechar(GetUserName, ' ', '_'))
+    if not HTTP.HTTPMethod('GET', 'https://'+sHomePage+'/GE_BUCH/version.txt?V'+sProductVersionString+'_PC_'+replacechar(GetComputerName, ' ', '_')+'_USER_'+replacechar(GetUserName, ' ', '_'))
       then
         begin
 	  myDebugLN('ERROR HTTPGET, Resultcode: '+inttostr(Http.Resultcode)+' '+Http.Resultstring);
@@ -341,7 +342,7 @@ begin
 
   HTTP := THTTPSend.Create;
   try
-    if HTTP.HTTPMethod('GET', 'www.w-werner.de/GE_BUCH/aktuelles.txt')
+    if HTTP.HTTPMethod('GET', 'https://'+sHomePage+'www.w-werner.de/GE_BUCH/aktuelles.txt')
       then
         begin
           slHelp.loadfromstream(Http.Document);
@@ -507,13 +508,13 @@ end;
 
 procedure TfrmMain.labMyWebClick(Sender: TObject);
 begin
-  Openurl(sHomePage+'/GE_Buch.html');
+  Openurl('https://'+sHomePage+'/GE_Buch.html');
 end;
 
 procedure TfrmMain.labVersionNeuClick(Sender: TObject);
 
 begin
-  frmPgmUpdate.URL      := sHomePage+'/GE_BUCH/v'+sNewVers+'.zip';
+  frmPgmUpdate.URL      := 'https://'+sHomePage+'/GE_BUCH/v'+sNewVers+'.zip';
   frmPgmUpdate.FileName := sAppDir+'v'+sNewVers+'.zip';
   frmPgmUpdate.showmodal;
 end;
