@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CONFIG>
   <LazReport>
-    <Version Value="29"/>
+    <Version Value="31"/>
     <Title Value=""/>
     <Subject Value=""/>
     <KeyWords Value=""/>
     <Comments Value=""/>
     <ReportCreateDate Value="2017-02-06 19:10:09"/>
-    <ReportLastChange Value="2017-02-17 21:54:23"/>
+    <ReportLastChange Value="2021-06-13 21:23:43"/>
     <ReportVersionBuild Value=""/>
     <ReportVersionMajor Value=""/>
     <ReportVersionMinor Value=""/>
@@ -17,7 +17,7 @@
     <Pages>
       <PrintToDefault Value="False"/>
       <DoublePass Value="True"/>
-      <SelectedPrinter Value="Lexmark E350d XL"/>
+      <SelectedPrinter Value="Samsung M2070 Series"/>
       <PageCount Value="1"/>
       <Page1>
         <Name Value="Page1"/>
@@ -81,7 +81,7 @@
           </Size>
           <Flags Value="48"/>
           <Data>
-            <Script Value="if [frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] = [FinanzamtNr]  then&#xD;&#xA;  begin&#xD;&#xA;    memo3.visible:=true;&#xD;&#xA;    memo10.visible:=false;&#xD;&#xA;  end&#xD;&#xA;else&#xD;&#xA;  begin&#xD;&#xA;    memo3.visible:=false;&#xD;&#xA;    memo10.visible:=true;&#xD;&#xA;  end;&#xD;&#xA;"/>
+            <Script Value="if ([frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] = '') or ([frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] = [FinanzamtNr]) then&#xD;&#xA;  begin&#xD;&#xA;    memEigene.visible:=true;&#xD;&#xA;    memWeiter.visible:=false;&#xD;&#xA;    memEigeneFinanzamt.visible:=[frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] &lt;&gt; '';&#xD;&#xA;  end&#xD;&#xA;else&#xD;&#xA;  begin&#xD;&#xA;    memEigene.visible:=false;&#xD;&#xA;    memWeiter.visible:=true; &#xD;&#xA;    memEigeneFinanzamt.visible:=false;&#xD;&#xA;  end;&#xD;&#xA;"/>
             <GapX Value="0"/>
             <GapY Value="0"/>
           </Data>
@@ -636,7 +636,7 @@
           <Cursor Value="0"/>
         </Object15>
         <Object16>
-          <Name Value="Memo12"/>
+          <Name Value="memTitel"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
           <Typ Value="gtMemo"/>
@@ -692,7 +692,7 @@
           <Cursor Value="0"/>
         </Object16>
         <Object17>
-          <Name Value="Memo2"/>
+          <Name Value="memSubTitel"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
           <Typ Value="gtMemo"/>
@@ -1140,7 +1140,7 @@
           <Cursor Value="0"/>
         </Object24>
         <Object25>
-          <Name Value="Memo18"/>
+          <Name Value="memFoerderung"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
           <Typ Value="gtMemo"/>
@@ -2230,7 +2230,7 @@
           <Cursor Value="0"/>
         </Object44>
         <Object45>
-          <Name Value="Memo10"/>
+          <Name Value="memWeiter"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
           <Typ Value="gtMemo"/>
@@ -2286,7 +2286,7 @@
           <Cursor Value="0"/>
         </Object45>
         <Object46>
-          <Name Value="Memo3"/>
+          <Name Value="memEigene"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
           <Typ Value="gtMemo"/>
@@ -2295,7 +2295,7 @@
             <Left Value="108"/>
             <Top Value="588"/>
             <Width Value="618"/>
-            <Height Value="64"/>
+            <Height Value="32"/>
           </Size>
           <Flags Value="2"/>
           <FillColor Value="clNone"/>
@@ -2309,7 +2309,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="von uns unmittelbar für den angegebenen Zweck verwendet. (Empfänger = [frmDM.ZQueryDruckenDetail1.&quot;Empfaenger&quot;])&#xD;&#xA;Finanzamt [frmDM.ZQueryDruckenDetail1.&quot;Finanzamt&quot;] vom [frmDM.ZQueryDruckenDetail1.&quot;FinanzamtVom&quot;], StNr.: [frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;]&#xD;&#xA;"/>
+            <Memo Value="von uns unmittelbar für den angegebenen Zweck verwendet. (Empfänger = [frmDM.ZQueryDruckenDetail1.&quot;Empfaenger&quot;])&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -2341,7 +2341,63 @@
           <Justify Value="False"/>
           <Cursor Value="0"/>
         </Object46>
-        <ObjectCount Value="46"/>
+        <Object47>
+          <Name Value="memEigeneFinanzamt"/>
+          <ClassName Value="TfrMemoView"/>
+          <Visible Value="True"/>
+          <Typ Value="gtMemo"/>
+          <StreamMode Value="0"/>
+          <Size>
+            <Left Value="107"/>
+            <Top Value="622"/>
+            <Width Value="618"/>
+            <Height Value="32"/>
+          </Size>
+          <Flags Value="2"/>
+          <FillColor Value="clNone"/>
+          <Frames>
+            <FrameColor Value="clBlack"/>
+            <FrameStyle Value="frsSolid"/>
+            <FrameWidth Value="1"/>
+            <FrameBorders Value=""/>
+            <Restrictions Value=""/>
+          </Frames>
+          <Data>
+            <Format Value="556"/>
+            <FormatStr Value=""/>
+            <Memo Value="Finanzamt [Finanzamt] vom [FinanzamtVom], StNr.: [FinanzamtNr]&#xD;&#xA;"/>
+            <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
+            <OnClick Value=""/>
+            <OnMouseEnter Value=""/>
+            <OnMouseLeave Value=""/>
+            <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
+          </Data>
+          <Tag Value=""/>
+          <FURLInfo Value=""/>
+          <Font>
+            <Name Value="Arial"/>
+            <Size Value="10"/>
+            <Color Value="clBlack"/>
+            <Charset Value="0"/>
+            <Style Value=""/>
+          </Font>
+          <Highlight>
+            <FontStyle Value="2"/>
+            <FontColor Value="clBlack"/>
+            <FillColor Value="clWhite"/>
+            <HighlightStr Value=""/>
+          </Highlight>
+          <Alignment Value="taLeftJustify"/>
+          <Layout Value="tlTop"/>
+          <Angle Value="0"/>
+          <Justify Value="False"/>
+          <Cursor Value="0"/>
+        </Object47>
+        <ObjectCount Value="47"/>
       </Page1>
       <FVal>
         <Count Value="1"/>
