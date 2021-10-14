@@ -1532,6 +1532,9 @@ begin
   ImpCol5Width := help.ReadIniInt(sIniFile, 'Journal', 'ImpCol5Width', 230);
   ImpCol6Width := help.ReadIniInt(sIniFile, 'Journal', 'ImpCol6Width', 230);
 
+  if (Winleft < VirtualScreenSize.Left) or (Winleft > (VirtualScreenSize.Left + VirtualScreenSize.Right)) then Winleft := 0;
+  if (WinTop < VirtualScreenSize.Top) or (WinTop > (VirtualScreenSize.Top + VirtualScreenSize.Bottom)) then WinTop := 0;
+
   self.Left    := Winleft;
   self.Top     := WinTop;
   self.Width   := WinWidth;

@@ -282,6 +282,11 @@ begin
   myDebugLN('sSavePath: '+sSavePath);
   myDebugLN('sDatabase: '+sDatabase);
 
+  WorkArea          := GetWorkArea;
+  MaxWindowsSize    := GetMaxWindowsSize;
+  GetMonitorCount;
+  VirtualScreenSize := GetVirtualScreenSize;
+
   //Dialoge übersetzen
   TranslateUnitResourceStrings('LCLStrConsts','lclstrconsts.%s.po','de','en');
 

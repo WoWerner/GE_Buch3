@@ -71,7 +71,9 @@ var
   bSQLDebug            : boolean;
   bJournalJump         : boolean;
   bJournalLast         : boolean;
-  WORKAREA             : TRect;
+  WorkArea             : TRect;
+  MaxWindowsSize       : TRect;
+  VirtualScreenSize    : TRect;
 
 implementation
 

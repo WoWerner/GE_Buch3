@@ -1,7 +1,7 @@
 object frmSachkonten: TfrmSachkonten
-  Left = 267
+  Left = 268
   Height = 500
-  Top = 168
+  Top = 189
   Width = 780
   Caption = 'Sachkonten'
   ClientHeight = 500
@@ -11,7 +11,7 @@ object frmSachkonten: TfrmSachkonten
   OnClose = FormClose
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '2.0.12.0'
   object DBGridSachkontenliste: TDBGrid
     Left = 0
     Height = 368

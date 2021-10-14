@@ -166,6 +166,9 @@ begin
   WinWidth   := help.ReadIniInt(sIniFile, 'Personen', 'WinWidth', self.Width);
   WinHeight  := help.ReadIniInt(sIniFile, 'Personen', 'WinHeight',self.Height);
 
+  if (Winleft < VirtualScreenSize.Left) or (Winleft > (VirtualScreenSize.Left + VirtualScreenSize.Right)) then Winleft := 0;
+  if (WinTop < VirtualScreenSize.Top) or (WinTop > (VirtualScreenSize.Top + VirtualScreenSize.Bottom)) then WinTop := 0;
+
   self.Left  := Winleft;
   self.Top   := WinTop;
   self.Width := WinWidth;
