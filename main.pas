@@ -18,7 +18,8 @@ uses
   appsettings,
   LCLIntf,      //Openurl
   Menus,
-  ExtCtrls;
+  ExtCtrls,
+  ComCtrls;
 
 type
 
@@ -38,6 +39,7 @@ type
     Label3: TLabel;
     labDatensicherung: TLabel;
     labBJahr: TLabel;
+    labProgress: TLabel;
     LabGemeinde1: TLabel;
     LabGemeinde2: TLabel;
     LabRendant1: TLabel;
@@ -93,6 +95,7 @@ type
     mnuJahresabschluss: TMenuItem;
     mnuEinstellungenMain: TMenuItem;
     OpenDialog: TOpenDialog;
+    ProgressBar: TProgressBar;
     SaveDialog: TSaveDialog;
     procedure btnAktuellesClick(Sender: TObject);
     procedure btnBankkontenClick(Sender: TObject);
@@ -1162,6 +1165,7 @@ procedure TfrmMain.mnuAbgleichClick(Sender: TObject);
 var
   i,
   checked,
+  progress,
   up,
   down,
   insert : integer;
@@ -1180,6 +1184,7 @@ begin
   down        := 0;
   insert      := 0;
   checked     := 0;
+  progress    := 0;
   slSQL.Text  := '';
 
 
@@ -1191,13 +1196,14 @@ begin
     begin
       try
         screen.Cursor:=crHourglass;
-        slSQL.Add('Update Personen set Abgang=0;');
+        slSQL.Add('Update Personen set Abgang="False";');
+
         frmDM.ZConnectionGE_Kart.Database:=OpenDialog.FileName;
         frmDM.ZConnectionGE_Kart.Connect;
         frmDM.ZQueryGE_Kart_Personen.SQL.Text:='Select * from Personen order by PersonenID';
         frmDM.ZQueryGE_Kart_Personen.Open;
 
-        frmDM.ZQueryPersonen.SQL.Text:=frmDM.ZQueryGE_Kart_Personen.SQL.Text;
+        frmDM.ZQueryPersonen.SQL.Text:='Select * from Personen order by GE_KartID';
         frmDM.ZQueryPersonen.Open;
 
         //Der eigentliche Abgleich
@@ -1206,13 +1212,24 @@ begin
         //  - bei nur hier vorhandener Person Feld Abgang setzten
 
         frmDM.ZQueryGE_Kart_Personen.First;
+        ProgressBar.Max := frmDM.ZQueryGE_Kart_Personen.RecordCount;
+        ProgressBar.Visible := true;
+        labProgress.Visible := true;
+        labProgress.Caption := 'Schritt 1/3: Check 1';
+        //Schleife durch GE_Kart Tabelle
         while not frmDM.ZQueryGE_Kart_Personen.EOF do
           begin
-            frmDM.ZQueryPersonen.First;
-            while ((not frmDM.ZQueryPersonen.EOF) and (frmDM.ZQueryPersonen.FieldByName('GE_KartID').AsInteger <> frmDM.ZQueryGE_Kart_Personen.FieldByName('PersonenID').AsInteger))
+            if (frmDM.ZQueryPersonen.FieldByName('GE_KartID').AsInteger > frmDM.ZQueryGE_Kart_Personen.FieldByName('PersonenID').AsInteger)
+              then frmDM.ZQueryPersonen.First;
+            while ((not frmDM.ZQueryPersonen.EOF) and
+                   (frmDM.ZQueryPersonen.FieldByName('GE_KartID').AsInteger <> frmDM.ZQueryGE_Kart_Personen.FieldByName('PersonenID').AsInteger) and
+                   (frmDM.ZQueryPersonen.FieldByName('GE_KartID').AsInteger <  frmDM.ZQueryGE_Kart_Personen.FieldByName('PersonenID').AsInteger))
               do frmDM.ZQueryPersonen.Next;
             inc(checked);
-            //myDebugLN('Prüfe GE_KartID: '+frmDM.ZQueryGE_Kart_Personen.FieldByName('PersonenID').AsString);
+            inc(progress);
+            ProgressBar.Position := progress;
+            Application.ProcessMessages;
+            myDebugStart('Prüfe GE_KartID: '+frmDM.ZQueryGE_Kart_Personen.FieldByName('PersonenID').AsString);
             if frmDM.ZQueryPersonen.FieldByName('GE_KartID').AsInteger = frmDM.ZQueryGE_Kart_Personen.FieldByName('PersonenID').AsInteger
               then
                 begin
@@ -1228,90 +1245,133 @@ begin
                           begin
                            if frmDM.ZQueryGE_Kart_Personen.FieldByName(sCheckFeld).DataType = ftDate
                              then sData := SQLiteDateFormat(frmDM.ZQueryGE_Kart_Personen.FieldByName(sCheckFeld).AsDateTime)
-                             else sData := '"'+frmDM.ZQueryGE_Kart_Personen.FieldByName(sCheckFeld).AsString+'"';
+                             else sData := '"'+SQL_QuotedStr(frmDM.ZQueryGE_Kart_Personen.FieldByName(sCheckFeld).AsString)+'"';
+
                             if not delta
-                              then
-                                begin
-                                  sSQL := 'update personen set '+sCheckFeld+'='+sData;
-                                end
-                              else
-                                begin
-                                  sSQL := sSQL + ', '+sCheckFeld+'='+sData;
-                                end;
+                              then sSQL := 'Update personen set '+sCheckFeld+'='+sData
+                              else sSQL := sSQL + ', '+sCheckFeld+'='+sData;
+
                             delta := true
                           end;
                     end;
-                  if delta then
-                    begin
-                      myDebugLN('Update GE_KartID: '+frmDM.ZQueryGE_Kart_Personen.FieldByName('PersonenID').AsString);
-                      sSQL := sSQL + ' where GE_KartID='+frmDM.ZQueryGE_Kart_Personen.FieldByName('PersonenID').AsString+';';
-                      slSQL.Add(sSQL);
-                      inc(up);
-                    end;
+                  if delta
+                    then
+                      begin
+                        sSQL := sSQL + ' where GE_KartID='+frmDM.ZQueryGE_Kart_Personen.FieldByName('PersonenID').AsString+';';
+                        myDebugFinish(sSQL);
+                        slSQL.Add(sSQL);
+                        inc(up);
+                      end
+                    else myDebugFinish('Kein Unterschied gefunden');
                 end
               else
                 begin
-                  myDebugLN('Insert GE_KartID: '+frmDM.ZQueryGE_Kart_Personen.FieldByName('PersonenID').AsString);
-                  slSQL.Add(Format(sInsertPersonen, [
-                  frmDM.ZQueryGE_Kart_Personen.FieldByName('PersonenID').AsInteger, //Geht nach GE_KartID, PersonenID wird automatisch vergeben
-                  frmDM.ZQueryGE_Kart_Personen.FieldByName('BriefAnrede').AsString,
-                  frmDM.ZQueryGE_Kart_Personen.FieldByName('Titel').AsString,
-                  frmDM.ZQueryGE_Kart_Personen.FieldByName('Vorname').AsString,
-                  frmDM.ZQueryGE_Kart_Personen.FieldByName('Vorname2').AsString,
-                  frmDM.ZQueryGE_Kart_Personen.FieldByName('Nachname').AsString,
-                  frmDM.ZQueryGE_Kart_Personen.FieldByName('Strasse').AsString,
-                  frmDM.ZQueryGE_Kart_Personen.FieldByName('Land').AsString,
-                  frmDM.ZQueryGE_Kart_Personen.FieldByName('PLZ').AsString,
-                  frmDM.ZQueryGE_Kart_Personen.FieldByName('Ort').AsString,
-                  frmDM.ZQueryGE_Kart_Personen.FieldByName('Ortsteil').AsString,
-                  frmDM.ZQueryGE_Kart_Personen.FieldByName('TelPrivat').AsString,
-                  frmDM.ZQueryGE_Kart_Personen.FieldByName('TelDienst').AsString,
-                  frmDM.ZQueryGE_Kart_Personen.FieldByName('TelMobil').AsString,
-                  frmDM.ZQueryGE_Kart_Personen.FieldByName('eMail').AsString,
-                  SQLiteDateFormat(frmDM.ZQueryGE_Kart_Personen.FieldByName('Geburtstag').AsDateTime),
-                  frmDM.ZQueryGE_Kart_Personen.FieldByName('Abgang').AsString]));
-                  inc(insert);
+                  if frmDM.ZQueryGE_Kart_Personen.FieldByName('Abgang').AsString = 'True'
+                    then myDebugFinish('Abgang in GE_Kart gesetzt. Wird nicht übernommen')
+                    else
+                      begin
+                        sSQL := Format(sInsertPersonen, [
+                                             frmDM.ZQueryGE_Kart_Personen.FieldByName('PersonenID').AsInteger, //Geht nach GE_KartID, PersonenID wird automatisch vergeben
+                            SQL_QuotedStr(   frmDM.ZQueryGE_Kart_Personen.FieldByName('BriefAnrede').AsString),
+                            SQL_QuotedStr(   frmDM.ZQueryGE_Kart_Personen.FieldByName('Titel').AsString),
+                            SQL_QuotedStr(   frmDM.ZQueryGE_Kart_Personen.FieldByName('Vorname').AsString),
+                            SQL_QuotedStr(   frmDM.ZQueryGE_Kart_Personen.FieldByName('Vorname2').AsString),
+                            SQL_QuotedStr(   frmDM.ZQueryGE_Kart_Personen.FieldByName('Nachname').AsString),
+                            SQL_QuotedStr(   frmDM.ZQueryGE_Kart_Personen.FieldByName('Strasse').AsString),
+                            SQL_QuotedStr(   frmDM.ZQueryGE_Kart_Personen.FieldByName('Land').AsString),
+                                             frmDM.ZQueryGE_Kart_Personen.FieldByName('PLZ').AsString,
+                            SQL_QuotedStr(   frmDM.ZQueryGE_Kart_Personen.FieldByName('Ort').AsString),
+                            SQL_QuotedStr(   frmDM.ZQueryGE_Kart_Personen.FieldByName('Ortsteil').AsString),
+                            SQL_QuotedStr(   frmDM.ZQueryGE_Kart_Personen.FieldByName('TelPrivat').AsString),
+                            SQL_QuotedStr(   frmDM.ZQueryGE_Kart_Personen.FieldByName('TelDienst').AsString),
+                            SQL_QuotedStr(   frmDM.ZQueryGE_Kart_Personen.FieldByName('TelMobil').AsString),
+                            SQL_QuotedStr(   frmDM.ZQueryGE_Kart_Personen.FieldByName('eMail').AsString),
+                            SQLiteDateFormat(frmDM.ZQueryGE_Kart_Personen.FieldByName('Geburtstag').AsDateTime),
+                                             frmDM.ZQueryGE_Kart_Personen.FieldByName('Abgang').AsString]);
+                        myDebugFinish(sSQL);
+                        slSQL.Add(sSQL);
+                        inc(insert);
+                      end;
                 end;
             frmDM.ZQueryGE_Kart_Personen.Next;
           end;
-        //Gegencheck, welche Person gibt es nur hier
+
+        //Gegencheck, welche Person gibt es nur hier -- Abgang setzen
+        ProgressBar.Max := frmDM.ZQueryPersonen.RecordCount;
+        progress := 0;
+        labProgress.Caption := 'Schritt 2/3: Check 2';
         frmDM.ZQueryPersonen.First;
+        frmDM.ZQueryGE_Kart_Personen.First;
         while not frmDM.ZQueryPersonen.EOF do
           begin
-            frmDM.ZQueryGE_Kart_Personen.First;
-            while ((not frmDM.ZQueryGE_Kart_Personen.EOF) and (frmDM.ZQueryPersonen.FieldByName('GE_KartID').AsInteger <> frmDM.ZQueryGE_Kart_Personen.FieldByName('PersonenID').AsInteger))
+            inc(progress);
+            ProgressBar.Position := progress;
+            Application.ProcessMessages;
+
+            if (frmDM.ZQueryPersonen.FieldByName('GE_KartID').AsInteger < frmDM.ZQueryGE_Kart_Personen.FieldByName('PersonenID').AsInteger)
+              then frmDM.ZQueryGE_Kart_Personen.First;
+            while ((not frmDM.ZQueryGE_Kart_Personen.EOF) and
+                   (frmDM.ZQueryPersonen.FieldByName('GE_KartID').AsInteger <> frmDM.ZQueryGE_Kart_Personen.FieldByName('PersonenID').AsInteger) and
+                   (frmDM.ZQueryPersonen.FieldByName('GE_KartID').AsInteger >  frmDM.ZQueryGE_Kart_Personen.FieldByName('PersonenID').AsInteger))
               do frmDM.ZQueryGE_Kart_Personen.Next;
+
             if frmDM.ZQueryPersonen.FieldByName('GE_KartID').AsInteger <> frmDM.ZQueryGE_Kart_Personen.FieldByName('PersonenID').AsInteger
               then
                 begin
-                  slSQL.Add('Update Personen set Abgang=1 where PersonenID='+frmDM.ZQueryPersonen.FieldByName('PersonenID').AsString+';');
+                  sSQL := 'Update Personen set Abgang="True" where PersonenID='+frmDM.ZQueryPersonen.FieldByName('PersonenID').AsString+';';
+                  myDebugLN(sSQL);
+                  slSQL.Add(sSQL);
                   inc(down);
                 end;
             frmDM.ZQueryPersonen.Next;
           end;
+
         frmDM.ZQueryPersonen.Close;
         frmDM.ZQueryGE_Kart_Personen.Close;
         frmDM.ZConnectionGE_Kart.Disconnect;
 
-        frmDM.ExecuteTransactionSQL(slSQL.Text);
+        labProgress.Caption := 'Schritt 3/3: Schreibe Datenbank';
+        progress := 0;
+        ProgressBar.Max      := slSQL.Count;
+        ProgressBar.Position := progress;
+        Application.ProcessMessages;
+
+        while slSQL.Count > 0 do
+          begin
+            slHelp.Clear;
+            while (slSQL.Count > 0) and (slHelp.Count<50) do
+              begin
+                slHelp.Add(slSQL.Strings[0]);
+                slSQL.Delete(0);
+                inc(progress);
+              end;
+            ProgressBar.Position := progress;
+            Application.ProcessMessages;
+            frmDM.ExecuteTransactionSQL(slHelp.Text);
+          end;
       except
         on E: Exception
           do
             begin
               screen.cursor := crdefault;
+              ProgressBar.Visible := false;
+              labProgress.Visible := false;
               if frmDM.ZQueryPersonen.Active then frmDM.ZQueryPersonen.Close;
               if frmDM.ZQueryGE_Kart_Personen.Active then frmDM.ZQueryGE_Kart_Personen.Close;
               frmDM.ZConnectionGE_Kart.Disconnect;
               LogAndShowError(e.Message);
             end;
       end;
+      ProgressBar.Visible := false;
+      labProgress.Visible := false;
       screen.Cursor:=crDefault;
       ShowMessage(IntToStr(checked)+' Personen geprüft, '+#13+
                   IntToStr(up)+' Personen aktualisiert, '+#13+
                   IntToStr(down)+' Personen als Abgang markiert, '+#13+
                   IntToStr(insert)+' Personen eingefügt');
     end
-  else ShowMessage('Funktion abgebrochen');
+  else
+    ShowMessage('Funktion abgebrochen');
   slHelp.free;
   slSQL.Free;
 end;
