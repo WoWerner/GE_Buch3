@@ -4,15 +4,14 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="30">
+    <Units Count="31">
       <Unit0>
         <Filename Value="GE_Buch.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="24"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="19"/>
         <CursorPos X="23" Y="46"/>
         <UsageCount Value="221"/>
-        <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="main.pas"/>
@@ -21,11 +20,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Main"/>
-        <TopLine Value="332"/>
-        <CursorPos X="75" Y="363"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1115"/>
+        <CursorPos X="32" Y="1348"/>
         <UsageCount Value="221"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="DM.pas"/>
@@ -34,11 +32,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="dm"/>
-        <EditorIndex Value="8"/>
-        <CursorPos X="18" Y="212"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="113"/>
+        <CursorPos X="3" Y="117"/>
         <UsageCount Value="221"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="sachkonten.pas"/>
@@ -47,18 +44,17 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="127"/>
-        <CursorPos X="12" Y="161"/>
+        <TopLine Value="86"/>
+        <CursorPos X="3" Y="105"/>
         <UsageCount Value="221"/>
       </Unit3>
       <Unit4>
         <Filename Value="global.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="6"/>
-        <TopLine Value="40"/>
-        <CursorPos X="3" Y="32"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="10"/>
+        <CursorPos X="3" Y="16"/>
         <UsageCount Value="221"/>
-        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="vinfo.pas"/>
@@ -84,9 +80,9 @@
         <ComponentName Value="frmPersonen"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="7"/>
-        <TopLine Value="185"/>
-        <CursorPos X="83" Y="194"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="170"/>
+        <CursorPos X="21" Y="166"/>
         <UsageCount Value="221"/>
         <Loaded Value="True"/>
       </Unit8>
@@ -96,12 +92,10 @@
         <ComponentName Value="frmBanken"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="93"/>
         <CursorPos Y="121"/>
         <UsageCount Value="221"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit9>
       <Unit10>
         <Filename Value="journal.pas"/>
@@ -109,12 +103,10 @@
         <ComponentName Value="frmJournal"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="9"/>
-        <TopLine Value="992"/>
-        <CursorPos X="14" Y="997"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1504"/>
+        <CursorPos Y="1535"/>
         <UsageCount Value="221"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit10>
       <Unit11>
         <Filename Value="db_liste.pas"/>
@@ -132,13 +124,10 @@
         <ComponentName Value="frmDrucken"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="1412"/>
-        <CursorPos Y="1441"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1516"/>
+        <CursorPos X="44" Y="1569"/>
         <UsageCount Value="221"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit12>
       <Unit13>
         <Filename Value="cscsv.pas"/>
@@ -172,16 +161,15 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="32"/>
+        <UsageCount Value="89"/>
       </Unit16>
       <Unit17>
         <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="15"/>
-        <CursorPos X="11" Y="34"/>
-        <UsageCount Value="32"/>
-        <Loaded Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1191"/>
+        <CursorPos Y="1224"/>
+        <UsageCount Value="89"/>
       </Unit17>
       <Unit18>
         <Filename Value="..\..\GE_Kart\GE_Kart7\input.pas"/>
@@ -190,17 +178,19 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="32"/>
+        <UsageCount Value="89"/>
       </Unit18>
       <Unit19>
         <Filename Value="..\..\GE_Kart\GE_Kart7\pgmupdate.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmPgmUpdate"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="PgmUpdate"/>
         <EditorIndex Value="-1"/>
-        <WindowIndex Value="-1"/>
-        <TopLine Value="-1"/>
-        <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="32"/>
+        <TopLine Value="18"/>
+        <CursorPos X="31" Y="31"/>
+        <UsageCount Value="89"/>
       </Unit19>
       <Unit20>
         <Filename Value="..\..\GE_Kart\GE_Kart7\uhttpdownloader.pas"/>
@@ -209,25 +199,25 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="32"/>
+        <UsageCount Value="89"/>
       </Unit20>
       <Unit21>
         <Filename Value="uscaledpi.pas"/>
-        <UsageCount Value="221"/>
+        <UsageCount Value="217"/>
       </Unit21>
       <Unit22>
         <Filename Value="..\GE_Kart\GE_Kart7\input.pas"/>
         <ComponentName Value="frmInput"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UsageCount Value="221"/>
+        <UsageCount Value="217"/>
       </Unit22>
       <Unit23>
         <Filename Value="..\GE_Kart\GE_Kart7\help.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="43"/>
         <CursorPos X="20" Y="48"/>
-        <UsageCount Value="221"/>
+        <UsageCount Value="217"/>
       </Unit23>
       <Unit24>
         <Filename Value="..\GE_Kart\GE_Kart7\ausgabe.pas"/>
@@ -238,7 +228,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="70"/>
         <CursorPos X="37" Y="104"/>
-        <UsageCount Value="221"/>
+        <UsageCount Value="217"/>
       </Unit24>
       <Unit25>
         <Filename Value="..\GE_Kart\GE_Kart7\pgmupdate.pas"/>
@@ -246,11 +236,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="PgmUpdate"/>
-        <UsageCount Value="221"/>
+        <UsageCount Value="217"/>
       </Unit25>
       <Unit26>
         <Filename Value="..\GE_Kart\GE_Kart7\uhttpdownloader.pas"/>
-        <UsageCount Value="221"/>
+        <UsageCount Value="217"/>
       </Unit26>
       <Unit27>
         <Filename Value="journal_import_data.pas"/>
@@ -260,146 +250,36 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="14"/>
         <CursorPos X="5" Y="24"/>
-        <UsageCount Value="218"/>
+        <UsageCount Value="214"/>
       </Unit27>
       <Unit28>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\win32\system.pp"/>
         <UnitName Value="System"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="16"/>
-        <UsageCount Value="105"/>
+        <UsageCount Value="101"/>
       </Unit28>
       <Unit29>
         <Filename Value="C:\lazarus\components\lazreport\source\lr_class.pas"/>
         <UnitName Value="LR_Class"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="528"/>
         <CursorPos X="14" Y="537"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="7"/>
       </Unit29>
+      <Unit30>
+        <Filename Value="..\..\GE_Kart\GE_Kart7\main.pas"/>
+        <UnitName Value="Main"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="208"/>
+        <UsageCount Value="6"/>
+      </Unit30>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="1">
       <Position1>
-        <Filename Value="main.pas"/>
-        <Caret Line="214" Column="42" TopLine="182"/>
+        <Filename Value="personen.pas"/>
+        <Caret Line="169" Column="3" TopLine="145"/>
       </Position1>
-      <Position2>
-        <Filename Value="main.pas"/>
-        <Caret Line="215" Column="42" TopLine="183"/>
-      </Position2>
-      <Position3>
-        <Filename Value="main.pas"/>
-        <Caret Line="216" Column="42" TopLine="184"/>
-      </Position3>
-      <Position4>
-        <Filename Value="main.pas"/>
-        <Caret Line="217" Column="42" TopLine="185"/>
-      </Position4>
-      <Position5>
-        <Filename Value="main.pas"/>
-        <Caret Line="218" Column="42" TopLine="186"/>
-      </Position5>
-      <Position6>
-        <Filename Value="main.pas"/>
-        <Caret Line="219" Column="42" TopLine="187"/>
-      </Position6>
-      <Position7>
-        <Filename Value="main.pas"/>
-        <Caret Line="220" Column="42" TopLine="188"/>
-      </Position7>
-      <Position8>
-        <Filename Value="main.pas"/>
-        <Caret Line="221" Column="42" TopLine="189"/>
-      </Position8>
-      <Position9>
-        <Filename Value="main.pas"/>
-        <Caret Line="222" Column="42" TopLine="190"/>
-      </Position9>
-      <Position10>
-        <Filename Value="main.pas"/>
-        <Caret Line="223" Column="42" TopLine="191"/>
-      </Position10>
-      <Position11>
-        <Filename Value="main.pas"/>
-        <Caret Line="224" Column="42" TopLine="192"/>
-      </Position11>
-      <Position12>
-        <Filename Value="main.pas"/>
-        <Caret Line="225" Column="42" TopLine="193"/>
-      </Position12>
-      <Position13>
-        <Filename Value="main.pas"/>
-        <Caret Line="226" Column="42" TopLine="194"/>
-      </Position13>
-      <Position14>
-        <Filename Value="main.pas"/>
-        <Caret Line="227" Column="42" TopLine="195"/>
-      </Position14>
-      <Position15>
-        <Filename Value="main.pas"/>
-        <Caret Line="228" Column="42" TopLine="196"/>
-      </Position15>
-      <Position16>
-        <Filename Value="main.pas"/>
-        <Caret Line="229" Column="42" TopLine="197"/>
-      </Position16>
-      <Position17>
-        <Filename Value="main.pas"/>
-        <Caret Line="247" Column="7" TopLine="215"/>
-      </Position17>
-      <Position18>
-        <Filename Value="main.pas"/>
-        <Caret Line="248" Column="38" TopLine="216"/>
-      </Position18>
-      <Position19>
-        <Filename Value="main.pas"/>
-        <Caret Line="249" Column="38" TopLine="217"/>
-      </Position19>
-      <Position20>
-        <Filename Value="main.pas"/>
-        <Caret Line="250" Column="38" TopLine="218"/>
-      </Position20>
-      <Position21>
-        <Filename Value="main.pas"/>
-        <Caret Line="251" Column="38" TopLine="219"/>
-      </Position21>
-      <Position22>
-        <Filename Value="main.pas"/>
-        <Caret Line="254" Column="68" TopLine="222"/>
-      </Position22>
-      <Position23>
-        <Filename Value="main.pas"/>
-        <Caret Line="255" Column="68" TopLine="223"/>
-      </Position23>
-      <Position24>
-        <Filename Value="main.pas"/>
-        <Caret Line="256" Column="68" TopLine="224"/>
-      </Position24>
-      <Position25>
-        <Filename Value="main.pas"/>
-        <Caret Line="257" Column="68" TopLine="225"/>
-      </Position25>
-      <Position26>
-        <Filename Value="main.pas"/>
-        <Caret Line="258" Column="68" TopLine="226"/>
-      </Position26>
-      <Position27>
-        <Filename Value="main.pas"/>
-        <Caret Line="259" Column="68" TopLine="227"/>
-      </Position27>
-      <Position28>
-        <Filename Value="main.pas"/>
-        <Caret Line="280" Column="31" TopLine="249"/>
-      </Position28>
-      <Position29>
-        <Filename Value="drucken.pas"/>
-        <Caret Line="1431" Column="46" TopLine="1414"/>
-      </Position29>
-      <Position30>
-        <Filename Value="drucken.pas"/>
-        <Caret Line="1585" Column="102" TopLine="1574"/>
-      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
