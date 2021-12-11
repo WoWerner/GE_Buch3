@@ -698,6 +698,10 @@ begin
                 then ediBankNr.Text := inttostr(integer(frmJournal_CSV_Import.cbBank.Items.Objects[frmJournal_CSV_Import.cbBank.ItemIndex]))
                 else ediBankNr.Text := '0';
               ediBankNrExit(self);
+              //Inc Belegnummer  beim 1. Aufruf
+              //                                      nur bei Sortorder LaufendeNr
+              if OnlyDigits(ediBelegnummer.Text) and (rgSort.ItemIndex = 0) and (frmDM.ZQueryJournal.EOF)
+                then ediBelegnummer.Text := inttostr(strtoint(ediBelegnummer.Text)+1);
               GetImportRec;
             end;
       end;
