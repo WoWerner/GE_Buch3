@@ -1,0 +1,7 @@
+﻿Änderungen in der Version 2.0.0.5
+
+- Nach dem Löschen einer Buchung wird der Kontostand neu berechnet
+- Beim Import wird die Buchungsnummer beim Begin automatisch erhöht
+- Für Nutzer mit Vereinsstatus können die Spendenbescheinigungen über die GE_Buch.INI angepasst werden
+
+Soll die Meldung noch einmal angezeigt werden?
