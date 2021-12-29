@@ -1500,9 +1500,11 @@ begin
   else if ParName = 'Seite'        then ParValue := inttostr(Seite)
   else if ParName = 'Rendant'      then ParValue := sRendantAdr
   else if ParName = 'RendantOrt'   then ParValue := sRendantOrt
-  else if ParName = 'FinanzamtNr'  then ParValue := sFinanzamtNr
-  else if ParName = 'ue_links'     then ParValue := sGemeindeAdr
-  else if ParName = 'ue_rechts'    then ParValue := formatdatetime('dd.mm.yyyy', now())
+  else if ParName = 'EigenesFinanzamt'    then ParValue := sFinanzamt
+  else if ParName = 'EigenesFinanzamtNr'  then ParValue := sFinanzamtNr
+  else if ParName = 'EigenesFinanzamtVom' then ParValue := sFinanzamtVom
+  else if ParName = 'ue_links'            then ParValue := sGemeindeAdr
+  else if ParName = 'ue_rechts'           then ParValue := formatdatetime('dd.mm.yyyy', now())
   else
   case Druckmode of
     Jahresabschluss:
@@ -1582,6 +1584,7 @@ begin
             if (i mod 100) <> 0 then s := s + ' und '+ZahlInString(i mod 100)+' CENT';
             ParValue := s;
           end
+        else if ParName = 'Betrag'       then ParValue := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Betrag').AsLongint)+' €'
         else if ParName = 'Empfaenger'   then ParValue := frmDM.ZQueryDruckenDetail1.FieldByName('Empfaenger').AsString
         else if ParName = 'Finanzamt'    then ParValue := frmDM.ZQueryDruckenDetail1.FieldByName('Finanzamt').AsString
         else if ParName = 'FinanzamtVom' then ParValue := frmDM.ZQueryDruckenDetail1.FieldByName('FinanzamtVom').AsString
