@@ -7,7 +7,7 @@
     <KeyWords Value=""/>
     <Comments Value=""/>
     <ReportCreateDate Value="2014-03-16 20:56:49"/>
-    <ReportLastChange Value="2021-12-29 13:16:46"/>
+    <ReportLastChange Value="2021-12-30 10:24:56"/>
     <ReportVersionBuild Value=""/>
     <ReportVersionMajor Value=""/>
     <ReportVersionMinor Value=""/>
@@ -40,7 +40,7 @@
         <ColGap Value="36"/>
         <LayoutOrder Value="loColumns"/>
         <Object1>
-          <Name Value="Band1"/>
+          <Name Value="bandMaster"/>
           <ClassName Value="TfrBandView"/>
           <Visible Value="True"/>
           <Typ Value="gtBand"/>
@@ -68,7 +68,7 @@
           <Child Value=""/>
         </Object1>
         <Object2>
-          <Name Value="DetailData2"/>
+          <Name Value="bandEmpfaenger"/>
           <ClassName Value="TfrBandView"/>
           <Visible Value="True"/>
           <Typ Value="gtBand"/>
@@ -858,7 +858,7 @@
           <Typ Value="gtMemo"/>
           <StreamMode Value="0"/>
           <Size>
-            <Left Value="71"/>
+            <Left Value="72"/>
             <Top Value="183"/>
             <Width Value="252"/>
             <Height Value="18"/>
@@ -1531,7 +1531,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="76"/>
-            <Top Value="559"/>
+            <Top Value="554"/>
             <Width Value="24"/>
             <Height Value="26"/>
           </Size>
