@@ -1,4 +1,8 @@
-﻿Änderungen in der Version 2.0.0.5
+﻿Änderungen in der Version 2.0.0.6
+
+- Bessere Seitenaufteilung bei den Zuwendungsbescheinigungen
+
+Änderungen in der Version 2.0.0.5
 
 - Nach dem Löschen einer Buchung wird der Kontostand neu berechnet
 - Beim Import wird die Buchungsnummer beim Begin automatisch erhöht
