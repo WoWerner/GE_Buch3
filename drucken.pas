@@ -87,7 +87,6 @@ type
     ediFilter: TLabeledEdit;
     Shape1: TShape;
     Shape2: TShape;
-    Shape3: TShape;
     procedure btnBankenlisteClick(Sender: TObject);
     procedure btnBankenlisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnEinAusClick(Sender: TObject);
@@ -1346,7 +1345,6 @@ begin
   DateTimePickerBis.Enabled := false;
   shape1.Visible            := (rgFilter.ItemIndex <> 0) or  cbDatum.Checked;
   shape2.Visible            := (rgFilter.ItemIndex = 0 ) and cbDatum.Checked;
-  shape3.Visible            := (rgFilter.ItemIndex = 0 ) and cbDatum.Checked;
   if cbDatum.Checked
     then
       begin
@@ -1403,6 +1401,13 @@ begin
             begin
               Seite := 1;
             end;
+        if (band.Name = 'bandEmpfaenger')
+          then
+            begin
+              if (frmDM.ZQueryDruckenDetail1.FieldByName('FinanzamtNr').AsString = '')
+                then band.Height:=31
+                else band.Height:=62;
+            end;
       end;
   end;
 end;
@@ -1429,16 +1434,26 @@ begin
       begin
         MemoView := frReport.FindObject('memTitel') as TfrMemoView;
         MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'Titel', 'Sammelbestätigung über Geldzuwendungen', true);
+
         MemoView := frReport.FindObject('memSubTitel') as TfrMemoView;
         MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'SubTitel', 'im Sinne des § 10b des Einkommensteuergesetzes an inländische juristische Personen des öffentlichen Rechts oder inländische öffentliche Dienststellen:', true);
+
         MemoView := frReport.FindObject('memFoerderung') as TfrMemoView;
         MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'Foerderung', 'Es wird bestätigt, dass die Zuwendung nur zur Förderung kirchlicher Zwecke verwendet wird.', true);
+        // 15 pro Zeile
+        // Zeilen = Textlänge / 90
+        MemoView.Height:=(MemoView.Memo.Text.Length div 90)*15;
+        BandView := frReport.FindObject('bandMaster') as TfrBandView;
+        BandView.Height:=378+MemoView.Height;
+
         MemoView := frReport.FindObject('memEigene') as TfrMemoView;
         MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'Eigene', 'von uns unmittelbar für den angegebenen Zweck verwendet. (Empfänger = [Empfaenger])' , true);
+
         MemoView := frReport.FindObject('memEigeneFinanzamt') as TfrMemoView;
-        MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'EigeneFinanzamt', 'Finanzamt [Finanzamt] vom [FinanzamtVom], StNr.: [FinanzamtNr]', true);
+        MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'EigeneFinanzamt', 'Finanzamt [EigenesFinanzamt] vom [EigenesFinanzamtVom], StNr.: [EigenesFinanzamtNr]', true);
+
         MemoView := frReport.FindObject('memWeiter') as TfrMemoView;
-        MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'Weitergeleitete', 'entsprechend den Angaben des Zuwendenden an [Empfaenger] weitergeleitet, die/der vom Finanzamt "[Finanzamt]", StNr. "[FinanzamtNr]" mit Freistellungsbescheid bzw. nach der Anlage zum Körperschaftsteuerbescheid vom "[FinanzamtVom]" von der Körperschaftssteuer und Gewerbesteuer befreit ist.', true);
+        MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'Weitergeleitete', 'entsprechend den Angaben des Zuwendenden an [Empfaenger] weitergeleitet, die/der vom Finanzamt "[Finanzamt]", StNr.: "[FinanzamtNr]" mit Freistellungsbescheid bzw. nach der Anlage zum Körperschaftsteuerbescheid vom "[FinanzamtVom]" von der Körperschaftssteuer und Gewerbesteuer befreit ist.', true);
       end;
   end;
 end;
@@ -1606,7 +1621,6 @@ begin
   ediFilter.Enabled := false;
   shape1.Visible    := cbDatum.Checked;
   shape2.Visible    := cbDatum.Checked and (rgFilter.ItemIndex = 0);
-  shape3.Visible    := cbDatum.Checked and (rgFilter.ItemIndex = 0);
   case rgFilter.ItemIndex of
     1,
     2,

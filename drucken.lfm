@@ -12,10 +12,10 @@ object frmDrucken: TfrmDrucken
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '2.0.12.0'
-  object Shape3: TShape
+  object Shape2: TShape
     Left = 0
-    Height = 75
-    Top = 187
+    Height = 110
+    Top = 112
     Width = 212
     Brush.Color = clSilver
     Pen.Color = clSilver
@@ -129,7 +129,7 @@ object frmDrucken: TfrmDrucken
     Left = 8
     Height = 25
     Hint = 'Übersicht aller Sachkonten'#13#10'Optional mit Datumsfilter'
-    Top = 193
+    Top = 156
     Width = 200
     Caption = 'Zahler- / Empfängerliste (SK)'
     OnClick = btnBeitragslisteClick
@@ -152,7 +152,7 @@ object frmDrucken: TfrmDrucken
     Left = 8
     Height = 25
     Hint = 'Übersicht aller Durchgangskonten'
-    Top = 156
+    Top = 230
     Width = 200
     Caption = 'Durchgangskontenübersicht'
     OnClick = btnDurchgangClick
@@ -164,7 +164,7 @@ object frmDrucken: TfrmDrucken
     Left = 8
     Height = 25
     Hint = 'Übersicht aller Zahlungen nach Personen'
-    Top = 230
+    Top = 193
     Width = 200
     Caption = 'Zahlungsliste nach Zahlern'
     OnClick = btnZahlerlisteClick
@@ -262,15 +262,6 @@ object frmDrucken: TfrmDrucken
     Width = 15
     Caption = 'bis'
     ParentColor = False
-  end
-  object Shape2: TShape
-    Left = 0
-    Height = 38
-    Top = 113
-    Width = 212
-    Brush.Color = clSilver
-    Pen.Color = clSilver
-    Visible = False
   end
   object ediFilter: TLabeledEdit
     Left = 216
