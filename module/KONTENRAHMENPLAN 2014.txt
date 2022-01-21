@@ -71,7 +71,6 @@
 8 EINNAHMEN
 81 Erlöse aus Vermögen (Miete, Pacht, Zinsen, Dividende)
 82 Zuschüsse und allgemeine Erstattungen
-84 (bei AKK etc.) Umlagebeiträge
 84 Allgemeine Kirchenbeiträge
 85 Spenden für gemeindeeigene Zwecke
 86 Kollekten für gemeindeeigene Zwecke

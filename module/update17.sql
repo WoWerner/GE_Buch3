@@ -1,3 +1,4 @@
+BEGIN TRANSACTION;
 Update SachKonten set SachkontoNr=248, Sachkonto='Lutherische Stunde', SortPos=248, Statistik=248 where SachkontoNr=233;
 Update SachKonten set SachkontoNr=948, Sachkonto='Lutherische Stunde', SortPos=948, Statistik=948 where SachkontoNr=933;
 Update SachKonten set SachkontoNr=249, Sachkonto='Mission unter Israel', SortPos=249, Statistik=249 where SachkontoNr=252;
@@ -44,3 +45,4 @@ INSERT INTO SachKonten SELECT 937,'Personalkosten der SELK',0,937,'D',937,NULL,N
 INSERT INTO SachKonten SELECT 947,'Diasporawerk',0,947,'D',947,NULL,NULL,NULL WHERE NOT EXISTS(SELECT 1 FROM SachKonten WHERE Sachkontonr = 947);
 INSERT INTO SachKonten SELECT 954,'Weltbibelhilfe',0,954,'D',954,NULL,NULL,NULL WHERE NOT EXISTS(SELECT 1 FROM SachKonten WHERE Sachkontonr = 954);
 Update Version set version = '1.7';
+COMMIT;

@@ -1,24 +1,19 @@
 select
    LaufendeNr,
    strftime('%d.%m.%Y',Datum)                                     as Datum,
-   journal.PersonenID                                             as PersonenNr, 
-   ifnull(Personen.Vorname,'')||' '||ifnull(Personen.Nachname,'') as Name,
-   journal.BankNr                                                 as BankNr,
-   ifnull(Banken.Bank,'')     ||' '||ifnull(Banken.Konto,'')      as Bank,
-   journal.SachkontoNr                                            as SachkontoNr,
-   Sachkonten.Sachkonto,
    ifnull(Betrag,'')                                              as Betrag,
-   ifnull(bankenabschluss.Anfangssaldo,'')                        as Saldo,
+   ifnull(Personen.Vorname,'')||' '||ifnull(Personen.Nachname,'') as Name,
    Buchungstext,
+   Bemerkung,
    Belegnummer,
-   Bemerkung
+   (select '('||ifnull(journal.konto_nach,'')||') '||ifnull(konten.Name,'') from konten where journal.konto_nach = konten.KontoNr) as Sachkonto,
+   (select name from konten where journal.BankNr = konten.KontoNr) as Bank,
+   CAST((select Anfangssaldo from Bankenabschluss where journal.BankNr = Bankenabschluss.KontoNr) as text) as Saldo, 
+   journal.BankNr as BankNr,
+   journal.konto_nach as konto_nach
 from journal
 
 left join Personen        on  journal.PersonenID   = Personen.PersonenID
-left join Banken          on  journal.BankNr       = Banken.BankNr
-left join Sachkonten      on  journal.SachkontoNr  = Sachkonten.SachkontoNr
-left join bankenabschluss on (journal.BankNr       = bankenabschluss.BankNr) and
-                             (journal.BuchungsJahr = bankenabschluss.Buchungsjahr)
 
 where (journal.Buchungsjahr=:BJAHR) :AddWhere
 

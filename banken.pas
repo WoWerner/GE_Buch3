@@ -32,14 +32,12 @@ type
     btnNeu: TButton;
     btnSpeichern: TButton;
     DBGridBankListe: TDBGrid;
-    ediBank: TEdit;
-    ediBankNr: TSpinEdit;
+    ediName: TEdit;
+    ediKontoNr: TSpinEdit;
     ediStatistik: TSpinEdit;
-    ediKonto: TEdit;
     ediKontostand: TEdit;
     ediSortPos: TSpinEdit;
     Label1: TLabel;
-    Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
@@ -53,9 +51,8 @@ type
     procedure btnNeuClick(Sender: TObject);
     procedure btnSpeichernClick(Sender: TObject);
     procedure DBGridBankListeDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
-    procedure ediBankEnter(Sender: TObject);
-    procedure ediBankNrExit(Sender: TObject);
-    procedure ediKontoEnter(Sender: TObject);
+    procedure ediNameEnter(Sender: TObject);
+    procedure ediKontoNrExit(Sender: TObject);
     procedure ediKontostandEnter(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -84,42 +81,51 @@ uses
 procedure TfrmBanken.AfterScroll;
 
 begin
-  //Hier wegen Query Refresh
-  DBGridBankListe.Columns.Items[0].Width        :=  50;    //BankNr
-  DBGridBankListe.Columns.Items[1].Width        := 170;    //Bank
-  DBGridBankListe.Columns.Items[2].Width        := 170;    //Konto
-  DBGridBankListe.Columns.Items[3].Width        :=  80;    //Kontostand
-  DBGridBankListe.Columns.Items[4].Width        :=  50;    //Sortpos
-  DBGridBankListe.Columns.Items[5].Width        :=  60;    //Sortpos
-
-  ediBankNr.Value    := frmDM.ZQueryBanken.FieldByName('BankNr').AsInteger;
-  ediBank.Text       := frmDM.ZQueryBanken.FieldByName('Bank').AsString;
-  ediKonto.Text      := frmDM.ZQueryBanken.FieldByName('Konto').AsString;
-  ediKontostand.Text := IntToCurrency(frmDM.ZQueryBanken.FieldByName('Kontostand').AsLongint);
-  ediSortPos.Value   := frmDM.ZQueryBanken.FieldByName('Sortpos').AsInteger;
-  ediStatistik.Value := frmDM.ZQueryBanken.FieldByName('Statistik').AsInteger;
+  try
+    //Hier wegen Query Refresh
+    DBGridBankListe.Columns.Items[0].Width        :=  60;    //KontoNr
+    DBGridBankListe.Columns.Items[1].Width        :=  60;    //Sortpos
+    DBGridBankListe.Columns.Items[2].Width        :=  60;    //Statistik
+    DBGridBankListe.Columns.Items[3].Width        := 350;    //Name
+    DBGridBankListe.Columns.Items[4].Width        :=  90;    //Kontostand
+    DBGridBankListe.Columns.Items[5].Width        :=  90;    //Kontostand
+    ediKontoNr.Value   := frmDM.ZQueryBanken.FieldByName('BankNr').AsInteger;
+    ediName.Text       := frmDM.ZQueryBanken.FieldByName('Bank').AsString;
+    ediKontostand.Text := IntToCurrency(frmDM.ZQueryBanken.FieldByName('Kontostand').AsLongint);
+    ediSortPos.Value   := frmDM.ZQueryBanken.FieldByName('Sortpos').AsInteger;
+    ediStatistik.Value := frmDM.ZQueryBanken.FieldByName('Statistik').AsInteger;
+  except
+    ediKontoNr.Value   := 0;
+    ediName.Text       := '';
+    ediKontostand.Text := '';
+    ediSortPos.Value   := 0;
+    ediStatistik.Value := 0;
+  end;
 
   btnDelete.ShowHint := true;
-  btnDelete.Enabled  := not ((frmDM.ZQueryBanken.FieldByName('BankNr').AsInteger = 1) or
-                             (frmDM.ZQueryBanken.FieldByName('BankNr').AsInteger = 999)); //Sammelkonten
+  btnDelete.Enabled  := true;
   btnAendern.Enabled := btnDelete.Enabled;
 
   if btnDelete.Enabled
     then
       begin
-        frmDM.ZQueryHelp.SQL.Text:='select count(BankNr) as c, max(Buchungsjahr) as m from journal where Banknr='+inttostr(ediBankNr.Value);
+        frmDM.ZQueryHelp.SQL.Text:='select count(BankNr) as c, max(Buchungsjahr) as m from journal where BankNr='+inttostr(ediKontoNr.Value);
         frmDM.ZQueryHelp.Open;
-        if (frmDM.ZQueryHelp.FieldByName('c').AsInteger <> 0)
-          then
-            begin
-              btnDelete.Enabled := false;
-              btnDelete.Hint    := 'Konto kann nicht gelöscht werden weil es im Buchungsjahr '+inttostr(frmDM.ZQueryHelp.FieldByName('m').AsInteger)+' noch verwendet wird';
-              btnDelete.ShowHint:= true;
-            end;
+        try
+          if (frmDM.ZQueryHelp.FieldByName('c').AsInteger <> 0)
+            then
+              begin
+                btnDelete.Enabled := false;
+                btnDelete.Hint    := 'Konto kann nicht gelöscht werden weil es im Buchungsjahr '+inttostr(frmDM.ZQueryHelp.FieldByName('m').AsInteger)+' noch verwendet wird';
+                btnDelete.ShowHint:= true;
+              end;
+        except
+
+        end;
         frmDM.ZQueryHelp.Close;
       end;
   ediKontostand.Enabled := false;
-  ediBankNr.Enabled     := false;
+  ediKontoNr.Enabled    := false;
 end;
 
 procedure TfrmBanken.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -136,14 +142,18 @@ end;
 procedure TfrmBanken.DBGridBankListeDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
 
 begin
-  if Column.FieldName = 'Kontostand'
-    then
-      begin
-        //den, vom System gezeichneten, Inhalt löschen
-        DBGridBankListe.Canvas.FillRect(Rect);
-        //eigenen Text reinschreiben
-        DBGridBankListe.Canvas.TextRect(Rect,Rect.Left+4,Rect.Top+2, Format('€ %m',[Column.Field.AsLongint/100]));
-      end;
+  try
+    if (Column.FieldName = 'Kontostand') or (Column.FieldName = 'StartSaldo')
+      then
+        begin
+          //den, vom System gezeichneten, Inhalt löschen
+          DBGridBankListe.Canvas.FillRect(Rect);
+          //eigenen Text reinschreiben
+          DBGridBankListe.Canvas.TextRect(Rect,Rect.Left,Rect.Top+2, Format('%m ',[Column.Field.AsLongint/100]));
+        end;
+  except
+
+  end;
 end;
 
 procedure TfrmBanken.btnNeuClick(Sender: TObject);
@@ -154,10 +164,9 @@ begin
   btnAendern.Visible   := false;
   btnDelete.Visible    := false;
   btnClose.Visible     := false;
-  ediBankNr.Value      := 199;
-  ediBankNr.Enabled    := true;
-  ediBank.Text         := 'NeueBank';
-  ediKonto.Text        := 'NeuesKonto';
+  ediKontoNr.Value      := 199;
+  ediKontoNr.Enabled    := true;
+  ediName.Text         := 'Name des Kontos';
   ediKontostand.Text   := '0,00';
   ediKontostand.Enabled:= true;
   ediSortPos.Value     := 199;
@@ -171,37 +180,37 @@ var
   bBankExists: boolean;
 
 begin
-  btnAbbrechen.Visible   := false;
-  btnSpeichern.Visible   := false;
-  btnNeu.Visible         := true;
-  btnAendern.Visible     := true;
-  btnDelete.Visible      := true;
-  btnClose.Visible       := true;
-  ediKontostand.Enabled  := false;
-  ediBankNr.Enabled      := false;
-  DBGridBankListe.Enabled:= true;
+  btnAbbrechen.Visible    := false;
+  btnSpeichern.Visible    := false;
+  btnNeu.Visible          := true;
+  btnAendern.Visible      := true;
+  btnDelete.Visible       := true;
+  btnClose.Visible        := true;
+  ediKontostand.Enabled   := false;
+  ediKontoNr.Enabled      := false;
+  DBGridBankListe.Enabled := true;
 
-  //BankNr prüfen
-  frmDM.ZQueryHelp.SQL.Text:='select count(BankNr) as c from journal where Banknr='+inttostr(ediBankNr.Value);
+  //KontoNr prüfen
+  frmDM.ZQueryHelp.SQL.Text:='select count(KontoNr) as c from konten where KontoNr='+inttostr(ediKontoNr.Value);
   frmDM.ZQueryHelp.Open;
   bBankExists := frmDM.ZQueryHelp.FieldByName('c').AsInteger > 0;
   frmDM.ZQueryHelp.Close;
 
   if bBankExists
     then
-      Showmessage('BankNr existiert bereits. Speichern abgebrochen')
+      Showmessage('KontoNr existiert bereits. Speichern abgebrochen')
     else
       begin
-        frmDM.ZQueryHelp.SQL.Text:='insert into banken (banknr, bank, konto, kontostand, Sortpos, Statistik) values ('+
-                                    inttostr(ediBankNr.Value)+', "'+
-                                    ediBank.text+'", "'+
-                                    ediKonto.text+'", '+
+        frmDM.ZQueryHelp.SQL.Text:='insert into konten (KontoNr, name, kontostand, Sortpos, Statistik, kontotype) values ('+
+                                    inttostr(ediKontoNr.Value)+', "'+
+                                    ediName.text+'", '+
                                     inttostr(CurrencyToInt(ediKontostand.text, bEuroModus))+', '+
                                     inttostr(ediSortPos.Value)+', '+
-                                    inttostr(ediStatistik.Value)+')';
+                                    inttostr(ediStatistik.Value)+', '+
+                                    '"B")';
         frmDM.ZQueryHelp.ExecSQL;
-        frmDM.ZQueryHelp.SQL.Text:='insert into BankenAbschluss (BankNr, Buchungsjahr, Anfangssaldo, Abschlusssaldo) values ('+
-                                    inttostr(ediBankNr.Value)+', '+
+        frmDM.ZQueryHelp.SQL.Text:='insert into BankenAbschluss (KontoNr, Buchungsjahr, Anfangssaldo, Abschlusssaldo) values ('+
+                                    inttostr(ediKontoNr.Value)+', '+
                                     inttostr(nBuchungsjahr)+', '+
                                     inttostr(CurrencyToInt(ediKontostand.text, bEuroModus))+
                                     ',0)';
@@ -213,12 +222,11 @@ end;
 
 procedure TfrmBanken.btnAendernClick(Sender: TObject);
 begin
-  frmDM.ZQueryHelp.SQL.Text:='Update banken set '+
-                             'Bank="'+ediBank.text+'", '+
-                             'konto="'+ediKonto.text+'", '+
+  frmDM.ZQueryHelp.SQL.Text:='Update konten set '+
+                             'Name="'+ediName.text+'", '+
                              'Sortpos='+inttostr(ediSortPos.Value)+', '+
                              'Statistik='+inttostr(ediStatistik.Value)+' '+
-                             'where banknr='+frmDM.ZQueryBanken.FieldByName('BankNr').AsString;
+                             'where KontoNr='+frmDM.ZQueryBanken.FieldByName('KontoNr').AsString;
   frmDM.ZQueryHelp.ExecSQL;
   frmDM.ZQueryBanken.Refresh;
   AfterScroll;
@@ -239,25 +247,24 @@ begin
   btnDelete.Visible      := true;
   btnClose.Visible       := true;
   ediKontostand.Enabled  := false;
-  ediBankNr.Enabled      := false;
+  ediKontoNr.Enabled     := false;
   DBGridBankListe.Enabled:= true;
   AfterScroll;
 end;
 
 procedure TfrmBanken.btnDeleteClick(Sender: TObject);
 
-var BankNr : string;
+var KontoNr : string;
 
 begin
   if MessageDlg('Soll das Konto "'+
-                ediKonto.Text +'" bei der Bank "'+
-                ediBank.Text+'" gelöscht werden?', mtConfirmation, [mbYes, mbNo],0) = mrYes
+                ediName.Text+'" gelöscht werden?', mtConfirmation, [mbYes, mbNo],0) = mrYes
     then
       begin
-        BankNr := frmDM.ZQueryBanken.FieldByName('BankNr').AsString;
-        frmDM.ZQueryHelp.SQL.Text:='delete from banken where banknr = '+BankNr;
+        KontoNr := frmDM.ZQueryBanken.FieldByName('KontoNr').AsString;
+        frmDM.ZQueryHelp.SQL.Text:='delete from konten where KontoNr = '+KontoNr;
         frmDM.ZQueryHelp.ExecSQL;
-        frmDM.ZQueryHelp.SQL.Text:='delete from BankenAbschluss where banknr = '+BankNr;
+        frmDM.ZQueryHelp.SQL.Text:='delete from BankenAbschluss where KontoNr = '+KontoNr;
         frmDM.ZQueryHelp.ExecSQL;
         frmDM.ZQueryBanken.Refresh;
         AfterScroll;
@@ -283,20 +290,16 @@ begin
   frmAusgabe.Show;
 end;
 
-procedure TfrmBanken.ediBankEnter(Sender: TObject);
+procedure TfrmBanken.ediNameEnter(Sender: TObject);
 begin
-  ediBank.SelectAll;
+  ediName.SelectAll;
 end;
 
-procedure TfrmBanken.ediBankNrExit(Sender: TObject);
+procedure TfrmBanken.ediKontoNrExit(Sender: TObject);
 begin
-  ediSortPos.Value:=ediBankNr.Value; //Vorschlag
+  ediSortPos.Value:=ediKontoNr.Value; //Vorschlag
 end;
 
-procedure TfrmBanken.ediKontoEnter(Sender: TObject);
-begin
-  ediKonto.SelectAll;
-end;
 
 procedure TfrmBanken.ediKontostandEnter(Sender: TObject);
 begin

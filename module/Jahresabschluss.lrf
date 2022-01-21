@@ -7,7 +7,7 @@
     <KeyWords Value=""/>
     <Comments Value=""/>
     <ReportCreateDate Value="2014-11-10 21:49:47"/>
-    <ReportLastChange Value="2020-01-18 13:43:43"/>
+    <ReportLastChange Value="2022-01-16 19:29:13"/>
     <ReportVersionBuild Value=""/>
     <ReportVersionMajor Value=""/>
     <ReportVersionMinor Value=""/>
@@ -17,7 +17,7 @@
     <Pages>
       <PrintToDefault Value="False"/>
       <DoublePass Value="False"/>
-      <SelectedPrinter Value="Lexmark International Lexmark E360d"/>
+      <SelectedPrinter Value="Samsung M2070 Series (USB001)"/>
       <PageCount Value="3"/>
       <Page1>
         <Name Value="Page1"/>
@@ -1555,7 +1555,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;231]&#xD;&#xA;"/>
+            <Memo Value="[P;231]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -1723,7 +1723,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;232]&#xD;&#xA;"/>
+            <Memo Value="[P;232]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -1891,7 +1891,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;247]&#xD;&#xA;"/>
+            <Memo Value="[P;247]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -2059,7 +2059,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;234]&#xD;&#xA;"/>
+            <Memo Value="[P;234]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -2227,7 +2227,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;235]&#xD;&#xA;"/>
+            <Memo Value="[P;235]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -2395,7 +2395,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;236]&#xD;&#xA;"/>
+            <Memo Value="[P;236]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -2563,7 +2563,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;231;232;234;235;236;237]&#xD;&#xA;"/>
+            <Memo Value="[P;231;232;234;235;236;237]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -2731,7 +2731,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;241]&#xD;&#xA;"/>
+            <Memo Value="[P;241]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -2899,7 +2899,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;242]&#xD;&#xA;"/>
+            <Memo Value="[P;242]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -3067,7 +3067,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;243]&#xD;&#xA;"/>
+            <Memo Value="[P;243]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -3235,7 +3235,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;244]&#xD;&#xA;"/>
+            <Memo Value="[P;244]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -3403,7 +3403,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;245]&#xD;&#xA;"/>
+            <Memo Value="[P;245]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -3571,7 +3571,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;246]&#xD;&#xA;"/>
+            <Memo Value="[P;246]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -3739,7 +3739,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;241;242;243;244;245;246;247;248;249]&#xD;&#xA;"/>
+            <Memo Value="[P;241;242;243;244;245;246;247;248;249]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -3907,7 +3907,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;251]&#xD;&#xA;"/>
+            <Memo Value="[P;251]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -4075,7 +4075,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;254]&#xD;&#xA;"/>
+            <Memo Value="[P;254]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -4243,7 +4243,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;253]&#xD;&#xA;"/>
+            <Memo Value="[P;253]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -4411,7 +4411,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;251;253;254;255]&#xD;&#xA;"/>
+            <Memo Value="[P;251;253;254;255]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -4859,7 +4859,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;237]&#xD;&#xA;"/>
+            <Memo Value="[P;237]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -5027,7 +5027,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;248]&#xD;&#xA;"/>
+            <Memo Value="[P;248]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -5195,7 +5195,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;249]&#xD;&#xA;"/>
+            <Memo Value="[P;249]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -5363,7 +5363,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;255]&#xD;&#xA;"/>
+            <Memo Value="[P;255]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -7653,7 +7653,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[A;3;41;42;43;44;45;46;47;72;5;61;62;63;64;65;66;67;68;7;93;94;95]&#xD;&#xA;"/>
+            <Memo Value="[A;23;24;25;3;41;42;43;44;45;46;47;72;5;61;62;63;64;65;66;67;68;7]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -7877,7 +7877,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;93]&#xD;&#xA;"/>
+            <Memo Value="[N;23]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -8045,7 +8045,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;94;95]&#xD;&#xA;"/>
+            <Memo Value="[N;24;25]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -8213,7 +8213,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;93;94;95]&#xD;&#xA;"/>
+            <Memo Value="[N;23;24;25]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>

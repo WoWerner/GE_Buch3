@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CONFIG>
   <LazReport>
-    <Version Value="28"/>
+    <Version Value="31"/>
     <Title Value=""/>
     <Subject Value=""/>
     <KeyWords Value=""/>
     <Comments Value=""/>
     <ReportCreateDate Value="2014-05-29 13:34:42"/>
-    <ReportLastChange Value="2016-01-15 18:48:19"/>
+    <ReportLastChange Value="2022-01-16 17:35:54"/>
     <ReportVersionBuild Value=""/>
     <ReportVersionMajor Value=""/>
     <ReportVersionMinor Value=""/>
@@ -17,7 +17,7 @@
     <Pages>
       <PrintToDefault Value="False"/>
       <DoublePass Value="False"/>
-      <SelectedPrinter Value="PDF24 PDF"/>
+      <SelectedPrinter Value="Samsung M2070 Series (USB001)"/>
       <PageCount Value="1"/>
       <Page1>
         <Name Value="Page1"/>
@@ -54,6 +54,8 @@
           <Flags Value="48"/>
           <Data>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -75,11 +77,13 @@
             <Left Value="0"/>
             <Top Value="40"/>
             <Width Value="752"/>
-            <Height Value="40"/>
+            <Height Value="36"/>
           </Size>
           <Flags Value="48"/>
           <Data>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -106,6 +110,8 @@
           <Flags Value="48"/>
           <Data>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -132,6 +138,8 @@
           <Flags Value="112"/>
           <Data>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -158,6 +166,8 @@
           <Flags Value="48"/>
           <Data>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -179,11 +189,13 @@
             <Left Value="0"/>
             <Top Value="316"/>
             <Width Value="752"/>
-            <Height Value="36"/>
+            <Height Value="32"/>
           </Size>
           <Flags Value="48"/>
           <Data>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -221,10 +233,14 @@
             <FormatStr Value=""/>
             <Memo Value="Datum&#xD;&#xA;"/>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
             <OnClick Value=""/>
             <OnMouseEnter Value=""/>
             <OnMouseLeave Value=""/>
             <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -273,10 +289,14 @@
             <FormatStr Value=""/>
             <Memo Value="Betrag&#xD;&#xA;"/>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
             <OnClick Value=""/>
             <OnMouseEnter Value=""/>
             <OnMouseLeave Value=""/>
             <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -325,10 +345,14 @@
             <FormatStr Value=""/>
             <Memo Value="Num.&#xD;&#xA;"/>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
             <OnClick Value=""/>
             <OnMouseEnter Value=""/>
             <OnMouseLeave Value=""/>
             <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -377,10 +401,14 @@
             <FormatStr Value=""/>
             <Memo Value="Journaldruck für das Jahr [Buchungsjahr]&#xD;&#xA;"/>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
             <OnClick Value=""/>
             <OnMouseEnter Value=""/>
             <OnMouseLeave Value=""/>
             <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -429,10 +457,14 @@
             <FormatStr Value=""/>
             <Memo Value="[PAGE#]&#xD;&#xA;"/>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
             <OnClick Value=""/>
             <OnMouseEnter Value=""/>
             <OnMouseLeave Value=""/>
             <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -456,7 +488,7 @@
           <Cursor Value="0"/>
         </Object11>
         <Object12>
-          <Name Value="Memo2"/>
+          <Name Value="Memo3"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
           <Typ Value="gtMemo"/>
@@ -464,7 +496,7 @@
           <Size>
             <Left Value="36"/>
             <Top Value="148"/>
-            <Width Value="100"/>
+            <Width Value="679"/>
             <Height Value="18"/>
           </Size>
           <Flags Value="3"/>
@@ -479,12 +511,16 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="Sachkonto&#xD;&#xA;"/>
+            <Memo Value="[frmDM.ZQueryDrucken.&quot;Name&quot;]&#xD;&#xA;"/>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
             <OnClick Value=""/>
             <OnMouseEnter Value=""/>
             <OnMouseLeave Value=""/>
             <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -508,58 +544,6 @@
           <Cursor Value="0"/>
         </Object12>
         <Object13>
-          <Name Value="Memo3"/>
-          <ClassName Value="TfrMemoView"/>
-          <Visible Value="True"/>
-          <Typ Value="gtMemo"/>
-          <StreamMode Value="0"/>
-          <Size>
-            <Left Value="160"/>
-            <Top Value="148"/>
-            <Width Value="555"/>
-            <Height Value="18"/>
-          </Size>
-          <Flags Value="3"/>
-          <FillColor Value="clNone"/>
-          <Frames>
-            <FrameColor Value="clBlack"/>
-            <FrameStyle Value="frsSolid"/>
-            <FrameWidth Value="1"/>
-            <FrameBorders Value=""/>
-            <Restrictions Value=""/>
-          </Frames>
-          <Data>
-            <Format Value="556"/>
-            <FormatStr Value=""/>
-            <Memo Value="[frmDM.ZQueryDrucken.&quot;Sachkonto&quot;]&#xD;&#xA;"/>
-            <Script Value=""/>
-            <OnClick Value=""/>
-            <OnMouseEnter Value=""/>
-            <OnMouseLeave Value=""/>
-            <DetailReport Value=""/>
-          </Data>
-          <Tag Value=""/>
-          <FURLInfo Value=""/>
-          <Font>
-            <Name Value="Arial"/>
-            <Size Value="12"/>
-            <Color Value="clBlack"/>
-            <Charset Value="0"/>
-            <Style Value="fsBold"/>
-          </Font>
-          <Highlight>
-            <FontStyle Value="2"/>
-            <FontColor Value="clBlack"/>
-            <FillColor Value="clWhite"/>
-            <HighlightStr Value=""/>
-          </Highlight>
-          <Alignment Value="taLeftJustify"/>
-          <Layout Value="tlTop"/>
-          <Angle Value="0"/>
-          <Justify Value="False"/>
-          <Cursor Value="0"/>
-        </Object13>
-        <Object14>
           <Name Value="Line1"/>
           <ClassName Value="TfrLineView"/>
           <Visible Value="True"/>
@@ -567,7 +551,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="36"/>
-            <Top Value="344"/>
+            <Top Value="340"/>
             <Width Value="676"/>
             <Height Value="0"/>
           </Size>
@@ -580,8 +564,12 @@
           </Frames>
           <Tag Value=""/>
           <FURLInfo Value=""/>
-        </Object14>
-        <Object15>
+          <Data>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
+          </Data>
+        </Object13>
+        <Object14>
           <Name Value="Memo21"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -607,10 +595,14 @@
             <FormatStr Value=""/>
             <Memo Value="[DATE]&#xD;&#xA;"/>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
             <OnClick Value=""/>
             <OnMouseEnter Value=""/>
             <OnMouseLeave Value=""/>
             <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -632,8 +624,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object15>
-        <Object16>
+        </Object14>
+        <Object15>
           <Name Value="Memo5"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -641,7 +633,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="588"/>
-            <Top Value="320"/>
+            <Top Value="316"/>
             <Width Value="128"/>
             <Height Value="20"/>
           </Size>
@@ -659,10 +651,14 @@
             <FormatStr Value=""/>
             <Memo Value="[[frmDM.ZQueryDrucken.&quot;Betrag&quot;]/100]&#xD;&#xA;"/>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
             <OnClick Value=""/>
             <OnMouseEnter Value=""/>
             <OnMouseLeave Value=""/>
             <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -684,8 +680,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object16>
-        <Object17>
+        </Object15>
+        <Object16>
           <Name Value="Memo7"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -693,7 +689,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="508"/>
-            <Top Value="320"/>
+            <Top Value="316"/>
             <Width Value="76"/>
             <Height Value="20"/>
           </Size>
@@ -711,10 +707,14 @@
             <FormatStr Value=""/>
             <Memo Value="Summe&#xD;&#xA;"/>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
             <OnClick Value=""/>
             <OnMouseEnter Value=""/>
             <OnMouseLeave Value=""/>
             <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -736,8 +736,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object17>
-        <Object18>
+        </Object16>
+        <Object17>
           <Name Value="Memo8"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -763,10 +763,14 @@
             <FormatStr Value=""/>
             <Memo Value="[frmDM.ZQueryDruckenDetail.&quot;Datum&quot;]&#xD;&#xA;"/>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
             <OnClick Value=""/>
             <OnMouseEnter Value=""/>
             <OnMouseLeave Value=""/>
             <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -788,8 +792,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object18>
-        <Object19>
+        </Object17>
+        <Object18>
           <Name Value="Memo9"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -815,10 +819,14 @@
             <FormatStr Value=""/>
             <Memo Value="[frmDM.ZQueryDruckenDetail.&quot;LaufendeNr&quot;]&#xD;&#xA;"/>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
             <OnClick Value=""/>
             <OnMouseEnter Value=""/>
             <OnMouseLeave Value=""/>
             <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -840,8 +848,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object19>
-        <Object20>
+        </Object18>
+        <Object19>
           <Name Value="Memo6"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -867,10 +875,14 @@
             <FormatStr Value=""/>
             <Memo Value="[[frmDM.ZQueryDruckenDetail.&quot;Betrag&quot;]/100]&#xD;&#xA;"/>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
             <OnClick Value=""/>
             <OnMouseEnter Value=""/>
             <OnMouseLeave Value=""/>
             <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -892,8 +904,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object20>
-        <Object21>
+        </Object19>
+        <Object20>
           <Name Value="Memo10"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -919,10 +931,14 @@
             <FormatStr Value=""/>
             <Memo Value="Buchungstext&#xD;&#xA;"/>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
             <OnClick Value=""/>
             <OnMouseEnter Value=""/>
             <OnMouseLeave Value=""/>
             <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -944,8 +960,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object21>
-        <Object22>
+        </Object20>
+        <Object21>
           <Name Value="Memo11"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -971,10 +987,14 @@
             <FormatStr Value=""/>
             <Memo Value="[frmDM.ZQueryDruckenDetail.&quot;Buchungstext&quot;]&#xD;&#xA;"/>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
             <OnClick Value=""/>
             <OnMouseEnter Value=""/>
             <OnMouseLeave Value=""/>
             <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -996,8 +1016,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object22>
-        <Object23>
+        </Object21>
+        <Object22>
           <Name Value="Memo13"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -1023,10 +1043,14 @@
             <FormatStr Value=""/>
             <Memo Value="Bank&#xD;&#xA;"/>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
             <OnClick Value=""/>
             <OnMouseEnter Value=""/>
             <OnMouseLeave Value=""/>
             <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -1048,8 +1072,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object23>
-        <Object24>
+        </Object22>
+        <Object23>
           <Name Value="Memo14"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -1075,10 +1099,14 @@
             <FormatStr Value=""/>
             <Memo Value="[frmDM.ZQueryDruckenDetail.&quot;Bank&quot;]&#xD;&#xA;"/>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
             <OnClick Value=""/>
             <OnMouseEnter Value=""/>
             <OnMouseLeave Value=""/>
             <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -1100,121 +1128,17 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object24>
-        <Object25>
-          <Name Value="Memo17"/>
-          <ClassName Value="TfrMemoView"/>
-          <Visible Value="True"/>
-          <Typ Value="gtMemo"/>
-          <StreamMode Value="0"/>
-          <Size>
-            <Left Value="36"/>
-            <Top Value="196"/>
-            <Width Value="104"/>
-            <Height Value="18"/>
-          </Size>
-          <Flags Value="3"/>
-          <FillColor Value="clNone"/>
-          <Frames>
-            <FrameColor Value="clBlack"/>
-            <FrameStyle Value="frsSolid"/>
-            <FrameWidth Value="1"/>
-            <FrameBorders Value=""/>
-            <Restrictions Value=""/>
-          </Frames>
-          <Data>
-            <Format Value="556"/>
-            <FormatStr Value=""/>
-            <Memo Value="Sachkonto&#xD;&#xA;"/>
-            <Script Value=""/>
-            <OnClick Value=""/>
-            <OnMouseEnter Value=""/>
-            <OnMouseLeave Value=""/>
-            <DetailReport Value=""/>
-          </Data>
-          <Tag Value=""/>
-          <FURLInfo Value=""/>
-          <Font>
-            <Name Value="Arial"/>
-            <Size Value="12"/>
-            <Color Value="clBlack"/>
-            <Charset Value="0"/>
-            <Style Value="fsBold"/>
-          </Font>
-          <Highlight>
-            <FontStyle Value="2"/>
-            <FontColor Value="clBlack"/>
-            <FillColor Value="clWhite"/>
-            <HighlightStr Value=""/>
-          </Highlight>
-          <Alignment Value="taLeftJustify"/>
-          <Layout Value="tlTop"/>
-          <Angle Value="0"/>
-          <Justify Value="False"/>
-          <Cursor Value="0"/>
-        </Object25>
-        <Object26>
+        </Object23>
+        <Object24>
           <Name Value="Memo19"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
           <Typ Value="gtMemo"/>
           <StreamMode Value="0"/>
           <Size>
-            <Left Value="160"/>
-            <Top Value="196"/>
-            <Width Value="551"/>
-            <Height Value="20"/>
-          </Size>
-          <Flags Value="3"/>
-          <FillColor Value="clNone"/>
-          <Frames>
-            <FrameColor Value="clBlack"/>
-            <FrameStyle Value="frsSolid"/>
-            <FrameWidth Value="1"/>
-            <FrameBorders Value=""/>
-            <Restrictions Value=""/>
-          </Frames>
-          <Data>
-            <Format Value="556"/>
-            <FormatStr Value=""/>
-            <Memo Value="[frmDM.ZQueryDrucken.&quot;Sachkonto&quot;]&#xD;&#xA;"/>
-            <Script Value=""/>
-            <OnClick Value=""/>
-            <OnMouseEnter Value=""/>
-            <OnMouseLeave Value=""/>
-            <DetailReport Value=""/>
-          </Data>
-          <Tag Value=""/>
-          <FURLInfo Value=""/>
-          <Font>
-            <Name Value="Arial"/>
-            <Size Value="12"/>
-            <Color Value="clBlack"/>
-            <Charset Value="0"/>
-            <Style Value="fsBold"/>
-          </Font>
-          <Highlight>
-            <FontStyle Value="2"/>
-            <FontColor Value="clBlack"/>
-            <FillColor Value="clWhite"/>
-            <HighlightStr Value=""/>
-          </Highlight>
-          <Alignment Value="taLeftJustify"/>
-          <Layout Value="tlTop"/>
-          <Angle Value="0"/>
-          <Justify Value="False"/>
-          <Cursor Value="0"/>
-        </Object26>
-        <Object27>
-          <Name Value="Memo15"/>
-          <ClassName Value="TfrMemoView"/>
-          <Visible Value="True"/>
-          <Typ Value="gtMemo"/>
-          <StreamMode Value="0"/>
-          <Size>
             <Left Value="36"/>
-            <Top Value="320"/>
-            <Width Value="112"/>
+            <Top Value="196"/>
+            <Width Value="675"/>
             <Height Value="20"/>
           </Size>
           <Flags Value="3"/>
@@ -1229,12 +1153,16 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="Sachkonto&#xD;&#xA;"/>
+            <Memo Value="[frmDM.ZQueryDrucken.&quot;Name&quot;]&#xD;&#xA;"/>
             <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
             <OnClick Value=""/>
             <OnMouseEnter Value=""/>
             <OnMouseLeave Value=""/>
             <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
           </Data>
           <Tag Value=""/>
           <FURLInfo Value=""/>
@@ -1256,60 +1184,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object27>
-        <Object28>
-          <Name Value="Memo20"/>
-          <ClassName Value="TfrMemoView"/>
-          <Visible Value="True"/>
-          <Typ Value="gtMemo"/>
-          <StreamMode Value="0"/>
-          <Size>
-            <Left Value="160"/>
-            <Top Value="320"/>
-            <Width Value="339"/>
-            <Height Value="20"/>
-          </Size>
-          <Flags Value="3"/>
-          <FillColor Value="clNone"/>
-          <Frames>
-            <FrameColor Value="clBlack"/>
-            <FrameStyle Value="frsSolid"/>
-            <FrameWidth Value="1"/>
-            <FrameBorders Value=""/>
-            <Restrictions Value=""/>
-          </Frames>
-          <Data>
-            <Format Value="556"/>
-            <FormatStr Value=""/>
-            <Memo Value="[frmDM.ZQueryDrucken.&quot;Sachkonto&quot;]&#xD;&#xA;"/>
-            <Script Value=""/>
-            <OnClick Value=""/>
-            <OnMouseEnter Value=""/>
-            <OnMouseLeave Value=""/>
-            <DetailReport Value=""/>
-          </Data>
-          <Tag Value=""/>
-          <FURLInfo Value=""/>
-          <Font>
-            <Name Value="Arial"/>
-            <Size Value="12"/>
-            <Color Value="clBlack"/>
-            <Charset Value="0"/>
-            <Style Value="fsBold"/>
-          </Font>
-          <Highlight>
-            <FontStyle Value="2"/>
-            <FontColor Value="clBlack"/>
-            <FillColor Value="clWhite"/>
-            <HighlightStr Value=""/>
-          </Highlight>
-          <Alignment Value="taLeftJustify"/>
-          <Layout Value="tlTop"/>
-          <Angle Value="0"/>
-          <Justify Value="False"/>
-          <Cursor Value="0"/>
-        </Object28>
-        <Object29>
+        </Object24>
+        <Object25>
           <Name Value="Line2"/>
           <ClassName Value="TfrLineView"/>
           <Visible Value="True"/>
@@ -1330,8 +1206,12 @@
           </Frames>
           <Tag Value=""/>
           <FURLInfo Value=""/>
-        </Object29>
-        <ObjectCount Value="29"/>
+          <Data>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
+          </Data>
+        </Object25>
+        <ObjectCount Value="25"/>
       </Page1>
       <FVal>
         <Count Value="1"/>

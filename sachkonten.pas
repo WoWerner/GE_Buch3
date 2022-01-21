@@ -118,18 +118,18 @@ end;
 procedure TfrmSachkonten.AfterScroll;
 begin
   //Hier wegen Query Refresh
-  DBGridSachkontenliste.Columns.Items[0].Width   :=  80;    //SachkontoNr
-  DBGridSachkontenliste.Columns.Items[1].Width   := 375;    //SachKonto
-  DBGridSachkontenliste.Columns.Items[2].Visible := false;  //Letzter Betrag
-  DBGridSachkontenliste.Columns.Items[3].Width   :=  50;    //Sortpos
+  DBGridSachkontenliste.Columns.Items[0].Width   :=  60;    //SachkontoNr
+  DBGridSachkontenliste.Columns.Items[1].Width   :=  60;    //Sortpos
+  DBGridSachkontenliste.Columns.Items[2].Width   :=  60;    //Statistik
+  DBGridSachkontenliste.Columns.Items[3].Width   := 400;    //Name
   DBGridSachkontenliste.Columns.Items[4].Width   :=  70;    //KontoType
-  DBGridSachkontenliste.Columns.Items[5].Width   :=  60;    //Statistik
+  DBGridSachkontenliste.Columns.Items[5].Visible:=false;    //Kontostand
   DBGridSachkontenliste.Columns.Items[6].Width   := 180;    //Finanzamt
   DBGridSachkontenliste.Columns.Items[7].Width   := 100;    //Finanzamt vom
   DBGridSachkontenliste.Columns.Items[8].Width   := 100;    //Finanzamt am
 
-  ediSachkontonummer.Value := frmDM.ZQuerySachkonten.FieldByName('SachkontoNr').AsInteger;
-  ediSachkonto.Text        := frmDM.ZQuerySachkonten.FieldByName('SachKonto').AsString;
+  ediSachkontonummer.Value := frmDM.ZQuerySachkonten.FieldByName('KontoNr').AsInteger;
+  ediSachkonto.Text        := frmDM.ZQuerySachkonten.FieldByName('Name').AsString;
   ediSortPos.Value         := frmDM.ZQuerySachkonten.FieldByName('Sortpos').AsInteger;
   cbKontoType.Text         := frmDM.ZQuerySachkonten.FieldByName('KontoType').AsString;
   ediStatistik.Value       := frmDM.ZQuerySachkonten.FieldByName('Statistik').AsInteger;
@@ -137,17 +137,14 @@ begin
   ediFinanzamtNr.Text      := frmDM.ZQuerySachkonten.FieldByName('FinanzamtNr').AsString;
   ediFinanzamtVom.Text     := frmDM.ZQuerySachkonten.FieldByName('FinanzamtVom').AsString;
   btnDelete.ShowHint       := false;
-  btnDelete.Enabled        := not ((frmDM.ZQuerySachkonten.FieldByName('SachkontoNr').AsInteger = 1) or
-                                   (frmDM.ZQuerySachkonten.FieldByName('SachkontoNr').AsInteger = 999)); //Sammelkonten
-  btnAendern.Enabled       := btnDelete.Enabled;
-
+  btnDelete.Enabled        := true;
   ediSachkontonummer.ShowHint:= false;
   ediSachkontonummer.Enabled := btnDelete.Enabled;
 
   if btnDelete.Enabled
     then
       begin
-        frmDM.ZQueryHelp.SQL.Text:='select count(SachkontoNr) as c, max(Buchungsjahr) as m from journal where SachkontoNr='+inttostr(ediSachkontonummer.Value);
+        frmDM.ZQueryHelp.SQL.Text:='select count(konto_nach) as c, max(Buchungsjahr) as m from journal where konto_nach='+inttostr(ediSachkontonummer.Value);
         frmDM.ZQueryHelp.Open;
         if (frmDM.ZQueryHelp.FieldByName('c').AsInteger <> 0)
           then
@@ -179,21 +176,6 @@ begin
 
   frmDM.ZQuerySachkonten.Close;
 end;
-
-{
-procedure TfrmSachkonten.DBGridSachkontenlisteDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
-
-begin
-  if Column.FieldName = 'LetzterBetrag'
-    then
-      begin
-        //den, vom System gezeichneten, Inhalt löschen
-        DBGridSachkontenliste.Canvas.FillRect(Rect);
-        //eigenen Text reinschreiben
-        DBGridSachkontenliste.Canvas.TextRect(Rect,Rect.Left+4,Rect.Top+2,Format('€ %m',[Column.Field.AsLongint/100]));
-      end;
-end;
-}
 
 procedure TfrmSachkonten.DBGridSachkontenlistePrepareCanvas(sender: TObject; DataCol: Integer; Column: TColumn; AState: TGridDrawState);
 
@@ -235,7 +217,7 @@ end;
 
 procedure TfrmSachkonten.btnSetFreistellungContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
 begin
-  frmDM.ZQueryHelp.SQL.Text:='Update Sachkonten set '+
+  frmDM.ZQueryHelp.SQL.Text:='Update konten set '+
                              'Finanzamt="'+sFinanzamt+'", '+
                              'FinanzamtVom="'+sFinanzamtVom+'", '+
                              'FinanzamtNr="'+sFinanzamtNr+'" '+
@@ -243,6 +225,7 @@ begin
   frmDM.ZQueryHelp.ExecSQL;
   frmDM.ZQuerySachkonten.Refresh;
   AfterScroll;
+  ShowMessage('Finanzamtsdaten eingetragen.');
 end;
 
 procedure TfrmSachkonten.btnSpeichernClick(Sender: TObject);
@@ -261,10 +244,10 @@ begin
 
   sPos := inttostr(ediSachkontonummer.Value);
 
-  frmDM.ZQueryHelp.SQL.Text:='insert into sachkonten (Sachkontonr, Sachkonto, LetzterBetrag, Sortpos, KontoType, Statistik, Finanzamt, FinanzamtVom, FinanzamtNr) values ('+
+  frmDM.ZQueryHelp.SQL.Text:='insert into konten (kontonr, Name, Sortpos, KontoType, Statistik, Finanzamt, FinanzamtVom, FinanzamtNr) values ('+
                               inttostr(ediSachkontonummer.Value)+', "'+
                               ediSachkonto.text+
-                              '", 0, '+
+                              '",'+
                               inttostr(ediSortPos.Value)+', "'+
                               cbKontoType.Text+'", '+
                               inttostr(ediStatistik.Value)+', "'+
@@ -277,7 +260,7 @@ begin
     on E: Exception do LogAndShowError(e.Message);
   end;
   frmDM.ZQuerySachkonten.Refresh;
-  frmDM.ZQuerySachkonten.Locate('Sachkontonr', sPos, []);
+  frmDM.ZQuerySachkonten.Locate('kontonr', sPos, []);
   AfterScroll;
 end;
 
@@ -288,16 +271,16 @@ var
 
 begin
   Bookmark := frmDM.ZQuerySachkonten.GetBookmark;
-  frmDM.ZQueryHelp.SQL.Text:='Update Sachkonten set '+
-                             'Sachkontonr='+inttostr(ediSachkontonummer.Value)+', '+
-                             'sachkonto="'+ediSachKonto.text+'", '+
+  frmDM.ZQueryHelp.SQL.Text:='Update konten set '+
+                             'kontonr='+inttostr(ediSachkontonummer.Value)+', '+
+                             'name="'+ediSachKonto.text+'", '+
                              'Sortpos='+inttostr(ediSortPos.Value)+', '+
                              'KontoType="'+cbKontoType.Text+'", '+
                              'Finanzamt="'+ediFinanzamt.text+'", '+
                              'FinanzamtVom="'+ediFinanzamtVom.text+'", '+
                              'FinanzamtNr="'+ediFinanzamtNr.text+'", '+
                              'Statistik='+inttostr(ediStatistik.Value)+' '+
-                             'where SachkontoNr='+frmDM.ZQuerySachkonten.FieldByName('SachkontoNr').AsString;
+                             'where kontoNr='+frmDM.ZQuerySachkonten.FieldByName('kontoNr').AsString;
   frmDM.ZQueryHelp.ExecSQL;
   frmDM.ZQuerySachkonten.Refresh;
   frmDM.ZQuerySachkonten.GotoBookmark(Bookmark);
@@ -326,7 +309,7 @@ begin
   if MessageDlg('Soll das Sachkonto "'+ ediSachkonto.Text+'" gelöscht werden?', mtConfirmation, [mbYes, mbNo],0) = mrYes
     then
       begin
-        frmDM.ZQueryHelp.SQL.Text:='delete from sachkonten where sachkontonr = '+frmDM.ZQuerySachkonten.FieldByName('sachkontonr').AsString;
+        frmDM.ZQueryHelp.SQL.Text:='delete from konten where kontonr = '+frmDM.ZQuerySachkonten.FieldByName('kontonr').AsString;
         frmDM.ZQueryHelp.ExecSQL;
         frmDM.ZQuerySachkonten.Refresh;
         AfterScroll;

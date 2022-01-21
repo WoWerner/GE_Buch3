@@ -155,7 +155,7 @@ type
     CSVImportRow         : integer;
     CSVKeySK             : String;
     CSVKeyPers           : String;
-    Save_BankNr          : integer;
+    Save_BankNr          : String;
     Save_Startkontostand : integer;
     bStartFinished       : boolean;
     procedure ZeigeListe(SQL: String);
@@ -211,6 +211,7 @@ var
   Col5Width,
   Col6Width,
   Col7Width,
+  Col8Width,
   Winleft,
   WinTop,
   WinWidth,
@@ -233,8 +234,8 @@ end;
 Function TfrmJournal.Bool2Str(b: boolean):String;
 begin
   if b
-  then result := sJa
-  else result := sNein;
+    then result := sJa
+    else result := sNein;
 end;
 
 function TfrmJournal.GetSortOrder: String;
@@ -329,8 +330,8 @@ begin
 
   btnSpeichern.Enabled := bAllesOK;
 
-  labVZ.Visible := ((pos('A', cbSachKonto.Text) <= 3) and (pos('A', cbSachKonto.Text) > 0) and (CurrencyToInt(ediBetrag.Text, bEuroModus) > 0)) or
-                   ((pos('E', cbSachKonto.Text) <= 3) and (pos('E', cbSachKonto.Text) > 0) and (CurrencyToInt(ediBetrag.Text, bEuroModus) < 0));
+  labVZ.Visible := ((pos('A', cbSachKonto.Text) = 1) and (CurrencyToInt(ediBetrag.Text, bEuroModus) > 0)) or
+                   ((pos('E', cbSachKonto.Text) = 1) and (CurrencyToInt(ediBetrag.Text, bEuroModus) < 0));
 
   if btnSpeichernAuto.Visible
     then
@@ -368,7 +369,8 @@ procedure TfrmJournal.SetFormular;
 
 var
   StartKontostand,
-  SummeBuchungen  : longint;
+  SummeBuchungen,
+  SummeBuchungen2 : longint;
   i               : integer;
 
 begin
@@ -384,14 +386,14 @@ begin
           browse,
           import           : begin
                                DateEditBuchungsdatum.Date := frmDM.ZQueryJournal.FieldByName('Datum').AsDateTime;
-                               ediSachKontoNummer.Text    := frmDM.ZQueryJournal.FieldByName('SachkontoNr').Asstring;
+                               ediSachKontoNummer.Text    := frmDM.ZQueryJournal.FieldByName('Konto_nach').Asstring;
                                ediPersonenID.Text         := frmDM.ZQueryJournal.FieldByName('PersonenID').Asstring;
                                ediBankNr.Text             := frmDM.ZQueryJournal.FieldByName('BankNr').Asstring;
                                ediBetrag.Text             := IntToCurrency(frmDM.ZQueryJournal.FieldByName('Betrag').AsLongint);
                                cbBuchungstext.Text        := frmDM.ZQueryJournal.FieldByName('Buchungstext').Asstring;
                                ediBemerkung.Text          := frmDM.ZQueryJournal.FieldByName('Bemerkung').Asstring;
                                ediBelegnummer.Text        := frmDM.ZQueryJournal.FieldByName('Belegnummer').Asstring;
-                               cbAufwendungen.Checked     := str2bool(frmDM.ZQueryJournal.FieldByName('ResS1').Asstring);
+                               cbAufwendungen.Checked     := str2Bool(frmDM.ZQueryJournal.FieldByName('Aufwandsspende').AsString);
                              end;
           append_Empty     : begin
                                //DateEditBuchungsdatum.Date := now();
@@ -435,13 +437,13 @@ begin
         if panSummen.Visible
           then
             begin
-              if (ediSachKontoNummer.Text <> '0')  and (ediSachKontoNummer.Text <> '')
+              if (ediSachKontoNummer.Text <> '0')  and (ediSachKontoNummer.Text <> '') and (pos('B', cbSachKonto.Text) <> 1)
                 then
                   begin
-                    lab_A_SK.Caption := IntToCurrency(GetDBSum(frmDM.ZQueryHelp, 'Journal', 'Betrag', '', 'SachkontoNr='+ediSachKontoNummer.Text+
+                    lab_A_SK.Caption := IntToCurrency(GetDBSum(frmDM.ZQueryHelp, 'Journal', 'Betrag', '', 'Konto_nach='+ediSachKontoNummer.Text+
                                                                                  ' and BuchungsJahr='+inttostr(ediBuchungsjahr.Value-1)+
                                                                                  ' and LaufendeNr <='+frmDM.ZQueryJournal.FieldByName('LaufendeNr').Asstring));
-                    lab_N_SK.Caption := IntToCurrency(GetDBSum(frmDM.ZQueryHelp, 'Journal', 'Betrag', '', 'SachkontoNr='+ediSachKontoNummer.Text+
+                    lab_N_SK.Caption := IntToCurrency(GetDBSum(frmDM.ZQueryHelp, 'Journal', 'Betrag', '', 'Konto_nach='+ediSachKontoNummer.Text+
                                                                                  ' and BuchungsJahr='+inttostr(ediBuchungsjahr.Value)+
                                                                                  ' and LaufendeNr<='+frmDM.ZQueryJournal.FieldByName('LaufendeNr').Asstring));
                   end
@@ -478,25 +480,26 @@ begin
               SummeBuchungen  := GetDBSum(frmDM.ZQueryHelp, 'Journal', 'Betrag', '', 'BankNr='+ediBankNr.Text+
                                                                ' and BuchungsJahr='+inttostr(ediBuchungsjahr.Value)+
                                                                ' and LaufendeNr<='+frmDM.ZQueryJournal.FieldByName('LaufendeNr').Asstring);
-              lab_N_Konto.Caption := IntToCurrency(StartKontostand+SummeBuchungen);
+              SummeBuchungen2 := GetDBSum(frmDM.ZQueryHelp, 'Journal', 'Betrag', '', 'Konto_nach='+ediBankNr.Text+
+                                                               ' and BuchungsJahr='+inttostr(ediBuchungsjahr.Value)+
+                                                               ' and LaufendeNr<='+frmDM.ZQueryJournal.FieldByName('LaufendeNr').Asstring);
+              lab_N_Konto.Caption := IntToCurrency(StartKontostand+SummeBuchungen-SummeBuchungen2);
               if cbKonto.ItemIndex > 0
-                then lab_A_Konto.Caption := IntToCurrency(StartKontostand+SummeBuchungen-frmDM.ZQueryJournal.FieldByName('Betrag').AsLongint)
+                then lab_A_Konto.Caption := IntToCurrency(StartKontostand+SummeBuchungen-SummeBuchungen2-frmDM.ZQueryJournal.FieldByName('Betrag').AsLongint)
                 else lab_A_Konto.Caption := '0,00';
             end;
 
         //Hier wegen refresh auf Query
-        DBGridJournal.Columns.Items[0].Width         := Col0Width;    //LaufendeNr
-        DBGridJournal.Columns.Items[1].Width         := Col1Width;    //Datum
-        DBGridJournal.Columns.Items[2].Width         := Col2Width;    //SachkontoNr
-        DBGridJournal.Columns.Items[3].Width         := Col3Width;    //BankNr
-        DBGridJournal.Columns.Items[4].Width         := Col4Width;    //PersonenID
-        DBGridJournal.Columns.Items[5].Width         := Col5Width;    //Betrag
-        DBGridJournal.Columns.Items[6].Width         := Col6Width;    //Buchungstext
-        DBGridJournal.Columns.Items[7].Width         := Col7Width;    //BelegNr
-        DBGridJournal.Columns.Items[7].Title.Caption := 'BelegNr';
-        DBGridJournal.Columns.Items[8].Visible       := false;        //Buchungsjahr
-        DBGridJournal.Columns.Items[9].Width         := 200;          //Bemerkung
-        for i := 10 to DBGridJournal.Columns.Count-1
+        DBGridJournal.Columns.Items[0].Width := Col0Width;
+        DBGridJournal.Columns.Items[1].Width := Col1Width;
+        DBGridJournal.Columns.Items[2].Width := Col2Width;
+        DBGridJournal.Columns.Items[3].Width := Col3Width;
+        DBGridJournal.Columns.Items[4].Width := Col4Width;
+        DBGridJournal.Columns.Items[5].Width := Col5Width;
+        DBGridJournal.Columns.Items[6].Width := Col6Width;
+        DBGridJournal.Columns.Items[7].Width := Col7Width;
+        DBGridJournal.Columns.Items[8].Width := Col8Width;
+        for i := 9 to DBGridJournal.Columns.Count-1
           do DBGridJournal.Columns.Items[i].Visible  := false;
       end;
   {$ifdef DebugCallStack} myDebugLN('SetFormular finished');  {$endif}
@@ -724,7 +727,7 @@ begin
         Betrag := frmDM.ZQueryJournal.FieldByName('Betrag').AsLongint;
         frmDM.ZQueryHelp.SQL.Text := 'delete from journal where LaufendeNr=' + frmDM.ZQueryJournal.FieldByName('LaufendeNr').AsString;
         frmDM.ZQueryHelp.ExecSQL;
-        frmDM.ZQueryHelp.SQL.Text := 'update Banken set Kontostand=Kontostand - '+inttostr(Betrag)+' where BankNr='+inttostr(BankNr);
+        frmDM.ZQueryHelp.SQL.Text := 'update konten set Kontostand=Kontostand - '+inttostr(Betrag)+' where KontoNr='+inttostr(BankNr);
         frmDM.ZQueryHelp.ExecSQL;
         frmDM.ZQueryJournal.Refresh;
         frmDM.ZQueryJournal.Last;
@@ -876,7 +879,7 @@ begin
     else panImportData.Height := panCSVImportData.Height;
 
     //Für Einnahmekonten soll es ein Zahler geben
-    if (pos('E-', cbSachkonto.Text) > 0)
+    if (pos('E', cbSachkonto.Text) = 1)
       then bFoundPers := (ediPersonenID.Text <> '0')
       else bFoundPers := true;
 
@@ -906,7 +909,7 @@ begin
 
     ediBemerkung.Text := ''; //Damit nicht überall die gleiche Bemerkung steht....
 
-//Automatisch buchen
+    //Automatisch buchen
     if  cbCSVAutomatik.Checked          and
        (ediSachKontoNummer.Text <> '0') and (ediSachKontoNummer.Text <> '') and
        (ediBankNr.Text <> '0')          and (ediBankNr.Text <> '')          and
@@ -929,7 +932,7 @@ end;
 procedure TfrmJournal.btnAendernClick(Sender: TObject);
 begin
   {$ifdef DebugCallStack} myDebugLN('btnAendernClick'); {$endif}
-  Save_BankNr          := strtoint(ediBankNr.Text);
+  Save_BankNr          := ediBankNr.Text;
   Save_Startkontostand := CurrencyToInt(lab_KontoStart.Caption, bEuroModus);
   SetMode(edit);
   {$ifdef DebugCallStack} myDebugLN('btnAendernClick finished'); {$endif}
@@ -976,9 +979,7 @@ procedure TfrmJournal.btnSpeichernClick(Sender: TObject);
 var
   nHelp,
   Betrag,
-  Sollbetrag,
-  StartKontostand,
-  SummeBuchungen   : longint;
+  Sollbetrag: longint;
 
 begin
   {$ifdef DebugCallStack} myDebugLN('btnSpeichernClick'); {$endif}
@@ -999,35 +1000,26 @@ begin
                                                    SQL_QuotedStr(ediBemerkung.Text),
                                                    bool2str(cbAufwendungen.Checked)]); // Aufwandsspende
                frmDM.ZQueryHelp.ExecSQL;
-
-               //Letzter Betrag nach Person
-               if (not ((ediPersonenID.Text = '') or (ediPersonenID.Text = '0'))) and bJournalLast
-                 then
-                   begin
-                     frmDM.ZQueryHelp.SQL.Text := 'update Personen set LetzterBetrag='+inttostr(betrag)+' where PersonenID='+ediPersonenID.Text;
-                     frmDM.ZQueryHelp.ExecSQL;
-                   end;
              end;
     edit   : begin
                frmDM.ZQueryHelp.SQL.Text := 'update journal set ';
                frmDM.ZQueryHelp.SQL.add('Datum='        + SQLiteDateFormat(DateEditBuchungsdatum.Date)+',');
-               frmDM.ZQueryHelp.SQL.add('SachkontoNr='  + ediSachKontoNummer.Text+',');
+               frmDM.ZQueryHelp.SQL.add('Konto_nach='   + ediSachKontoNummer.Text+',');
                frmDM.ZQueryHelp.SQL.add('BankNr='       + ediBankNr.Text+',');
                frmDM.ZQueryHelp.SQL.add('PersonenID='   + ediPersonenID.Text+',');
                frmDM.ZQueryHelp.SQL.add('Betrag='       + inttostr(CurrencyToInt(ediBetrag.Text, bEuroModus))+',');
                frmDM.ZQueryHelp.SQL.add('Buchungstext="'+ SQL_QuotedStr(cbBuchungstext.Text)+'",');
                frmDM.ZQueryHelp.SQL.add('Belegnummer="' + SQL_QuotedStr(ediBelegnummer.Text)+'",');
                frmDM.ZQueryHelp.SQL.add('Bemerkung="'   + SQL_QuotedStr(ediBemerkung.Text)+'",');
-               frmDM.ZQueryHelp.SQL.add('ResS1="'       + bool2str(cbAufwendungen.Checked)+'"');
+               frmDM.ZQueryHelp.SQL.add('Aufwandsspende="'  + bool2str(cbAufwendungen.Checked)+'"');
                frmDM.ZQueryHelp.SQL.add('where LaufendeNr=' + frmDM.ZQueryJournal.FieldByName('LaufendeNr').AsString);
                frmDM.ZQueryHelp.ExecSQL;
              end;
   end;
 
   //Kontostand Bank
-  StartKontostand := strtoint(slBankenStartSaldo.Strings[cbKonto.ItemIndex]);
-  SummeBuchungen  := GetDBSum(frmDM.ZQueryHelp, 'Journal', 'Betrag', '', 'BankNr='+ediBankNr.Text+' and BuchungsJahr='+inttostr(ediBuchungsjahr.Value));
-  frmDM.ZQueryHelp.SQL.Text := 'update Banken set Kontostand='+inttostr(StartKontostand+SummeBuchungen)+' where BankNr='+ediBankNr.Text;
+  frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\updateKontostand.sql');
+  frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := ediBuchungsjahr.Value;
   frmDM.ZQueryHelp.ExecSQL;
 
   case Modus of
@@ -1046,13 +1038,6 @@ begin
                end;
              end;
     edit   : begin
-               if Save_BankNr <> strtoint(ediBankNr.Text)
-                 then
-                   begin
-                     SummeBuchungen  := GetDBSum(frmDM.ZQueryHelp, 'Journal', 'Betrag', '', 'BankNr='+inttostr(Save_BankNr)+' and BuchungsJahr='+inttostr(ediBuchungsjahr.Value));
-                     frmDM.ZQueryHelp.SQL.Text := 'update Banken set Kontostand='+inttostr(Save_Startkontostand+SummeBuchungen)+' where BankNr='+inttostr(Save_BankNr);
-                     frmDM.ZQueryHelp.ExecSQL;
-                   end;
                bStartFinished := false;
                nHelp := frmDM.ZQueryJournal.RecNo;
                frmDM.ZQueryJournal.Refresh;
@@ -1249,6 +1234,7 @@ begin
   Col5Width := DBGridJournal.Columns.Items[5].Width;
   Col6Width := DBGridJournal.Columns.Items[6].Width;
   Col7Width := DBGridJournal.Columns.Items[7].Width;
+  Col8Width := DBGridJournal.Columns.Items[8].Width;
 end;
 
 procedure TfrmJournal.DBGridJournalDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -1269,10 +1255,10 @@ begin
   if bStartFinished
     then
       begin
-        if frmDM.ZQueryBanken.Locate('BankNr', ediBankNr.Text, [])
+        if frmDM.ZQueryBanken.Locate('KontoNr', ediBankNr.Text, [])
           then
             begin
-              cbKonto.Text := frmDM.ZQueryBanken.FieldByName('Bank').AsString+' '+frmDM.ZQueryBanken.FieldByName('Konto').AsString;
+              cbKonto.Text := frmDM.ZQueryBanken.FieldByName('Name').AsString;
             end
           else
             begin
@@ -1342,14 +1328,10 @@ begin
                 then
                   begin
                     cbPersonenname.Text:= frmDM.ZQueryPersonen.FieldByName('Nachname').AsString+', '+frmDM.ZQueryPersonen.FieldByName('Vorname').AsString;
-                    if (Modus in [append_TakeOver, append_Empty]) and bJournalLast
-                      then ediBetrag.Text := IntToCurrency(frmDM.ZQueryPersonen.FieldByName('LetzterBetrag').AsInteger);
                   end
                 else
                   begin
                     cbPersonenname.ItemIndex := 0;
-                    //if Modus in [append_TakeOver, append_Empty]
-                    //  then ediBetrag.Text := '0,00';
                   end;
             end
           else
@@ -1367,20 +1349,16 @@ begin
   if bStartFinished
     then
       begin
-        if frmDM.ZQuerySachkonten.Locate('SachkontoNr', ediSachKontoNummer.Text, [])
+        if frmDM.ZQuerySachkonten.Locate('KontoNr', ediSachKontoNummer.Text, [])
           then
             begin
-              cbSachkonto.ItemIndex := cbSachkonto.Items.IndexOf('('+frmDM.ZQuerySachkonten.FieldByName('Kontotype').AsString+'-'+
-                                                                     frmDM.ZQuerySachkonten.FieldByName('SachkontoNr').AsString+') '+
-                                                                     frmDM.ZQuerySachkonten.FieldByName('Sachkonto').AsString);
-              //if Modus in [append_TakeOver, append_Empty]
-              //  then ediBetrag.Text := IntToCurrency(frmDM.ZQuerySachkonten.FieldByName('LetzterBetrag').AsInteger);
+              cbSachkonto.ItemIndex := cbSachkonto.Items.IndexOf(frmDM.ZQuerySachkonten.FieldByName('Kontotype').AsString+' '+
+                                                                 frmDM.ZQuerySachkonten.FieldByName('KontoNr').AsString+' '+
+                                                                 frmDM.ZQuerySachkonten.FieldByName('Name').AsString);
             end
           else
             begin
               cbSachkonto.ItemIndex := 0;
-              //if Modus in [append_TakeOver, append_Empty]
-              //  then ediBetrag.Text := '0,00';
             end;
         cbSachkonto.Hint := cbSachkonto.Text;
         CheckSettingsForSave;
@@ -1395,7 +1373,7 @@ var
 
 begin
   sFilter := '';
-  if ediSachKontoNummerFilter.Text <> '' then sFilter := sFilter + ' and SachkontoNr = '        + ediSachKontoNummerFilter.Text+ ' ';
+  if ediSachKontoNummerFilter.Text <> '' then sFilter := sFilter + ' and Konto_nach = '        + ediSachKontoNummerFilter.Text+ ' ';
   if ediBankNummerFilter.Text      <> '' then sFilter := sFilter + ' and BankNr = '             + ediBankNummerFilter.Text+ ' ';
   if ediPersonenNummerFilter.Text  <> '' then sFilter := sFilter + ' and journal.PersonenID = ' + ediPersonenNummerFilter.Text+ ' ';
   if ediTextFilter.Text            <> '' then sFilter := sFilter + ' and ((Buchungstext like ''%'+ediTextFilter.Text+'%'') or '+
@@ -1459,6 +1437,7 @@ begin
   help.WriteIniInt(sIniFile, 'Journal', 'Col5Width'   , DBGridJournal.Columns.Items[5].Width);
   help.WriteIniInt(sIniFile, 'Journal', 'Col6Width'   , DBGridJournal.Columns.Items[6].Width);
   help.WriteIniInt(sIniFile, 'Journal', 'Col7Width'   , DBGridJournal.Columns.Items[7].Width);
+  help.WriteIniInt(sIniFile, 'Journal', 'Col8Width'   , DBGridJournal.Columns.Items[8].Width);
   help.WriteIniInt(sIniFile, 'Journal', 'Winleft'     , self.Left);
   help.WriteIniInt(sIniFile, 'Journal', 'WinTop'      , self.Top);
   help.WriteIniInt(sIniFile, 'Journal', 'WinWidth'    , self.Width);
@@ -1517,13 +1496,14 @@ begin
   {$ifdef DebugCallStack} myDebugLN('FormShow'); {$endif}
 
   Col0Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col0Width'   ,  50);
-  Col1Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col1Width'   ,  70);
-  Col2Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col2Width'   ,  60);
-  Col3Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col3Width'   ,  60);
-  Col4Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col4Width'   ,  60);
-  Col5Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col5Width'   ,  80);
-  Col6Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col6Width'   , 270);
-  Col7Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col7Width'   ,  70);
+  Col1Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col1Width'   , 100);
+  Col2Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col2Width'   ,  70);
+  Col3Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col3Width'   ,  50);
+  Col4Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col4Width'   ,  70);
+  Col5Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col5Width'   ,  70);
+  Col6Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col6Width'   ,  80);
+  Col7Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col7Width'   , 280);
+  Col8Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col8Width'   , 280);
   Winleft      := help.ReadIniInt(sIniFile, 'Journal', 'Winleft'     , self.Left);
   WinTop       := help.ReadIniInt(sIniFile, 'Journal', 'WinTop'      , self.Top);
   WinWidth     := help.ReadIniInt(sIniFile, 'Journal', 'WinWidth'    , self.Width);
@@ -1578,10 +1558,10 @@ begin
   frmDM.ZQuerySachkonten.First;
   while not frmDM.ZQuerySachkonten.EOF do
     begin
-      cbSachkonto.AddItem('('+frmDM.ZQuerySachkonten.FieldByName('Kontotype').AsString+'-'+
-                          frmDM.ZQuerySachkonten.FieldByName('SachkontoNr').AsString+') '+
-                          frmDM.ZQuerySachkonten.FieldByName('Sachkonto').AsString,
-                          TObject(frmDM.ZQuerySachkonten.FieldByName('SachkontoNr').AsInteger));
+      cbSachkonto.AddItem(frmDM.ZQuerySachkonten.FieldByName('Kontotype').AsString+' '+
+                          frmDM.ZQuerySachkonten.FieldByName('KontoNr').AsString+' '+
+                          frmDM.ZQuerySachkonten.FieldByName('Name').AsString,
+                          TObject(frmDM.ZQuerySachkonten.FieldByName('KontoNr').AsInteger));
       frmDM.ZQuerySachkonten.Next;
     end;
   cbSachkonto.ItemIndex:=0;
@@ -1616,9 +1596,8 @@ begin
   frmDM.ZQueryBanken.First;
   while not frmDM.ZQueryBanken.EOF do
     begin
-      cbKonto.AddItem(frmDM.ZQueryBanken.FieldByName('Bank').AsString+' '+
-                      frmDM.ZQueryBanken.FieldByName('Konto').AsString,
-                      TObject(frmDM.ZQueryBanken.FieldByName('BankNr').AsInteger));
+      cbKonto.AddItem(frmDM.ZQueryBanken.FieldByName('Name').AsString,
+                      TObject(frmDM.ZQueryBanken.FieldByName('KontoNr').AsInteger));
       slBankenStartSaldo.Add(frmDM.ZQueryBanken.FieldByName('Anfangssaldo').AsString);
       frmDM.ZQueryBanken.Next;
     end;
@@ -1641,12 +1620,12 @@ end;
 
 procedure TfrmJournal.mnuBankenlisteClick(Sender: TObject);
 begin
-  ZeigeListe('select * from banken order by Sortpos');
+  ZeigeListe('select * from konten where kontotype = "B" order by Sortpos');
 end;
 
 procedure TfrmJournal.mnuBankenliste_NrClick(Sender: TObject);
 begin
-  ZeigeListe('select * from banken order by Banknr');
+  ZeigeListe('select * from konten where kontotype = "B" order by KontoNr');
 end;
 
 procedure TfrmJournal.mnuInternBankClick(Sender: TObject);
@@ -1670,7 +1649,7 @@ end;
 
 procedure TfrmJournal.mnuSachkontenlisteClick(Sender: TObject);
 begin
-  ZeigeListe('select * from sachkonten order by Sortpos');
+  ZeigeListe('select * from konten where kontotype <> "B" order by Sortpos');
 end;
 
 procedure TfrmJournal.ZeigeListe(SQL: String);

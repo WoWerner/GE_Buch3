@@ -1,11 +1,9 @@
-select '('||ifnull(banken.banknr,'')||') '||ifnull(banken.bank,'')||' '||ifnull(banken.konto,'') as Name,
-        banken.BankNr,
-        banken.Kontostand,
+select  konten.Name,
+        konten.KontoNr,
+        konten.Kontostand,
         bankenabschluss.Anfangssaldo,
         bankenabschluss.Abschlusssaldo 
-from banken
-left join bankenabschluss on banken.BankNr=bankenabschluss.BankNr
-where (bankenabschluss.BuchungsJahr=:BJAHR) and 
-      (banken.BankNr > 1) and 
-	  (banken.BankNr < 900)
-order by banken.BankNr
+from konten
+left join bankenabschluss on konten.KontoNr=bankenabschluss.KontoNr
+where (bankenabschluss.BuchungsJahr=:BJAHR) and (konten.kontotype = "B")
+order by konten.KontoNr

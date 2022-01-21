@@ -1,33 +1,33 @@
 object frmDM: TfrmDM
-  Left = 407
+  Left = 409
   Height = 351
-  Top = 178
+  Top = 180
   Width = 780
   Caption = 'DM'
   OnCreate = FormCreate
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '2.0.12.0'
   object ZQueryBanken: TZQuery
     Connection = ZConnectionBuch
     AfterScroll = ZQueryBankenAfterScroll
     Params = <>
-    left = 136
-    top = 72
+    Left = 136
+    Top = 72
   end
   object dsBanken: TDataSource
     DataSet = ZQueryBanken
-    left = 232
-    top = 72
+    Left = 232
+    Top = 72
   end
   object ZQueryHelp: TZQuery
     Connection = ZConnectionBuch
     Params = <>
-    left = 480
-    top = 16
+    Left = 480
+    Top = 16
   end
   object dsHelp: TDataSource
     DataSet = ZQueryHelp
-    left = 597
-    top = 16
+    Left = 597
+    Top = 16
   end
   object ZQueryInit: TZQuery
     Connection = ZConnectionBuch
@@ -35,13 +35,13 @@ object frmDM: TfrmDM
       'select * from init'
     )
     Params = <>
-    left = 136
-    top = 16
+    Left = 136
+    Top = 16
   end
   object dsInit: TDataSource
     DataSet = ZQueryInit
-    left = 232
-    top = 16
+    Left = 232
+    Top = 16
   end
   object ZQueryPersonen: TZQuery
     Connection = ZConnectionBuch
@@ -49,13 +49,13 @@ object frmDM: TfrmDM
       ''
     )
     Params = <>
-    left = 136
-    top = 179
+    Left = 136
+    Top = 179
   end
   object dsPersonen: TDataSource
     DataSet = ZQueryPersonen
-    left = 232
-    top = 179
+    Left = 232
+    Top = 179
   end
   object ZQueryGE_Kart_Personen: TZQuery
     Connection = ZConnectionGE_Kart
@@ -63,8 +63,8 @@ object frmDM: TfrmDM
       ''
     )
     Params = <>
-    left = 480
-    top = 291
+    Left = 480
+    Top = 291
   end
   object ZQuerySachkonten: TZQuery
     Connection = ZConnectionBuch
@@ -73,13 +73,13 @@ object frmDM: TfrmDM
       ''
     )
     Params = <>
-    left = 136
-    top = 235
+    Left = 136
+    Top = 235
   end
   object dsSachkonten: TDataSource
     DataSet = ZQuerySachkonten
-    left = 232
-    top = 235
+    Left = 232
+    Top = 235
   end
   object ZQueryJournal: TZQuery
     Connection = ZConnectionBuch
@@ -88,19 +88,19 @@ object frmDM: TfrmDM
       ''
     )
     Params = <>
-    left = 136
-    top = 291
+    Left = 136
+    Top = 291
   end
   object dsJournal: TDataSource
     DataSet = ZQueryJournal
-    left = 232
-    top = 291
+    Left = 232
+    Top = 291
   end
   object ZQueryBankenAbschluss: TZQuery
     Connection = ZConnectionBuch
     Params = <>
-    left = 136
-    top = 128
+    Left = 136
+    Top = 128
   end
   object ZQueryDrucken: TZQuery
     Connection = ZConnectionBuch
@@ -108,13 +108,13 @@ object frmDM: TfrmDM
       'select * from journal'
     )
     Params = <>
-    left = 480
-    top = 128
+    Left = 480
+    Top = 128
   end
   object dsDrucken: TDataSource
     DataSet = ZQueryDrucken
-    left = 597
-    top = 128
+    Left = 597
+    Top = 128
   end
   object ZQueryDruckenDetail: TZQuery
     Connection = ZConnectionBuch
@@ -123,13 +123,13 @@ object frmDM: TfrmDM
     )
     Params = <>
     MasterSource = dsDrucken
-    left = 480
-    top = 179
+    Left = 480
+    Top = 179
   end
   object dsDruckenDetail: TDataSource
     DataSet = ZQueryDruckenDetail
-    left = 597
-    top = 179
+    Left = 597
+    Top = 179
   end
   object ZQueryDruckenDetail1: TZQuery
     Connection = ZConnectionBuch
@@ -138,19 +138,19 @@ object frmDM: TfrmDM
     )
     Params = <>
     MasterSource = dsDrucken
-    left = 480
-    top = 235
+    Left = 480
+    Top = 235
   end
   object dsDruckenDetail1: TDataSource
     DataSet = ZQueryDruckenDetail1
-    left = 597
-    top = 235
+    Left = 597
+    Top = 235
   end
   object ZQueryHelp1: TZQuery
     Connection = ZConnectionBuch
     Params = <>
-    left = 480
-    top = 72
+    Left = 480
+    Top = 72
   end
   object ZConnectionGE_Kart: TZConnection
     ControlsCodePage = cCP_UTF8
@@ -160,15 +160,15 @@ object frmDM: TfrmDM
     )
     Port = 0
     Protocol = 'sqlite-3'
-    left = 352
-    top = 291
+    Left = 352
+    Top = 291
   end
   object ZSQLMonitor: TZSQLMonitor
     FileName = 'sql_debug.txt'
     MaxTraceCount = 100
     OnLogTrace = ZSQLMonitorLogTrace
-    left = 40
-    top = 72
+    Left = 40
+    Top = 72
   end
   object ZConnectionBuch: TZConnection
     ControlsCodePage = cCP_UTF8
@@ -178,7 +178,7 @@ object frmDM: TfrmDM
     )
     Port = 0
     Protocol = 'sqlite-3'
-    left = 40
-    top = 16
+    Left = 40
+    Top = 16
   end
 end

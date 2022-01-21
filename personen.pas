@@ -104,7 +104,7 @@ var
   Col12Width,
   Col13Width,
   Col14Width,
-  Col17Width,
+  Col16Width,
   Winleft,
   WinTop,
   WinWidth,
@@ -124,7 +124,7 @@ begin
   help.WriteIniInt(sIniFile, 'Personen', 'Col12Width', DBGridPersonen.Columns.Items[12].Width);
   help.WriteIniInt(sIniFile, 'Personen', 'Col13Width', DBGridPersonen.Columns.Items[13].Width);
   help.WriteIniInt(sIniFile, 'Personen', 'Col14Width', DBGridPersonen.Columns.Items[14].Width);
-  help.WriteIniInt(sIniFile, 'Personen', 'Col17Width', DBGridPersonen.Columns.Items[17].Width);
+  help.WriteIniInt(sIniFile, 'Personen', 'Col16Width', DBGridPersonen.Columns.Items[16].Width);
 
   help.WriteIniInt(sIniFile, 'Personen', 'Winleft',   self.Left);
   help.WriteIniInt(sIniFile, 'Personen', 'WinTop',    self.Top);
@@ -160,7 +160,7 @@ begin
   Col12Width := help.ReadIniInt(sIniFile, 'Personen', 'Col12Width', 60);
   Col13Width := help.ReadIniInt(sIniFile, 'Personen', 'Col13Width', 60);
   Col14Width := help.ReadIniInt(sIniFile, 'Personen', 'Col14Width',140);
-  Col17Width := help.ReadIniInt(sIniFile, 'Personen', 'Col17Width', 75);
+  Col16Width := help.ReadIniInt(sIniFile, 'Personen', 'Col16Width', 75);
   Winleft    := help.ReadIniInt(sIniFile, 'Personen', 'Winleft',  self.Left);
   WinTop     := help.ReadIniInt(sIniFile, 'Personen', 'WinTop',   self.Top);
   WinWidth   := help.ReadIniInt(sIniFile, 'Personen', 'WinWidth', self.Width);
@@ -190,12 +190,11 @@ begin
   DBGridPersonen.Columns.Items[12].Width         :=  Col12Width;   //Tel
   DBGridPersonen.Columns.Items[13].Width         :=  Col13Width;   //Tel
   DBGridPersonen.Columns.Items[14].Width         :=  Col14Width;   //email
-  DBGridPersonen.Columns.Items[15].Visible       :=  false;        //letzter Beitrag
-  DBGridPersonen.Columns.Items[16].Visible       :=  false;        //GE_KartID
-  DBGridPersonen.Columns.Items[17].Width         :=  Col17Width;   //Geburtstag
-  DBGridPersonen.Columns.Items[18].Visible       :=  false;        //Abgang
-  DBGridPersonen.Columns.Items[19].Visible       :=  false;        //Notiz
-  DBGridPersonen.Columns.Items[20].Visible       :=  false;        //Gemeindeglied
+  DBGridPersonen.Columns.Items[15].Visible       :=  false;        //GE_KartID
+  DBGridPersonen.Columns.Items[16].Width         :=  Col16Width;   //Geburtstag
+  DBGridPersonen.Columns.Items[17].Visible       :=  false;        //Abgang
+  DBGridPersonen.Columns.Items[18].Visible       :=  false;        //Notiz
+  DBGridPersonen.Columns.Items[19].Visible       :=  false;        //Gemeindeglied
 end;
 
 procedure TfrmPersonen.btnSchliessenClick(Sender: TObject);
@@ -217,7 +216,7 @@ begin
   Col12Width := DBGridPersonen.Columns.Items[12].Width;
   Col13Width := DBGridPersonen.Columns.Items[13].Width;
   Col14Width := DBGridPersonen.Columns.Items[14].Width;
-  Col17Width := DBGridPersonen.Columns.Items[17].Width;
+  Col16Width := DBGridPersonen.Columns.Items[16].Width;
 end;
 
 procedure TfrmPersonen.DBNavigator1Click(Sender: TObject; Button: TDBNavButtonType);

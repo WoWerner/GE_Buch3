@@ -20,8 +20,7 @@
     </i18n>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MajorVersionNr Value="2"/>
-      <BuildNr Value="6"/>
+      <MajorVersionNr Value="3"/>
       <Language Value="0407"/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -167,7 +166,10 @@
       <Unit16>
         <Filename Value="..\..\GE_Kart\GE_Kart7\ausgabe.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmAusgabe"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Ausgabe"/>
       </Unit16>
       <Unit17>
         <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>

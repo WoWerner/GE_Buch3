@@ -1,10 +1,10 @@
-select banken.BankNr as BankNr,
-       Kontostand,
+select konten.KontoNr as BankNr,      
        SortPos,
-       ifnull(Bank,'')||' - '||ifnull(Konto,'') as Bank,
-       Statistik,
-       ifnull(bankenabschluss.Anfangssaldo,'')  as StartSaldo
-from banken
-left join bankenabschluss on banken.BankNr = bankenabschluss.BankNr
-where (banken.BankNr > 1) and (banken.BankNr < 900) and (bankenabschluss.Buchungsjahr=:BJAHR)
+	   Statistik,
+       Name as Bank,
+	   ifnull(bankenabschluss.Anfangssaldo,'')  as StartSaldo, 
+	   Kontostand              
+from konten
+left join bankenabschluss on konten.KontoNr = bankenabschluss.KontoNr
+where (konten.Kontotype = "B") and (bankenabschluss.Buchungsjahr=:BJAHR)
 order by SortPos

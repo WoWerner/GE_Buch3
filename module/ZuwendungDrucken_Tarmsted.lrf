@@ -7,7 +7,7 @@
     <KeyWords Value=""/>
     <Comments Value=""/>
     <ReportCreateDate Value="2017-02-06 19:10:09"/>
-    <ReportLastChange Value="2021-06-13 21:23:43"/>
+    <ReportLastChange Value="2022-01-07 19:50:05"/>
     <ReportVersionBuild Value=""/>
     <ReportVersionMajor Value=""/>
     <ReportVersionMinor Value=""/>
@@ -17,7 +17,7 @@
     <Pages>
       <PrintToDefault Value="False"/>
       <DoublePass Value="True"/>
-      <SelectedPrinter Value="Samsung M2070 Series"/>
+      <SelectedPrinter Value="Microsoft Print to PDF"/>
       <PageCount Value="1"/>
       <Page1>
         <Name Value="Page1"/>
@@ -40,16 +40,16 @@
         <ColGap Value="0"/>
         <LayoutOrder Value="loColumns"/>
         <Object1>
-          <Name Value="Band1"/>
+          <Name Value="bandMaster"/>
           <ClassName Value="TfrBandView"/>
           <Visible Value="True"/>
           <Typ Value="gtBand"/>
           <StreamMode Value="0"/>
           <Size>
             <Left Value="0"/>
-            <Top Value="8"/>
+            <Top Value="188"/>
             <Width Value="752"/>
-            <Height Value="568"/>
+            <Height Value="393"/>
           </Size>
           <Flags Value="50"/>
           <Data>
@@ -68,7 +68,7 @@
           <Child Value=""/>
         </Object1>
         <Object2>
-          <Name Value="Band2"/>
+          <Name Value="bandEmpfaenger"/>
           <ClassName Value="TfrBandView"/>
           <Visible Value="True"/>
           <Typ Value="gtBand"/>
@@ -77,11 +77,11 @@
             <Left Value="0"/>
             <Top Value="584"/>
             <Width Value="752"/>
-            <Height Value="72"/>
+            <Height Value="62"/>
           </Size>
           <Flags Value="48"/>
           <Data>
-            <Script Value="if ([frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] = '') or ([frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] = [FinanzamtNr]) then&#xD;&#xA;  begin&#xD;&#xA;    memEigene.visible:=true;&#xD;&#xA;    memWeiter.visible:=false;&#xD;&#xA;    memEigeneFinanzamt.visible:=[frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] &lt;&gt; '';&#xD;&#xA;  end&#xD;&#xA;else&#xD;&#xA;  begin&#xD;&#xA;    memEigene.visible:=false;&#xD;&#xA;    memWeiter.visible:=true; &#xD;&#xA;    memEigeneFinanzamt.visible:=false;&#xD;&#xA;  end;&#xD;&#xA;"/>
+            <Script Value="if ([frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] = '') or ([frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] = [EigenesFinanzamtNr]) then&#xD;&#xA;  begin&#xD;&#xA;    memEigene.visible:=true;  &#xD;&#xA;    memEigeneFinanzamt.visible:=[frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;] &lt;&gt; '';&#xD;&#xA;    memWeiter.visible:=false;&#xD;&#xA;  end&#xD;&#xA;else&#xD;&#xA;  begin&#xD;&#xA;    memEigene.visible:=false;    &#xD;&#xA;    memEigeneFinanzamt.visible:=false;&#xD;&#xA;    memWeiter.visible:=true; &#x9;&#xD;&#xA;  end;&#xD;&#xA;"/>
             <GapX Value="0"/>
             <GapY Value="0"/>
           </Data>
@@ -103,9 +103,9 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="0"/>
-            <Top Value="660"/>
+            <Top Value="652"/>
             <Width Value="752"/>
-            <Height Value="134"/>
+            <Height Value="142"/>
           </Size>
           <Flags Value="50"/>
           <Data>
@@ -124,34 +124,6 @@
           <Child Value=""/>
         </Object3>
         <Object4>
-          <Name Value="Band4"/>
-          <ClassName Value="TfrBandView"/>
-          <Visible Value="True"/>
-          <Typ Value="gtBand"/>
-          <StreamMode Value="0"/>
-          <Size>
-            <Left Value="0"/>
-            <Top Value="1056"/>
-            <Width Value="752"/>
-            <Height Value="20"/>
-          </Size>
-          <Flags Value="48"/>
-          <Data>
-            <Script Value=""/>
-            <GapX Value="0"/>
-            <GapY Value="0"/>
-          </Data>
-          <Tag Value=""/>
-          <FURLInfo Value=""/>
-          <Frames>
-            <Restrictions Value=""/>
-          </Frames>
-          <BandType Value="btPageFooter"/>
-          <Condition Value=""/>
-          <DatasetStr Value=""/>
-          <Child Value=""/>
-        </Object4>
-        <Object5>
           <Name Value="Band7"/>
           <ClassName Value="TfrBandView"/>
           <Visible Value="True"/>
@@ -159,7 +131,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="0"/>
-            <Top Value="1028"/>
+            <Top Value="988"/>
             <Width Value="752"/>
             <Height Value="20"/>
           </Size>
@@ -178,16 +150,16 @@
           <Condition Value=""/>
           <DatasetStr Value=""/>
           <Child Value=""/>
-        </Object5>
-        <Object6>
-          <Name Value="Band8"/>
+        </Object4>
+        <Object5>
+          <Name Value="band88"/>
           <ClassName Value="TfrBandView"/>
           <Visible Value="True"/>
           <Typ Value="gtBand"/>
           <StreamMode Value="0"/>
           <Size>
             <Left Value="0"/>
-            <Top Value="800"/>
+            <Top Value="784"/>
             <Width Value="752"/>
             <Height Value="130"/>
           </Size>
@@ -206,8 +178,8 @@
           <Condition Value=""/>
           <DatasetStr Value="1"/>
           <Child Value=""/>
-        </Object6>
-        <Object7>
+        </Object5>
+        <Object6>
           <Name Value="Band9"/>
           <ClassName Value="TfrBandView"/>
           <Visible Value="True"/>
@@ -215,7 +187,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="0"/>
-            <Top Value="1000"/>
+            <Top Value="968"/>
             <Width Value="752"/>
             <Height Value="18"/>
           </Size>
@@ -234,8 +206,8 @@
           <Condition Value=""/>
           <DatasetStr Value="frDBDataSetDetail"/>
           <Child Value=""/>
-        </Object7>
-        <Object8>
+        </Object6>
+        <Object7>
           <Name Value="Band10"/>
           <ClassName Value="TfrBandView"/>
           <Visible Value="True"/>
@@ -243,7 +215,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="0"/>
-            <Top Value="936"/>
+            <Top Value="912"/>
             <Width Value="752"/>
             <Height Value="54"/>
           </Size>
@@ -259,6 +231,34 @@
             <Restrictions Value=""/>
           </Frames>
           <BandType Value="btDetailHeader"/>
+          <Condition Value=""/>
+          <DatasetStr Value=""/>
+          <Child Value=""/>
+        </Object7>
+        <Object8>
+          <Name Value="ReportTitle1"/>
+          <ClassName Value="TfrBandView"/>
+          <Visible Value="True"/>
+          <Typ Value="gtBand"/>
+          <StreamMode Value="0"/>
+          <Size>
+            <Left Value="0"/>
+            <Top Value="4"/>
+            <Width Value="752"/>
+            <Height Value="184"/>
+          </Size>
+          <Flags Value="48"/>
+          <Data>
+            <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
+          </Data>
+          <Tag Value=""/>
+          <FURLInfo Value=""/>
+          <Frames>
+            <Restrictions Value=""/>
+          </Frames>
+          <BandType Value="btPageHeader"/>
           <Condition Value=""/>
           <DatasetStr Value=""/>
           <Child Value=""/>
@@ -419,7 +419,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="524"/>
-            <Top Value="80"/>
+            <Top Value="87"/>
             <Width Value="176"/>
             <Height Value="82"/>
           </Size>
@@ -475,7 +475,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="524"/>
-            <Top Value="268"/>
+            <Top Value="291"/>
             <Width Value="212"/>
             <Height Value="82"/>
           </Size>
@@ -531,7 +531,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="524"/>
-            <Top Value="168"/>
+            <Top Value="189"/>
             <Width Value="204"/>
             <Height Value="94"/>
           </Size>
@@ -587,7 +587,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="72"/>
-            <Top Value="160"/>
+            <Top Value="189"/>
             <Width Value="304"/>
             <Height Value="18"/>
           </Size>
@@ -715,7 +715,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="im Sinne des § 10b des Einkommensteuergesetzes an inländische juristische Personen des öffentlichen Rechts oder inländische öffentliche Dienststellen&#xD;&#xA;"/>
+            <Memo Value="im Sinne des § 10b des Einkommensteuergesetzes an inländische juristische Personen des öffentlichen Rechts oder inländische öffentliche Dienststellen:&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -867,7 +867,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="524"/>
-            <Top Value="360"/>
+            <Top Value="376"/>
             <Width Value="212"/>
             <Height Value="18"/>
           </Size>
@@ -995,7 +995,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[FORMATFLOAT('#,##0.00;;0.00', [sum([frmDM.ZQueryDruckenDetail.&quot;Betrag&quot;])]/100)] €&#xD;&#xA;"/>
+            <Memo Value="[Betrag]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -1149,7 +1149,7 @@
             <Left Value="72"/>
             <Top Value="548"/>
             <Width Value="644"/>
-            <Height Value="22"/>
+            <Height Value="15"/>
           </Size>
           <Flags Value="3"/>
           <FillColor Value="clNone"/>
@@ -1285,7 +1285,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="72"/>
-            <Top Value="664"/>
+            <Top Value="660"/>
             <Width Value="648"/>
             <Height Value="62"/>
           </Size>
@@ -1446,62 +1446,6 @@
           <Cursor Value="0"/>
         </Object30>
         <Object31>
-          <Name Value="Memo22"/>
-          <ClassName Value="TfrMemoView"/>
-          <Visible Value="True"/>
-          <Typ Value="gtMemo"/>
-          <StreamMode Value="0"/>
-          <Size>
-            <Left Value="480"/>
-            <Top Value="1060"/>
-            <Width Value="236"/>
-            <Height Value="18"/>
-          </Size>
-          <Flags Value="3"/>
-          <FillColor Value="clNone"/>
-          <Frames>
-            <FrameColor Value="clBlack"/>
-            <FrameStyle Value="frsSolid"/>
-            <FrameWidth Value="1"/>
-            <FrameBorders Value=""/>
-            <Restrictions Value=""/>
-          </Frames>
-          <Data>
-            <Format Value="556"/>
-            <FormatStr Value=""/>
-            <Memo Value="[Seite]&#xD;&#xA;"/>
-            <Script Value=""/>
-            <GapX Value="0"/>
-            <GapY Value="0"/>
-            <OnClick Value=""/>
-            <OnMouseEnter Value=""/>
-            <OnMouseLeave Value=""/>
-            <DetailReport Value=""/>
-            <ParagraphGap Value="0"/>
-            <LineSpacing Value="2"/>
-          </Data>
-          <Tag Value=""/>
-          <FURLInfo Value=""/>
-          <Font>
-            <Name Value="Arial"/>
-            <Size Value="10"/>
-            <Color Value="clBlack"/>
-            <Charset Value="0"/>
-            <Style Value=""/>
-          </Font>
-          <Highlight>
-            <FontStyle Value="2"/>
-            <FontColor Value="clBlack"/>
-            <FillColor Value="clWhite"/>
-            <HighlightStr Value=""/>
-          </Highlight>
-          <Alignment Value="taRightJustify"/>
-          <Layout Value="tlTop"/>
-          <Angle Value="0"/>
-          <Justify Value="False"/>
-          <Cursor Value="0"/>
-        </Object31>
-        <Object32>
           <Name Value="Memo27"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -1509,7 +1453,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="72"/>
-            <Top Value="816"/>
+            <Top Value="800"/>
             <Width Value="644"/>
             <Height Value="106"/>
           </Size>
@@ -1556,8 +1500,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object32>
-        <Object33>
+        </Object31>
+        <Object32>
           <Name Value="Memo28"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -1565,7 +1509,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="72"/>
-            <Top Value="1000"/>
+            <Top Value="968"/>
             <Width Value="64"/>
             <Height Value="18"/>
           </Size>
@@ -1612,8 +1556,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object33>
-        <Object34>
+        </Object32>
+        <Object33>
           <Name Value="Memo25"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -1621,7 +1565,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="72"/>
-            <Top Value="1028"/>
+            <Top Value="988"/>
             <Width Value="64"/>
             <Height Value="18"/>
           </Size>
@@ -1668,8 +1612,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object34>
-        <Object35>
+        </Object33>
+        <Object34>
           <Name Value="Memo26"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -1677,7 +1621,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="144"/>
-            <Top Value="1028"/>
+            <Top Value="988"/>
             <Width Value="88"/>
             <Height Value="18"/>
           </Size>
@@ -1724,8 +1668,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object35>
-        <Object36>
+        </Object34>
+        <Object35>
           <Name Value="Memo29"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -1733,7 +1677,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="144"/>
-            <Top Value="1000"/>
+            <Top Value="968"/>
             <Width Value="88"/>
             <Height Value="18"/>
           </Size>
@@ -1780,8 +1724,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object36>
-        <Object37>
+        </Object35>
+        <Object36>
           <Name Value="Memo30"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -1789,7 +1733,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="244"/>
-            <Top Value="1000"/>
+            <Top Value="968"/>
             <Width Value="355"/>
             <Height Value="18"/>
           </Size>
@@ -1836,8 +1780,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object37>
-        <Object38>
+        </Object36>
+        <Object37>
           <Name Value="Memo31"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -1845,7 +1789,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="612"/>
-            <Top Value="1000"/>
+            <Top Value="968"/>
             <Width Value="96"/>
             <Height Value="18"/>
           </Size>
@@ -1892,8 +1836,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object38>
-        <Object39>
+        </Object37>
+        <Object38>
           <Name Value="Memo32"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -1901,7 +1845,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="72"/>
-            <Top Value="972"/>
+            <Top Value="948"/>
             <Width Value="52"/>
             <Height Value="18"/>
           </Size>
@@ -1948,8 +1892,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object39>
-        <Object40>
+        </Object38>
+        <Object39>
           <Name Value="Memo33"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -1957,7 +1901,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="144"/>
-            <Top Value="972"/>
+            <Top Value="948"/>
             <Width Value="84"/>
             <Height Value="18"/>
           </Size>
@@ -2004,8 +1948,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object40>
-        <Object41>
+        </Object39>
+        <Object40>
           <Name Value="Memo34"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -2013,7 +1957,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="244"/>
-            <Top Value="972"/>
+            <Top Value="948"/>
             <Width Value="76"/>
             <Height Value="18"/>
           </Size>
@@ -2060,8 +2004,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object41>
-        <Object42>
+        </Object40>
+        <Object41>
           <Name Value="Memo35"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -2069,7 +2013,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="612"/>
-            <Top Value="940"/>
+            <Top Value="916"/>
             <Width Value="104"/>
             <Height Value="50"/>
           </Size>
@@ -2116,8 +2060,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object42>
-        <Object43>
+        </Object41>
+        <Object42>
           <Name Value="Memo36"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -2125,7 +2069,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="72"/>
-            <Top Value="940"/>
+            <Top Value="916"/>
             <Width Value="216"/>
             <Height Value="18"/>
           </Size>
@@ -2172,8 +2116,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object43>
-        <Object44>
+        </Object42>
+        <Object43>
           <Name Value="Memo24"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -2181,9 +2125,9 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="72"/>
-            <Top Value="192"/>
+            <Top Value="208"/>
             <Width Value="392"/>
-            <Height Value="150"/>
+            <Height Value="134"/>
           </Size>
           <Flags Value="3"/>
           <FillColor Value="clNone"/>
@@ -2228,8 +2172,8 @@
           <Angle Value="0"/>
           <Justify Value="False"/>
           <Cursor Value="0"/>
-        </Object44>
-        <Object45>
+        </Object43>
+        <Object44>
           <Name Value="memWeiter"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
@@ -2237,9 +2181,9 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="108"/>
-            <Top Value="588"/>
+            <Top Value="584"/>
             <Width Value="602"/>
-            <Height Value="64"/>
+            <Height Value="62"/>
           </Size>
           <Flags Value="2"/>
           <FillColor Value="clNone"/>
@@ -2253,7 +2197,63 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="entsprechend den Angaben des Zuwendenden an [frmDM.ZQueryDruckenDetail1.&quot;Empfaenger&quot;] weitergeleitet, die/der vom Finanzamt &quot;[frmDM.ZQueryDruckenDetail1.&quot;Finanzamt&quot;]&quot;, StNr. &quot;[frmDM.ZQueryDruckenDetail1.&quot;FinanzamtNr&quot;]&quot; mit Freistellungsbescheid bzw. nach der Anlage zum Körperschaftsteuerbescheid vom &quot;[frmDM.ZQueryDruckenDetail1.&quot;FinanzamtVom&quot;]&quot; von der Körperschaftssteuer und Gewerbesteuer befreit ist.&#xD;&#xA;"/>
+            <Memo Value="entsprechend den Angaben des Zuwendenden an [Empfaenger] weitergeleitet, die/der vom Finanzamt &quot;[Finanzamt]&quot;, StNr.: &quot;[FinanzamtNr]&quot; mit Freistellungsbescheid bzw. nach der Anlage zum Körperschaftsteuerbescheid vom &quot;[FinanzamtVom]&quot; von der Körperschaftssteuer und Gewerbesteuer befreit ist.&#xD;&#xA;"/>
+            <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
+            <OnClick Value=""/>
+            <OnMouseEnter Value=""/>
+            <OnMouseLeave Value=""/>
+            <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
+          </Data>
+          <Tag Value=""/>
+          <FURLInfo Value=""/>
+          <Font>
+            <Name Value="Arial"/>
+            <Size Value="10"/>
+            <Color Value="clBlack"/>
+            <Charset Value="0"/>
+            <Style Value=""/>
+          </Font>
+          <Highlight>
+            <FontStyle Value="2"/>
+            <FontColor Value="clBlack"/>
+            <FillColor Value="clWhite"/>
+            <HighlightStr Value=""/>
+          </Highlight>
+          <Alignment Value="taLeftJustify"/>
+          <Layout Value="tlTop"/>
+          <Angle Value="0"/>
+          <Justify Value="False"/>
+          <Cursor Value="0"/>
+        </Object44>
+        <Object45>
+          <Name Value="memEigene"/>
+          <ClassName Value="TfrMemoView"/>
+          <Visible Value="True"/>
+          <Typ Value="gtMemo"/>
+          <StreamMode Value="0"/>
+          <Size>
+            <Left Value="108"/>
+            <Top Value="584"/>
+            <Width Value="618"/>
+            <Height Value="31"/>
+          </Size>
+          <Flags Value="2"/>
+          <FillColor Value="clNone"/>
+          <Frames>
+            <FrameColor Value="clBlack"/>
+            <FrameStyle Value="frsSolid"/>
+            <FrameWidth Value="1"/>
+            <FrameBorders Value=""/>
+            <Restrictions Value=""/>
+          </Frames>
+          <Data>
+            <Format Value="556"/>
+            <FormatStr Value=""/>
+            <Memo Value="von uns unmittelbar für den angegebenen Zweck verwendet. (Empfänger = [Empfaenger])&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -2286,16 +2286,16 @@
           <Cursor Value="0"/>
         </Object45>
         <Object46>
-          <Name Value="memEigene"/>
+          <Name Value="memEigeneFinanzamt"/>
           <ClassName Value="TfrMemoView"/>
           <Visible Value="True"/>
           <Typ Value="gtMemo"/>
           <StreamMode Value="0"/>
           <Size>
             <Left Value="108"/>
-            <Top Value="588"/>
+            <Top Value="615"/>
             <Width Value="618"/>
-            <Height Value="32"/>
+            <Height Value="31"/>
           </Size>
           <Flags Value="2"/>
           <FillColor Value="clNone"/>
@@ -2309,7 +2309,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="von uns unmittelbar für den angegebenen Zweck verwendet. (Empfänger = [frmDM.ZQueryDruckenDetail1.&quot;Empfaenger&quot;])&#xD;&#xA;"/>
+            <Memo Value="Finanzamt [EigenesFinanzamt] vom [EigenesFinanzamtVom], StNr.: [EigenesFinanzamtNr]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -2341,63 +2341,7 @@
           <Justify Value="False"/>
           <Cursor Value="0"/>
         </Object46>
-        <Object47>
-          <Name Value="memEigeneFinanzamt"/>
-          <ClassName Value="TfrMemoView"/>
-          <Visible Value="True"/>
-          <Typ Value="gtMemo"/>
-          <StreamMode Value="0"/>
-          <Size>
-            <Left Value="107"/>
-            <Top Value="622"/>
-            <Width Value="618"/>
-            <Height Value="32"/>
-          </Size>
-          <Flags Value="2"/>
-          <FillColor Value="clNone"/>
-          <Frames>
-            <FrameColor Value="clBlack"/>
-            <FrameStyle Value="frsSolid"/>
-            <FrameWidth Value="1"/>
-            <FrameBorders Value=""/>
-            <Restrictions Value=""/>
-          </Frames>
-          <Data>
-            <Format Value="556"/>
-            <FormatStr Value=""/>
-            <Memo Value="Finanzamt [Finanzamt] vom [FinanzamtVom], StNr.: [FinanzamtNr]&#xD;&#xA;"/>
-            <Script Value=""/>
-            <GapX Value="0"/>
-            <GapY Value="0"/>
-            <OnClick Value=""/>
-            <OnMouseEnter Value=""/>
-            <OnMouseLeave Value=""/>
-            <DetailReport Value=""/>
-            <ParagraphGap Value="0"/>
-            <LineSpacing Value="2"/>
-          </Data>
-          <Tag Value=""/>
-          <FURLInfo Value=""/>
-          <Font>
-            <Name Value="Arial"/>
-            <Size Value="10"/>
-            <Color Value="clBlack"/>
-            <Charset Value="0"/>
-            <Style Value=""/>
-          </Font>
-          <Highlight>
-            <FontStyle Value="2"/>
-            <FontColor Value="clBlack"/>
-            <FillColor Value="clWhite"/>
-            <HighlightStr Value=""/>
-          </Highlight>
-          <Alignment Value="taLeftJustify"/>
-          <Layout Value="tlTop"/>
-          <Angle Value="0"/>
-          <Justify Value="False"/>
-          <Cursor Value="0"/>
-        </Object47>
-        <ObjectCount Value="47"/>
+        <ObjectCount Value="46"/>
       </Page1>
       <FVal>
         <Count Value="1"/>

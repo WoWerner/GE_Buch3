@@ -1,7 +1,7 @@
 object frmDrucken: TfrmDrucken
-  Left = 416
+  Left = 417
   Height = 339
-  Top = 152
+  Top = 153
   Width = 633
   BorderStyle = bsDialog
   Caption = 'Drucken'
@@ -75,7 +75,7 @@ object frmDrucken: TfrmDrucken
   object btnPersonenliste: TButton
     Left = 424
     Height = 25
-    Top = 80
+    Top = 82
     Width = 200
     Caption = 'Personenliste'
     OnClick = btnPersonenlisteClick

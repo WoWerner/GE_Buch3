@@ -11,4 +11,3 @@ Statistikbereiche:
 17 Darlehnsverbindlichkeiten
 18 Sonstige Verbindlichkeiten
 19 Verbindlichkeiten aus Etatumlage
-20 Nicht erfassen

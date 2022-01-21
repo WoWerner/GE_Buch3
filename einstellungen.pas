@@ -108,7 +108,9 @@ begin
       begin
         frmDM.ZQueryInit.Post;
         showmessage('Gepeichert. Zum übernehmen der Daten muß das Programm beendet und neu gestartet werden.');
-      end;
+      end
+    else
+      showmessage('Nichts zum speichern!');
   frmDM.ZQueryInit.Refresh;
 end;
 

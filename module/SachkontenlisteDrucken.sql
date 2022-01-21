@@ -1,1 +1,1 @@
-select * from Sachkonten order by SortPos
+select * from konten order by SortPos

@@ -1,11 +1,7 @@
-select PersonenID, Datum, Betrag, ResS1,sachkonten.Sachkonto
+select PersonenID, Datum, Betrag, Aufwandsspende, konten.KontoNr, konten.name as Sachkonto 
 from Journal
-left join sachkonten on sachkonten.SachkontoNr = Journal.SachkontoNr
+left join konten on konten.KontoNr = journal.konto_nach
 where ((journal.BuchungsJahr=:BJAHR) and 
-      (((journal.SachkontoNr like '2%') and (sachkonten.kontotype = "DE")) or 
-	    (journal.SachkontoNr like '84%') or 
-	    (journal.SachkontoNr like '85%') or 
-	    (journal.SachkontoNr like '86%') or 
-	    (journal.SachkontoNr like '87%') or 
-	    (journal.SachkontoNr like '88%')))
+      (((journal.konto_nach like '2%') and (konten.kontotype = "D") and (journal.Betrag>0)) or 
+	    (journal.konto_nach like '8%')))
 order by datum

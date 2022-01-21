@@ -1,8 +1,8 @@
-select Journal.SachkontoNr,
-       '('||ifnull(Journal.SachkontoNr,'')||') '||ifnull(Sachkonten.Sachkonto,'') as Sachkonto,
+select journal.konto_nach,
+       '('||ifnull(journal.konto_nach,'')||') '||ifnull(konten.Name,'') as Name,
        sum(Betrag) as Betrag
 	   from journal
-left join Sachkonten on Journal.SachkontoNr=Sachkonten.SachkontoNr
-where Buchungsjahr=:BJahr
-group by journal.SachkontoNr
-order by journal.SachkontoNr
+left join konten on journal.konto_nach=konten.KontoNr
+where (konten.Kontotype <> "B") and (Buchungsjahr=:BJahr) 
+group by journal.konto_nach
+order by journal.konto_nach

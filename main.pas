@@ -145,7 +145,7 @@ type
     procedure HandleException(Sender: TObject; E: Exception);
   public
     { public declarations }
-    procedure Datensicherung(Auto, Reconnect: boolean);
+    procedure Datensicherung(Auto, Reconnect: boolean; FileExtension : String = '');
   end;
 
 var
@@ -252,7 +252,7 @@ begin
   sSavePath   := help.ReadIniVal(sIniFile, 'Sicherung' , 'Verzeichnis', sAppDir+'Sicherung', true);
   sImportPath := help.ReadIniVal(sIniFile, 'CSV-Import', 'Verzeichnis', sAppDir, true);
   sDebugFile  := help.ReadIniVal(sIniFile, 'Debug'     , 'Name', sAppDir+'debug.txt', true);
-  sDatabase   := help.ReadIniVal(sIniFile, 'Datenbank' , 'Name', sAppDir+'ge_buch1.db', true);
+  sDatabase   := help.ReadIniVal(sIniFile, 'Datenbank' , 'Name', sAppDir+'ge_buch3.db', true);
   sProductVersionString := GetProductVersionString;
 
   bSQLDebug              := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Debug', 'SQLDebug', 'true', true));
@@ -296,7 +296,7 @@ begin
   //Prüfung auf neue Version
   HTTP := THTTPSend.Create;
   try                                                                 //ab hier Spionage
-    if not HTTP.HTTPMethod('GET', 'https://'+sHomePage+'/GE_BUCH/version.txt?V'+sProductVersionString+'_PC_'+replacechar(GetComputerName, ' ', '_')+'_USER_'+replacechar(GetUserName, ' ', '_'))
+    if not HTTP.HTTPMethod('GET', 'https://'+sHomePage+'/GE_BUCH/version.txt?;V'+sProductVersionString+';'+replacechar(GetComputerName, ' ', '_')+';'+replacechar(GetUserName, ' ', '_'))
       then
         begin
 	  myDebugLN('ERROR HTTPGET, Resultcode: '+inttostr(Http.Resultcode)+' '+Http.Resultstring);
@@ -350,11 +350,12 @@ begin
 
   HTTP := THTTPSend.Create;
   try
-    if HTTP.HTTPMethod('GET', 'https://'+sHomePage+'www.w-werner.de/GE_BUCH/aktuelles.txt')
+    if HTTP.HTTPMethod('GET', 'https://'+sHomePage+'/GE_BUCH/aktuelles.txt')
       then
         begin
           slHelp.loadfromstream(Http.Document);
-          sAktuelles := CP1252ToUTF8(slHelp.Text);
+          //sAktuelles := CP1252ToUTF8(slHelp.Text);
+          sAktuelles := slHelp.Text;
           myDebugLN('HTTPGET, Resultcode: '+inttostr(Http.Resultcode)+' '+Http.Resultstring);
           myDebugLN('Http.headers.text  : '+#13#10+Http.headers.text);
           myDebugLN('Http.Document      : '+#13#10+sAktuelles);
@@ -416,6 +417,7 @@ begin
       then
         begin
           LogAndShowError('Die Datenbankstruktur passt nicht zum Programm.'+#13+'Das Programm wird beendet');
+          flushdebug;
           close;
           exit;
         end;
@@ -426,6 +428,7 @@ begin
     on E: Exception do
       begin
         LogAndShowError(e.Message+#13+'Das Programm wird beendet');
+        flushdebug;
         close;
         exit;
       end;
@@ -516,7 +519,7 @@ end;
 
 procedure TfrmMain.labMyWebClick(Sender: TObject);
 begin
-  Openurl('https://'+sHomePage+'/GE_Buch.html');
+  Openurl('https://'+sHomePage+'/GE_Buch');
 end;
 
 procedure TfrmMain.labVersionNeuClick(Sender: TObject);
@@ -596,7 +599,7 @@ begin
                 begin
                   //In Saldo ist das Bankenabschluss.Anfangssaldo gepeichert,
                   //wird zwischengespeichert und dann überschrieben
-                  Saldo  := frmDM.ZQueryHelp.FieldByName('Saldo').AsLongint;
+                  Saldo  := strtoint(frmDM.ZQueryHelp.FieldByName('Saldo').AsString);
                   BankNr := frmDM.ZQueryHelp.FieldByName('BankNr').AsInteger;
                 end;
             Betrag     := frmDM.ZQueryHelp.FieldByName('Betrag').AsLongint;
@@ -687,24 +690,18 @@ begin
                 'Sicherheitsfunktion: Zum Fortfahren "Wiederholen" drücken!', mtConfirmation, [mbYes, mbRetry, mbNo],0) = mrRetry
     then
       begin
+        Datensicherung(true, true, '_vor_Jahresabschuss_');
         if frmDM.ZQueryBanken.Active then frmDM.ZQueryBanken.Close;
-        frmDM.ZQueryBanken.SQL.Text:= 'select * from banken';
-        frmDM.ZQueryBanken.Open;
-        while not frmDM.ZQueryBanken.EOF do
-          begin
-            // BankenAbschluss / Abschlusssaldo schreiben für aktuelles Jahr
-            ExecSQL('update BankenAbschluss set Abschlusssaldo='+
-                    frmDM.ZQueryBanken.FieldByName('Kontostand').asstring+
-                    ' where (BankNr='+frmDM.ZQueryBanken.FieldByName('BankNr').asstring+') and'+
-                    ' (Buchungsjahr='+inttostr(nBuchungsjahr)+')', frmDM.ZQueryHelp, false);
-            // BankenAbschluss / Anfangssaldo erstellen für aktuelles Jahr
-            ExecSQL('insert into BankenAbschluss (BankNr, Buchungsjahr, Anfangssaldo, Abschlusssaldo) values ('+
-                    frmDM.ZQueryBanken.FieldByName('BankNr').asstring+', '+
-                    inttostr(nBuchungsjahr+1)+', '+
-                    frmDM.ZQueryBanken.FieldByName('Kontostand').asstring+', 0)', frmDM.ZQueryHelp, false);
-            frmDM.ZQueryBanken.Next;
-          end;
-        frmDM.ZQueryBanken.Close;
+
+        // BankenAbschluss / Abschlusssaldo schreiben für aktuelles Jahr
+        frmDM.ZQueryHelp.SQL.Text:='update Bankenabschluss set Abschlusssaldo=(select konten.Kontostand from konten where Bankenabschluss.KontoNr=konten.KontoNr) where Bankenabschluss.Buchungsjahr = :BJahr';
+        frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := nBuchungsjahr;
+        frmDM.ZQueryHelp.ExecSQL;
+
+        // BankenAbschluss / Anfangssaldo erstellen für aktuelles Jahr
+        frmDM.ZQueryHelp.SQL.Text:='insert into Bankenabschluss select kontonr, :BJahr+1, Abschlusssaldo, 0 from Bankenabschluss where Buchungsjahr = :BJahr';
+        frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := nBuchungsjahr;
+        frmDM.ZQueryHelp.ExecSQL;
 
         // Buchungsjahr erhöhen
         inc(nBuchungsjahr);
@@ -1068,7 +1065,7 @@ begin
   Datensicherung(false, true);
 end;
 
-procedure TfrmMain.Datensicherung(Auto, Reconnect: boolean);
+procedure TfrmMain.Datensicherung(Auto, Reconnect: boolean; Fileextension: String = '');
 
 var
   shelp,
@@ -1080,7 +1077,7 @@ begin
   if frmDM.ZConnectionBuch.Connected then frmDM.ZConnectionBuch.Disconnect;
 
   ForceDirectories(UTF8ToSys(sSavePath));
-  shelp                 := 'ge_buch_'+FormatDateTime('yyyymmdd_hhnnss', now())+'.db';
+  shelp                 := 'ge_buch_'+FormatDateTime('yyyymmdd_hhnnss', now())+Fileextension+'.db';
   SaveDialog.InitialDir := sSavePath;
   SaveDialog.FileName   := shelp;
 
@@ -1139,7 +1136,8 @@ end;
 procedure TfrmMain.btnBankkontenClick(Sender: TObject);
 
 begin
-  frmDM.ZQueryBanken.SQL.Text:= 'select * from banken order by sortpos';
+  frmDM.ZQueryBanken.SQL.LoadFromFile(sAppDir+'module\BankenDrucken.sql');
+  frmDM.ZQueryBanken.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
   frmDM.ZQueryBanken.Open;
   frmBanken.showmodal;
 end;
@@ -1519,11 +1517,11 @@ begin
   frmJournal.rgSort.ItemIndex     := 0;
   frmDM.ZQueryJournal.SQL.Text    := Format(sSelectJournal, [inttostr(nBuchungsjahr)]) + frmJournal.GetSortOrder;
   frmDM.ZQueryJournal.Open;
-  frmDM.ZQueryBanken.SQL.Text     := 'select banken.* ,bankenabschluss.* from banken left join bankenabschluss on banken.BankNr=bankenabschluss.BankNr where bankenabschluss.Buchungsjahr='+inttostr(nBuchungsjahr)+' order by banken.BankNr';
+  frmDM.ZQueryBanken.SQL.Text     := 'select konten.* ,bankenabschluss.* from konten left join bankenabschluss on konten.kontonr=bankenabschluss.kontonr where bankenabschluss.Buchungsjahr='+inttostr(nBuchungsjahr)+' order by konten.kontonr';
   frmDM.ZQueryBanken.Open;
   frmDM.ZQueryPersonen.SQL.Text   := sSelectPersonenSort;
   frmDM.ZQueryPersonen.Open;
-  frmDM.ZQuerySachkonten.SQL.Text := 'select * from SachKonten order by SortPos, SachkontoNr';
+  frmDM.ZQuerySachkonten.SQL.Text := 'select * from Konten order by SortPos, kontoNr';
   frmDM.ZQuerySachkonten.Open;
   frmJournal.Showmodal;
 end;
@@ -1537,7 +1535,7 @@ end;
 
 procedure TfrmMain.btnSachkontenClick(Sender: TObject);
 begin
-  frmDM.ZQuerySachkonten.SQL.Text := 'select * from sachkonten order by sortpos, SachkontoNr';
+  frmDM.ZQuerySachkonten.SQL.Text := 'select * from konten Where kontotype <> "B" order by sortpos, kontoNr';
   frmDM.ZQuerySachkonten.Open;
   frmSachkonten.showModal;
 end;

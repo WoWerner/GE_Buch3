@@ -7,7 +7,7 @@
     <KeyWords Value=""/>
     <Comments Value=""/>
     <ReportCreateDate Value="2014-03-16 20:56:49"/>
-    <ReportLastChange Value="2021-12-30 10:24:56"/>
+    <ReportLastChange Value="2022-01-16 19:43:57"/>
     <ReportVersionBuild Value=""/>
     <ReportVersionMajor Value=""/>
     <ReportVersionMinor Value=""/>
@@ -49,7 +49,7 @@
             <Left Value="0"/>
             <Top Value="19"/>
             <Width Value="752"/>
-            <Height Value="528"/>
+            <Height Value="393"/>
           </Size>
           <Flags Value="50"/>
           <Data>
@@ -749,7 +749,7 @@
             <Left Value="72"/>
             <Top Value="392"/>
             <Width Value="644"/>
-            <Height Value="150"/>
+            <Height Value="15"/>
           </Size>
           <Flags Value="3"/>
           <FillColor Value="clNone"/>
@@ -1421,7 +1421,7 @@
             <Left Value="112"/>
             <Top Value="554"/>
             <Width Value="602"/>
-            <Height Value="31"/>
+            <Height Value="32"/>
           </Size>
           <Flags Value="2"/>
           <FillColor Value="clNone"/>
@@ -1603,7 +1603,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[frmDM.ZQueryDruckenDetail.&quot;ResS1&quot;]&#xD;&#xA;"/>
+            <Memo Value="[frmDM.ZQueryDruckenDetail.&quot;Aufwandsspende&quot;]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -2007,7 +2007,7 @@
             <Left Value="112"/>
             <Top Value="586"/>
             <Width Value="602"/>
-            <Height Value="32"/>
+            <Height Value="31"/>
           </Size>
           <Flags Value="2"/>
           <FillColor Value="clNone"/>

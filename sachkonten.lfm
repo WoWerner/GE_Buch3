@@ -1,7 +1,7 @@
 object frmSachkonten: TfrmSachkonten
-  Left = 268
+  Left = 237
   Height = 500
-  Top = 189
+  Top = 127
   Width = 780
   Caption = 'Sachkonten'
   ClientHeight = 500
@@ -143,7 +143,7 @@ object frmSachkonten: TfrmSachkonten
       object ediStatistik: TSpinEdit
         Left = 120
         Height = 23
-        Hint = '--Durchlaufende Einnahmen'#13#10'23   Gesamtkirchliche Kollekten'#13#10'231  Mission'#13#10'232  Diakonisches Werk'#13#10'233  Lutherische Stunde'#13#10'234  Diasporawerk'#13#10'235  Studienbeihilfe'#13#10'236  Hilfswerk der SELK'#13#10'24   Kollekten und Spenden für Ämter und Werke der SELK'#13#10'241  Mission'#13#10'242  Jugendarbeit'#13#10'243  Theol. Hochschule'#13#10'244  Kirchenmusik'#13#10'245  Bausteine/Diasporawerk'#13#10'246  Sonstige'#13#10'25   Kollekten und Spenden für Ämter und Werke außerhalb der SELK'#13#10'251  Brot für die Welt'#13#10'252  Mission unter Israel'#13#10'253  Sonstige'#13#10'--Ausgaben'#13#10'39   Andere Personalaufwendungen'#13#10'41   Reise- und Sitzungskosten'#13#10'42   Kraftfahrzeug-Unterhaltung'#13#10'43   Postgebühren (Porto, Telefon)'#13#10'44   allg. Verwaltungskosten'#13#10'45   Aufwendungen für Grundstücke und Gebäude'#13#10'46   sonstige Sachaufwendungen'#13#10'51   Publizistik'#13#10'52   Gottesdienstbedarf'#13#10'53   Kinder- und Jugendarbeit'#13#10'54   Alten- und Krankenbetreuung'#13#10'55   Chöre'#13#10'56   sonstige Gemeindekreise'#13#10'57   Druckschriften'#13#10'58   verborgene Not'#13#10'59   außerordentliche Aufwendungen'#13#10'66   Etatzuschüsse an kirchliche Werke'#13#10'67   Zahlungen an AKK'#13#10'68   Zahlungen an KB-Kasse'#13#10'--Einnahmen'#13#10'81   Erlöse aus Vermögen'#13#10'82   Zuschüsse und allgemeine Erstattungen'#13#10'84   allgemeine Kirchenbeiträge'#13#10'85   Spenden für gemeindeeigene Zwecke'#13#10'86   Kollekten für gemeindeeigene Zwecke'#13#10'87   Sonstige Einnahmen'#13#10'--Durchlaufende Ausgaben'#13#10'93   Gesamtkirchliche Kollekten'#13#10'931  Mission'#13#10'932  Diakonisches Werk'#13#10'933  Lutherische Stunde'#13#10'934  Diasporawerk'#13#10'935  Studienbeihilfe'#13#10'936  Hilfswerk der SELK'#13#10'94   Kollekten und Spenden für Ämter und Werke der SELK'#13#10'941  Mission'#13#10'942  Jugendarbeit'#13#10'943  Theol. Hochschule'#13#10'944  Kirchenmusik'#13#10'945  Bausteine/Diasporawerk'#13#10'946  Sonstige'#13#10'95   Kollekten und Spenden für Ämter und Werke außerhalb der SELK'#13#10'951  Brot für die Welt'#13#10'952  Mission unter Israel'#13#10'953  Sonstige'
+        Hint = '--Durchlaufende Konten'#13#10'23   Gesamtkirchliche Kollekten'#13#10'231  Mission'#13#10'232  Diakonisches Werk'#13#10'233  Lutherische Stunde'#13#10'234  Diasporawerk'#13#10'235  Studienbeihilfe'#13#10'236  Hilfswerk der SELK'#13#10'24   Kollekten und Spenden für Ämter und Werke der SELK'#13#10'241  Mission'#13#10'242  Jugendarbeit'#13#10'243  Theol. Hochschule'#13#10'244  Kirchenmusik'#13#10'245  Bausteine/Diasporawerk'#13#10'246  Sonstige'#13#10'25   Kollekten und Spenden für Ämter und Werke außerhalb der SELK'#13#10'251  Brot für die Welt'#13#10'252  Mission unter Israel'#13#10'253  Sonstige'#13#10'--Ausgaben'#13#10'39   Andere Personalaufwendungen'#13#10'41   Reise- und Sitzungskosten'#13#10'42   Kraftfahrzeug-Unterhaltung'#13#10'43   Postgebühren (Porto, Telefon)'#13#10'44   allg. Verwaltungskosten'#13#10'45   Aufwendungen für Grundstücke und Gebäude'#13#10'46   sonstige Sachaufwendungen'#13#10'51   Publizistik'#13#10'52   Gottesdienstbedarf'#13#10'53   Kinder- und Jugendarbeit'#13#10'54   Alten- und Krankenbetreuung'#13#10'55   Chöre'#13#10'56   sonstige Gemeindekreise'#13#10'57   Druckschriften'#13#10'58   verborgene Not'#13#10'59   außerordentliche Aufwendungen'#13#10'66   Etatzuschüsse an kirchliche Werke'#13#10'67   Zahlungen an AKK'#13#10'68   Zahlungen an KB-Kasse'#13#10'71 Zinsen'#13#10'72 Gebühren der Kreditinstitute'#13#10'73 Sonstige Kosten des Finanzverkehrs'#13#10'--Einnahmen'#13#10'81   Erlöse aus Vermögen'#13#10'82   Zuschüsse und allgemeine Erstattungen'#13#10'84   allgemeine Kirchenbeiträge'#13#10'85   Spenden für gemeindeeigene Zwecke'#13#10'86   Kollekten für gemeindeeigene Zwecke'#13#10'87   Sonstige Einnahmen'
         Top = 4
         Width = 72
         MaxValue = 999
@@ -164,7 +164,7 @@ object frmSachkonten: TfrmSachkonten
       object cbKontoType: TComboBox
         Left = 120
         Height = 23
-        Hint = 'E = Einnahme'#13#10'A = Ausgaben'#13#10'D = Durchgangskonto (undef.)'#13#10'DE = Durchgangskonto Einnahme'#13#10'DA = Durchgangskonto Ausgaben'
+        Hint = 'E = Einnahme'#13#10'A = Ausgaben'#13#10'D = Durchgangskonto'
         Top = 36
         Width = 72
         ItemHeight = 15
@@ -172,8 +172,6 @@ object frmSachkonten: TfrmSachkonten
           'E'
           'A'
           'D'
-          'DE'
-          'DA'
         )
         ParentShowHint = False
         ShowHint = True

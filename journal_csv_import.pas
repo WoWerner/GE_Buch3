@@ -454,11 +454,11 @@ begin
       end;
 
   cbBank.Items.Clear;
-  frmDM.ZQueryHelp.SQL.Text     := 'select BankNr, ifnull(Bank,'''')||'' - ''||ifnull(Konto,'''') as Bank from banken where (banken.BankNr > 1) and (banken.BankNr < 900) order by SortPos ';
+  frmDM.ZQueryHelp.SQL.Text := 'select * from Konten where Kontotype = "B" order by SortPos ';
   frmDM.ZQueryHelp.Open;
   while not frmDM.ZQueryHelp.EOF do
     begin
-      cbBank.AddItem(frmDM.ZQueryHelp.FieldByName('Bank').AsString,  TObject(frmDM.ZQueryHelp.FieldByName('BankNr').AsInteger));
+      cbBank.AddItem(frmDM.ZQueryHelp.FieldByName('Name').AsString,  TObject(frmDM.ZQueryHelp.FieldByName('KontoNr').AsInteger));
       frmDM.ZQueryHelp.Next;
     end;
   frmDM.ZQueryHelp.Close;
