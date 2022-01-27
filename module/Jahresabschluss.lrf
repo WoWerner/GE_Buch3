@@ -7,7 +7,7 @@
     <KeyWords Value=""/>
     <Comments Value=""/>
     <ReportCreateDate Value="2014-11-10 21:49:47"/>
-    <ReportLastChange Value="2022-01-16 19:29:13"/>
+    <ReportLastChange Value="2022-01-26 19:35:44"/>
     <ReportVersionBuild Value=""/>
     <ReportVersionMajor Value=""/>
     <ReportVersionMinor Value=""/>
@@ -5749,7 +5749,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;41;42;43;44;46;72]&#xD;&#xA;"/>
+            <Memo Value="[K;41;42;43;44;46]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -5805,7 +5805,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="41-44,46,72&#xD;&#xA;&#xD;&#xA;"/>
+            <Memo Value="41-44,46&#xD;&#xA;&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -5861,7 +5861,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="Sonstige Sachaufwendungen einschl.Bankgebühren&#xD;&#xA;"/>
+            <Memo Value="Sonstige Sachaufwendungen&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -5900,7 +5900,7 @@
           <Typ Value="gtMemo"/>
           <StreamMode Value="0"/>
           <Size>
-            <Left Value="596"/>
+            <Left Value="594"/>
             <Top Value="180"/>
             <Width Value="104"/>
             <Height Value="18"/>
@@ -5917,7 +5917,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[K;41;42;43;44;45;46;47;72]&#xD;&#xA;"/>
+            <Memo Value="[K;41;42;43;44;45;46;47]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -7653,7 +7653,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[A;23;24;25;3;41;42;43;44;45;46;47;72;5;61;62;63;64;65;66;67;68;7]&#xD;&#xA;"/>
+            <Memo Value="[A;23;24;25;3;41;42;43;44;45;46;47;5;61;62;63;64;65;66;67;68;7]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
