@@ -184,9 +184,14 @@ var
   Col2SummePart3   : longint;
   Col1SummePart3b  : longint;
   Col2SummePart3b  : longint;
+  Col1LineSummePart3   : longint;
+  Col2LineSummePart3   : longint;
+  Col1LineSummePart3b  : longint;
+  Col2LineSummePart3b  : longint;
   Col1SummePart4   : longint;
   Col2SummePart4   : longint;
   Betrag           : longint;
+  i                : integer;
 
 begin
   try
@@ -566,6 +571,10 @@ begin
           Col2SummePart3   := 0;
           Col1SummePart3b  := 0;
           Col2SummePart3b  := 0;
+          Col1LineSummePart3 := 0;
+          Col2LineSummePart3 := 0;
+          Col1LineSummePart3b:= 0;
+          Col2LineSummePart3b:= 0;
           Col1SummePart4   := 0;
           Col2SummePart4   := 0;
           Col1Summe        := 0;
@@ -745,23 +754,27 @@ begin
                               TwoColReportData[FRow].Col1 := IntToCurrency(0);
                               TwoColReportData[FRow].Col2 := IntToCurrency(0);
                               TwoColReportData[FRow].typ  := line;
+                              Col1LineSummePart3 := 0;
+                              Col2LineSummePart3 := 0;
                             end;
                         if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = nBuchungsjahr
                           then
                             begin
-                              TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint);
-                              Col1SummePart3 := Col1SummePart3 + frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint;
+                              Col1SummePart3     := Col1SummePart3     + frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint;
+                              Col1LineSummePart3 := Col1LineSummePart3 + frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint;
+                              TwoColReportData[FRow].Col1 := IntToCurrency(Col1LineSummePart3);
                             end
                           else
                             begin
-                              TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint);
-                              Col2SummePart3 := Col2SummePart3 + frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint;
+                              Col2SummePart3     := Col2SummePart3     + frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint;
+                              Col2LineSummePart3 := Col2LineSummePart3 + frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint;
+                              TwoColReportData[FRow].Col2 := IntToCurrency(Col2LineSummePart3);
                             end;
                       end;
                   frmDM.ZQueryDrucken.Next;
                 end;
 
-                //Abschluss Part 3
+              //Abschluss Part 3
               inc(FRow);
               TwoColReportData[FRow].Name := 'Durchgang Einzahlungen gesamt';
               TwoColReportData[FRow].Col1 := IntToCurrency(Col1SummePart3);
@@ -784,7 +797,7 @@ begin
               TwoColReportData[FRow].Col2 := inttostr(nBuchungsjahr-1);
               TwoColReportData[FRow].typ  := header;
 
-                //Daten Part 3b
+              //Daten Part 3b
               while not frmDM.ZQueryDrucken.EOF do
                 begin
                   if frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint < 0
@@ -800,19 +813,22 @@ begin
                               TwoColReportData[FRow].Col1 := IntToCurrency(0);
                               TwoColReportData[FRow].Col2 := IntToCurrency(0);
                               TwoColReportData[FRow].typ  := line;
+                              Col1LineSummePart3b := 0;
+                              Col2LineSummePart3b := 0;
                             end;
                         if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = nBuchungsjahr
                           then
                             begin
-                              TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint);
-                              Col1SummePart3b := Col1SummePart3b + frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint;
+                              Col1SummePart3b     := Col1SummePart3b     + frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint;
+                              Col1LineSummePart3b := Col1LineSummePart3b + frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint;
+                              TwoColReportData[FRow].Col1 := IntToCurrency(Col1LineSummePart3b);
                             end
                           else
                             begin
-                              TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint);
-                              Col2SummePart3b := Col2SummePart3b + frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint;
+                              Col2SummePart3b     := Col2SummePart3b + frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint;
+                              Col2LineSummePart3b := Col2LineSummePart3b + frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint;
+                              TwoColReportData[FRow].Col2 := IntToCurrency(Col2LineSummePart3b);
                             end;
-
                       end;
                   frmDM.ZQueryDrucken.Next;
                 end;
@@ -1041,7 +1057,7 @@ begin
 
 
           //Debug
-          //for i := 1 to FRow do myDebugLN(TwoColReportData[i].Name+';'+TwoColReportData[i].Col1+';'+TwoColReportData[i].Col2);
+          for i := 1 to FRow do myDebugLN(';'+TwoColReportData[i].Name+';'+TwoColReportData[i].Col1+';'+TwoColReportData[i].Col2);
 
           //Init für Report
           frReport.LoadFromFile(sAppDir+'module\SummenlisteDrucken1Part2Cols.lrf');

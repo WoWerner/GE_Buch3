@@ -1,7 +1,7 @@
 object frmDrucken: TfrmDrucken
-  Left = 417
+  Left = 586
   Height = 339
-  Top = 153
+  Top = 239
   Width = 633
   BorderStyle = bsDialog
   Caption = 'Drucken'
@@ -11,7 +11,7 @@ object frmDrucken: TfrmDrucken
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.12.0'
+  LCLVersion = '2.2.0.4'
   object Shape2: TShape
     Left = 0
     Height = 110
@@ -261,7 +261,6 @@ object frmDrucken: TfrmDrucken
     Top = 309
     Width = 15
     Caption = 'bis'
-    ParentColor = False
   end
   object ediFilter: TLabeledEdit
     Left = 216
@@ -271,7 +270,6 @@ object frmDrucken: TfrmDrucken
     EditLabel.Height = 15
     EditLabel.Width = 200
     EditLabel.Caption = 'Nr. oder Text'
-    EditLabel.ParentColor = False
     Enabled = False
     TabOrder = 14
   end
