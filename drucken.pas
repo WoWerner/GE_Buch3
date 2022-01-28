@@ -1482,27 +1482,29 @@ begin
       begin
         try
           MemoView := frReport.FindObject('memTitel') as TfrMemoView;
-          MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'Titel', 'Sammelbestätigung über Geldzuwendungen', true);
+          MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'Titel', '"Sammelbestätigung über Geldzuwendungen"', true);
 
           MemoView := frReport.FindObject('memSubTitel') as TfrMemoView;
-          MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'SubTitel', 'im Sinne des § 10b des Einkommensteuergesetzes an inländische juristische Personen des öffentlichen Rechts oder inländische öffentliche Dienststellen:', true);
+          MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'SubTitel', '"im Sinne des § 10b des Einkommensteuergesetzes an inländische juristische Personen des öffentlichen Rechts oder inländische öffentliche Dienststellen:"', true);
 
           MemoView := frReport.FindObject('memFoerderung') as TfrMemoView;
-          MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'Foerderung', 'Es wird bestätigt, dass die Zuwendung nur zur Förderung kirchlicher Zwecke verwendet wird.', true);
+          MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'Foerderung', '"Es wird bestätigt, dass die Zuwendung nur zur Förderung kirchlicher Zwecke verwendet wird."', true);
           // 15 pro Zeile
-          // Zeilen = Textlänge / 90
-          MemoView.Height:=(MemoView.Memo.Text.Length div 90)*15;
+          // Zeilen = Textlänge / 80
+          MemoView.Height:=(MemoView.Memo.Text.Length div 80)*15;
+          // Zusätzliche Höhe für Zeilenumbruch
+          MemoView.Height:=MemoView.Height+15*CountChar(MemoView.Memo.Text, #13);
           BandView := frReport.FindObject('bandMaster') as TfrBandView;
           BandView.Height:=378+MemoView.Height;
 
           MemoView := frReport.FindObject('memEigene') as TfrMemoView;
-          MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'Eigene', 'von uns unmittelbar für den angegebenen Zweck verwendet. (Empfänger = [Empfaenger])' , true);
+          MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'Eigene', '"von uns unmittelbar für den angegebenen Zweck verwendet. (Empfänger = [Empfaenger])"' , true);
 
           MemoView := frReport.FindObject('memEigeneFinanzamt') as TfrMemoView;
-          MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'EigeneFinanzamt', 'Finanzamt [EigenesFinanzamt] vom [EigenesFinanzamtVom], StNr.: [EigenesFinanzamtNr]', true);
+          MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'EigeneFinanzamt', '"Finanzamt [EigenesFinanzamt] vom [EigenesFinanzamtVom], StNr.: [EigenesFinanzamtNr]"', true);
 
           MemoView := frReport.FindObject('memWeiter') as TfrMemoView;
-          MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'Weitergeleitete', 'entsprechend den Angaben des Zuwendenden an [Empfaenger] weitergeleitet, die/der vom Finanzamt "[Finanzamt]", StNr.: "[FinanzamtNr]" mit Freistellungsbescheid bzw. nach der Anlage zum Körperschaftsteuerbescheid vom "[FinanzamtVom]" von der Körperschaftssteuer und Gewerbesteuer befreit ist.', true);
+          MemoView.Memo.Text := help.ReadIniVal(sIniFile, 'Zuwendungsbescheinigung', 'Weitergeleitete', '"entsprechend den Angaben des Zuwendenden an [Empfaenger] weitergeleitet, die/der vom Finanzamt [Finanzamt], StNr.: [FinanzamtNr] mit Freistellungsbescheid bzw. nach der Anlage zum Körperschaftsteuerbescheid vom [FinanzamtVom] von der Körperschaftssteuer und Gewerbesteuer befreit ist."', true);
         except
           on E: Exception do LogAndShowError(E.Message);
         end;
