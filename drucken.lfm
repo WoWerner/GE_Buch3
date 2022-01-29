@@ -62,7 +62,7 @@ object frmDrucken: TfrmDrucken
   object btnSummenliste: TButton
     Left = 8
     Height = 25
-    Hint = 'Übersicht aller Konten'
+    Hint = 'Übersicht aller Konten'#13#10'Rechtsklick für CSV-Export'
     Top = 119
     Width = 200
     Caption = 'Summenliste (opt. Datumsfilter)'
@@ -154,7 +154,7 @@ object frmDrucken: TfrmDrucken
     Hint = 'Übersicht aller Durchgangskonten'
     Top = 230
     Width = 200
-    Caption = 'Durchgangskontenübersicht'
+    Caption = 'Durchgangskontenübersicht (CSV)'
     OnClick = btnDurchgangClick
     ParentShowHint = False
     ShowHint = True
