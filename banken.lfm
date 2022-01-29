@@ -1,7 +1,7 @@
 object frmBanken: TfrmBanken
-  Left = 402
+  Left = 565
   Height = 500
-  Top = 190
+  Top = 297
   Width = 748
   BorderStyle = bsDialog
   Caption = 'Banken'
@@ -10,7 +10,7 @@ object frmBanken: TfrmBanken
   OnClose = FormClose
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.12.0'
+  LCLVersion = '2.2.0.4'
   object DBGridBankListe: TDBGrid
     Left = 0
     Height = 338
@@ -110,7 +110,6 @@ object frmBanken: TfrmBanken
       Top = 16
       Width = 13
       Caption = 'Nr'
-      ParentColor = False
     end
     object ediKontoNr: TSpinEdit
       Left = 96
@@ -130,7 +129,6 @@ object frmBanken: TfrmBanken
       Top = 103
       Width = 32
       Caption = 'Name'
-      ParentColor = False
     end
     object ediName: TEdit
       Left = 96
@@ -146,7 +144,6 @@ object frmBanken: TfrmBanken
       Top = 132
       Width = 61
       Caption = 'Kontostand'
-      ParentColor = False
     end
     object ediKontostand: TEdit
       Left = 96
@@ -165,7 +162,6 @@ object frmBanken: TfrmBanken
       Top = 45
       Width = 80
       Caption = 'Sortier Position'
-      ParentColor = False
     end
     object ediSortPos: TSpinEdit
       Left = 96
@@ -183,7 +179,6 @@ object frmBanken: TfrmBanken
       Top = 74
       Width = 80
       Caption = 'Statistikbereich'
-      ParentColor = False
     end
     object ediStatistik: TSpinEdit
       Left = 96

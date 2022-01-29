@@ -1,0 +1,33 @@
+﻿Änderungen in der Version 3.0.0.1
+
+Fehlerbeseitigung:
+- Im Finanzbericht an die AKK würde das Konto 72 doppelt berechnet
+- In der Summenliste war nur bei Durchgangskonen nur der letzte Betrag gelistet. (Die Summe war richtig)
+- In der Zuwendungsbescheinigung erfolgt die Höhenberechng der Elemente besser
+
+Neue Funktionen:
+- Die Summenliste kann als CSV exportiert werden (Rechtsklick auf den Button)
+
+Interne Änderungen:
+SSL openssl-1.0.2u 
+
+------------------------------------------------------
+
+Änderungen in der Version 3.0.0.0
+
+Die gesamte interne Verarbeitung wurde umgestellt.
+
+Die wichtigsten Änderungen sind:
+- Die Durchgangskonten (1) und Ausgleichskonten (999) entfallen.
+- Direkte Umbuchungen zwischen Banken sind möglich.
+- Es gibt keine Durchgangskonten Eingangs- und Ausgangskonten mehr. Diese wurden zusammengelegt.
+- Bei den Sachkonten werden die 7er (Zinsen...) unterstützt.   
+
+Interne Änderungen:
+Lazarus 2.2.0
+SQLite Version 3.37.2
+Zeos Version 7.2.14
+
+------------------------------------------------------
+
+Soll die Meldung noch einmal angezeigt werden?

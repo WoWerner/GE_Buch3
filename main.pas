@@ -1104,7 +1104,9 @@ procedure TfrmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   frmDM.CloseOpenQuerys;
   if frmDM.ZConnectionBuch.Connected then frmDM.ZConnectionBuch.Disconnect;
+  slHelp.Free;
   myDebugLN('Beende '+frmMain.caption);
+  myDebugLN('************************************************************************************');
   FlushDebug;
 end;
 
