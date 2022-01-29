@@ -67,8 +67,8 @@ object frmDrucken: TfrmDrucken
     Width = 200
     Caption = 'Summenliste (opt. Datumsfilter)'
     OnClick = btnSummenlisteClick
-    OnContextPopup = btnSummenlisteContextPopup
     ParentShowHint = False
+    PopupMenu = PopupMenuSummenliste
     ShowHint = True
     TabOrder = 2
   end
@@ -368,5 +368,21 @@ object frmDrucken: TfrmDrucken
     DataSource = frmDM.dsDruckenDetail1
     Left = 584
     Top = 256
+  end
+  object PopupMenuSummenliste: TPopupMenu
+    Left = 16
+    Top = 112
+    object mnuDrucken: TMenuItem
+      Caption = 'Drucken'
+      OnClick = btnSummenlisteClick
+    end
+    object mnuCSVExport: TMenuItem
+      Caption = 'CSV - Export'
+      OnClick = mnuCSVExportClick
+    end
+    object mnuDesigner: TMenuItem
+      Caption = 'Designer'
+      OnClick = mnuDesignerClick
+    end
   end
 end

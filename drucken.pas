@@ -20,7 +20,7 @@ uses
   Graphics,
   Dialogs,
   StdCtrls,
-  ExtCtrls,
+  ExtCtrls, Menus,
   types;
 
 type
@@ -83,6 +83,10 @@ type
     frReport: TfrReport;
     frTextExport: TfrTextExport;
     Label2: TLabel;
+    mnuDrucken: TMenuItem;
+    mnuCSVExport: TMenuItem;
+    mnuDesigner: TMenuItem;
+    PopupMenuSummenliste: TPopupMenu;
     rgFilter: TRadioGroup;
     ediFilter: TLabeledEdit;
     Shape1: TShape;
@@ -129,6 +133,8 @@ type
     procedure frReportEnterRect(Memo: TStringList; View: TfrView);
     procedure frReportGetValue(const ParName: String; var ParValue: Variant);
     procedure frReportPrintColumn(ColNo: Integer; var ColWidth: Integer);
+    procedure mnuCSVExportClick(Sender: TObject);
+    procedure mnuDesignerClick(Sender: TObject);
     procedure rgFilterSelectionChanged(Sender: TObject);
   private
     { private declarations }
@@ -140,7 +146,7 @@ type
     nEinnahmen: longint;
     nAusgaben : longint;
     nBestand  : longint;
-    Procedure PreparePrint(CallDesigner : boolean);
+    Procedure PreparePrint(CallDesigner : boolean = false; CSV_Export : boolean = false);
   public
     { public declarations }
   end;
@@ -160,13 +166,15 @@ uses
   windows,  //Shellexecute
   global,
   LConvEncoding,
+  LCLIntf,  //Opendocument
   help,
+  main,
   dm;
 
 Var
   Seite       : integer;
 
-Procedure TfrmDrucken.PreparePrint(CallDesigner : boolean);
+Procedure TfrmDrucken.PreparePrint(CallDesigner : boolean = false; CSV_Export : boolean = false);
 
 var
   sSachkontoNr     : string;
@@ -174,6 +182,7 @@ var
   sName            : string;
   sLastName        : string;
   sHelp            : string;
+  sFileName        : string;
   Col1Summe        : longint;
   Col2Summe        : longint;
   Col1SummePart1   : longint;
@@ -1055,10 +1064,6 @@ begin
                 TwoColReportData[FRow].typ  := header;
               end;
 
-
-          //Debug
-          for i := 1 to FRow do myDebugLN(';'+TwoColReportData[i].Name+';'+TwoColReportData[i].Col1+';'+TwoColReportData[i].Col2);
-
           //Init für Report
           frReport.LoadFromFile(sAppDir+'module\SummenlisteDrucken1Part2Cols.lrf');
           FRowPart1 := FRow;
@@ -1069,7 +1074,27 @@ begin
       end;
     if CallDesigner
       then frReport.DesignReport
-      else frReport.ShowReport;
+      else if CSV_Export
+        then
+          begin
+            //CSV Export  ???
+            frmMain.slHelp.Clear;
+            for i := 1 to FRowPart1 do frmMain.slHelp.Add(UTF8toCP1252(TwoColReportData[i].Name)+';'+TwoColReportData[i].Col1+';'+TwoColReportData[i].Col2);
+            sFileName := sAppDir+'Summenliste.csv';
+            try
+              frmMain.slHelp.SaveToFile(sFileName);
+               if MessageDlg(Inttostr(FRowPart1)+' Zeilen exportiert in Datei '+sFileName+#13+
+                          'Sollen Sie angezeigt werden?', mtConfirmation, [mbYes, mbNo],0)= mrYes
+                 then opendocument(sFileName);
+            except
+              on E : Exception do
+                begin
+                  Screen.Cursor := crDefault;
+                  LogAndShowError('Fehler beim Schreiben der Datei: '+sFileName+#13#13+E.ClassName+ ': '+ E.Message);
+                end;
+            end;
+          end
+        else frReport.ShowReport;
   except
     on E: Exception do LogAndShowError(E.Message);
   end;
@@ -1088,19 +1113,19 @@ end;
 procedure TfrmDrucken.btnJournaldruckClick(Sender: TObject);
 begin
   Druckmode := Journal;
-  PreparePrint(false);
+  PreparePrint();
 end;
 
 procedure TfrmDrucken.btnJahresabschlussClick(Sender: TObject);
 begin
   Druckmode := Jahresabschluss;
-  PreparePrint(false);
+  PreparePrint();
 end;
 
 procedure TfrmDrucken.btnBankenlisteClick(Sender: TObject);
 begin
   Druckmode := BankenListe;
-  PreparePrint(false);
+  PreparePrint();
 end;
 
 procedure TfrmDrucken.btnBankenlisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -1113,7 +1138,7 @@ end;
 procedure TfrmDrucken.btnEinAusClick(Sender: TObject);
 begin
   Druckmode := EinAus;
-  PreparePrint(false);
+  PreparePrint();
 end;
 
 procedure TfrmDrucken.btnEinAusContextPopup(Sender: TObject; MousePos: TPoint;  var Handled: Boolean);
@@ -1126,7 +1151,7 @@ end;
 procedure TfrmDrucken.btnJournalBKdruckClick(Sender: TObject);
 begin
   Druckmode := JournalBK;
-  PreparePrint(false);
+  PreparePrint();
 end;
 
 procedure TfrmDrucken.btnJournalBKdruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -1139,7 +1164,7 @@ end;
 procedure TfrmDrucken.btnJournalFilteredClick(Sender: TObject);
 begin
   Druckmode := JournalGefiltert;
-  PreparePrint(false);
+  PreparePrint();
 end;
 
 procedure TfrmDrucken.btnJournalFilteredContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -1152,7 +1177,7 @@ end;
 procedure TfrmDrucken.btnJournalKompaktFilteredClick(Sender: TObject);
 begin
   Druckmode := JournalKompaktGefiltert;
-  PreparePrint(false);
+  PreparePrint();
 end;
 
 procedure TfrmDrucken.btnJournalKompaktFilteredContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -1165,7 +1190,7 @@ end;
 procedure TfrmDrucken.btnJournalSKdruckClick(Sender: TObject);
 begin
   Druckmode := JournalSK;
-  PreparePrint(false);
+  PreparePrint();
 end;
 
 procedure TfrmDrucken.btnJournalSKdruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -1178,13 +1203,13 @@ end;
 procedure TfrmDrucken.btnZahlerlisteClick(Sender: TObject);
 begin
   Druckmode := Zahlungsliste;
-  PreparePrint(false);
+  PreparePrint();
 end;
 
 procedure TfrmDrucken.btnBeitragslisteClick(Sender: TObject);
 begin
   Druckmode := BeitragslisteSK;
-  PreparePrint(false);
+  PreparePrint();
 end;
 
 procedure TfrmDrucken.btnBeitragslisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -1249,50 +1274,36 @@ begin
   frmDM.ZQueryDrucken.Close;
 
   try
-    try
-      //Datei anlegen
-      AssignFile(F, Filename);
-      Rewrite(f);
-
-      //Ausgeben
-
-      //Header
-      WriteLn(F, '"Konto";"KontoNr";"Einnahme";"Weiterleitung";"Differenz"');
-
-      //Daten
-      for nHelp := 0 to 9999 do
-        begin
-          if Daten[nHelp].Name <> ''
-            then
-              begin
-                WriteLn(F, '"'+UTF8toCP1252(DeleteChar(Daten[nHelp].Name, '"'))+'";"'+
-                           inttostr(nHelp)+'";'+
-                           IntToCurrency(Daten[nHelp].EinBetrag)+';'+
-                           IntToCurrency(Daten[nHelp].AusBetrag)+';'+
-                           IntToCurrency(Daten[nHelp].EinBetrag+Daten[nHelp].AusBetrag));
-              end;
-        end;
-    except
-      on E : Exception do
-        begin
-          Showmessage('Fehler beim Schreiben der Datei: '+Filename+#13#13+E.ClassName+ ': '+ E.Message);
-          Error := true;
-        end;
-    end;
-  finally
-    try
-      CloseFile(f); //Ausgabedatei schliesen
-    except
-      //Tritt auf, wenn die Datei nicht offen war
-    end;
+    frmMain.slHelp.Clear;
+    //Header
+    frmMain.slHelp.Add('"Konto";"KontoNr";"Einnahme";"Weiterleitung";"Differenz"');
+    //Daten
+    for nHelp := 0 to 9999 do
+      begin
+        if Daten[nHelp].Name <> ''
+          then
+            begin
+              frmMain.slHelp.Add('"'+UTF8toCP1252(DeleteChar(Daten[nHelp].Name, '"'))+'";"'+
+                                 inttostr(nHelp)+'";'+
+                                 IntToCurrency(Daten[nHelp].EinBetrag)+';'+
+                                 IntToCurrency(Daten[nHelp].AusBetrag)+';'+
+                                 IntToCurrency(Daten[nHelp].EinBetrag+Daten[nHelp].AusBetrag));
+            end;
+      end;
+    frmMain.slHelp.SaveToFile(Filename);
+  except
+    on E : Exception do
+      begin
+        Showmessage('Fehler beim Schreiben der Datei: '+Filename+#13#13+E.ClassName+ ': '+ E.Message);
+        Error := true;
+      end;
   end;
 
   if not Error
     then
       begin
         showmessage('Datei "'+FileName+'" erstellt');
-        //Aufrufen
-        ShellExecute(Self.Handle, 'Open', PChar(FileName), nil, nil, SW_SHOWNORMAL);
+        opendocument(FileName);
       end;
 end;
 
@@ -1313,7 +1324,7 @@ end;
 procedure TfrmDrucken.btnPersonenlisteClick(Sender: TObject);
 begin
   Druckmode := Personenliste;
-  PreparePrint(false);
+  PreparePrint();
 end;
 
 procedure TfrmDrucken.btnPersonenlisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -1326,7 +1337,7 @@ end;
 procedure TfrmDrucken.btnPersonenlisteKompaktClick(Sender: TObject);
 begin
   Druckmode := PersonenlisteKompakt;
-  PreparePrint(false);
+  PreparePrint();
 end;
 
 procedure TfrmDrucken.btnPersonenlisteKompaktContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -1339,7 +1350,7 @@ end;
 procedure TfrmDrucken.btnSachkontenlisteClick(Sender: TObject);
 begin
   Druckmode := Sachkontenliste;
-  PreparePrint(false);
+  PreparePrint();
 end;
 
 procedure TfrmDrucken.btnSachkontenlisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -1364,7 +1375,7 @@ end;
 procedure TfrmDrucken.btnZuwendungsbescheinigungenClick(Sender: TObject);
 begin
   Druckmode := Zuwendung;
-  PreparePrint(false);
+  PreparePrint();
 end;
 
 procedure TfrmDrucken.btnZuwendungsbescheinigungenContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -1377,15 +1388,15 @@ end;
 procedure TfrmDrucken.btnSummenlisteClick(Sender: TObject);
 begin
   Druckmode := Summenliste;
-  PreparePrint(false);
+  PreparePrint();
 end;
 
-procedure TfrmDrucken.btnSummenlisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+procedure TfrmDrucken.btnSummenlisteContextPopup(Sender: TObject;
+  MousePos: TPoint; var Handled: Boolean);
 begin
-  Druckmode := Summenliste;
-  PreparePrint(true);
-  Handled := true;
+
 end;
+
 
 procedure TfrmDrucken.cbDatumChange(Sender: TObject);
 begin
@@ -1679,6 +1690,18 @@ end;
 procedure TfrmDrucken.frReportPrintColumn(ColNo: Integer; var ColWidth: Integer);
 begin
   FCol := ColNo;                                 // Welche Spalte wird gedruckt
+end;
+
+procedure TfrmDrucken.mnuCSVExportClick(Sender: TObject);
+begin
+  Druckmode := Summenliste;
+  PreparePrint(false, true);
+end;
+
+procedure TfrmDrucken.mnuDesignerClick(Sender: TObject);
+begin
+  Druckmode := Summenliste;
+  PreparePrint(true);
 end;
 
 procedure TfrmDrucken.rgFilterSelectionChanged(Sender: TObject);
