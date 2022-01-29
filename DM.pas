@@ -111,10 +111,10 @@ Procedure TfrmDM.ExecuteTransactionSQL(sSQL: String);
 
 var
   nHelp : integer;
-  slHelp : TStringlist;
+  slSQL : TStringlist;
 
 begin
-  slHelp := TStringlist.Create;
+  slSQL := TStringlist.Create;
 
   //Datenbank schliessen
   CloseOpenQuerys;
@@ -125,14 +125,14 @@ begin
   ZConnectionBuch.TransactIsolationLevel := tiReadCommitted;
   ZConnectionBuch.Connect;
 
-  slHelp.Text:=sSQL;
+  slSQL.Text:=sSQL;
   //Alle Befehle absetzen
-  for nHelp := 0 to slHelp.Count-1 do ZConnectionBuch.ExecuteDirect(slHelp.Strings[nHelp]);
+  for nHelp := 0 to slSQL.Count-1 do ZConnectionBuch.ExecuteDirect(slSQL.Strings[nHelp]);
   //und ausführen
   ZConnectionBuch.Commit;
 
   ZConnectionBuch.Disconnect;
-  slHelp.Free;
+  slSQL.Free;
 
   //Datenbank wieder mit Standardparametern öffnen
   ZConnectionBuch.AutoCommit             := true;
@@ -224,7 +224,6 @@ begin
   myDebugLN('Aktuelle SQLite Version ist: '+ZQueryHelp.FieldByName('Version').asstring);
   ZQueryHelp.Close;
   myDebugLN('Aktuelle Zeos   Version ist: '+ZConnectionBuch.Version);
-
   //Version auslesen
   try
     ZQueryHelp.SQL.Text := 'select Version from init';
