@@ -145,6 +145,7 @@ type
     procedure HandleException(Sender: TObject; E: Exception);
   public
     { public declarations }
+    slHelp: TStringList;
     procedure Datensicherung(Auto, Reconnect: boolean; FileExtension : String = '');
   end;
 
@@ -242,16 +243,15 @@ procedure TfrmMain.FormCreate(Sender: TObject);
 var
   sRelease              : String;
   HTTP                  : THTTPSend;
-  slHelp                : TStringlist;
 
 begin
   Application.OnException := @HandleException;
   slHelp      := TStringlist.Create;
   sAppDir     := vConfigurations.MyDirectory;
   sIniFile    := vConfigurations.ConfigFile;
+  sDebugFile  := help.ReadIniVal(sIniFile, 'Debug'     , 'Name', sAppDir+'debug.txt', true);
   sSavePath   := help.ReadIniVal(sIniFile, 'Sicherung' , 'Verzeichnis', sAppDir+'Sicherung', true);
   sImportPath := help.ReadIniVal(sIniFile, 'CSV-Import', 'Verzeichnis', sAppDir, true);
-  sDebugFile  := help.ReadIniVal(sIniFile, 'Debug'     , 'Name', sAppDir+'debug.txt', true);
   sDatabase   := help.ReadIniVal(sIniFile, 'Datenbank' , 'Name', sAppDir+'ge_buch3.db', true);
   sProductVersionString := GetProductVersionString;
 
@@ -388,9 +388,6 @@ begin
             if MessageDlg(slHelp.Text, mtConfirmation, [mbYes, mbNo],0) = mrNo
               then help.WriteIniVal(sIniFile, 'Programm', 'Version', sProductVersionString)
       end;
-
-  //Aufräumen
-  slHelp.Free;
 end;
 
 
@@ -403,15 +400,11 @@ var
   dtLastSave         : TDateTime;
 {$endif}
   jahr_, monat_, tag_: word;
-  slHelp             : TStringlist;
 
 begin
-  slHelp      := TStringlist.Create;
   DecodeDate(now(), jahr_, monat_, tag_);
-
   try
     if not frmDM.ZConnectionBuch.Connected then frmDM.ZConnectionBuch.Connect;
-
     //Überprüfen der Datenbank
     if not frmDM.CheckDB
       then
@@ -421,7 +414,6 @@ begin
           close;
           exit;
         end;
-
     if not frmDM.ZQueryInit.Active then frmDM.ZQueryInit.Open;
     FillStringsAusInit;
   except
@@ -503,8 +495,6 @@ begin
     else
       if (trunc(random(12)) = 1)
         then Showmessage('Denken Sie an eine regelmäßige Datensicherung'+#13+labDatensicherung.Caption);
-
-  slHelp.Free;
 end;
 
 procedure TfrmMain.imgSELKClick(Sender: TObject);
@@ -740,38 +730,34 @@ end;
 procedure TfrmMain.mnuLimitsZahlerBetragClick(Sender: TObject);
 
 var
-  StringList : TStringList;
   sFileName  : String;
 
 begin
   sFileName  := sAppDir+'module\Zahlerstatistik.txt';
-  StringList := TStringList.create;
+  slHelp.Clear;
   try
-    StringList.LoadFromFile(sFileName);
+    slHelp.LoadFromFile(sFileName);
   except
     on E: Exception do LogAndShowError(E.Message);
   end;
-  frmAusgabe.SetDefaults('Grenzen bearbeiten ('+sFileName+')', StringList.text, sFileName, '', 'Schliessen', false);
-  StringList.free;
+  frmAusgabe.SetDefaults('Grenzen bearbeiten ('+sFileName+')', slHelp.text, sFileName, '', 'Schliessen', false);
   frmAusgabe.ShowModal;
 end;
 
 procedure TfrmMain.mnuLimitsZahlerverteilungAlterClick(Sender: TObject);
 
 var
-  StringList : TStringList;
   sFileName  : String;
 
 begin
   sFileName  := sAppDir+'module\ZahlerstatistikAlter.txt';
-  StringList := TStringList.create;
+  slHelp.Clear;
   try
-    StringList.LoadFromFile(sFileName);
+    slHelp.LoadFromFile(sFileName);
   except
     on E: Exception do LogAndShowError(E.Message);
   end;
-  frmAusgabe.SetDefaults('Grenzen bearbeiten ('+sFileName+')', StringList.text, sFileName, '', 'Schliessen', false);
-  StringList.free;
+  frmAusgabe.SetDefaults('Grenzen bearbeiten ('+sFileName+')', slHelp.text, sFileName, '', 'Schliessen', false);
   frmAusgabe.ShowModal;
 end;
 
@@ -794,19 +780,17 @@ end;
 procedure TfrmMain.mnuSuchtexteImportClick(Sender: TObject);
 
 var
-  StringList : TStringList;
   sFileName  : String;
 
 begin
   sFileName  := sAppDir+'module\SuchTexteImport.txt';
-  StringList := TStringList.create;
+  slHelp.Clear;
   try
-    StringList.LoadFromFile(sFileName);
+    slHelp.LoadFromFile(sFileName);
   except
     on E: Exception do LogAndShowError(E.Message);
   end;
-  frmAusgabe.SetDefaults('Suchtexte für Sachkonten bearbeiten ('+sFileName+')', StringList.text, sFileName, '', 'Schliessen', false);
-  StringList.free;
+  frmAusgabe.SetDefaults('Suchtexte für Sachkonten bearbeiten ('+sFileName+')', slHelp.text, sFileName, '', 'Schliessen', false);
   frmAusgabe.ShowModal;
 end;
 
@@ -821,8 +805,7 @@ end;
 
 procedure TfrmMain.mnuWB_Imp_PersClick(Sender: TObject);
 
-var StringList : TStringList;
-    Line       : String;
+var Line       : String;
     ErrorText  : string;
     FeldNamen  : String;
     sSQL       : string;
@@ -845,7 +828,6 @@ begin
       begin
         Lines     := 0;
         ErrorText := '';
-        StringList:= TStringList.create;
         try
           openDialog.InitialDir := UTF8ToSys(sAppDir);   // Set up the starting directory to be the current one
           openDialog.Options := [ofFileMustExist];       // Only allow existing files to be selected
@@ -859,15 +841,15 @@ begin
 
               myDebugLN('Import: '+ OpenDialog.Filename);
 
-              StringList.loadfromfile(UTF8ToSys(OpenDialog.Filename));
-              StringList.text := RemoveBOM(StringList.text);
+              slHelp.loadfromfile(UTF8ToSys(OpenDialog.Filename));
+              slHelp.text := RemoveBOM(slHelp.text);
               FeldNamen := 'INSERT INTO Personen (PersonenID, BriefAnrede, Vorname, Nachname, Strasse, PLZ, Ort) VALUES (';
 
               //Daten einfügen
-              if StringList.count > 1 then
-                for ActLine := 1 to StringList.count-1 do
+              if slHelp.count > 1 then
+                for ActLine := 1 to slHelp.count-1 do
                   begin
-                    Line := StringList.strings[ActLine];
+                    Line := slHelp.strings[ActLine];
                     Line := Trim(Line);
                     if Line <> ''
                       then
@@ -888,7 +870,7 @@ begin
                               do
                                 begin
                                   ErrorText := ErrorText +
-					       'In Zeile: '+inttostr(ActLine)+
+					                                     'In Zeile: '+inttostr(ActLine)+
                                                ' ist folgender Fehler aufgetreten: '+e.Message+
                                                '. Die Zeile wird NICHT importiert!'#13;
                                   break;
@@ -902,7 +884,6 @@ begin
         except
           on E: Exception do LogAndShowError(E.Message);
         end;
-        StringList.free;
       end;
 end;
 
@@ -910,7 +891,6 @@ procedure TfrmMain.mnuZahlerBetragClick(Sender: TObject);
 var
   sMessage      : string;
   sMessage2     : string;
-  StringList    : TStringList;
   border        : longint;
   borderLine    : integer;
   ZahlerSumme   : longint;
@@ -928,10 +908,9 @@ begin
     borderLine  := 0;
     ZahlerSumme := 0;
     Bereichssumme := 0;
-    StringList  := TStringList.create;
-    StringList.LoadFromFile(sAppDir+'module\Zahlerstatistik.txt');
+    slHelp.LoadFromFile(sAppDir+'module\Zahlerstatistik.txt');
 
-    if StringList.Count > borderLine then border := strtoint(StringList.Strings[borderLine])*100;
+    if slHelp.Count > borderLine then border := strtoint(slHelp.Strings[borderLine])*100;
     sMessage2 := sMessage2 + 'bis  '+Format('%5d Euro',[border div 100]);
     inc(borderLine);
     while not frmDM.ZQueryHelp.EOF do
@@ -949,10 +928,10 @@ begin
               //Grenze überschritten
               sMessage    := sMessage + Format('%4d Zahler ',[ZahlerSumme]) + sMessage2+ ', Summe: ' + Format('%7d Euro',[Bereichssumme div 100])+#13;
               ZahlerSumme := 0;
-              if borderLine <= StringList.Count-1
+              if borderLine <= slHelp.Count-1
                 then
                   begin
-                    border := strtoint(StringList.Strings[borderLine])*100;
+                    border := strtoint(slHelp.Strings[borderLine])*100;
                     sMessage2 := 'bis  '+Format('%5d Euro',[border div 100]);
                     inc(borderLine);
                   end
@@ -979,7 +958,6 @@ begin
 
     frmAusgabe.SetDefaults('Zahlerstatistik', sMessage, '', '', 'Schliessen', false);
     frmAusgabe.ShowModal;
-    StringList.Free;
   except
     on E: Exception
       do
@@ -994,7 +972,6 @@ procedure TfrmMain.mnuZahlerverteilungAlterClick(Sender: TObject);
 var
   sMessage     : string;
   sMessage2    : string;
-  StringList   : TStringList;
   border       : longint;
   Bereichssumme: Double;
   borderLine   : integer;
@@ -1010,10 +987,9 @@ begin
     border        := 0;
     borderLine    := 0;
     Bereichssumme := 0;
-    StringList    := TStringList.create;
-    StringList.LoadFromFile(sAppDir+'module\ZahlerstatistikAlter.txt');
+    slHelp.LoadFromFile(sAppDir+'module\ZahlerstatistikAlter.txt');
 
-    if StringList.Count > borderLine then border := strtoint(StringList.Strings[borderLine]);
+    if slHelp.Count > borderLine then border := strtoint(slHelp.Strings[borderLine]);
     sMessage2 := sMessage2 + 'bis  '+Format('%2d Jahre',[border]);
     inc(borderLine);
     while not frmDM.ZQueryHelp.EOF do
@@ -1030,10 +1006,10 @@ begin
               //Grenze überschritten
               sMessage      := sMessage + Format('%8.2f Euro ',[Bereichssumme]) + sMessage2+#13;
               Bereichssumme := 0;
-              if borderLine <= StringList.Count-1
+              if borderLine <= slHelp.Count-1
                 then
                   begin
-                    border := strtoint(StringList.Strings[borderLine]);
+                    border := strtoint(slHelp.Strings[borderLine]);
                     sMessage2 := 'bis  '+Format('%2d Jahre',[border]);
                     inc(borderLine);
                   end
@@ -1048,7 +1024,6 @@ begin
     sMessage    := sMessage + Format('%8.2f Euro ',[Bereichssumme]) + sMessage2+#13;
     frmAusgabe.SetDefaults('Zahlerstatistik Alter', sMessage, '', '', 'Schliessen', false);
     frmAusgabe.ShowModal;
-    StringList.Free;
   except
     on E: Exception
       do
@@ -1168,14 +1143,12 @@ var
   down,
   insert : integer;
   Delta  : boolean;
-  slHelp : Tstringlist;
   slSQL  : Tstringlist;
   sCheckFeld,
   sSQL   : string;
   sData  : String;
 
 begin
-  slHelp      := Tstringlist.Create;
   slSQL       := Tstringlist.Create;
   slHelp.Text := sUpdatePersonenCheck;
   up          := 0;
@@ -1370,7 +1343,6 @@ begin
     end
   else
     ShowMessage('Funktion abgebrochen');
-  slHelp.free;
   slSQL.Free;
 end;
 
@@ -1378,7 +1350,6 @@ procedure TfrmMain.mnuCleanAutoBuchenClick(Sender: TObject);
 
 Var
  ini   : TINIFile;
- sl    : TStringList;
  i,n,m : integer;
  s,
  sMess,
@@ -1403,16 +1374,15 @@ begin
         m     := 0;
         try
           screen.Cursor:=crHourglass;
-          sl  := TStringList.Create;
           ini := TINIFile.Create(UTF8ToSys(Opendialog.FileName));
           ini.CacheUpdates:=true;  // Erst am Ende alles zusammen schreiben
 
-          ini.ReadSection('Key', sl);
+          ini.ReadSection('Key', slHelp);
           try
-            for i := 0 to sl.Count-1
+            for i := 0 to slHelp.Count-1
               do
                 begin
-                  OrgKey := sl.Strings[i];
+                  OrgKey := slHelp.Strings[i];
                   NewKey := DeleteChars(OrgKey, KeyDelChars); //Behn 30.12.15
                   s := ini.ReadString('Key', OrgKey, '0');
                   if (s = '0') or (s = '')
@@ -1447,7 +1417,6 @@ begin
             end;
         finally
           ini.Free;
-          sl.Free;
           screen.Cursor:=crDefault;
         end;
 

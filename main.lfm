@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 461
+  Left = 648
   Height = 420
-  Top = 123
+  Top = 192
   Width = 581
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
@@ -13,7 +13,7 @@ object frmMain: TfrmMain
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.12.0'
+  LCLVersion = '2.2.0.4'
   object imgSELK: TImage
     Cursor = crHandPoint
     Left = 328
@@ -59,7 +59,6 @@ object frmMain: TfrmMain
     Caption = 'Gemeinde-Buchhaltung'
     Font.Color = clPurple
     Font.Height = -48
-    ParentColor = False
     ParentFont = False
   end
   object labVersion: TLabel
@@ -69,7 +68,6 @@ object frmMain: TfrmMain
     Width = 48
     Caption = 'Version:'
     Font.Height = 19
-    ParentColor = False
     ParentFont = False
   end
   object LabMyName: TLabel
@@ -80,7 +78,6 @@ object frmMain: TfrmMain
     Caption = 'Wolfgang Werner   06478 / 43 29 840'
     Font.Color = clNavy
     Font.Height = 16
-    ParentColor = False
     ParentFont = False
   end
   object labMyStreet: TLabel
@@ -91,7 +88,6 @@ object frmMain: TfrmMain
     Caption = 'Ulmtalstr. 26, 35753 Greifenstein / Holzhausen'
     Font.Color = clNavy
     Font.Height = 16
-    ParentColor = False
     ParentFont = False
   end
   object labMyMail: TLabel
@@ -103,7 +99,6 @@ object frmMain: TfrmMain
     Caption = 'mail@w-werner.de'
     Font.Color = clNavy
     Font.Height = 16
-    ParentColor = False
     ParentFont = False
     OnClick = labMyMailClick
   end
@@ -116,7 +111,6 @@ object frmMain: TfrmMain
     Caption = 'www.w-werner.de'
     Font.Color = clNavy
     Font.Height = 16
-    ParentColor = False
     ParentFont = False
     OnClick = labMyWebClick
   end
@@ -129,7 +123,6 @@ object frmMain: TfrmMain
     Caption = 'Mustergemeinde'
     Font.Color = clNavy
     Font.Height = 16
-    ParentColor = False
     ParentFont = False
     OnClick = mnuEinstellungenClick
   end
@@ -142,7 +135,6 @@ object frmMain: TfrmMain
     Caption = 'Mustergemeinde2'
     Font.Color = clNavy
     Font.Height = 16
-    ParentColor = False
     ParentFont = False
     OnClick = mnuEinstellungenClick
   end
@@ -152,7 +144,6 @@ object frmMain: TfrmMain
     Top = 126
     Width = 18
     Caption = 'für:'
-    ParentColor = False
   end
   object Label2: TLabel
     Left = 16
@@ -160,7 +151,6 @@ object frmMain: TfrmMain
     Top = 206
     Width = 23
     Caption = 'von:'
-    ParentColor = False
   end
   object labVersionNeu: TLabel
     Left = 16
@@ -170,7 +160,6 @@ object frmMain: TfrmMain
     Caption = 'Neue Version verfügbar: '
     Color = clYellow
     Font.Height = 19
-    ParentColor = False
     ParentFont = False
     ParentShowHint = False
     ShowHint = True
@@ -202,7 +191,6 @@ object frmMain: TfrmMain
     Top = 166
     Width = 47
     Caption = 'Rendant:'
-    ParentColor = False
   end
   object LabRendant1: TLabel
     Cursor = crHandPoint
@@ -213,7 +201,6 @@ object frmMain: TfrmMain
     Caption = 'MusterRendant'
     Font.Color = clNavy
     Font.Height = 16
-    ParentColor = False
     ParentFont = False
     OnClick = mnuEinstellungenClick
   end
@@ -226,7 +213,6 @@ object frmMain: TfrmMain
     Caption = 'MusterRendant2'
     Font.Color = clNavy
     Font.Height = 16
-    ParentColor = False
     ParentFont = False
     OnClick = mnuEinstellungenClick
   end
@@ -246,7 +232,6 @@ object frmMain: TfrmMain
     Width = 99
     Caption = 'labDatensicherung'
     Font.Height = 16
-    ParentColor = False
     ParentFont = False
   end
   object labBJahr: TLabel
@@ -256,7 +241,6 @@ object frmMain: TfrmMain
     Width = 103
     Caption = 'Buchungsjahr: 2012'
     Font.Height = 16
-    ParentColor = False
     ParentFont = False
   end
   object btnAktuelles: TButton
@@ -286,7 +270,6 @@ object frmMain: TfrmMain
     Width = 163
     AutoSize = False
     Caption = 'labProgress'
-    ParentColor = False
     Visible = False
   end
   object OpenDialog: TOpenDialog
