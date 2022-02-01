@@ -7,7 +7,7 @@
     <KeyWords Value=""/>
     <Comments Value=""/>
     <ReportCreateDate Value="2014-05-29 13:34:42"/>
-    <ReportLastChange Value="2022-01-16 17:44:58"/>
+    <ReportLastChange Value="2022-01-30 21:25:10"/>
     <ReportVersionBuild Value=""/>
     <ReportVersionMajor Value=""/>
     <ReportVersionMinor Value=""/>
@@ -328,7 +328,7 @@
           <Size>
             <Left Value="192"/>
             <Top Value="196"/>
-            <Width Value="76"/>
+            <Width Value="160"/>
             <Height Value="16"/>
           </Size>
           <Flags Value="3"/>
@@ -343,7 +343,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="Sachkonto&#xD;&#xA;"/>
+            <Memo Value="Sachkonto oder Bank&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
