@@ -1,8 +1,8 @@
 select konten.KontoNr as BankNr,      
        SortPos,
 	   Statistik,
-       Name as Bank,
-	   ifnull(bankenabschluss.Anfangssaldo,'')  as StartSaldo, 
+       Name,
+	   ifnull(bankenabschluss.Anfangssaldo, 0) as StartSaldo, 
 	   Kontostand              
 from konten
 left join bankenabschluss on konten.KontoNr = bankenabschluss.KontoNr

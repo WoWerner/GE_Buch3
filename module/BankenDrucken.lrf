@@ -7,7 +7,7 @@
     <KeyWords Value=""/>
     <Comments Value=""/>
     <ReportCreateDate Value="2022-01-14 21:13:47"/>
-    <ReportLastChange Value="2022-01-16 13:11:07"/>
+    <ReportLastChange Value="2022-01-31 20:46:06"/>
     <ReportVersionBuild Value=""/>
     <ReportVersionMajor Value=""/>
     <ReportVersionMinor Value=""/>
@@ -382,7 +382,7 @@
           <Typ Value="gtMemo"/>
           <StreamMode Value="0"/>
           <Size>
-            <Left Value="312"/>
+            <Left Value="409"/>
             <Top Value="112"/>
             <Width Value="44"/>
             <Height Value="18"/>
@@ -438,9 +438,9 @@
           <Typ Value="gtMemo"/>
           <StreamMode Value="0"/>
           <Size>
-            <Left Value="312"/>
+            <Left Value="409"/>
             <Top Value="184"/>
-            <Width Value="403"/>
+            <Width Value="307"/>
             <Height Value="18"/>
           </Size>
           <Flags Value="3"/>
@@ -455,7 +455,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="[frmDM.ZQueryDrucken.&quot;Bank&quot;]&#xD;&#xA;"/>
+            <Memo Value="[frmDM.ZQueryDrucken.&quot;Name&quot;]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -494,7 +494,7 @@
           <Typ Value="gtMemo"/>
           <StreamMode Value="0"/>
           <Size>
-            <Left Value="211"/>
+            <Left Value="306"/>
             <Top Value="112"/>
             <Width Value="96"/>
             <Height Value="18"/>
@@ -550,7 +550,7 @@
           <Typ Value="gtMemo"/>
           <StreamMode Value="0"/>
           <Size>
-            <Left Value="211"/>
+            <Left Value="306"/>
             <Top Value="184"/>
             <Width Value="96"/>
             <Height Value="18"/>
@@ -879,7 +879,119 @@
           <Justify Value="False"/>
           <Cursor Value="0"/>
         </Object17>
-        <ObjectCount Value="17"/>
+        <Object18>
+          <Name Value="Memo13"/>
+          <ClassName Value="TfrMemoView"/>
+          <Visible Value="True"/>
+          <Typ Value="gtMemo"/>
+          <StreamMode Value="0"/>
+          <Size>
+            <Left Value="202"/>
+            <Top Value="112"/>
+            <Width Value="104"/>
+            <Height Value="18"/>
+          </Size>
+          <Flags Value="3"/>
+          <FillColor Value="clNone"/>
+          <Frames>
+            <FrameColor Value="clBlack"/>
+            <FrameStyle Value="frsSolid"/>
+            <FrameWidth Value="1"/>
+            <FrameBorders Value=""/>
+            <Restrictions Value=""/>
+          </Frames>
+          <Data>
+            <Format Value="556"/>
+            <FormatStr Value=""/>
+            <Memo Value="Startsaldo&#xD;&#xA;"/>
+            <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
+            <OnClick Value=""/>
+            <OnMouseEnter Value=""/>
+            <OnMouseLeave Value=""/>
+            <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
+          </Data>
+          <Tag Value=""/>
+          <FURLInfo Value=""/>
+          <Font>
+            <Name Value="Arial"/>
+            <Size Value="10"/>
+            <Color Value="clBlack"/>
+            <Charset Value="0"/>
+            <Style Value="fsBold"/>
+          </Font>
+          <Highlight>
+            <FontStyle Value="2"/>
+            <FontColor Value="clBlack"/>
+            <FillColor Value="clWhite"/>
+            <HighlightStr Value=""/>
+          </Highlight>
+          <Alignment Value="taRightJustify"/>
+          <Layout Value="tlTop"/>
+          <Angle Value="0"/>
+          <Justify Value="False"/>
+          <Cursor Value="0"/>
+        </Object18>
+        <Object19>
+          <Name Value="Memo14"/>
+          <ClassName Value="TfrMemoView"/>
+          <Visible Value="True"/>
+          <Typ Value="gtMemo"/>
+          <StreamMode Value="0"/>
+          <Size>
+            <Left Value="210"/>
+            <Top Value="184"/>
+            <Width Value="96"/>
+            <Height Value="18"/>
+          </Size>
+          <Flags Value="3"/>
+          <FillColor Value="clNone"/>
+          <Frames>
+            <FrameColor Value="clBlack"/>
+            <FrameStyle Value="frsSolid"/>
+            <FrameWidth Value="1"/>
+            <FrameBorders Value=""/>
+            <Restrictions Value=""/>
+          </Frames>
+          <Data>
+            <Format Value="556"/>
+            <FormatStr Value=""/>
+            <Memo Value="[FORMATFLOAT('#,##0.00;-#,##0.00;#0.00', [frmDM.ZQueryDrucken.&quot;StartSaldo&quot;]/100)]&#xD;&#xA;"/>
+            <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
+            <OnClick Value=""/>
+            <OnMouseEnter Value=""/>
+            <OnMouseLeave Value=""/>
+            <DetailReport Value=""/>
+            <ParagraphGap Value="0"/>
+            <LineSpacing Value="2"/>
+          </Data>
+          <Tag Value=""/>
+          <FURLInfo Value=""/>
+          <Font>
+            <Name Value="Arial"/>
+            <Size Value="10"/>
+            <Color Value="clBlack"/>
+            <Charset Value="0"/>
+            <Style Value=""/>
+          </Font>
+          <Highlight>
+            <FontStyle Value="2"/>
+            <FontColor Value="clBlack"/>
+            <FillColor Value="clWhite"/>
+            <HighlightStr Value=""/>
+          </Highlight>
+          <Alignment Value="taRightJustify"/>
+          <Layout Value="tlTop"/>
+          <Angle Value="0"/>
+          <Justify Value="False"/>
+          <Cursor Value="0"/>
+        </Object19>
+        <ObjectCount Value="19"/>
       </Page1>
       <FVal>
         <Count Value="1"/>
