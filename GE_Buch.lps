@@ -20,10 +20,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Main"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <TopLine Value="1102"/>
-        <CursorPos Y="1108"/>
+        <CursorPos X="62" Y="1117"/>
         <UsageCount Value="221"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -131,8 +130,9 @@
         <ComponentName Value="frmDrucken"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="1280"/>
-        <CursorPos Y="1307"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="1013"/>
+        <CursorPos Y="1020"/>
         <UsageCount Value="221"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -215,21 +215,21 @@
       </Unit20>
       <Unit21>
         <Filename Value="uscaledpi.pas"/>
-        <UsageCount Value="201"/>
+        <UsageCount Value="199"/>
       </Unit21>
       <Unit22>
         <Filename Value="..\GE_Kart\GE_Kart7\input.pas"/>
         <ComponentName Value="frmInput"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UsageCount Value="201"/>
+        <UsageCount Value="199"/>
       </Unit22>
       <Unit23>
         <Filename Value="..\GE_Kart\GE_Kart7\help.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="43"/>
         <CursorPos X="20" Y="48"/>
-        <UsageCount Value="201"/>
+        <UsageCount Value="199"/>
       </Unit23>
       <Unit24>
         <Filename Value="..\GE_Kart\GE_Kart7\ausgabe.pas"/>
@@ -240,7 +240,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="70"/>
         <CursorPos X="37" Y="104"/>
-        <UsageCount Value="201"/>
+        <UsageCount Value="199"/>
       </Unit24>
       <Unit25>
         <Filename Value="..\GE_Kart\GE_Kart7\pgmupdate.pas"/>
@@ -248,11 +248,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="PgmUpdate"/>
-        <UsageCount Value="201"/>
+        <UsageCount Value="199"/>
       </Unit25>
       <Unit26>
         <Filename Value="..\GE_Kart\GE_Kart7\uhttpdownloader.pas"/>
-        <UsageCount Value="201"/>
+        <UsageCount Value="199"/>
       </Unit26>
       <Unit27>
         <Filename Value="journal_import_data.pas"/>
@@ -262,27 +262,27 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="14"/>
         <CursorPos X="5" Y="24"/>
-        <UsageCount Value="198"/>
+        <UsageCount Value="196"/>
       </Unit27>
       <Unit28>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\win32\system.pp"/>
         <UnitName Value="System"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="16"/>
-        <UsageCount Value="85"/>
+        <UsageCount Value="83"/>
       </Unit28>
       <Unit29>
         <Filename Value="..\..\GE_Kart\GE_Kart7\main.pas"/>
         <UnitName Value="Main"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="208"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit29>
       <Unit30>
         <Filename Value="GE_Buch.lpi"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="45" Y="5"/>
-        <UsageCount Value="14"/>
+        <UsageCount Value="12"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit30>
       <Unit31>
@@ -290,129 +290,129 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="788"/>
         <CursorPos X="14" Y="784"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit31>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="main.pas"/>
-        <Caret Line="1346" TopLine="1334"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="752" Column="75" TopLine="725"/>
       </Position1>
       <Position2>
-        <Filename Value="main.pas"/>
-        <Caret Line="1153" Column="20" TopLine="1136"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="801" Column="37" TopLine="774"/>
       </Position2>
       <Position3>
-        <Filename Value="main.pas"/>
-        <Caret Line="1377" TopLine="1359"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="817" Column="79" TopLine="790"/>
       </Position3>
       <Position4>
-        <Filename Value="main.pas"/>
-        <Caret Line="1420" TopLine="1406"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="932" Column="79" TopLine="905"/>
       </Position4>
       <Position5>
-        <Filename Value="banken.pas"/>
-        <Caret Line="282" Column="17" TopLine="265"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="943" Column="82" TopLine="916"/>
       </Position5>
       <Position6>
-        <Filename Value="main.pas"/>
-        <Caret Line="1146" Column="14" TopLine="1129"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="948" Column="83" TopLine="921"/>
       </Position6>
       <Position7>
         <Filename Value="drucken.pas"/>
-        <Caret Line="1388" Column="18" TopLine="1360"/>
+        <Caret Line="1078" Column="79" TopLine="1051"/>
       </Position7>
       <Position8>
         <Filename Value="drucken.pas"/>
-        <Caret Line="1080" Column="36" TopLine="1065"/>
+        <Caret Line="1093" Column="79" TopLine="1066"/>
       </Position8>
       <Position9>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
-        <Caret Line="1108" Column="12" TopLine="1092"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="1154" Column="60" TopLine="1127"/>
       </Position9>
       <Position10>
         <Filename Value="drucken.pas"/>
-        <Caret Line="1092" Column="80" TopLine="1065"/>
+        <Caret Line="1169" Column="46" TopLine="1142"/>
       </Position10>
       <Position11>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
-        <Caret Line="630" Column="12" TopLine="124"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="1336" Column="67" TopLine="1308"/>
       </Position11>
       <Position12>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
-        <Caret Line="12" Column="9"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="1474" Column="37" TopLine="1446"/>
       </Position12>
       <Position13>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
-        <Caret Line="101" Column="17" TopLine="73"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="1476" Column="27" TopLine="1448"/>
       </Position13>
       <Position14>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
-        <Caret Line="107" Column="108" TopLine="79"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="1480" Column="37" TopLine="1452"/>
       </Position14>
       <Position15>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
-        <Caret Line="208" Column="12" TopLine="180"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="1536" Column="15" TopLine="1525"/>
       </Position15>
       <Position16>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
-        <Caret Line="209" Column="21" TopLine="181"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="1570" Column="15" TopLine="1563"/>
       </Position16>
       <Position17>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
-        <Caret Line="211" Column="12" TopLine="183"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="1623" Column="15" TopLine="1609"/>
       </Position17>
       <Position18>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
-        <Caret Line="212" Column="12" TopLine="184"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="1735" Column="16" TopLine="1708"/>
       </Position18>
       <Position19>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
-        <Caret Line="214" Column="36" TopLine="186"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="1752" Column="56" TopLine="1725"/>
       </Position19>
       <Position20>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
-        <Caret Line="215" Column="36" TopLine="187"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="1788" Column="27" TopLine="1760"/>
       </Position20>
       <Position21>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
-        <Caret Line="335" Column="10" TopLine="307"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="1794" Column="27" TopLine="1766"/>
       </Position21>
       <Position22>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
-        <Caret Line="341" Column="28" TopLine="313"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="559" Column="60" TopLine="537"/>
       </Position22>
       <Position23>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
-        <Caret Line="467" Column="17" TopLine="439"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="551" Column="79" TopLine="535"/>
       </Position23>
       <Position24>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
-        <Caret Line="517" Column="108" TopLine="489"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="555" Column="105" TopLine="539"/>
       </Position24>
       <Position25>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
-        <Caret Line="539" Column="15" TopLine="522"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="581" Column="80" TopLine="536"/>
       </Position25>
       <Position26>
         <Filename Value="drucken.pas"/>
-        <Caret Line="1307" TopLine="1280"/>
+        <Caret Line="1244" Column="27" TopLine="1241"/>
       </Position26>
       <Position27>
-        <Filename Value="main.pas"/>
-        <Caret Line="1153" TopLine="1129"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="39" Column="29" TopLine="22"/>
       </Position27>
       <Position28>
-        <Filename Value="main.pas"/>
-        <Caret Line="766" Column="3" TopLine="764"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="66" Column="19" TopLine="38"/>
       </Position28>
       <Position29>
-        <Filename Value="main.pas"/>
-        <Caret Line="544" Column="9" TopLine="527"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="94" Column="29" TopLine="67"/>
       </Position29>
       <Position30>
-        <Filename Value="main.pas"/>
-        <Caret Line="174" Column="14" TopLine="151"/>
+        <Filename Value="drucken.pas"/>
+        <Caret Line="95" Column="29" TopLine="68"/>
       </Position30>
     </JumpHistory>
     <RunParams>

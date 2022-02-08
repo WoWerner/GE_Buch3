@@ -1,4 +1,16 @@
-﻿Änderungen in der Version 3.0.0.1
+﻿Änderungen in der Version 3.0.0.2
+
+Erweiterungen:
+- In der Summenliste werden alle Banken gelistet.
+- In der Summenliste werden die Umbuchenungen in beiden Richtungen gelistet.
+- Journal nach Banken gruppiert überarbeitet
+
+Fehlerbeseitigung:
+- In der Summenliste wurden die Umbuchungen bei den Kassenständen mit Datumsfilter nicht berücksichtigt
+
+------------------------------------------------------
+
+Änderungen in der Version 3.0.0.1
 
 Fehlerbeseitigung:
 - Im Finanzbericht an die AKK würde das Konto 72 doppelt berechnet
