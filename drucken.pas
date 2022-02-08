@@ -203,6 +203,7 @@ var
   Col2SummePart4   : longint;
   Betrag           : longint;
   i                : integer;
+  nSaveRow         : integer;
 
 begin
   try
@@ -964,6 +965,7 @@ begin
               if cbDatum.Checked
                 then
                   begin
+                    //Daten Part 4 1. Durchgang "Normale Buchungen"
                     frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenBankenUmsatz.sql');
                     frmDM.ZQueryHelp.ParamByName('BJAHR').AsInteger := nBuchungsjahr;
                     frmDM.ZQueryHelp.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd',DateTimePickerVon.Date-1);
@@ -977,11 +979,11 @@ begin
                     TwoColReportData[FRow].Col1 := DatetoStr(DateTimePickerBis.Date);
                     TwoColReportData[FRow].Col2 := DatetoStr(DateTimePickerVon.Date-1);
 
-                      //Daten Part 4
+                    nSaveRow := FRow;
                     while not frmDM.ZQueryDrucken.EOF do
                       begin
                         inc(FRow);
-                        TwoColReportData[FRow].Name := frmDM.ZQueryDrucken.FieldByName('Name').AsString;
+                        TwoColReportData[FRow].Name := '('+inttostr(frmDM.ZQueryDrucken.FieldByName('KontoNr').AsLongint)+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString;
 
                         if frmDM.ZQueryDrucken.FieldByName('KontoNr').AsLongint = frmDM.ZQueryHelp1.FieldByName('BankNr').AsLongint
                           then
@@ -1003,10 +1005,53 @@ begin
                             begin
                               Col2Summe := frmDM.ZQueryDrucken.FieldByName('Anfangssaldo').AsLongint;
                             end;
-
-                        TwoColReportData[FRow].Col1 := IntToCurrency(Col1Summe);
-                        TwoColReportData[FRow].Col2 := IntToCurrency(Col2Summe);
+                        //Daten nur zwischenspeichern
+                        TwoColReportData[FRow].Col1 := IntToStr(Col1Summe);
+                        TwoColReportData[FRow].Col2 := IntToStr(Col2Summe);
                         TwoColReportData[FRow].typ  := line;
+                        Col1SummePart4 := Col1SummePart4 + Col1Summe;
+                        Col2SummePart4 := Col2SummePart4 + Col2Summe;
+                        frmDM.ZQueryDrucken.Next;
+                      end;
+
+                    frmDM.ZQueryHelp.close;
+                    frmDM.ZQueryHelp1.close;
+
+                    //Daten Part 4 2. Durchgang "Umbuchungen"
+                    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenBankenUmsatz2.sql');
+                    frmDM.ZQueryHelp.ParamByName('BJAHR').AsInteger := nBuchungsjahr;
+                    frmDM.ZQueryHelp.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd',DateTimePickerVon.Date-1);
+                    frmDM.ZQueryHelp.Open;
+
+                    frmDM.ZQueryHelp1.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenBankenUmsatz2.sql');
+                    frmDM.ZQueryHelp1.ParamByName('BJAHR').AsInteger := nBuchungsjahr;
+                    frmDM.ZQueryHelp1.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd',DateTimePickerBis.Date);
+                    frmDM.ZQueryHelp1.Open;
+
+                    FRow := nSaveRow;
+                    frmDM.ZQueryDrucken.First;
+                    while not frmDM.ZQueryDrucken.EOF do
+                      begin
+                        inc(FRow);
+                        Col1Summe := 0;
+                        Col2Summe := 0;
+                        if frmDM.ZQueryDrucken.FieldByName('KontoNr').AsLongint = frmDM.ZQueryHelp1.FieldByName('Konto_nach').AsLongint
+                          then
+                            begin
+                              Col1Summe := frmDM.ZQueryHelp1.FieldByName('Summe').AsLongint;
+                              frmDM.ZQueryHelp1.Next;
+                            end;
+                        if frmDM.ZQueryDrucken.FieldByName('KontoNr').AsLongint = frmDM.ZQueryHelp.FieldByName('Konto_nach').AsLongint
+                          then
+                            begin
+                              Col2Summe := frmDM.ZQueryHelp.FieldByName('Summe').AsLongint;
+                              frmDM.ZQueryHelp.Next;
+                            end;
+
+                        //Endgültige Werte speichern
+                        TwoColReportData[FRow].Col1 := IntToCurrency(Col1Summe+Strtoint(TwoColReportData[FRow].Col1));
+                        TwoColReportData[FRow].Col2 := IntToCurrency(Col2Summe+Strtoint(TwoColReportData[FRow].Col2));
+
                         Col1SummePart4 := Col1SummePart4 + Col1Summe;
                         Col2SummePart4 := Col2SummePart4 + Col2Summe;
                         frmDM.ZQueryDrucken.Next;
@@ -1023,7 +1068,7 @@ begin
                     while not frmDM.ZQueryDrucken.EOF do
                       begin
                         inc(FRow);
-                        TwoColReportData[FRow].Name := frmDM.ZQueryDrucken.FieldByName('Name').AsString;
+                        TwoColReportData[FRow].Name := '('+inttostr(frmDM.ZQueryDrucken.FieldByName('KontoNr').AsLongint)+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString;
                         TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Kontostand').AsLongint);
                         TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Anfangssaldo').AsLongint);
                         TwoColReportData[FRow].typ  := line;
