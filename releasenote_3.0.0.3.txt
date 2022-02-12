@@ -1,0 +1,37 @@
+﻿Änderungen in der Version 3.0.0.3 
+
+Erweiterungen:
+- Die Zahlerstatistik gibt mehr Angaben aus
+
+Fehlerbeseitigung:
+- Datenabgleich mit GE_Kart verurschachte einen Fehler
+
+Neue Funktionen:
+- Datenabgleich mit GE_Kart: Wenn in der GE_Kart Datei mehrere Gemeinden sind, kann ausgewählt werden für welche Gemeinde der Abgleich erfolgen soll.
+
+------------------------------------------------------
+Änderungen in der Version 3.0.0.1 und 3.0.0.2
+
+Erweiterungen:
+- In der Summenliste werden alle Banken gelistet.
+- In der Summenliste werden die Umbuchenungen in beiden Richtungen gelistet.
+- Journal nach Banken gruppiert überarbeitet
+
+Fehlerbeseitigung:
+- In der Summenliste wurden die Umbuchungen bei den Kassenständen mit Datumsfilter nicht berücksichtigt
+- Im Finanzbericht an die AKK würde das Konto 72 doppelt berechnet
+- In der Summenliste war nur bei Durchgangskonen nur der letzte Betrag gelistet. (Die Summe war richtig)
+- In der Zuwendungsbescheinigung erfolgt die Höhenberechng der Elemente besser
+
+Neue Funktionen:
+- Die Summenliste kann als CSV exportiert werden (Rechtsklick auf den Button)
+  
+
+Interne Änderungen:
+Lazarus 2.2.0
+SQLite Version 3.37.2
+Zeos Version 7.2.14
+SSL openssl-1.0.2u 
+------------------------------------------------------
+
+Soll die Meldung noch einmal angezeigt werden?
