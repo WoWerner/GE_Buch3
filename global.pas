@@ -29,8 +29,8 @@ const
                          'Geburtstag'+#13#10+
                          'Abgang'+#13#10+
                          'eMail';
-  sInsertPersonen      = 'insert into personen (GE_KartID, BriefAnrede, Titel, Vorname, Vorname2, Nachname, Strasse, Land, PLZ, Ort, Ortsteil, TelPrivat, TelDienst, TelMobil, eMail, Geburtstag, Abgang, LetzterBetrag, Notiz, Gemeindeglied) values '+
-                                            '(%d, "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", %s, "%s", 0, "", "true");';
+  sInsertPersonen      = 'insert into personen (GE_KartID, BriefAnrede, Titel, Vorname, Vorname2, Nachname, Strasse, Land, PLZ, Ort, Ortsteil, TelPrivat, TelDienst, TelMobil, eMail, Geburtstag, Abgang, Notiz, Gemeindeglied) values '+
+                                               '(%d,       "%s",        "%s",  "%s",    "%s",     "%s",     "%s",    "%s", "%s","%s","%s",     "%s",      "%s",      "%s",     "%s",  %s,         "%s",   "",    "true");';
   sInsertJournal       = 'insert into journal (Datum, konto_nach, BankNr, PersonenID, Betrag, Buchungstext, Belegnummer, BuchungsJahr, Bemerkung, Aufwandsspende) values '+
                                            '(%s, %s, %s, %s, %d, "%s", "%s", %d, "%s", "%s")';
   sSelectPersonenSort  = 'select * from Personen order by Nachname COLLATE NOCASE, Vorname COLLATE NOCASE, Ort COLLATE NOCASE, Strasse COLLATE NOCASE';
