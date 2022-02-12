@@ -990,7 +990,7 @@ begin
     slHelp.LoadFromFile(sAppDir+'module\ZahlerstatistikAlter.txt');
 
     if slHelp.Count > borderLine then border := strtoint(slHelp.Strings[borderLine]);
-    sMessage2 := sMessage2 + 'bis  '+Format('%2d Jahre',[border]);
+    sMessage2 := sMessage2 + 'unbekanntes Alter (wahrscheinlich kein Geburtsdatum)';
     inc(borderLine);
     while not frmDM.ZQueryHelp.EOF do
       begin
@@ -1021,7 +1021,49 @@ begin
             end;
       end;
     frmDM.ZQueryHelp.Close;
-    sMessage    := sMessage + Format('%8.2f Euro ',[Bereichssumme]) + sMessage2+#13;
+    sMessage    := sMessage + Format('%10.2f Euro ',[Bereichssumme]) + sMessage2+#13#13+'Achten Sie auf die Zuordnung des Feldes "Gemeindeglied"'#13'Anzahl Personen'+#13;
+
+    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\ZahlerstatistikAltersStruktur.sql');
+    frmDM.ZQueryHelp.Open;
+    sMessage2     := '';
+    border        := 0;
+    borderLine    := 0;
+    Bereichssumme := 0;
+    slHelp.LoadFromFile(sAppDir+'module\ZahlerstatistikAlter.txt');
+
+    if slHelp.Count > borderLine then border := strtoint(slHelp.Strings[borderLine]);
+    sMessage2 := sMessage2 + 'unbekanntes Alter (wahrscheinlich kein Geburtsdatum)';
+    inc(borderLine);
+    while not frmDM.ZQueryHelp.EOF do
+      begin
+        Alter := frmDM.ZQueryHelp.FieldByName('Age').AsInteger;
+        if Alter <= border
+          then
+            begin
+              Bereichssumme := Bereichssumme + 1;
+              frmDM.ZQueryHelp.Next;
+            end
+          else
+            begin
+              //Grenze überschritten
+              sMessage      := sMessage + Format('%4.0f ',[Bereichssumme]) + sMessage2+#13;
+              Bereichssumme := 0;
+              if borderLine <= slHelp.Count-1
+                then
+                  begin
+                    border := strtoint(slHelp.Strings[borderLine]);
+                    sMessage2 := 'bis  '+Format('%2d Jahre',[border]);
+                    inc(borderLine);
+                  end
+                else
+                 begin
+                   sMessage2 := 'über '+Format('%2d Jahre',[border]);
+                   border := 999;
+                 end;
+            end;
+      end;
+    frmDM.ZQueryHelp.Close;
+
     frmAusgabe.SetDefaults('Zahlerstatistik Alter', sMessage, '', '', 'Schliessen', false);
     frmAusgabe.ShowModal;
   except
@@ -1360,7 +1402,6 @@ begin
               end;
           end;
 
-
       except
         on E: Exception
           do
@@ -1380,7 +1421,7 @@ begin
       ShowMessage(IntToStr(checked)+' Personen geprüft, '+#13+
                   IntToStr(up)+' Personen aktualisiert, '+#13+
                   IntToStr(down)+' Personen als Abgang markiert, '+#13+
-                  IntToStr(insert)+' Personen eingefügt');
+                  IntToStr(insert)+' Personen eingefügt. Bei diesen Personen ist das Feld "Gemeindeglied" gesetzt. Bitte ggf. korrigieren.');
     end
   else
     ShowMessage('Funktion abgebrochen');

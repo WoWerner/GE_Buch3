@@ -1,6 +1,6 @@
 select journal.betrag,
-       (strftime('%Y', 'now') - strftime('%Y', personen.Geburtstag)) as age
-       from journal
+       ifnull((strftime('%Y', 'now') - strftime('%Y', personen.Geburtstag)), -1) as age
+from journal
 left join personen on journal.PersonenID=Personen.PersonenID
-where Buchungsjahr=:BJahr and age <> ''
+where (journal.PersonenID != 0) and (Buchungsjahr=:BJahr)
 order by age
