@@ -54,12 +54,11 @@ type
     MainMenu: TMainMenu;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
-    MenuItem11: TMenuItem;
+    mnuZahlerverteilung: TMenuItem;
     mnuJournalLast: TMenuItem;
     mnuJournalJump: TMenuItem;
     mnuShowDebug: TMenuItem;
     mnuEuroModus: TMenuItem;
-    mnuFehlerSuchen: TMenuItem;
     mnuTausender: TMenuItem;
     mnuExecSQLBatch: TMenuItem;
     mnuExportZuwendung: TMenuItem;
@@ -67,7 +66,7 @@ type
     mnuLimitsZahlerverteilungAlter: TMenuItem;
     mnuLimitsZahlerBetrag: TMenuItem;
     MenuItem2: TMenuItem;
-    MenuItem3: TMenuItem;
+    mnuFehlerSuchen: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem7: TMenuItem;
     MenuItem8: TMenuItem;
@@ -77,8 +76,6 @@ type
     mnuDebug: TMenuItem;
     mnuEinstellungen: TMenuItem;
     mnuDelOldPersonen: TMenuItem;
-    mnuZahlerverteilungAlter: TMenuItem;
-    mnuZahlerBetrag: TMenuItem;
     mnuCleanAutoBuchen: TMenuItem;
     mnuExecSQLSingle: TMenuItem;
     MenuItem4: TMenuItem;
@@ -136,8 +133,7 @@ type
     procedure mnuSuchtexteImportClick(Sender: TObject);
     procedure mnuTausenderClick(Sender: TObject);
     procedure mnuWB_Imp_PersClick(Sender: TObject);
-    procedure mnuZahlerBetragClick(Sender: TObject);
-    procedure mnuZahlerverteilungAlterClick(Sender: TObject);
+    procedure mnuZahlerverteilungClick(Sender: TObject);
     procedure nmuDatensicherungClick(Sender: TObject);
   private
     { private declarations }
@@ -887,22 +883,114 @@ begin
       end;
 end;
 
-procedure TfrmMain.mnuZahlerBetragClick(Sender: TObject);
+procedure TfrmMain.mnuZahlerverteilungClick(Sender: TObject);
 var
-  sMessage      : string;
-  sMessage2     : string;
-  border        : longint;
-  borderLine    : integer;
-  ZahlerSumme   : longint;
-  ZahlerWert    : longint;
-  Bereichssumme : longint;
+  sMessage     : string;
+  sMessage2    : string;
+  sTrenner     : String = '--------------------------------------------------------------------------------------------------';
+  border       : longint;
+  Bereichssumme: longint;
+  borderLine   : longint;
+  Alter        : integer;
+  ZahlerSumme  : longint;
+  ZahlerWert   : longint;
 begin
   try
+    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\ZahlerstatistikAlter.sql');
+    frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := nBuchungsjahr;
+    frmDM.ZQueryHelp.Open;
+    sMessage      := 'Angaben für das Jahr '+inttostr(nBuchungsjahr)+#13+
+                     'Grenzwerte werden in '+sAppDir+'module\ZahlerstatistikAlter.txt definiert'#13;
+    sMessage2     := '';
+    border        := 0;
+    borderLine    := 0;
+    Bereichssumme := 0;
+    slHelp.LoadFromFile(sAppDir+'module\ZahlerstatistikAlter.txt');
+
+    if slHelp.Count > borderLine then border := strtoint(slHelp.Strings[borderLine]);
+    sMessage2 := sMessage2 + 'unbekanntes Alter (wahrscheinlich kein Geburtsdatum)';
+    inc(borderLine);
+    while not frmDM.ZQueryHelp.EOF do
+      begin
+        Alter := frmDM.ZQueryHelp.FieldByName('Age').AsInteger;
+        if Alter <= border
+          then
+            begin
+              Bereichssumme := Bereichssumme + frmDM.ZQueryHelp.FieldByName('Betrag').Aslongint;
+              frmDM.ZQueryHelp.Next;
+            end
+          else
+            begin
+              //Grenze überschritten
+              sMessage      := sMessage + Format('%10.2f Euro ',[Bereichssumme/100]) + sMessage2+#13;
+              Bereichssumme := 0;
+              if borderLine <= slHelp.Count-1
+                then
+                  begin
+                    border := strtoint(slHelp.Strings[borderLine]);
+                    sMessage2 := 'bis  '+Format('%2d Jahre',[border]);
+                    inc(borderLine);
+                  end
+                else
+                 begin
+                   sMessage2 := 'über '+Format('%2d Jahre',[border]);
+                   border := 999;
+                 end;
+            end;
+      end;
+    frmDM.ZQueryHelp.Close;
+    sMessage    := sMessage + Format('%10.2f Euro ',[Bereichssumme/100]) + sMessage2+#13+
+                   sTrenner+#13+
+                   'Achten Sie auf die Zuordnung des Feldes "Gemeindeglied"'#13+
+                   'Anzahl Personen'#13;
+
+    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\ZahlerstatistikAltersStruktur.sql');
+    frmDM.ZQueryHelp.Open;
+    sMessage2     := '';
+    border        := 0;
+    borderLine    := 0;
+    Bereichssumme := 0;
+    slHelp.LoadFromFile(sAppDir+'module\ZahlerstatistikAlter.txt');
+
+    if slHelp.Count > borderLine then border := strtoint(slHelp.Strings[borderLine]);
+    sMessage2 := sMessage2 + 'unbekanntes Alter (wahrscheinlich kein Geburtsdatum)';
+    inc(borderLine);
+    while not frmDM.ZQueryHelp.EOF do
+      begin
+        Alter := frmDM.ZQueryHelp.FieldByName('Age').AsInteger;
+        if Alter <= border
+          then
+            begin
+              Bereichssumme := Bereichssumme + 1;
+              frmDM.ZQueryHelp.Next;
+            end
+          else
+            begin
+              //Grenze überschritten
+              sMessage      := sMessage + Format('%4d ',[Bereichssumme]) + sMessage2+#13;
+              Bereichssumme := 0;
+              if borderLine <= slHelp.Count-1
+                then
+                  begin
+                    border := strtoint(slHelp.Strings[borderLine]);
+                    sMessage2 := 'bis  '+Format('%2d Jahre',[border]);
+                    inc(borderLine);
+                  end
+                else
+                 begin
+                   sMessage2 := 'über '+Format('%2d Jahre',[border]);
+                   border := 999;
+                 end;
+            end;
+      end;
+    frmDM.ZQueryHelp.Close;
+
     frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\Zahlerstatistik.sql');
     frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := nBuchungsjahr;
     frmDM.ZQueryHelp.Open;
-    sMessage    := 'Grenzwerte werden in '+sAppDir+'module\Zahlerstatistik.txt definiert'+#13+
-                   'Angaben für das Jahr '+inttostr(nBuchungsjahr)+#13#13;
+    sMessage    := sMessage +
+                   sTrenner + #13 +
+                   'Grenzwerte werden in '+sAppDir+'module\Zahlerstatistik.txt definiert'#13;
     sMessage2   := '';
     border      := 0;
     borderLine  := 0;
@@ -944,7 +1032,7 @@ begin
             end;
       end;
     frmDM.ZQueryHelp.Close;
-    sMessage    := sMessage + Format('%4d Zahler ',[ZahlerSumme]) + sMessage2+ ', Summe: ' + Format('%7d Euro',[Bereichssumme div 100])+#13#13;
+    sMessage := sMessage + Format('%4d Zahler ',[ZahlerSumme]) + sMessage2+ ', Summe: ' + Format('%7d Euro',[Bereichssumme div 100])+#13+sTrenner+#13;
 
     frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\Nichtzahler.sql');
     frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := nBuchungsjahr;
@@ -957,114 +1045,6 @@ begin
     frmDM.ZQueryHelp.Close;
 
     frmAusgabe.SetDefaults('Zahlerstatistik', sMessage, '', '', 'Schliessen', false);
-    frmAusgabe.ShowModal;
-  except
-    on E: Exception
-      do
-        begin
-          if frmDM.ZQueryHelp.Active then frmDM.ZQueryHelp.Close;
-          LogAndShowError(e.Message);
-        end;
-  end;
-end;
-
-procedure TfrmMain.mnuZahlerverteilungAlterClick(Sender: TObject);
-var
-  sMessage     : string;
-  sMessage2    : string;
-  border       : longint;
-  Bereichssumme: Double;
-  borderLine   : integer;
-  Alter        : integer;
-begin
-  try
-    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\ZahlerstatistikAlter.sql');
-    frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := nBuchungsjahr;
-    frmDM.ZQueryHelp.Open;
-    sMessage      := 'Grenzwerte werden in '+sAppDir+'module\ZahlerstatistikAlter.txt definiert'+#13+
-                     'Angaben für das Jahr '+inttostr(nBuchungsjahr)+#13#13;
-    sMessage2     := '';
-    border        := 0;
-    borderLine    := 0;
-    Bereichssumme := 0;
-    slHelp.LoadFromFile(sAppDir+'module\ZahlerstatistikAlter.txt');
-
-    if slHelp.Count > borderLine then border := strtoint(slHelp.Strings[borderLine]);
-    sMessage2 := sMessage2 + 'unbekanntes Alter (wahrscheinlich kein Geburtsdatum)';
-    inc(borderLine);
-    while not frmDM.ZQueryHelp.EOF do
-      begin
-        Alter := frmDM.ZQueryHelp.FieldByName('Age').AsInteger;
-        if Alter <= border
-          then
-            begin
-              Bereichssumme := Bereichssumme + frmDM.ZQueryHelp.FieldByName('Betrag').Aslongint/100;
-              frmDM.ZQueryHelp.Next;
-            end
-          else
-            begin
-              //Grenze überschritten
-              sMessage      := sMessage + Format('%8.2f Euro ',[Bereichssumme]) + sMessage2+#13;
-              Bereichssumme := 0;
-              if borderLine <= slHelp.Count-1
-                then
-                  begin
-                    border := strtoint(slHelp.Strings[borderLine]);
-                    sMessage2 := 'bis  '+Format('%2d Jahre',[border]);
-                    inc(borderLine);
-                  end
-                else
-                 begin
-                   sMessage2 := 'über '+Format('%2d Jahre',[border]);
-                   border := 999;
-                 end;
-            end;
-      end;
-    frmDM.ZQueryHelp.Close;
-    sMessage    := sMessage + Format('%10.2f Euro ',[Bereichssumme]) + sMessage2+#13#13+'Achten Sie auf die Zuordnung des Feldes "Gemeindeglied"'#13'Anzahl Personen'+#13;
-
-    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\ZahlerstatistikAltersStruktur.sql');
-    frmDM.ZQueryHelp.Open;
-    sMessage2     := '';
-    border        := 0;
-    borderLine    := 0;
-    Bereichssumme := 0;
-    slHelp.LoadFromFile(sAppDir+'module\ZahlerstatistikAlter.txt');
-
-    if slHelp.Count > borderLine then border := strtoint(slHelp.Strings[borderLine]);
-    sMessage2 := sMessage2 + 'unbekanntes Alter (wahrscheinlich kein Geburtsdatum)';
-    inc(borderLine);
-    while not frmDM.ZQueryHelp.EOF do
-      begin
-        Alter := frmDM.ZQueryHelp.FieldByName('Age').AsInteger;
-        if Alter <= border
-          then
-            begin
-              Bereichssumme := Bereichssumme + 1;
-              frmDM.ZQueryHelp.Next;
-            end
-          else
-            begin
-              //Grenze überschritten
-              sMessage      := sMessage + Format('%4.0f ',[Bereichssumme]) + sMessage2+#13;
-              Bereichssumme := 0;
-              if borderLine <= slHelp.Count-1
-                then
-                  begin
-                    border := strtoint(slHelp.Strings[borderLine]);
-                    sMessage2 := 'bis  '+Format('%2d Jahre',[border]);
-                    inc(borderLine);
-                  end
-                else
-                 begin
-                   sMessage2 := 'über '+Format('%2d Jahre',[border]);
-                   border := 999;
-                 end;
-            end;
-      end;
-    frmDM.ZQueryHelp.Close;
-
-    frmAusgabe.SetDefaults('Zahlerstatistik Alter', sMessage, '', '', 'Schliessen', false);
     frmAusgabe.ShowModal;
   except
     on E: Exception

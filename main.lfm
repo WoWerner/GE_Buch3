@@ -361,23 +361,13 @@ object frmMain: TfrmMain
       object MenuItem10: TMenuItem
         Caption = '-'
       end
-      object MenuItem3: TMenuItem
-        Caption = 'Analyse'
-        object mnuZahlerBetrag: TMenuItem
-          Caption = 'Zahlerverteilung (Betrag)'
-          OnClick = mnuZahlerBetragClick
-        end
-        object mnuZahlerverteilungAlter: TMenuItem
-          Caption = 'Zahlerverteilung (Alter)'
-          OnClick = mnuZahlerverteilungAlterClick
-        end
-        object MenuItem11: TMenuItem
-          Caption = '-'
-        end
-        object mnuFehlerSuchen: TMenuItem
-          Caption = 'Fehler in der Datenbank suchen'
-          OnClick = mnuFehlerSuchenClick
-        end
+      object mnuFehlerSuchen: TMenuItem
+        Caption = 'Fehler in der Datenbank suchen'
+        OnClick = mnuFehlerSuchenClick
+      end
+      object mnuZahlerverteilung: TMenuItem
+        Caption = 'Zahlerverteilung'
+        OnClick = mnuZahlerverteilungClick
       end
     end
     object mnuEinstellungenMain: TMenuItem
