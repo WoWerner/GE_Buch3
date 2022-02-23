@@ -1,5 +1,5 @@
 select PersonenID,
-       KontoNr as Empfaenger,
+       Name as Empfaenger,
        Kontotype,
        Finanzamt,
        FinanzamtVom,
