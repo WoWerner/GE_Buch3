@@ -7,7 +7,7 @@
     <KeyWords Value=""/>
     <Comments Value=""/>
     <ReportCreateDate Value="2014-03-16 20:56:49"/>
-    <ReportLastChange Value="2022-01-28 18:16:14"/>
+    <ReportLastChange Value="2022-02-28 18:43:02"/>
     <ReportVersionBuild Value=""/>
     <ReportVersionMajor Value=""/>
     <ReportVersionMinor Value=""/>
@@ -17,7 +17,7 @@
     <Pages>
       <PrintToDefault Value="False"/>
       <DoublePass Value="True"/>
-      <SelectedPrinter Value="Microsoft XPS Document Writer"/>
+      <SelectedPrinter Value="Samsung M2070 Series (USB001)"/>
       <PageCount Value="1"/>
       <Page1>
         <Name Value="Page1"/>
@@ -49,7 +49,7 @@
             <Left Value="0"/>
             <Top Value="19"/>
             <Width Value="752"/>
-            <Height Value="393"/>
+            <Height Value="408"/>
           </Size>
           <Flags Value="50"/>
           <Data>
@@ -244,7 +244,7 @@
           <Size>
             <Left Value="72"/>
             <Top Value="39"/>
-            <Width Value="440"/>
+            <Width Value="452"/>
             <Height Value="36"/>
           </Size>
           <Flags Value="3"/>
@@ -299,7 +299,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="72"/>
-            <Top Value="111"/>
+            <Top Value="76"/>
             <Width Value="452"/>
             <Height Value="18"/>
           </Size>
@@ -355,9 +355,9 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="72"/>
-            <Top Value="131"/>
-            <Width Value="636"/>
-            <Height Value="34"/>
+            <Top Value="94"/>
+            <Width Value="452"/>
+            <Height Value="51"/>
           </Size>
           <Flags Value="3"/>
           <FillColor Value="clNone"/>
@@ -411,7 +411,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="72"/>
-            <Top Value="354"/>
+            <Top Value="361"/>
             <Width Value="120"/>
             <Height Value="22"/>
           </Size>
@@ -469,7 +469,7 @@
             <Left Value="532"/>
             <Top Value="39"/>
             <Width Value="180"/>
-            <Height Value="86"/>
+            <Height Value="106"/>
           </Size>
           <Flags Value="3"/>
           <FillColor Value="clNone"/>
@@ -579,7 +579,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="72"/>
-            <Top Value="332"/>
+            <Top Value="339"/>
             <Width Value="208"/>
             <Height Value="18"/>
           </Size>
@@ -635,7 +635,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="192"/>
-            <Top Value="354"/>
+            <Top Value="361"/>
             <Width Value="392"/>
             <Height Value="22"/>
           </Size>
@@ -691,7 +691,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="584"/>
-            <Top Value="354"/>
+            <Top Value="361"/>
             <Width Value="132"/>
             <Height Value="22"/>
           </Size>
@@ -749,7 +749,7 @@
             <Left Value="72"/>
             <Top Value="392"/>
             <Width Value="644"/>
-            <Height Value="15"/>
+            <Height Value="30"/>
           </Size>
           <Flags Value="3"/>
           <FillColor Value="clNone"/>
@@ -763,7 +763,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="Es wird bestätigt, dass die Zuwendung nur zur Förderung kirchlicher Zwecke verwendet wird.&#xD;&#xA;"/>
+            <Memo Value="Es wird bestätigt&#xD;&#xA; dass die Zuwendung nur zur Förderung kirchlicher Zwecke verwendet wird.&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -802,10 +802,10 @@
           <Typ Value="gtMemo"/>
           <StreamMode Value="0"/>
           <Size>
-            <Left Value="72"/>
-            <Top Value="202"/>
-            <Width Value="644"/>
-            <Height Value="68"/>
+            <Left Value="95"/>
+            <Top Value="209"/>
+            <Width Value="279"/>
+            <Height Value="92"/>
           </Size>
           <Flags Value="3"/>
           <FillColor Value="clNone"/>
@@ -858,10 +858,10 @@
           <Typ Value="gtMemo"/>
           <StreamMode Value="0"/>
           <Size>
-            <Left Value="72"/>
-            <Top Value="183"/>
-            <Width Value="252"/>
-            <Height Value="18"/>
+            <Left Value="436"/>
+            <Top Value="209"/>
+            <Width Value="268"/>
+            <Height Value="24"/>
           </Size>
           <Flags Value="3"/>
           <FillColor Value="clNone"/>
@@ -875,7 +875,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="Name und Anschrift des Zuwendenden:&#xD;&#xA;"/>
+            <Memo Value="Name und Anschrift des Zuwendenden&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -931,7 +931,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="entsprechend den Angaben des Zuwendenden an [Empfaenger] weitergeleitet, die/der vom Finanzamt &quot;[Finanzamt]&quot;, StNr.: &quot;[FinanzamtNr]&quot; mit Freistellungsbescheid bzw. nach der Anlage zum Körperschaftsteuerbescheid vom &quot;[FinanzamtVom]&quot; von der Körperschaftssteuer und Gewerbesteuer befreit ist.&#xD;&#xA;"/>
+            <Memo Value="entsprechend den Angaben des Zuwendenden an [Empfaenger] weitergeleitet&#xD;&#xA; die/der vom Finanzamt [Finanzamt]&#xD;&#xA; StNr.: [FinanzamtNr] mit Freistellungsbescheid bzw. nach der Anlage zum Körperschaftsteuerbescheid vom [FinanzamtVom] von der Körperschaftssteuer und Gewerbesteuer befreit ist.&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -1979,7 +1979,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="0"/>
-            <Top Value="335"/>
+            <Top Value="357"/>
             <Width Value="24"/>
             <Height Value="0"/>
           </Size>
@@ -2021,7 +2021,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="Finanzamt [EigenesFinanzamt] vom [EigenesFinanzamtVom], StNr.: [EigenesFinanzamtNr]&#xD;&#xA;"/>
+            <Memo Value="Finanzamt [EigenesFinanzamt] vom [EigenesFinanzamtVom]&#xD;&#xA; StNr.: [EigenesFinanzamtNr]&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
