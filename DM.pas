@@ -176,7 +176,7 @@ var
     except
       on E: Exception do
         begin
-          sHelp := sHelp +#13#10+ e.Message+#13#10;
+          sHelp := sHelp + #13#10 + e.Message + #13#10;
           Fehler := true;
         end;
     end;
@@ -192,14 +192,16 @@ var
       except
         on E: Exception do
           begin
-            sHelp := sHelp +#13#10+ e.Message+#13#10;
+            sHelp := sHelp + #13#10 +
+                     'SQL Kommando: ' + s + #13#10 +
+                     e.Message+#13#10;
             Fehler := true;
           end;
       end;
     except
       on E: Exception do
         begin
-          sHelp := sHelp +#13#10+ e.Message+#13#10;
+          sHelp := sHelp + #13#10 + e.Message + #13#10;
           Fehler := true;
         end;
     end;
@@ -209,7 +211,9 @@ var
       //Tritt auf, wenn die Datei nicht offen war
     end;
 
-    if not fehler then sHelp := 'Datenbankstruktur auf Version '+sNeuVersion+' angepasst.';
+    if not fehler
+      then sHelp := 'Datenbankstruktur auf Version '+sNeuVersion+' angepasst.'
+      else sHelp := 'Fehler beim aktualisieren auf die Datenbankversion '+sNeuVersion+#13#10+sHelp;
     LogAndShow(sHelp);
     result := sNeuVersion;
   end;
