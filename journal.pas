@@ -605,6 +605,7 @@ begin
                  ediBelegnummer.Enabled         := false;
                  ediBemerkung.Enabled           := false;
                  cbAufwendungen.Enabled         := false;
+                 DBGridJournal.Options          := DBGridJournal.Options + [dgRowSelect];
                  DBGridJournal.Enabled          := true; //DS-Wechsel erlaubt
                  ediBuchungsjahr.Enabled        := true;
                  application.ProcessMessages;
@@ -631,6 +632,7 @@ begin
                  ediBemerkung.Enabled           :=  true;
                  cbAufwendungen.Enabled         :=  true;
                  DBGridJournal.Enabled          := false; //DS-Wechsel nicht erlaubt
+                 DBGridJournal.Options          := DBGridJournal.Options - [dgRowSelect]; // bessere Lesbarkeit der selektierten Zeile wenn enabled = false
                  ediBuchungsjahr.Enabled        := false; //Buchungsjahr darf nicht geändert werden
                  application.ProcessMessages;
                  try
@@ -1238,14 +1240,38 @@ begin
 end;
 
 procedure TfrmJournal.DBGridJournalDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+
+var
+  myRect: TRect;
+
 begin
+  // bessere Lesbarkeit der selektierten Zeile wenn enabled = false
+  if (gdSelected in State) and not DBGridJournal.Enabled then
+    begin
+      myRect := Rect;
+      DBGridJournal.Canvas.Brush.Color := clWindow;
+      //den, vom System gezeichneten, Inhalt löschen
+      DBGridJournal.Canvas.FillRect(Rect);
+
+      case DBGridJournal.Canvas.TextStyle.Alignment of
+        taRightJustify : myRect.Right := Rect.Right - 4;
+        taLeftJustify  : myRect.Left  := Rect.Left  + 4;
+      end;
+      DBGridJournal.Canvas.TextRect(myRect,myRect.Left,Rect.Top,Column.Field.AsString);
+    end;
+
+  //Betrag formatieren
   if Column.FieldName = 'Betrag'
     then
       begin
+        myRect := Rect;
         //den, vom System gezeichneten, Inhalt löschen
         DBGridJournal.Canvas.FillRect(Rect);
         //eigenen Text reinschreiben
-        DBGridJournal.Canvas.TextRect(Rect,Rect.Left+4,Rect.Top+2, Format('%m',[Column.Field.AsLongint/100]));
+        if DBGridJournal.Canvas.TextStyle.Alignment = taRightJustify
+        then myRect.Right := Rect.Right - 4;
+        DBGridJournal.Canvas.TextRect(myRect,Rect.Left,Rect.Top+2, Format('%m',[Column.Field.AsLongint/100]));
+        myRect := Rect;
       end;
 end;
 
