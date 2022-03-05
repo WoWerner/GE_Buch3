@@ -228,7 +228,7 @@ object frmMain: TfrmMain
   object labDatensicherung: TLabel
     Left = 16
     Height = 15
-    Top = 266
+    Top = 256
     Width = 99
     Caption = 'labDatensicherung'
     Font.Height = 16
@@ -237,7 +237,7 @@ object frmMain: TfrmMain
   object labBJahr: TLabel
     Left = 16
     Height = 15
-    Top = 288
+    Top = 272
     Width = 103
     Caption = 'Buchungsjahr: 2012'
     Font.Height = 16
@@ -271,6 +271,15 @@ object frmMain: TfrmMain
     AutoSize = False
     Caption = 'labProgress'
     Visible = False
+  end
+  object labDB: TLabel
+    Left = 16
+    Height = 15
+    Top = 288
+    Width = 57
+    Caption = 'Datenbank'
+    Font.Height = 16
+    ParentFont = False
   end
   object OpenDialog: TOpenDialog
     Left = 368

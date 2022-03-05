@@ -669,12 +669,13 @@ procedure TfrmMain.mnuJahresabschlussClick(Sender: TObject);
 
 begin
   if MessageDlg('Nach dem Jahresabschluss für das Jahr '+inttostr(nBuchungsjahr)+' ist keine weitere Bearbeitung für diese Jahr möglich.'#13#13+
+                '- Haben Sie nach fehlerhaften Buchungen gesucht?'#13+
+                '- Haben Sie die Kontostände der Banken geprüft?'#13+
                 '- Haben Sie das Journal gedruckt?'#13+
                 '- Die Zuwendungsbescheinigungen erstellt?'#13+
                 '- Den statistischen Bericht (Jahresabschluss) gedruckt?'#13+
-                '- Ggf. die Summenliste gedruckt?'#13+
+                '- Ggf. die Summenliste gedruckt oder exportiert?'#13+
                 '- Ggf. die Beitragsliste gedruckt?'#13#13+
-                'Eine Datensicherung gemacht?'#13#13+
                 'Möchten Sie das jetzt noch nachholen?'#13#13+
                 'Sicherheitsfunktion: Zum Fortfahren "Wiederholen" drücken!', mtConfirmation, [mbYes, mbRetry, mbNo],0) = mrRetry
     then
@@ -700,7 +701,9 @@ begin
 
         // Erfolgsmeldung
         labBJahr.Caption := 'Buchungsjahr: '+inttostr(nBuchungsjahr);
-        Showmessage('Das Buchungsjahr ist jetzt '+inttostr(nBuchungsjahr));
+        Showmessage('Das Buchungsjahr ist jetzt '+inttostr(nBuchungsjahr)+#13+
+                    'Bitte prüfen sie Kontostände der Banken'#13+
+                    'Es wurde vorher eine automatische Datensicherung gemacht');
       end
     else
       begin
