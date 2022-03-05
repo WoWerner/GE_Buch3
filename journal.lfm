@@ -428,7 +428,7 @@ object frmJournal: TfrmJournal
       Left = 728
       Height = 25
       Hint = 'Hotkey: ALT-S'
-      Top = 190
+      Top = 192
       Width = 164
       Caption = '&Speichern'
       OnClick = btnSpeichernClick

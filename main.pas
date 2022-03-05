@@ -1135,6 +1135,11 @@ end;
 procedure TfrmMain.btnBankkontenClick(Sender: TObject);
 
 begin
+  //Kontostand Bank(en) neu berechnen
+  frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\updateKontostand.sql');
+  frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := nBuchungsjahr;
+  frmDM.ZQueryHelp.ExecSQL;
+
   frmDM.ZQueryBanken.SQL.LoadFromFile(sAppDir+'module\BankenDrucken.sql');
   frmDM.ZQueryBanken.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
   frmDM.ZQueryBanken.Open;

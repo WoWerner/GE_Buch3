@@ -729,7 +729,9 @@ begin
         Betrag := frmDM.ZQueryJournal.FieldByName('Betrag').AsLongint;
         frmDM.ZQueryHelp.SQL.Text := 'delete from journal where LaufendeNr=' + frmDM.ZQueryJournal.FieldByName('LaufendeNr').AsString;
         frmDM.ZQueryHelp.ExecSQL;
-        frmDM.ZQueryHelp.SQL.Text := 'update konten set Kontostand=Kontostand - '+inttostr(Betrag)+' where KontoNr='+inttostr(BankNr);
+        //Kontostand Bank(en) neu berechnen
+        frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\updateKontostand.sql');
+        frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := ediBuchungsjahr.Value;
         frmDM.ZQueryHelp.ExecSQL;
         frmDM.ZQueryJournal.Refresh;
         frmDM.ZQueryJournal.Last;
