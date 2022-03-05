@@ -1019,7 +1019,7 @@ begin
              end;
   end;
 
-  //Kontostand Bank
+  //Kontostand Bank(en)
   frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\updateKontostand.sql');
   frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := ediBuchungsjahr.Value;
   frmDM.ZQueryHelp.ExecSQL;

@@ -174,36 +174,36 @@ uses
 Var
   Seite       : integer;
 
-Procedure TfrmDrucken.PreparePrint(CallDesigner : boolean = false; CSV_Export : boolean = false);
+Procedure TfrmDrucken.PreparePrint(CallDesigner: boolean = false; CSV_Export: boolean = false);
 
 var
-  sSachkontoNr     : string;
-  sLastSachkontoNr : string;
-  sKontoNr         : string;
-  sLastKontoNr     : string;
-  sName            : string;
-  sLastName        : string;
-  sHelp            : string;
-  sFileName        : string;
-  Col1Summe        : longint;
-  Col2Summe        : longint;
-  Col1SummePart1   : longint;
-  Col2SummePart1   : longint;
-  Col1SummePart2   : longint;
-  Col2SummePart2   : longint;
-  Col1SummePart3   : longint;
-  Col2SummePart3   : longint;
-  Col1SummePart3b  : longint;
-  Col2SummePart3b  : longint;
+  sSachkontoNr         : string;
+  sLastSachkontoNr     : string;
+  sKontoNr             : string;
+  sLastKontoNr         : string;
+  sName                : string;
+  sLastName            : string;
+  sHelp                : string;
+  sFileName            : string;
+  Col1Summe            : longint;
+  Col2Summe            : longint;
+  Col1SummePart1       : longint;
+  Col2SummePart1       : longint;
+  Col1SummePart2       : longint;
+  Col2SummePart2       : longint;
+  Col1SummePart3       : longint;
+  Col2SummePart3       : longint;
+  Col1SummePart3b      : longint;
+  Col2SummePart3b      : longint;
   Col1LineSummePart3   : longint;
   Col2LineSummePart3   : longint;
   Col1LineSummePart3b  : longint;
   Col2LineSummePart3b  : longint;
-  Col1SummePart4   : longint;
-  Col2SummePart4   : longint;
-  Betrag           : longint;
-  i                : integer;
-  nSaveRow         : integer;
+  Col1SummePart4       : longint;
+  Col2SummePart4       : longint;
+  Betrag               : longint;
+  i                    : integer;
+  nSaveRow             : integer;
 
 begin
   try
@@ -265,9 +265,9 @@ begin
                     TwoColReportData[FRow].Col1 := inttostr(nBuchungsjahr);
                     TwoColReportData[FRow].Col2 := inttostr(nBuchungsjahr-1);
                     TwoColReportData[FRow].typ  := header;
-                    Col1SummePart1   := 0;
-                    Col2SummePart1   := 0;
-                    sLastName        := '';
+                    Col1SummePart1              := 0;
+                    Col2SummePart1              := 0;
+                    sLastName                   := '';
                   end;
               if sName <> sLastName
                 then
@@ -1758,11 +1758,11 @@ begin
           ParValue := IntToCurrency(nBestand+nEinnahmen+nAusgaben)+' €'
         else if (t = 'B') or    //Banken
                 (t = 'S') or    //BankenkontoStand
-                (t = 'E') or    //Gesamteinnahmen
-                (t = 'A') or    //Gesamtausgaben
+                (t = 'E') or    //Gesamteinnahmen + Positive Werte
+                (t = 'A') or    //Gesamtausgaben + Negative Werte
                 (t = 'K') or    //Kontosumme   Format: K;81;82....
-                (t = 'P') or    //Positive Werte Kontosumme   Format: P;81;82....
-                (t = 'N') then  //Negative Werte Kontosumme   Format: N;81;82....
+                (t = 'P') or    //Positive Werte Kontosumme   Format: P;23;24....
+                (t = 'N') then  //Negative Werte Kontosumme   Format: N;23;24....
           begin
             s      := ParName;
             sWhere := '((';
