@@ -1787,13 +1787,13 @@ begin
               end
             else if (t = 'P') or (t = 'E') then
               begin
-                i := GetDBSum(frmDM.ZQueryHelp, 'Journal left join konten on konten.KontoNr=journal.Konto_Nach', 'Betrag', '', sWhere+' and BuchungsJahr='+inttostr(nBuchungsjahr) + ' and (journal.Betrag > 0) ');
+                i := GetDBSum(frmDM.ZQueryHelp, 'Journal left join konten on konten.KontoNr=journal.Konto_Nach', 'Betrag', '', sWhere+' and BuchungsJahr='+inttostr(nBuchungsjahr) + ' and (((journal.Betrag > 0) and (konten.Kontotype = "D")) or (konten.Kontotype = "E")) ');
                 if (t = 'E') then nEinnahmen := i;
               end
             else if (t = 'N') or (t = 'A') then
               begin
-                i := GetDBSum(frmDM.ZQueryHelp, 'Journal left join konten on konten.KontoNr=journal.Konto_Nach', 'Betrag', '', sWhere+' and BuchungsJahr='+inttostr(nBuchungsjahr) + ' and (journal.Betrag < 0) ');
-                if (t = 'A') then nAusgaben  := i;
+                i := GetDBSum(frmDM.ZQueryHelp, 'Journal left join konten on konten.KontoNr=journal.Konto_Nach', 'Betrag', '', sWhere+' and BuchungsJahr='+inttostr(nBuchungsjahr) + ' and (((journal.Betrag < 0) and (konten.Kontotype = "D")) or (konten.Kontotype = "A")) ');
+                if (t = 'A') then nAusgaben := i;
               end
             else
               // K
