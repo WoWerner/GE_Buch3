@@ -34,6 +34,7 @@ type
     btnPersonen: TButton;
     btnAktuelles: TButton;
     imgSELK: TImage;
+    labDB: TLabel;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -250,6 +251,7 @@ begin
   sImportPath := help.ReadIniVal(sIniFile, 'CSV-Import', 'Verzeichnis', sAppDir, true);
   sDatabase   := help.ReadIniVal(sIniFile, 'Datenbank' , 'Name', sAppDir+'ge_buch3.db', true);
   sProductVersionString := GetProductVersionString;
+  labDB.Caption := 'Datenbank: '+sDatabase;
 
   bSQLDebug              := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Debug', 'SQLDebug', 'true', true));
   bDebug                 := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Debug', 'Debug'   , 'true', true));
