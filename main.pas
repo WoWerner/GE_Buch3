@@ -648,6 +648,7 @@ begin
                 '  - Personennummern,'#13+
                 '  - Banknummern und '#13+
                 '  - Sachkontennummern'#13+
+                '  - falschen Vorzeichen'#13+
                 'gesucht.', mtConfirmation, [mbOK],0) = mrOK
     then
       begin
