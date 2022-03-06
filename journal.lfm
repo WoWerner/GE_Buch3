@@ -35,6 +35,7 @@ object frmJournal: TfrmJournal
       Top = 0
       Width = 900
       Align = alClient
+      AlternateColor = clBtnFace
       Color = clWindow
       Columns = <>
       DataSource = frmDM.dsJournal
