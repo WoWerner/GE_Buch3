@@ -20,9 +20,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Main"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="229"/>
-        <CursorPos X="43" Y="254"/>
+        <TopLine Value="1140"/>
+        <CursorPos X="3" Y="1144"/>
         <UsageCount Value="221"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -34,10 +33,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="dm"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="264"/>
-        <CursorPos Y="292"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="260"/>
+        <CursorPos X="3" Y="263"/>
         <UsageCount Value="221"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="sachkonten.pas"/>
@@ -94,10 +95,13 @@
         <ComponentName Value="frmBanken"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="261"/>
-        <CursorPos X="44" Y="279"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="186"/>
+        <CursorPos X="85" Y="229"/>
         <UsageCount Value="221"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit9>
       <Unit10>
         <Filename Value="journal.pas"/>
@@ -105,10 +109,12 @@
         <ComponentName Value="frmJournal"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="715"/>
-        <CursorPos X="9" Y="732"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="589"/>
+        <CursorPos Y="1259"/>
         <UsageCount Value="221"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit10>
       <Unit11>
         <Filename Value="db_liste.pas"/>
@@ -308,7 +314,7 @@
         <UsageCount Value="10"/>
       </Unit34>
     </Units>
-    <JumpHistory Count="7" HistoryIndex="6">
+    <JumpHistory Count="12" HistoryIndex="11">
       <Position1>
         <Filename Value="main.pas"/>
         <Caret Line="654" Column="63" TopLine="645"/>
@@ -337,6 +343,26 @@
         <Filename Value="main.pas"/>
         <Caret Line="705" Column="38" TopLine="664"/>
       </Position7>
+      <Position8>
+        <Filename Value="journal.pas"/>
+        <Caret Line="732" Column="9" TopLine="715"/>
+      </Position8>
+      <Position9>
+        <Filename Value="journal.pas"/>
+        <Caret Line="635" Column="20" TopLine="594"/>
+      </Position9>
+      <Position10>
+        <Filename Value="main.pas"/>
+        <Caret Line="235" Column="68" TopLine="221"/>
+      </Position10>
+      <Position11>
+        <Filename Value="banken.pas"/>
+        <Caret Line="172" Column="74" TopLine="129"/>
+      </Position11>
+      <Position12>
+        <Filename Value="DM.pas"/>
+        <Caret Line="292" TopLine="264"/>
+      </Position12>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
