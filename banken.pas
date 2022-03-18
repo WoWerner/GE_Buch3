@@ -90,7 +90,7 @@ begin
     DBGridBankListe.Columns.Items[4].Width        :=  90;    //Kontostand
     DBGridBankListe.Columns.Items[5].Width        :=  90;    //Kontostand
     ediKontoNr.Value   := frmDM.ZQueryBanken.FieldByName('BankNr').AsInteger;
-    ediName.Text       := frmDM.ZQueryBanken.FieldByName('Bank').AsString;
+    ediName.Text       := frmDM.ZQueryBanken.FieldByName('Name').AsString;
     ediKontostand.Text := IntToCurrency(frmDM.ZQueryBanken.FieldByName('Kontostand').AsLongint);
     ediSortPos.Value   := frmDM.ZQueryBanken.FieldByName('Sortpos').AsInteger;
     ediStatistik.Value := frmDM.ZQueryBanken.FieldByName('Statistik').AsInteger;
@@ -226,7 +226,7 @@ begin
                              'Name="'+ediName.text+'", '+
                              'Sortpos='+inttostr(ediSortPos.Value)+', '+
                              'Statistik='+inttostr(ediStatistik.Value)+' '+
-                             'where KontoNr='+frmDM.ZQueryBanken.FieldByName('KontoNr').AsString;
+                             'where KontoNr='+frmDM.ZQueryBanken.FieldByName('BankNr').AsString;
   frmDM.ZQueryHelp.ExecSQL;
   frmDM.ZQueryBanken.Refresh;
   AfterScroll;
