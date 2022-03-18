@@ -1247,19 +1247,18 @@ var
   myRect: TRect;
 
 begin
+  myRect := Rect;
+  case DBGridJournal.Canvas.TextStyle.Alignment of
+    taRightJustify : myRect.Right := Rect.Right - 4;
+    taLeftJustify  : myRect.Left  := Rect.Left  + 3;
+  end;
+
   // bessere Lesbarkeit der selektierten Zeile wenn enabled = false
   if (gdSelected in State) and not DBGridJournal.Enabled then
     begin
-      myRect := Rect;
-      //DBGridJournal.Canvas.Brush.Color := clWindow;
       DBGridJournal.Canvas.Font.Color:= clWhite;
       //den, vom System gezeichneten, Inhalt löschen
       DBGridJournal.Canvas.FillRect(Rect);
-
-      case DBGridJournal.Canvas.TextStyle.Alignment of
-        taRightJustify : myRect.Right := Rect.Right - 4;
-        taLeftJustify  : myRect.Left  := Rect.Left  + 3;
-      end;
       DBGridJournal.Canvas.TextRect(myRect,myRect.Left,Rect.Top,Column.Field.AsString);
     end;
 
@@ -1267,12 +1266,9 @@ begin
   if Column.FieldName = 'Betrag'
     then
       begin
-        myRect := Rect;
         //den, vom System gezeichneten, Inhalt löschen
         DBGridJournal.Canvas.FillRect(Rect);
         //eigenen Text reinschreiben
-        if DBGridJournal.Canvas.TextStyle.Alignment = taRightJustify
-          then myRect.Right := Rect.Right - 4;
         DBGridJournal.Canvas.TextRect(myRect,Rect.Left,Rect.Top, Format('%m',[Column.Field.AsLongint/100]));
       end;
 end;
