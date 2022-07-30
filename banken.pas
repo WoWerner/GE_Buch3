@@ -261,7 +261,7 @@ begin
                 ediName.Text+'" gelöscht werden?', mtConfirmation, [mbYes, mbNo],0) = mrYes
     then
       begin
-        KontoNr := frmDM.ZQueryBanken.FieldByName('KontoNr').AsString;
+        KontoNr := frmDM.ZQueryBanken.FieldByName('BankNr').AsString;
         frmDM.ZQueryHelp.SQL.Text:='delete from konten where KontoNr = '+KontoNr;
         frmDM.ZQueryHelp.ExecSQL;
         frmDM.ZQueryHelp.SQL.Text:='delete from BankenAbschluss where KontoNr = '+KontoNr;

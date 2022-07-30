@@ -1,7 +1,7 @@
 object frmBanken: TfrmBanken
-  Left = 565
+  Left = 490
   Height = 500
-  Top = 297
+  Top = 168
   Width = 748
   BorderStyle = bsDialog
   Caption = 'Banken'
