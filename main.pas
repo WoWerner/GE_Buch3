@@ -250,6 +250,13 @@ begin
   sSavePath   := help.ReadIniVal(sIniFile, 'Sicherung' , 'Verzeichnis', sAppDir+'Sicherung', true);
   sImportPath := help.ReadIniVal(sIniFile, 'CSV-Import', 'Verzeichnis', sAppDir, true);
   sDatabase   := help.ReadIniVal(sIniFile, 'Datenbank' , 'Name', sAppDir+'ge_buch3.db', true);
+
+  if not FileExists(sDatabase)
+    then
+      begin
+        MessageDlg('Die Datenbank '+sDatabase+' wurde nicht gefunden.', mtInformation, [mbOK],0);
+      end;
+
   sProductVersionString := GetProductVersionString;
   labDB.Caption := 'Datenbank: '+sDatabase;
 
