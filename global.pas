@@ -41,6 +41,7 @@ const
                          'left join Personen on journal.PersonenID = Personen.PersonenID '+
                          'where BuchungsJahr = %s '+
                          'order by ';
+  sSteuerDef           = 'Umsatzsteuerfrei,Nicht umsatzsteuerbar,Umsatzsteuerpflichtig 7%,Umsatzsteuerpflichtig 19%';
   nDefDPI              = 96;
   CSV_Delimiter        = ';';
   sJa                  = 'Ja';
@@ -48,25 +49,26 @@ const
   KeyDelChars          = [' ', ',', '.', ':', '_', '-', '+', '*'];
 
 var
+  sAktuelles           : String;
   sAppDir              : String;
   sDatabase            : String;
-  sSavePath            : String;
+  sDebugFile           : String;
+  sFinanzamt           : String;
+  sFinanzamtNr         : String;
+  sFinanzamtVom        : String;
+  sGemeindeAdr         : string;
+  sGemeindeAdr2        : string;
+  sGemeindeName        : string;
+  sGemeindeOrt         : string;
   sImportPath          : String;
   sIniFile             : String;
-  sDebugFile           : String;
-  sGemeindeAdr         : string;
-  sGemeindeOrt         : string;
-  sGemeindeName        : string;
-  sGemeindeAdr2        : string;
+  sJournalCSVImportINI : string = 'JournalCSVImport.ini';
+  sPW                  : String;
+  sProductVersionString: String;
   sRendantAdr          : String;
   sRendantOrt          : String;
-  sFinanzamt           : String;
-  sFinanzamtVom        : String;
-  sFinanzamtNr         : String;
-  sPW                  : String;
-  sAktuelles           : String;
-  sProductVersionString: String;
-  sJournalCSVImportINI : string = 'JournalCSVImport.ini';
+  sSavePath            : String;
+  sSteuer              : String;
   nBuchungsjahr        : integer;
   bSQLDebug            : boolean;
   bJournalJump         : boolean;

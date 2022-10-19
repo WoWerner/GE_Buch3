@@ -2,21 +2,22 @@ object frmSachkonten: TfrmSachkonten
   Left = 237
   Height = 500
   Top = 127
-  Width = 780
+  Width = 806
   Caption = 'Sachkonten'
   ClientHeight = 500
-  ClientWidth = 780
+  ClientWidth = 806
   Constraints.MinHeight = 500
-  Constraints.MinWidth = 780
+  Constraints.MinWidth = 806
   OnClose = FormClose
+  OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.4.0'
   object DBGridSachkontenliste: TDBGrid
     Left = 0
-    Height = 368
+    Height = 336
     Top = 0
-    Width = 780
+    Width = 806
     Align = alClient
     Color = clWindow
     Columns = <>
@@ -29,13 +30,13 @@ object frmSachkonten: TfrmSachkonten
   end
   object Panel1: TPanel
     Left = 0
-    Height = 132
-    Top = 368
-    Width = 780
+    Height = 164
+    Top = 336
+    Width = 806
     Align = alBottom
     BevelOuter = bvNone
-    ClientHeight = 132
-    ClientWidth = 780
+    ClientHeight = 164
+    ClientWidth = 806
     TabOrder = 1
     object ediSachkonto: TEdit
       Left = 280
@@ -48,9 +49,10 @@ object frmSachkonten: TfrmSachkonten
     object Label1: TLabel
       Left = 216
       Height = 15
-      Top = 3
+      Top = 7
       Width = 56
       Caption = 'Sachkonto'
+      ParentColor = False
     end
     object btnNeu: TButton
       Left = 576
@@ -83,7 +85,7 @@ object frmSachkonten: TfrmSachkonten
       Left = 688
       Height = 25
       Top = 36
-      Width = 80
+      Width = 110
       Caption = 'Speichern'
       OnClick = btnSpeichernClick
       TabOrder = 11
@@ -93,7 +95,7 @@ object frmSachkonten: TfrmSachkonten
       Left = 688
       Height = 25
       Top = 3
-      Width = 80
+      Width = 110
       Caption = 'Abbrechen'
       OnClick = btnAbbrechenClick
       TabOrder = 10
@@ -102,8 +104,8 @@ object frmSachkonten: TfrmSachkonten
     object btnClose: TButton
       Left = 688
       Height = 25
-      Top = 101
-      Width = 80
+      Top = 131
+      Width = 110
       Caption = 'Schließen'
       OnClick = btnCloseClick
       TabOrder = 13
@@ -112,7 +114,7 @@ object frmSachkonten: TfrmSachkonten
       Left = 688
       Height = 25
       Top = 70
-      Width = 80
+      Width = 110
       Caption = 'Hilfe'
       OnClick = btnHilfeClick
       TabOrder = 12
@@ -134,9 +136,10 @@ object frmSachkonten: TfrmSachkonten
       object Label6: TLabel
         Left = 8
         Height = 15
-        Top = 4
+        Top = 8
         Width = 80
         Caption = 'Statistikbereich'
+        ParentColor = False
       end
       object ediStatistik: TSpinEdit
         Left = 120
@@ -154,9 +157,10 @@ object frmSachkonten: TfrmSachkonten
       object Label3: TLabel
         Left = 8
         Height = 15
-        Top = 36
+        Top = 40
         Width = 55
         Caption = 'Kontotype'
+        ParentColor = False
       end
       object cbKontoType: TComboBox
         Left = 120
@@ -178,9 +182,10 @@ object frmSachkonten: TfrmSachkonten
     object Label5: TLabel
       Left = 8
       Height = 15
-      Top = 3
+      Top = 7
       Width = 102
       Caption = 'Sachkontonummer'
+      ParentColor = False
     end
     object ediSachkontonummer: TSpinEdit
       Left = 120
@@ -197,9 +202,10 @@ object frmSachkonten: TfrmSachkonten
     object Label4: TLabel
       Left = 8
       Height = 15
-      Top = 36
+      Top = 40
       Width = 80
       Caption = 'Sortier Position'
+      ParentColor = False
     end
     object ediSortPos: TSpinEdit
       Left = 120
@@ -215,14 +221,15 @@ object frmSachkonten: TfrmSachkonten
     object Label7: TLabel
       Left = 216
       Height = 15
-      Top = 36
+      Top = 72
       Width = 55
       Caption = 'Finanzamt'
+      ParentColor = False
     end
     object ediFinanzamt: TEdit
       Left = 336
       Height = 23
-      Top = 36
+      Top = 68
       Width = 232
       OnEnter = ediSachkontoEnter
       TabOrder = 4
@@ -230,14 +237,15 @@ object frmSachkonten: TfrmSachkonten
     object Label8: TLabel
       Left = 216
       Height = 15
-      Top = 70
+      Top = 106
       Width = 88
       Caption = 'Freistellung vom'
+      ParentColor = False
     end
     object ediFinanzamtVom: TEdit
       Left = 336
       Height = 23
-      Top = 70
+      Top = 102
       Width = 232
       OnEnter = ediSachkontoEnter
       TabOrder = 5
@@ -245,29 +253,55 @@ object frmSachkonten: TfrmSachkonten
     object Label9: TLabel
       Left = 216
       Height = 15
-      Top = 101
+      Top = 137
       Width = 112
       Caption = 'Freistellungsnummer'
+      ParentColor = False
     end
     object ediFinanzamtNr: TEdit
       Left = 336
       Height = 23
-      Top = 101
+      Top = 133
       Width = 232
       OnEnter = ediSachkontoEnter
       TabOrder = 6
     end
     object btnSetFreistellung: TButton
-      Left = 576
+      Left = 688
       Height = 25
       Top = 101
-      Width = 104
+      Width = 110
       Caption = 'Setze Freistellung'
       OnClick = btnSetFreistellungClick
       OnContextPopup = btnSetFreistellungContextPopup
       ParentShowHint = False
       ShowHint = True
       TabOrder = 14
+    end
+    object cbSteuer: TComboBox
+      Left = 280
+      Height = 23
+      Top = 36
+      Width = 288
+      ItemHeight = 15
+      Items.Strings = (
+        'Umsatzsteuerfrei'
+        'Nicht umsatzsteuerbar'
+        'Umsatzsteuerpflichtig 7%'
+        'Umsatzsteuerpflichtig 19%'
+      )
+      ParentShowHint = False
+      ShowHint = True
+      Style = csDropDownList
+      TabOrder = 15
+    end
+    object Label10: TLabel
+      Left = 216
+      Height = 15
+      Top = 40
+      Width = 33
+      Caption = 'Steuer'
+      ParentColor = False
     end
   end
 end

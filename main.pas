@@ -251,6 +251,13 @@ begin
   sImportPath := help.ReadIniVal(sIniFile, 'CSV-Import', 'Verzeichnis', sAppDir, true);
   sDatabase   := help.ReadIniVal(sIniFile, 'Datenbank' , 'Name', sAppDir+'ge_buch3.db', true);
 
+  //Laden der Steuereinträge
+  slHelp.Text            := sSteuerDef;
+  slHelp.StrictDelimiter := true;
+  slHelp.DelimitedText   := help.ReadIniVal(sIniFile, 'Sachkonten','Steuer', slHelp.DelimitedText, true);
+  sSteuer                := slHelp.Text;
+  slHelp.Clear;
+
   if not FileExists(sDatabase)
     then
       begin

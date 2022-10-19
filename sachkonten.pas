@@ -32,6 +32,7 @@ type
     btnNeu: TButton;
     btnSpeichern: TButton;
     cbKontoType: TComboBox;
+    cbSteuer: TComboBox;
     DBGridSachkontenliste: TDBGrid;
     ediFinanzamt: TEdit;
     ediFinanzamtVom: TEdit;
@@ -41,6 +42,7 @@ type
     ediSortPos: TSpinEdit;
     ediStatistik: TSpinEdit;
     Label1: TLabel;
+    Label10: TLabel;
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
@@ -64,6 +66,7 @@ type
     procedure ediSachkontoEnter(Sender: TObject);
     procedure ediSachkontonummerExit(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
     { private declarations }
@@ -114,7 +117,6 @@ begin
   AfterScroll;
 end;
 
-
 procedure TfrmSachkonten.AfterScroll;
 begin
   //Hier wegen Query Refresh
@@ -132,6 +134,7 @@ begin
   ediSachkonto.Text        := frmDM.ZQuerySachkonten.FieldByName('Name').AsString;
   ediSortPos.Value         := frmDM.ZQuerySachkonten.FieldByName('Sortpos').AsInteger;
   cbKontoType.Text         := frmDM.ZQuerySachkonten.FieldByName('KontoType').AsString;
+  cbSteuer.Text            := frmDM.ZQuerySachkonten.FieldByName('Steuer').AsString;
   ediStatistik.Value       := frmDM.ZQuerySachkonten.FieldByName('Statistik').AsInteger;
   ediFinanzamt.Text        := frmDM.ZQuerySachkonten.FieldByName('Finanzamt').AsString;
   ediFinanzamtNr.Text      := frmDM.ZQuerySachkonten.FieldByName('FinanzamtNr').AsString;
@@ -177,6 +180,11 @@ begin
   frmDM.ZQuerySachkonten.Close;
 end;
 
+procedure TfrmSachkonten.FormCreate(Sender: TObject);
+begin
+  cbSteuer.Items.Text:=sSteuer;
+end;
+
 procedure TfrmSachkonten.DBGridSachkontenlistePrepareCanvas(sender: TObject; DataCol: Integer; Column: TColumn; AState: TGridDrawState);
 
 var
@@ -205,6 +213,7 @@ begin
   ediSachkontonummer.Value   := 500;
   ediSortPos.Value           := 500;
   ediStatistik.Value         := 500;
+  cbSteuer.Text              := 'Nicht umsatzsteuerbar';
   ediSachkontonummer.Enabled := true;
   application.ProcessMessages;
   ediSachkontonummer.SetFocus;
@@ -244,7 +253,7 @@ begin
 
   sPos := inttostr(ediSachkontonummer.Value);
 
-  frmDM.ZQueryHelp.SQL.Text:='insert into konten (kontonr, Name, Sortpos, KontoType, Statistik, Finanzamt, FinanzamtVom, FinanzamtNr) values ('+
+  frmDM.ZQueryHelp.SQL.Text:='insert into konten (kontonr, Name, Sortpos, KontoType, Statistik, Finanzamt, FinanzamtVom, FinanzamtNr, Steuer) values ('+
                               inttostr(ediSachkontonummer.Value)+', "'+
                               ediSachkonto.text+
                               '",'+
@@ -253,7 +262,8 @@ begin
                               inttostr(ediStatistik.Value)+', "'+
                               ediFinanzamt.Text+'", "'+
                               ediFinanzamtVom.Text+'", "'+
-                              ediFinanzamtNr.Text+'")';
+                              ediFinanzamtNr.Text+'", "'+
+                              cbSteuer.Text+'")';
   try
     frmDM.ZQueryHelp.ExecSQL;
   except
@@ -279,6 +289,7 @@ begin
                              'Finanzamt="'+ediFinanzamt.text+'", '+
                              'FinanzamtVom="'+ediFinanzamtVom.text+'", '+
                              'FinanzamtNr="'+ediFinanzamtNr.text+'", '+
+                             'Steuer="'+cbSteuer.Text+'", '+
                              'Statistik='+inttostr(ediStatistik.Value)+' '+
                              'where kontoNr='+frmDM.ZQuerySachkonten.FieldByName('kontoNr').AsString;
   frmDM.ZQueryHelp.ExecSQL;
