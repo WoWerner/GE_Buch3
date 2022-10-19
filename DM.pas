@@ -252,6 +252,7 @@ begin
   if sHelp = '1.8' then sHelp := DoDBUpdate('1.9',sAppDir+'module\update19.sql');
   if sHelp = '1.9' then sHelp := DoDBUpdate('2.0',sAppDir+'module\update20.sql');
   if sHelp = '2.0' then sHelp := DoDBUpdate('3.0',sAppDir+'module\update30.sql');
+  if sHelp = '3.0' then sHelp := DoDBUpdate('3.1',sAppDir+'module\update31.sql');
 
   //Prüfung auf zu neue DB Version
   result := not (strtoint(XCharsOnly(sHelp, ['0'..'9']))*100 > strtoint(XCharsOnly(sProductVersionString, ['0'..'9'])));       //Im Fehlerfall result auf false
