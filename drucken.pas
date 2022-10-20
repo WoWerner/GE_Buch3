@@ -150,6 +150,7 @@ type
     nBestand  : longint;
     slHelp    : TStringList;
     Procedure PreparePrint(CallDesigner : boolean = false; CSV_Export : boolean = false);
+    Procedure AddLine(sName, Col1, Col2: String;  Typ: TColType);
   public
     { public declarations }
   end;
@@ -176,6 +177,16 @@ uses
 
 Var
   Seite       : integer;
+
+Procedure TfrmDrucken.AddLine(sName, Col1, Col2: String;  Typ: TColType);
+
+begin
+  inc(FRow);
+  TwoColReportData[FRow].Name := sName;
+  TwoColReportData[FRow].Col1 := Col1;
+  TwoColReportData[FRow].Col2 := Col2;
+  TwoColReportData[FRow].typ  := Typ;
+end;
 
 Procedure TfrmDrucken.PreparePrint(CallDesigner: boolean = false; CSV_Export: boolean = false);
 
@@ -213,12 +224,13 @@ var
   nSaveRow             : integer;
 
 begin
+  //Zwischenspeicher leeren
   for i := 0 to 49999 do
     begin
-      TwoColReportData[FRow].Name := '';
-      TwoColReportData[FRow].Col1 := '';
-      TwoColReportData[FRow].Col2 := '';
-      TwoColReportData[FRow].typ  := blank;
+      TwoColReportData[i].Name := '';
+      TwoColReportData[i].Col1 := '';
+      TwoColReportData[i].Col2 := '';
+      TwoColReportData[i].typ  := blank;
     end;
   try
     case Druckmode of
@@ -262,33 +274,19 @@ begin
                     if FRow > 0
                       then
                         begin
-                          inc(FRow); //Zusammenfassung
-                          TwoColReportData[FRow].Name := 'Summe';
-                          TwoColReportData[FRow].Col1 := IntToCurrency(Col1SummePart1);
-                          TwoColReportData[FRow].Col2 := IntToCurrency(Col2SummePart1);
-                          TwoColReportData[FRow].typ  := footer;
-                          inc(FRow); //Leerzeile
-                          TwoColReportData[FRow].typ  := blank;
+                          AddLine('Summe', IntToCurrency(Col1SummePart1), IntToCurrency(Col2SummePart1), footer); //Zusammenfassung
+                          AddLine('', '', '', blank); //Leerzeile
                         end;
-                    inc(FRow); //Neues Sachkonto, neue Rubrik
-                    sLastSachkontoNr            := sSachkontoNr;
-                    TwoColReportData[FRow].Name := sSachkontoNr;
-                    TwoColReportData[FRow].Col1 := inttostr(nBuchungsjahr);
-                    TwoColReportData[FRow].Col2 := inttostr(nBuchungsjahr-1);
-                    TwoColReportData[FRow].typ  := header;
-                    Col1SummePart1              := 0;
-                    Col2SummePart1              := 0;
-                    sLastName                   := '';
+                    AddLine(sSachkontoNr, inttostr(nBuchungsjahr), inttostr(nBuchungsjahr-1), header); //Neues Sachkonto, neue Rubrik
+                    Col1SummePart1 := 0;
+                    Col2SummePart1 := 0;
+                    sLastName      := '';
                   end;
               if sName <> sLastName
                 then
                   begin
-                    inc(FRow); //Neuer Name, neue Zeile
+                    AddLine(sName, IntToCurrency(0), IntToCurrency(0), line);  //Neuer Name, neue Zeile
                     sLastName := sName;
-                    TwoColReportData[FRow].Name := sName;
-                    TwoColReportData[FRow].Col1 := IntToCurrency(0);
-                    TwoColReportData[FRow].Col2 := IntToCurrency(0);
-                    TwoColReportData[FRow].typ  := line;
                   end;
               if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = nBuchungsjahr
                 then
@@ -303,28 +301,15 @@ begin
                   end;
               frmDM.ZQueryDrucken.Next;
             end;
-            if FRow > 0
-              then
-                begin
-                  inc(FRow); //Zusammenfassung
-                  TwoColReportData[FRow].Name := 'Summe';
-                  TwoColReportData[FRow].Col1 := IntToCurrency(Col1SummePart1);
-                  TwoColReportData[FRow].Col2 := IntToCurrency(Col2SummePart1);
-                  TwoColReportData[FRow].typ  := header;
-                end;
+            if FRow > 0 then AddLine('Summe', IntToCurrency(Col1SummePart1), IntToCurrency(Col2SummePart1), header);  //Zusammenfassung
+
           frmDM.ZQueryDrucken.close;
 
           if cbDatum.Checked
             then
               begin
-                inc(FRow); //Leerzeile
-                TwoColReportData[FRow].typ  := blank;
-
-                inc(FRow);
-                TwoColReportData[FRow].Name := 'Filter von '+formatdatetime('dd.mm.yyyy', DateTimePickerVon.Date)+' bis '+formatdatetime('dd.mm.yyyy', DateTimePickerBis.Date);
-                TwoColReportData[FRow].Col1 := '';
-                TwoColReportData[FRow].Col2 := '';
-                TwoColReportData[FRow].typ  := header;
+                AddLine('', '', '', blank); //Leerzeile
+                AddLine('Filter von '+formatdatetime('dd.mm.yyyy', DateTimePickerVon.Date)+' bis '+formatdatetime('dd.mm.yyyy', DateTimePickerBis.Date), '', '', header);
               end;
 
           //Debug
@@ -369,20 +354,11 @@ begin
                     if FRow > 0
                       then
                         begin
-                          inc(FRow); //Zusammenfassung
-                          TwoColReportData[FRow].Name := 'Summe';
-                          TwoColReportData[FRow].Col1 := IntToCurrency(Col1SummePart1);
-                          TwoColReportData[FRow].Col2 := IntToCurrency(Col2SummePart1);
-                          TwoColReportData[FRow].typ  := footer;
-                          inc(FRow); //Leerzeile
-                          TwoColReportData[FRow].typ  := blank;
+                          AddLine('Summe', IntToCurrency(Col1SummePart1), IntToCurrency(Col2SummePart1), footer);  //Zusammenfassung
+                          AddLine('', '', '', blank); //Leerzeile
                         end;
-                    inc(FRow); //Neues Sachkonto, neue Rubrik
-                    sLastName                   := sName;
-                    TwoColReportData[FRow].Name := sName;
-                    TwoColReportData[FRow].Col1 := inttostr(nBuchungsjahr);
-                    TwoColReportData[FRow].Col2 := inttostr(nBuchungsjahr-1);
-                    TwoColReportData[FRow].typ  := header;
+                    AddLine(sName, inttostr(nBuchungsjahr), inttostr(nBuchungsjahr-1), header); //Neues Sachkonto, neue Rubrik
+                    sLastName        := sName;
                     Col1SummePart1   := 0;
                     Col2SummePart1   := 0;
                     sLastSachkontoNr := '';
@@ -390,12 +366,8 @@ begin
               if sSachkontoNr <> sLastSachkontoNr
                 then
                   begin
-                    inc(FRow); //Neuer Name, neue Zeile
+                    AddLine(sSachkontoNr, IntToCurrency(0), IntToCurrency(0), line);  //Neuer Name, neue Zeile
                     sLastSachkontoNr            := sSachkontoNr;
-                    TwoColReportData[FRow].Name := sSachkontoNr;
-                    TwoColReportData[FRow].Col1 := IntToCurrency(0);
-                    TwoColReportData[FRow].Col2 := IntToCurrency(0);
-                    TwoColReportData[FRow].typ  := line;
                   end;
               if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = nBuchungsjahr
                 then
@@ -410,28 +382,14 @@ begin
                   end;
               frmDM.ZQueryDrucken.Next;
             end;
-            if FRow > 0
-              then
-                begin
-                  inc(FRow); //Zusammenfassung
-                  TwoColReportData[FRow].Name := 'Summe';
-                  TwoColReportData[FRow].Col1 := IntToCurrency(Col1SummePart1);
-                  TwoColReportData[FRow].Col2 := IntToCurrency(Col2SummePart1);
-                  TwoColReportData[FRow].typ  := header;
-                end;
+            if FRow > 0 then AddLine('Summe', IntToCurrency(Col1SummePart1), IntToCurrency(Col2SummePart1), header);  //Zusammenfassung
           frmDM.ZQueryDrucken.close;
 
           if cbDatum.Checked
             then
               begin
-                inc(FRow); //Leerzeile
-                TwoColReportData[FRow].typ  := blank;
-
-                inc(FRow);
-                TwoColReportData[FRow].Name := 'Filter von '+formatdatetime('dd.mm.yyyy', DateTimePickerVon.Date)+' bis '+formatdatetime('dd.mm.yyyy', DateTimePickerBis.Date);
-                TwoColReportData[FRow].Col1 := '';
-                TwoColReportData[FRow].Col2 := '';
-                TwoColReportData[FRow].typ  := header;
+                AddLine('', '', '', blank); //Leerzeile
+                AddLine('Filter von '+formatdatetime('dd.mm.yyyy', DateTimePickerVon.Date)+' bis '+formatdatetime('dd.mm.yyyy', DateTimePickerBis.Date), '', '', header);
               end;
 
           //Debug
@@ -525,69 +483,45 @@ begin
                     if FRow > 0
                       then
                         begin
-                          inc(FRow); //Zusammenfassung
-                          TwoColReportData[FRow].Name := '';
-                          TwoColReportData[FRow].Col1 := 'Kontostand';
-                          TwoColReportData[FRow].Col2 := IntToCurrency(Col1SummePart1);
-                          TwoColReportData[FRow].typ  := footer;
-                          inc(FRow); //Leerzeile
-                          TwoColReportData[FRow].typ  := blank;
+                          AddLine('', 'Kontostand', IntToCurrency(Col1SummePart1), footer);  //Zusammenfassung
+                          AddLine('', '', '', blank); //Leerzeile
                         end;
-                    inc(FRow); //Neues Sachkonto, neue Zeile
                     sLastKontoNr   := sKontoNr;
                     Col1SummePart1 := frmDM.ZQueryDrucken.FieldByName('Startsaldo').AsInteger;
-                    TwoColReportData[FRow].Name := '('+sKontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString;
-                    TwoColReportData[FRow].Col1 := 'Startsaldo';
-                    TwoColReportData[FRow].Col2 := IntToCurrency(Col1SummePart1);
-                    TwoColReportData[FRow].typ  := header;
-
+                    AddLine('('+sKontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, 'Startsaldo', IntToCurrency(Col1SummePart1), header); //Neues Sachkonto, neue Zeile
                     frmDM.ZQueryDruckenDetail.First;
                     while not frmDM.ZQueryDruckenDetail.EOF do
                       begin
                         if (sKontoNr = frmDM.ZQueryDruckenDetail.FieldByName('BankNr').AsString) or
                            (sKontoNr = frmDM.ZQueryDruckenDetail.FieldByName('konto_nach').AsString) then
                           begin
-                            inc(FRow);
                             //Umbuchungen
                             if (sKontoNr = frmDM.ZQueryDruckenDetail.FieldByName('konto_nach').AsString)
                               then Betrag := frmDM.ZQueryDruckenDetail.FieldByName('Betrag').AsInteger * -1
                               else Betrag := frmDM.ZQueryDruckenDetail.FieldByName('Betrag').AsInteger;
                             Col1SummePart1 := Col1SummePart1 + Betrag;
-                            TwoColReportData[FRow].Name := '('+frmDM.ZQueryDruckenDetail.FieldByName('LaufendeNr').AsString+') '+
-                                                           frmDM.ZQueryDruckenDetail.FieldByName('Buchungstext').AsString + ' ' +
-                                                           frmDM.ZQueryDruckenDetail.FieldByName('Name').AsString;
-                            TwoColReportData[FRow].Col2 := IntToCurrency(Betrag);
-                            TwoColReportData[FRow].Col1 := frmDM.ZQueryDruckenDetail.FieldByName('Datum').AsString;
-                            TwoColReportData[FRow].typ  := line;
+                            AddLine('('+frmDM.ZQueryDruckenDetail.FieldByName('LaufendeNr').AsString+') '+
+                                    frmDM.ZQueryDruckenDetail.FieldByName('Buchungstext').AsString + ' ' +
+                                    frmDM.ZQueryDruckenDetail.FieldByName('Name').AsString,
+                                    IntToCurrency(Betrag),
+                                    frmDM.ZQueryDruckenDetail.FieldByName('Datum').AsString,
+                                    line);
                           end;
                         frmDM.ZQueryDruckenDetail.Next;
                       end;
                   end;
               frmDM.ZQueryDrucken.Next;
             end;
-            if FRow > 0
-              then
-                begin
-                  inc(FRow); //Zusammenfassung
-                  TwoColReportData[FRow].Name := '';
-                  TwoColReportData[FRow].Col1 := 'Kontostand';
-                  TwoColReportData[FRow].Col2 := IntToCurrency(Col1SummePart1);
-                  TwoColReportData[FRow].typ  := header;
-                end;
+            if FRow > 0 then AddLine('', 'Kontostand', IntToCurrency(Col1SummePart1), header);
+
           frmDM.ZQueryDrucken.close;
           frmDM.ZQueryDruckenDetail.close;
 
           if cbDatum.Checked
             then
               begin
-                inc(FRow); //Leerzeile
-                TwoColReportData[FRow].typ  := blank;
-
-                inc(FRow);
-                TwoColReportData[FRow].Name := 'Filter von '+formatdatetime('dd.mm.yyyy', DateTimePickerVon.Date)+' bis '+formatdatetime('dd.mm.yyyy', DateTimePickerBis.Date);
-                TwoColReportData[FRow].Col1 := '';
-                TwoColReportData[FRow].Col2 := '';
-                TwoColReportData[FRow].typ  := header;
+                AddLine('', '', '', blank); //Leerzeile
+                AddLine('Filter von '+formatdatetime('dd.mm.yyyy', DateTimePickerVon.Date)+' bis '+formatdatetime('dd.mm.yyyy', DateTimePickerBis.Date), '', '', header);
               end;
 
           //Debug
@@ -662,26 +596,26 @@ begin
       Summenliste,
       EinAus:
         begin
-          FRowPart1        := 0;
-          FRow             := 1;
-          Col1SummePart1   := 0;
-          Col2SummePart1   := 0;
-          Col1SummePart2   := 0;
-          Col2SummePart2   := 0;
-          Col1SummePart3   := 0;
-          Col2SummePart3   := 0;
-          Col1SummePart3b  := 0;
-          Col2SummePart3b  := 0;
+          FRowPart1          := 0;
+          FRow               := 0;
+          Col1SummePart1     := 0;
+          Col2SummePart1     := 0;
+          Col1SummePart2     := 0;
+          Col2SummePart2     := 0;
+          Col1SummePart3     := 0;
+          Col2SummePart3     := 0;
+          Col1SummePart3b    := 0;
+          Col2SummePart3b    := 0;
           Col1LineSummePart3 := 0;
           Col2LineSummePart3 := 0;
           Col1LineSummePart3b:= 0;
           Col2LineSummePart3b:= 0;
-          Col1SummePart4   := 0;
-          Col2SummePart4   := 0;
-          Col1Summe        := 0;
-          Col2Summe        := 0;
-          sLastSachkontoNr := '';
-          sSachkontoNr     := '';
+          Col1SummePart4     := 0;
+          Col2SummePart4     := 0;
+          Col1Summe          := 0;
+          Col2Summe          := 0;
+          sLastSachkontoNr   := '';
+          sSachkontoNr       := '';
 
           if Druckmode = Summenliste then rgFilter.ItemIndex := 0;
 
@@ -720,10 +654,8 @@ begin
           //werden noch in die Steuerbereiche aufgeteilt
 
           //Überschrift Part 1
-          TwoColReportData[FRow].Name := 'Einnahmen';
-          TwoColReportData[FRow].typ  := header;
-          inc(FRow); //Leerzeile
-          TwoColReportData[FRow].typ  := blank;
+          AddLine('Einnahmen', '', '', header);
+          AddLine('', '', '', blank); //Leerzeile
 
           slHelp.Text:=sSteuer;
           for i := 0 to slHelp.count-1 do
@@ -735,76 +667,60 @@ begin
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp + ' and konten.Steuer="'+slHelp.Strings[i]+'"', [rfReplaceAll]);
               frmDM.ZQueryDrucken.Open;
 
-              //Überschrift Part 1
-              inc(FRow);
-              TwoColReportData[FRow].Name := slHelp.Strings[i];
-              TwoColReportData[FRow].Col1 := inttostr(nBuchungsjahr);
-              TwoColReportData[FRow].Col2 := inttostr(nBuchungsjahr-1);
-              TwoColReportData[FRow].typ  := header2;
-              Col1ZwischenSummePart1      := 0;
-              Col2ZwischenSummePart1      := 0;
-
-              //Daten Part 1
-              while not frmDM.ZQueryDrucken.EOF do
+              if frmDM.ZQueryDrucken.RecordCount > 0 then
                 begin
-                  //Kontobereich überprüfen
-                  sSachkontoNr := frmDM.ZQueryDrucken.FieldByName('konto_nach').AsString;
-                  if sSachkontoNr <> sLastSachkontoNr
-                    then
-                      begin
-                        inc(FRow); //Neues Sachkonto, neue Zeile
-                        sLastSachkontoNr            := sSachkontoNr;
-                        TwoColReportData[FRow].Name := '('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString;
-                        TwoColReportData[FRow].Col1 := IntToCurrency(0);
-                        TwoColReportData[FRow].Col2 := IntToCurrency(0);
-                        TwoColReportData[FRow].typ  := line;
-                      end;
-                  if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = nBuchungsjahr
-                    then
-                      begin
-                        TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe').aslongint);
-                        Col1SummePart1         := Col1SummePart1         + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
-                        Col1ZwischenSummePart1 := Col1ZwischenSummePart1 + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
-                      end
-                    else
-                      begin
-                        TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe').aslongint);
-                        Col2SummePart1         := Col2SummePart1         + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
-                        Col2ZwischenSummePart1 := Col2ZwischenSummePart1 + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
-                      end;
-                  frmDM.ZQueryDrucken.Next;
-                end;
-              //ZwischenAbschluss Part 1
-              inc(FRow);
-              TwoColReportData[FRow].Name := 'Einnahmen ('+slHelp.Strings[i]+')';
-              TwoColReportData[FRow].Col1 := IntToCurrency(Col1ZwischenSummePart1);
-              TwoColReportData[FRow].Col2 := IntToCurrency(Col2ZwischenSummePart1);
-              TwoColReportData[FRow].typ  := footer2;
-              frmDM.ZQueryDrucken.Close;
-              sLastSachkontoNr := '';
+                  //Überschrift Part 1
+                  AddLine('Einnahmen ('+slHelp.Strings[i]+')',  inttostr(nBuchungsjahr),  inttostr(nBuchungsjahr-1), header2);
+                  Col1ZwischenSummePart1 := 0;
+                  Col2ZwischenSummePart1 := 0;
 
-              inc(FRow); //Leerzeile
-              TwoColReportData[FRow].typ  := blank;
+                  //Daten Part 1
+                  while not frmDM.ZQueryDrucken.EOF do
+                    begin
+                      //Kontobereich überprüfen
+                      sSachkontoNr := frmDM.ZQueryDrucken.FieldByName('konto_nach').AsString;
+                      if sSachkontoNr <> sLastSachkontoNr
+                        then
+                          begin
+                            //Neues Sachkonto, neue Zeile
+                            sLastSachkontoNr := sSachkontoNr;
+                            AddLine('('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(0), IntToCurrency(0), line);
+                          end;
+                      if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = nBuchungsjahr
+                        then
+                          begin
+                            TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe').aslongint);
+                            Col1SummePart1         := Col1SummePart1         + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
+                            Col1ZwischenSummePart1 := Col1ZwischenSummePart1 + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
+                          end
+                        else
+                          begin
+                            TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe').aslongint);
+                            Col2SummePart1         := Col2SummePart1         + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
+                            Col2ZwischenSummePart1 := Col2ZwischenSummePart1 + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
+                          end;
+                      frmDM.ZQueryDrucken.Next;
+                    end;
+
+                  //ZwischenAbschluss Part 1
+                  AddLine('Einnahmen ('+slHelp.Strings[i]+')', IntToCurrency(Col1ZwischenSummePart1), IntToCurrency(Col2ZwischenSummePart1), footer2);
+                  AddLine('', '', '', blank); //Leerzeile
+
+                  frmDM.ZQueryDrucken.Close;
+                  sLastSachkontoNr := '';
+                end;
             end;
           //Abschluss Part 1
-          inc(FRow);
-          TwoColReportData[FRow].Name := 'Einnahmen gesamt';
-          TwoColReportData[FRow].Col1 := IntToCurrency(Col1SummePart1);
-          TwoColReportData[FRow].Col2 := IntToCurrency(Col2SummePart1);
-          TwoColReportData[FRow].typ  := footer;
+          AddLine('Einnahmen gesamt', IntToCurrency(Col1SummePart1), IntToCurrency(Col2SummePart1), footer);
+          AddLine('', '', '', blank); //Leerzeile
+          AddLine('', '', '', blank); //Leerzeile
+
           frmDM.ZQueryDrucken.Close;
           sLastSachkontoNr := '';
 
-          inc(FRow); //Leerzeile
-          TwoColReportData[FRow].typ  := blank;
-          inc(FRow); //Leerzeile
-          TwoColReportData[FRow].typ  := blank;
           //Überschrift Part 2
-          inc(FRow);
-          TwoColReportData[FRow].Name := 'Ausgaben';
-          TwoColReportData[FRow].typ  := header;
-          inc(FRow); //Leerzeile
-          TwoColReportData[FRow].typ  := blank;
+          AddLine('Ausgaben', '', '', header);
+          AddLine('', '', '', blank); //Leerzeile
 
           for i := 0 to slHelp.count-1 do
             begin
@@ -814,80 +730,58 @@ begin
               frmDM.ZQueryDrucken.ParamByName('TYP').AsString    := 'A';
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp + ' and konten.Steuer="'+slHelp.Strings[i]+'"', [rfReplaceAll]);
               frmDM.ZQueryDrucken.Open;
-              //Überschrift Part 2
-              inc(FRow);
-              TwoColReportData[FRow].Name := slHelp.Strings[i];
-              TwoColReportData[FRow].Col1 := inttostr(nBuchungsjahr);
-              TwoColReportData[FRow].Col2 := inttostr(nBuchungsjahr-1);
-              TwoColReportData[FRow].typ  := header2;
-              Col1ZwischenSummePart1      := 0;
-              Col2ZwischenSummePart1      := 0;
 
-              //Daten Part 2
-              while not frmDM.ZQueryDrucken.EOF do
+              if frmDM.ZQueryDrucken.RecordCount > 0 then
                 begin
-                  sSachkontoNr := frmDM.ZQueryDrucken.FieldByName('konto_nach').AsString;
-                  if sSachkontoNr <> sLastSachkontoNr
-                    then
-                      begin
-                        inc(FRow); //Neues Sachkonto, neue Zeile
-                        sLastSachkontoNr            := sSachkontoNr;
-                        TwoColReportData[FRow].Name := '('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString;
-                        TwoColReportData[FRow].Col1 := IntToCurrency(0);
-                        TwoColReportData[FRow].Col2 := IntToCurrency(0);
-                        TwoColReportData[FRow].typ  := line;
-                      end;
-                  if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = nBuchungsjahr
-                    then
-                      begin
-                        TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe').aslongint);
-                        Col1SummePart2         := Col1SummePart2         + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
-                        Col1ZwischenSummePart2 := Col1ZwischenSummePart2 + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
-                      end
-                    else
-                      begin
-                        TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe').aslongint);
-                        Col2SummePart2         := Col2SummePart2         + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
-                        Col2ZwischenSummePart2 := Col2ZwischenSummePart2 + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
-                      end;
-                  frmDM.ZQueryDrucken.Next;
+                  AddLine('Ausgaben ('+slHelp.Strings[i]+')', inttostr(nBuchungsjahr), inttostr(nBuchungsjahr-1), header2); //Überschrift Part 2
+                  Col1ZwischenSummePart2 := 0;
+                  Col2ZwischenSummePart2 := 0;
+
+                  //Daten Part 2
+                  while not frmDM.ZQueryDrucken.EOF do
+                    begin
+                      sSachkontoNr := frmDM.ZQueryDrucken.FieldByName('konto_nach').AsString;
+                      if sSachkontoNr <> sLastSachkontoNr
+                        then
+                          begin
+                            AddLine('('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(0), IntToCurrency(0), line);  //Neues Sachkonto, neue Zeile
+                            sLastSachkontoNr            := sSachkontoNr;
+                          end;
+                      if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = nBuchungsjahr
+                        then
+                          begin
+                            TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe').aslongint);
+                            Col1SummePart2         := Col1SummePart2         + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
+                            Col1ZwischenSummePart2 := Col1ZwischenSummePart2 + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
+                          end
+                        else
+                          begin
+                            TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe').aslongint);
+                            Col2SummePart2         := Col2SummePart2         + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
+                            Col2ZwischenSummePart2 := Col2ZwischenSummePart2 + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
+                          end;
+                      frmDM.ZQueryDrucken.Next;
+                    end;
+
+                  AddLine('Ausgaben ('+slHelp.Strings[i]+')', IntToCurrency(Col1ZwischenSummePart2), IntToCurrency(Col2ZwischenSummePart2), footer2); //ZwischenAbschluss Part 2
+                  AddLine('', '', '', blank); //Leerzeile
+
+                  frmDM.ZQueryDrucken.Close;
+                  sLastSachkontoNr := '';
                 end;
 
-              //ZwischenAbschluss Part 2
-              inc(FRow);
-              TwoColReportData[FRow].Name := 'Ausgaben ('+slHelp.Strings[i]+')';
-              TwoColReportData[FRow].Col1 := IntToCurrency(Col1ZwischenSummePart2);
-              TwoColReportData[FRow].Col2 := IntToCurrency(Col2ZwischenSummePart2);
-              TwoColReportData[FRow].typ  := footer2;
-              frmDM.ZQueryDrucken.Close;
-              sLastSachkontoNr := '';
-
-              inc(FRow); //Leerzeile
-              TwoColReportData[FRow].typ  := blank;
             end;
 
-          //Abschluss Part 2
-          inc(FRow);
-          TwoColReportData[FRow].Name := 'Ausgaben gesamt';
-          TwoColReportData[FRow].Col1 := IntToCurrency(Col1SummePart2);
-          TwoColReportData[FRow].Col2 := IntToCurrency(Col2SummePart2);
-          TwoColReportData[FRow].typ  := footer;
+          AddLine('Ausgaben gesamt', IntToCurrency(Col1SummePart2), IntToCurrency(Col2SummePart2), footer);  //Abschluss Part 2
+          AddLine('', '', '', blank); //Leerzeile
+
           frmDM.ZQueryDrucken.Close;
           sLastSachkontoNr := '';
-          inc(FRow); //Leerzeile
-          TwoColReportData[FRow].typ  := blank;
 
           if Druckmode = Summenliste then
             begin
-              inc(FRow); //Leerzeile
-              TwoColReportData[FRow].typ  := blank;
-
-              //Überschrift Part 3
-              inc(FRow);
-              TwoColReportData[FRow].Name := 'Durchgang Einzahlungen';
-              TwoColReportData[FRow].Col1 := inttostr(nBuchungsjahr);
-              TwoColReportData[FRow].Col2 := inttostr(nBuchungsjahr-1);
-              TwoColReportData[FRow].typ  := header;
+              AddLine('', '', '', blank); //Leerzeile
+              AddLine('Durchgang Einzahlungen', inttostr(nBuchungsjahr), inttostr(nBuchungsjahr-1), header); //Überschrift Part 3
 
               //Part 3 Durchgang Einzahlungen
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenJournalDurchgang.sql');
@@ -904,12 +798,8 @@ begin
                         if sSachkontoNr <> sLastSachkontoNr
                           then
                             begin
-                              inc(FRow); //Neues Sachkonto, neue Zeile
-                              sLastSachkontoNr            := sSachkontoNr;
-                              TwoColReportData[FRow].Name := '('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString;
-                              TwoColReportData[FRow].Col1 := IntToCurrency(0);
-                              TwoColReportData[FRow].Col2 := IntToCurrency(0);
-                              TwoColReportData[FRow].typ  := line;
+                              AddLine('('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(0), IntToCurrency(0), line);  //Neues Sachkonto, neue Zeile
+                              sLastSachkontoNr   := sSachkontoNr;
                               Col1LineSummePart3 := 0;
                               Col2LineSummePart3 := 0;
                             end;
@@ -930,25 +820,14 @@ begin
                   frmDM.ZQueryDrucken.Next;
                 end;
 
-              //Abschluss Part 3
-              inc(FRow);
-              TwoColReportData[FRow].Name := 'Durchgang Einzahlungen gesamt';
-              TwoColReportData[FRow].Col1 := IntToCurrency(Col1SummePart3);
-              TwoColReportData[FRow].Col2 := IntToCurrency(Col2SummePart3);
-              TwoColReportData[FRow].typ  := footer;
+              AddLine('Durchgang Einzahlungen gesamt', IntToCurrency(Col1SummePart3), IntToCurrency(Col2SummePart3), footer);  //Abschluss Part 3
+              AddLine('', '', '', blank); //Leerzeile
+
               frmDM.ZQueryDrucken.First;
               sLastSachkontoNr := '';
 
-              inc(FRow); //Leerzeile
-              TwoColReportData[FRow].typ  := blank;
-
               //Part 3b Durchgang Weiterleitungen
-              //Überschrift Part 3b
-              inc(FRow);
-              TwoColReportData[FRow].Name := 'Durchgang Weiterleitungen';
-              TwoColReportData[FRow].Col1 := inttostr(nBuchungsjahr);
-              TwoColReportData[FRow].Col2 := inttostr(nBuchungsjahr-1);
-              TwoColReportData[FRow].typ  := header;
+              AddLine('Durchgang Weiterleitungen', inttostr(nBuchungsjahr), inttostr(nBuchungsjahr-1), header); //Überschrift Part 3b
 
               //Daten Part 3b
               while not frmDM.ZQueryDrucken.EOF do
@@ -960,12 +839,8 @@ begin
                         if sSachkontoNr <> sLastSachkontoNr
                           then
                             begin
-                              inc(FRow); //Neues Sachkonto, neue Zeile
+                              AddLine('('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(0), IntToCurrency(0), line); //Neues Sachkonto, neue Zeile
                               sLastSachkontoNr            := sSachkontoNr;
-                              TwoColReportData[FRow].Name := '('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString;
-                              TwoColReportData[FRow].Col1 := IntToCurrency(0);
-                              TwoColReportData[FRow].Col2 := IntToCurrency(0);
-                              TwoColReportData[FRow].typ  := line;
                               Col1LineSummePart3b := 0;
                               Col2LineSummePart3b := 0;
                             end;
@@ -986,26 +861,17 @@ begin
                   frmDM.ZQueryDrucken.Next;
                 end;
 
-                //Abschluss Part 3b
-              inc(FRow);
-              TwoColReportData[FRow].Name := 'Durchgang Weiterleitungen gesamt';
-              TwoColReportData[FRow].Col1 := IntToCurrency(Col1SummePart3b);
-              TwoColReportData[FRow].Col2 := IntToCurrency(Col2SummePart3b);
-              TwoColReportData[FRow].typ  := footer;
+              AddLine('Durchgang Weiterleitungen gesamt', IntToCurrency(Col1SummePart3b), IntToCurrency(Col2SummePart3b), footer);  //Abschluss Part 3b
+              AddLine('', '', '', blank); //Leerzeile
+
               frmDM.ZQueryDrucken.Close;
               sLastSachkontoNr := '';
-
-              inc(FRow); //Leerzeile
-              TwoColReportData[FRow].typ  := blank;
 
               //Part 4 Kassenstände
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenBanken.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
               frmDM.ZQueryDrucken.Open;
-                //Überschrift Part 4
-              inc(FRow);
-              TwoColReportData[FRow].Name := 'Kassenstände';
-              TwoColReportData[FRow].typ  := header;
+              AddLine('Kassenstände', '', '', header);  //Überschrift Part 4
 
               if cbDatum.Checked
                 then
@@ -1027,8 +893,7 @@ begin
                     nSaveRow := FRow;
                     while not frmDM.ZQueryDrucken.EOF do
                       begin
-                        inc(FRow);
-                        TwoColReportData[FRow].Name := '('+inttostr(frmDM.ZQueryDrucken.FieldByName('KontoNr').AsLongint)+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString;
+                        AddLine('('+inttostr(frmDM.ZQueryDrucken.FieldByName('KontoNr').AsLongint)+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, '', '', line);
 
                         if frmDM.ZQueryDrucken.FieldByName('KontoNr').AsLongint = frmDM.ZQueryHelp1.FieldByName('BankNr').AsLongint
                           then
@@ -1053,7 +918,6 @@ begin
                         //Daten nur zwischenspeichern
                         TwoColReportData[FRow].Col1 := IntToStr(Col1Summe);
                         TwoColReportData[FRow].Col2 := IntToStr(Col2Summe);
-                        TwoColReportData[FRow].typ  := line;
                         Col1SummePart4 := Col1SummePart4 + Col1Summe;
                         Col2SummePart4 := Col2SummePart4 + Col2Summe;
                         frmDM.ZQueryDrucken.Next;
@@ -1109,14 +973,10 @@ begin
                   begin
                     TwoColReportData[FRow].Col1 := inttostr(nBuchungsjahr);
                     TwoColReportData[FRow].Col2 := '31.12.'+inttostr(nBuchungsjahr-1);
-                      //Daten Part 4
+                    //Daten Part 4
                     while not frmDM.ZQueryDrucken.EOF do
                       begin
-                        inc(FRow);
-                        TwoColReportData[FRow].Name := '('+inttostr(frmDM.ZQueryDrucken.FieldByName('KontoNr').AsLongint)+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString;
-                        TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Kontostand').AsLongint);
-                        TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Anfangssaldo').AsLongint);
-                        TwoColReportData[FRow].typ  := line;
+                        AddLine('('+inttostr(frmDM.ZQueryDrucken.FieldByName('KontoNr').AsLongint)+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Kontostand').AsLongint), IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Anfangssaldo').AsLongint), line);
                         Col1SummePart4 := Col1SummePart4 + frmDM.ZQueryDrucken.FieldByName('Kontostand').AsLongint;
                         Col2SummePart4 := Col2SummePart4 + frmDM.ZQueryDrucken.FieldByName('Anfangssaldo').AsLongint;
                         frmDM.ZQueryDrucken.Next;
@@ -1125,61 +985,20 @@ begin
 
               frmDM.ZQueryDrucken.Close;
 
-                //Abschluss Part 4
-              inc(FRow);
-              TwoColReportData[FRow].Name := 'Summe Kassenstände';
-              TwoColReportData[FRow].Col1 := IntToCurrency(Col1SummePart4);
-              TwoColReportData[FRow].Col2 := IntToCurrency(Col2SummePart4);
-              TwoColReportData[FRow].typ  := footer;
-
-              inc(FRow); //Leerzeile
-              TwoColReportData[FRow].typ  := blank;
+              AddLine('Summe Kassenstände', IntToCurrency(Col1SummePart4), IntToCurrency(Col2SummePart4), footer);  //Abschluss Part 4
+              AddLine('', '', '', blank); //Leerzeile
 
               //Part 5 Ergebniss
-                //Überschrift Part 5
-              inc(FRow);
-              TwoColReportData[FRow].Name := 'Ergebnis';
-              TwoColReportData[FRow].Col1 := '';
-              TwoColReportData[FRow].Col2 := '';
-              TwoColReportData[FRow].typ  := header;
-
-                //Daten Part 5
-              inc(FRow);
-              TwoColReportData[FRow].Name := 'Anfangsbestand';
-              TwoColReportData[FRow].Col1 := IntToCurrency(Col2SummePart4);
-              TwoColReportData[FRow].Col2 := '';
-              TwoColReportData[FRow].typ  := line;
-              inc(FRow);
-              TwoColReportData[FRow].Name := 'Einnahmen';
-              TwoColReportData[FRow].Col1 := IntToCurrency(Col1SummePart1);
-              TwoColReportData[FRow].Col2 := '';
-              TwoColReportData[FRow].typ  := line;
-              inc(FRow);
-              TwoColReportData[FRow].Name := 'Ausgaben';
-              TwoColReportData[FRow].Col1 := IntToCurrency(Col1SummePart2);
-              TwoColReportData[FRow].Col2 := '';
-              TwoColReportData[FRow].typ  := line;
-              inc(FRow);
-              TwoColReportData[FRow].Name := 'Delta bei Durchgangskonten';
-              TwoColReportData[FRow].Col1 := IntToCurrency(Col1SummePart3+Col1SummePart3b);
-              TwoColReportData[FRow].Col2 := '';
-              TwoColReportData[FRow].typ  := line;
-
-                //Abschluss Part 5
-              inc(FRow);
-              TwoColReportData[FRow].Name := 'Endbestand';
-              TwoColReportData[FRow].Col1 := IntToCurrency(Col2SummePart4+Col1SummePart1+Col1SummePart2+Col1SummePart3+Col1SummePart3b);
-              TwoColReportData[FRow].Col2 := '';
-              TwoColReportData[FRow].typ  := footer;
-
-              inc(FRow); //Leerzeile
-              TwoColReportData[FRow].typ  := blank;
+              AddLine('Ergebnis', '', '', header);                                //Überschrift Part 5
+              AddLine('Anfangsbestand', IntToCurrency(Col2SummePart4), '', line); //Daten Part 5
+              AddLine('Einnahmen',      IntToCurrency(Col1SummePart1), '', line);
+              AddLine('Ausgaben',       IntToCurrency(Col1SummePart2), '', line);
+              AddLine('Delta bei Durchgangskonten', IntToCurrency(Col1SummePart3+Col1SummePart3b), '', line);
+              AddLine('Endbestand',     IntToCurrency(Col2SummePart4+Col1SummePart1+Col1SummePart2+Col1SummePart3+Col1SummePart3b), '', footer); //Abschluss Part 5
+              AddLine('', '', '', blank); //Leerzeile
 
               //Part 6 Umbuchungen
-                //Überschrift Part 6
-              inc(FRow);
-              TwoColReportData[FRow].Name := 'Umbuchungen (werden alle 2 mal aufgeführt)';
-              TwoColReportData[FRow].typ  := header;
+              AddLine('Umbuchungen (werden alle 2 mal aufgeführt)', '', '', header);  //Überschrift Part 6
 
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenUmbuchungen.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
@@ -1188,11 +1007,7 @@ begin
                 //Daten Part 6 BankNr
               while not frmDM.ZQueryDrucken.EOF do
                 begin
-                  inc(FRow);
-                  TwoColReportData[FRow].Name := frmDM.ZQueryDrucken.FieldByName('Name').AsString;
-                  TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe').aslongint);
-                  TwoColReportData[FRow].Col2 := '';
-                  TwoColReportData[FRow].typ  := line;
+                  AddLine(frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe').aslongint), '', line);
                   frmDM.ZQueryDrucken.Next;
                 end;
               frmDM.ZQueryDrucken.Close;
@@ -1203,11 +1018,7 @@ begin
                 //Daten Part 6 Konto_Nach
               while not frmDM.ZQueryDrucken.EOF do
                 begin
-                  inc(FRow);
-                  TwoColReportData[FRow].Name := frmDM.ZQueryDrucken.FieldByName('Name').AsString;
-                  TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe').aslongint);
-                  TwoColReportData[FRow].Col2 := '';
-                  TwoColReportData[FRow].typ  := line;
+                  AddLine(frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe').aslongint), '', line);
                   frmDM.ZQueryDrucken.Next;
                 end;
               frmDM.ZQueryDrucken.Close;
@@ -1224,26 +1035,15 @@ begin
             if sHelp <> ''
               then
                 begin
-                  inc(FRow); //Leerzeile
-                  TwoColReportData[FRow].typ  := blank;
-
-                  inc(FRow);
-                  TwoColReportData[FRow].Name := 'Filter: '+sHelp;
-                  TwoColReportData[FRow].typ  := header;
+                  AddLine('', '', '', blank); //Leerzeile
+                  AddLine('Filter: '+sHelp, '', '', header);
                 end;
 
           if cbDatum.Checked
             then
               begin
-                if sHelp = ''
-                  then
-                    begin
-                      inc(FRow); //Leerzeile
-                      TwoColReportData[FRow].typ  := blank;
-                    end;
-                inc(FRow);
-                TwoColReportData[FRow].Name := 'Filter von '+formatdatetime('dd.mm.yyyy', DateTimePickerVon.Date)+' bis '+formatdatetime('dd.mm.yyyy', DateTimePickerBis.Date);
-                TwoColReportData[FRow].typ  := header;
+                if sHelp = '' then AddLine('', '', '', blank); //Leerzeile
+                AddLine('Filter von '+formatdatetime('dd.mm.yyyy', DateTimePickerVon.Date)+' bis '+formatdatetime('dd.mm.yyyy', DateTimePickerBis.Date), '', '', header);
               end;
 
           //Init für Report
@@ -1261,7 +1061,7 @@ begin
           begin
             //CSV Export
             frmMain.slHelp.Clear;
-            for i := 1 to FRowPart1 do
+            for i := 0 to FRowPart1 do
               frmMain.slHelp.Add(UTF8toCP1252(TwoColReportData[i].Name)+';'+
                                  TwoColReportData[i].Col1+';'+
                                  TwoColReportData[i].Col2);
