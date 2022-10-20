@@ -41,7 +41,7 @@ const
                          'left join Personen on journal.PersonenID = Personen.PersonenID '+
                          'where BuchungsJahr = %s '+
                          'order by ';
-  sSteuerDef           = 'Umsatzsteuerfrei,Nicht umsatzsteuerbar,Umsatzsteuerpflichtig 7%,Umsatzsteuerpflichtig 19%';
+  sSteuerDef           = ',Umsatzsteuerfrei,Nicht umsatzsteuerbar,Umsatzsteuerpflichtig 7%,Umsatzsteuerpflichtig 19%';
   nDefDPI              = 96;
   CSV_Delimiter        = ';';
   sJa                  = 'Ja';
