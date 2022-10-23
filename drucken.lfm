@@ -64,11 +64,11 @@ object frmDrucken: TfrmDrucken
     Height = 25
     Hint = 'Übersicht aller Konten'#13#10'Rechtsklick für CSV-Export'
     Top = 119
-    Width = 200
-    Caption = 'Summenliste (opt. Datumsfilter)'
+    Width = 160
+    Caption = 'Summenliste (Datumsfilter)'
     OnClick = btnSummenlisteClick
+    OnContextPopup = btnSummenlisteContextPopup
     ParentShowHint = False
-    PopupMenu = PopupMenuSummenliste
     ShowHint = True
     TabOrder = 2
   end
@@ -321,6 +321,15 @@ object frmDrucken: TfrmDrucken
     HideDateTimeParts = []
     MonthNames = 'Long'
   end
+  object btnSummenlistCSV: TButton
+    Left = 168
+    Height = 25
+    Top = 119
+    Width = 40
+    Caption = 'CSV'
+    OnClick = mnuSummenlisteCSVExportClick
+    TabOrder = 22
+  end
   object frReport: TfrReport
     DefaultCopies = 0
     InitialZoom = pzOnePage
@@ -370,21 +379,5 @@ object frmDrucken: TfrmDrucken
     DataSource = frmDM.dsDruckenDetail1
     Left = 584
     Top = 256
-  end
-  object PopupMenuSummenliste: TPopupMenu
-    Left = 16
-    Top = 112
-    object mnuDrucken: TMenuItem
-      Caption = 'Drucken'
-      OnClick = btnSummenlisteClick
-    end
-    object mnuCSVExport: TMenuItem
-      Caption = 'CSV - Export'
-      OnClick = mnuCSVExportClick
-    end
-    object mnuDesigner: TMenuItem
-      Caption = 'Designer'
-      OnClick = mnuDesignerClick
-    end
   end
 end

@@ -73,6 +73,7 @@ type
     btnBeitragsliste: TButton;
     btnDurchgang: TButton;
     btnZuwendungsbescheinigungen: TButton;
+    btnSummenlistCSV: TButton;
     cbDatum: TCheckBox;
     DateTimePickerVon: TDateTimePicker;
     DateTimePickerBis: TDateTimePicker;
@@ -85,10 +86,6 @@ type
     frReport: TfrReport;
     frTextExport: TfrTextExport;
     Label2: TLabel;
-    mnuDrucken: TMenuItem;
-    mnuCSVExport: TMenuItem;
-    mnuDesigner: TMenuItem;
-    PopupMenuSummenliste: TPopupMenu;
     rgFilter: TRadioGroup;
     ediFilter: TLabeledEdit;
     Shape1: TShape;
@@ -135,8 +132,7 @@ type
     procedure frReportEnterRect(Memo: TStringList; View: TfrView);
     procedure frReportGetValue(const ParName: String; var ParValue: Variant);
     procedure frReportPrintColumn(ColNo: Integer; var ColWidth: Integer);
-    procedure mnuCSVExportClick(Sender: TObject);
-    procedure mnuDesignerClick(Sender: TObject);
+    procedure mnuSummenlisteCSVExportClick(Sender: TObject);
     procedure rgFilterSelectionChanged(Sender: TObject);
   private
     { private declarations }
@@ -198,6 +194,7 @@ var
   sName                : string;
   sLastName            : string;
   sHelp                : string;
+  sBereich             : string;
   sFileName            : string;
   Col1Summe            : longint;
   Col2Summe            : longint;
@@ -616,6 +613,7 @@ begin
           Col2Summe          := 0;
           sLastSachkontoNr   := '';
           sSachkontoNr       := '';
+          sBereich           := '';
 
           if Druckmode = Summenliste then rgFilter.ItemIndex := 0;
 
@@ -670,7 +668,9 @@ begin
               if frmDM.ZQueryDrucken.RecordCount > 0 then
                 begin
                   //Überschrift Part 1
-                  AddLine('Einnahmen ('+slHelp.Strings[i]+')',  inttostr(nBuchungsjahr),  inttostr(nBuchungsjahr-1), header2);
+                  sBereich := 'Einnahmen';
+                  if slHelp.Strings[i] <> '' then sBereich := sBereich + ' ('+slHelp.Strings[i]+')';
+                  AddLine(sBereich,  inttostr(nBuchungsjahr),  inttostr(nBuchungsjahr-1), header2);
                   Col1ZwischenSummePart1 := 0;
                   Col2ZwischenSummePart1 := 0;
 
@@ -703,7 +703,7 @@ begin
                     end;
 
                   //ZwischenAbschluss Part 1
-                  AddLine('Einnahmen ('+slHelp.Strings[i]+')', IntToCurrency(Col1ZwischenSummePart1), IntToCurrency(Col2ZwischenSummePart1), footer2);
+                  AddLine(sBereich, IntToCurrency(Col1ZwischenSummePart1), IntToCurrency(Col2ZwischenSummePart1), footer2);
                   AddLine('', '', '', blank); //Leerzeile
 
                   frmDM.ZQueryDrucken.Close;
@@ -733,7 +733,9 @@ begin
 
               if frmDM.ZQueryDrucken.RecordCount > 0 then
                 begin
-                  AddLine('Ausgaben ('+slHelp.Strings[i]+')', inttostr(nBuchungsjahr), inttostr(nBuchungsjahr-1), header2); //Überschrift Part 2
+                  sBereich := 'Ausgaben';
+                  if slHelp.Strings[i] <> '' then sBereich := sBereich + ' ('+slHelp.Strings[i]+')';
+                  AddLine(sBereich, inttostr(nBuchungsjahr), inttostr(nBuchungsjahr-1), header2); //Überschrift Part 2
                   Col1ZwischenSummePart2 := 0;
                   Col2ZwischenSummePart2 := 0;
 
@@ -763,7 +765,7 @@ begin
                       frmDM.ZQueryDrucken.Next;
                     end;
 
-                  AddLine('Ausgaben ('+slHelp.Strings[i]+')', IntToCurrency(Col1ZwischenSummePart2), IntToCurrency(Col2ZwischenSummePart2), footer2); //ZwischenAbschluss Part 2
+                  AddLine(sBereich, IntToCurrency(Col1ZwischenSummePart2), IntToCurrency(Col2ZwischenSummePart2), footer2); //ZwischenAbschluss Part 2
                   AddLine('', '', '', blank); //Leerzeile
 
                   frmDM.ZQueryDrucken.Close;
@@ -1053,7 +1055,7 @@ begin
           FCol := 0;
           frReport.Dataset := nil;
         end;
-      end;
+    end;
     if CallDesigner
       then frReport.DesignReport
       else if CSV_Export
@@ -1377,12 +1379,12 @@ begin
   PreparePrint();
 end;
 
-procedure TfrmDrucken.btnSummenlisteContextPopup(Sender: TObject;
-  MousePos: TPoint; var Handled: Boolean);
+procedure TfrmDrucken.btnSummenlisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
 begin
-
+  Druckmode := Summenliste;
+  PreparePrint(true);
+  Handled   := true;
 end;
-
 
 procedure TfrmDrucken.cbDatumChange(Sender: TObject);
 begin
@@ -1689,16 +1691,10 @@ begin
   FCol := ColNo;                                 // Welche Spalte wird gedruckt
 end;
 
-procedure TfrmDrucken.mnuCSVExportClick(Sender: TObject);
+procedure TfrmDrucken.mnuSummenlisteCSVExportClick(Sender: TObject);
 begin
   Druckmode := Summenliste;
   PreparePrint(false, true);
-end;
-
-procedure TfrmDrucken.mnuDesignerClick(Sender: TObject);
-begin
-  Druckmode := Summenliste;
-  PreparePrint(true);
 end;
 
 procedure TfrmDrucken.rgFilterSelectionChanged(Sender: TObject);
