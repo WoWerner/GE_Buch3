@@ -1,7 +1,7 @@
 object frmDM: TfrmDM
-  Left = 409
+  Left = 411
   Height = 351
-  Top = 180
+  Top = 182
   Width = 780
   Caption = 'DM'
   OnCreate = FormCreate

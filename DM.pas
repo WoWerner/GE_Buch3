@@ -251,7 +251,28 @@ begin
   if sHelp = '1.7' then sHelp := DoDBUpdate('1.8',sAppDir+'module\update18.sql');
   if sHelp = '1.8' then sHelp := DoDBUpdate('1.9',sAppDir+'module\update19.sql');
   if sHelp = '1.9' then sHelp := DoDBUpdate('2.0',sAppDir+'module\update20.sql');
-  if sHelp = '2.0' then sHelp := DoDBUpdate('3.0',sAppDir+'module\update30.sql');
+  if sHelp = '2.0'
+    then
+      begin
+        // Vor Update auf 3.0 ein Vorcheck auf doppelte Kontennummern
+        ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\update30_preCheck.sql');
+        ZQueryHelp.Open;
+        if ZQueryHelp.RecordCount > 0
+          then
+            begin
+              LogAndShowError('Nicht behebbarer Fehler.'#13+
+                              'Es gibt doppelte Kontonummen bei Banken und Sachkonten.'#13+
+                              'Die erste gefundene ist: '+ZQueryHelp.FieldByName('sachkontonr').asstring+#13+
+                              'Die Datenbank kann nicht auf die Version 3 aktualisiert werden.'#13#13+
+                              'Das Programm wird beendet');
+              FlushDebug;
+
+              Halt; // End of program execution
+            end;
+
+        sHelp := DoDBUpdate('3.0',sAppDir+'module\update30.sql');
+      end;
+
   if sHelp = '3.0' then sHelp := DoDBUpdate('3.1',sAppDir+'module\update31.sql');
 
   //Prüfung auf zu neue DB Version
