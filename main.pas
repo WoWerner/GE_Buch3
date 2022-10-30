@@ -322,8 +322,8 @@ begin
           slHelp.loadfromstream(Http.Document);
           slHelp.Text := CP1252ToUTF8(slHelp.Text);
           myDebugLN('HTTPGET, Resultcode: '+inttostr(Http.Resultcode)+' '+Http.Resultstring);
-          myDebugLN('Http.headers.text  : '+#13#10+Http.headers.text);
-          myDebugLN('Http.Document      : '+#13#10+slHelp.Text);
+          myDebugLN('Http.headers.text: '+#13#10+Http.headers.text);
+          myDebugLN('Http.Document: '+#13#10+slHelp.Text);
 
           if Http.Resultcode = 200
             then
@@ -369,8 +369,8 @@ begin
           //sAktuelles := CP1252ToUTF8(slHelp.Text);
           sAktuelles := slHelp.Text;
           myDebugLN('HTTPGET, Resultcode: '+inttostr(Http.Resultcode)+' '+Http.Resultstring);
-          myDebugLN('Http.headers.text  : '+#13#10+Http.headers.text);
-          myDebugLN('Http.Document      : '+#13#10+sAktuelles);
+          myDebugLN('Http.headers.text: '+#13#10+Http.headers.text);
+          myDebugLN('Http.Document: '+#13#10+sAktuelles);
 
           if (Http.Resultcode = 200) and (sAktuelles <> '')
             then

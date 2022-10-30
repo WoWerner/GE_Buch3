@@ -1,7 +1,7 @@
 object frmDrucken: TfrmDrucken
-  Left = 586
+  Left = 589
   Height = 339
-  Top = 239
+  Top = 242
   Width = 633
   BorderStyle = bsDialog
   Caption = 'Drucken'
@@ -62,7 +62,7 @@ object frmDrucken: TfrmDrucken
   object btnSummenliste: TButton
     Left = 8
     Height = 25
-    Hint = 'Übersicht aller Konten'#13#10'Rechtsklick für CSV-Export'
+    Hint = 'Übersicht aller Konten'
     Top = 119
     Width = 160
     Caption = 'Summenliste (Datumsfilter)'

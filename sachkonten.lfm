@@ -1,7 +1,7 @@
 object frmSachkonten: TfrmSachkonten
-  Left = 237
+  Left = 240
   Height = 500
-  Top = 127
+  Top = 129
   Width = 806
   Caption = 'Sachkonten'
   ClientHeight = 500

@@ -1,8 +1,8 @@
 object frmJournal: TfrmJournal
-  Left = 469
+  Left = 472
   Height = 580
   Hint = 'Rechtsklick für Listen'
-  Top = 120
+  Top = 123
   Width = 900
   Caption = 'Journal'
   ClientHeight = 580
@@ -18,7 +18,7 @@ object frmJournal: TfrmJournal
   PopupMenu = mnuPopup
   Position = poScreenCenter
   ShowHint = True
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.4.0'
   object panDaten: TPanel
     Left = 0
     Height = 267
@@ -75,6 +75,7 @@ object frmJournal: TfrmJournal
           Top = 4
           Width = 48
           Caption = 'Hinweise'
+          ParentColor = False
         end
       end
       object panCSVImportData: TPanel
@@ -112,6 +113,7 @@ object frmJournal: TfrmJournal
           AutoSize = False
           Caption = 'Zu importierende Daten'
           Color = clSkyBlue
+          ParentColor = False
           Transparent = False
         end
       end
@@ -142,6 +144,7 @@ object frmJournal: TfrmJournal
         Top = 35
         Width = 37
         Caption = 'Vorjahr'
+        ParentColor = False
       end
       object lab_A_SK: TLabel
         Left = 0
@@ -151,6 +154,7 @@ object frmJournal: TfrmJournal
         Alignment = taRightJustify
         AutoSize = False
         Caption = '0,00'
+        ParentColor = False
       end
       object Label16: TLabel
         Left = 75
@@ -158,6 +162,7 @@ object frmJournal: TfrmJournal
         Top = 35
         Width = 78
         Caption = 'Laufendes Jahr'
+        ParentColor = False
       end
       object lab_N_SK: TLabel
         Left = 83
@@ -167,6 +172,7 @@ object frmJournal: TfrmJournal
         Alignment = taRightJustify
         AutoSize = False
         Caption = '0,00'
+        ParentColor = False
       end
       object lab_A_Pers: TLabel
         Left = 0
@@ -176,6 +182,7 @@ object frmJournal: TfrmJournal
         Alignment = taRightJustify
         AutoSize = False
         Caption = '0,00'
+        ParentColor = False
       end
       object lab_N_Pers: TLabel
         Left = 83
@@ -185,6 +192,7 @@ object frmJournal: TfrmJournal
         Alignment = taRightJustify
         AutoSize = False
         Caption = '0,00'
+        ParentColor = False
       end
       object Label17: TLabel
         Left = 57
@@ -192,6 +200,7 @@ object frmJournal: TfrmJournal
         Top = 4
         Width = 13
         Caption = 'alt'
+        ParentColor = False
       end
       object lab_A_Konto: TLabel
         Left = 0
@@ -201,6 +210,7 @@ object frmJournal: TfrmJournal
         Alignment = taRightJustify
         AutoSize = False
         Caption = '0,00'
+        ParentColor = False
       end
       object lab_N_Konto: TLabel
         Left = 83
@@ -210,6 +220,7 @@ object frmJournal: TfrmJournal
         Alignment = taRightJustify
         AutoSize = False
         Caption = '0,00'
+        ParentColor = False
       end
       object Label18: TLabel
         Left = 133
@@ -217,6 +228,7 @@ object frmJournal: TfrmJournal
         Top = 4
         Width = 20
         Caption = 'neu'
+        ParentColor = False
       end
       object lab_KontoStart: TLabel
         Left = 165
@@ -226,6 +238,7 @@ object frmJournal: TfrmJournal
         Alignment = taRightJustify
         AutoSize = False
         Caption = '0,00'
+        ParentColor = False
       end
       object Label19: TLabel
         Left = 180
@@ -233,6 +246,7 @@ object frmJournal: TfrmJournal
         Top = 4
         Width = 55
         Caption = 'Jahresstart'
+        ParentColor = False
       end
     end
     object btnClose: TButton
@@ -258,6 +272,7 @@ object frmJournal: TfrmJournal
       Top = 138
       Width = 36
       Caption = 'Person'
+      ParentColor = False
     end
     object Label2: TLabel
       Left = 16
@@ -265,6 +280,7 @@ object frmJournal: TfrmJournal
       Top = 170
       Width = 34
       Caption = 'Betrag'
+      ParentColor = False
     end
     object btnNeueBuchung: TButton
       Left = 728
@@ -302,6 +318,7 @@ object frmJournal: TfrmJournal
       Top = 42
       Width = 88
       Caption = 'Buchungsdatum'
+      ParentColor = False
     end
     object DateEditBuchungsdatum: TDateEdit
       Left = 111
@@ -336,6 +353,7 @@ object frmJournal: TfrmJournal
       Top = 11
       Width = 73
       Caption = 'Buchungsjahr'
+      ParentColor = False
     end
     object Label5: TLabel
       Left = 16
@@ -343,6 +361,7 @@ object frmJournal: TfrmJournal
       Top = 98
       Width = 83
       Caption = 'Sachkonto oder'#13#10'Banknummer'
+      ParentColor = False
       WordWrap = True
     end
     object ediSachKontoNummer: TEdit
@@ -383,6 +402,7 @@ object frmJournal: TfrmJournal
       Top = 72
       Width = 72
       Caption = 'Banknummer'
+      ParentColor = False
     end
     object ediBankNr: TEdit
       Left = 111
@@ -408,6 +428,7 @@ object frmJournal: TfrmJournal
       Top = 202
       Width = 73
       Caption = 'Buchungstext'
+      ParentColor = False
     end
     object Label8: TLabel
       Left = 16
@@ -415,6 +436,7 @@ object frmJournal: TfrmJournal
       Top = 234
       Width = 75
       Caption = 'Belegnummer'
+      ParentColor = False
     end
     object ediBelegnummer: TEdit
       Left = 111
@@ -487,6 +509,7 @@ object frmJournal: TfrmJournal
       Top = 267
       Width = 61
       Caption = 'Bemerkung'
+      ParentColor = False
     end
     object ediBemerkung: TEdit
       Left = 111
@@ -514,6 +537,7 @@ object frmJournal: TfrmJournal
         Top = 0
         Width = 39
         Caption = 'FilterNr'
+        ParentColor = False
       end
       object ediSachKontoNummerFilter: TEdit
         Left = 5
@@ -572,6 +596,7 @@ object frmJournal: TfrmJournal
         Top = 7
         Width = 66
         Caption = 'FreiTextFilter'
+        ParentColor = False
       end
       object ediTextFilter: TEdit
         Left = 83
@@ -595,6 +620,7 @@ object frmJournal: TfrmJournal
       Font.Color = clRed
       Font.Height = -21
       Font.Style = [fsBold]
+      ParentColor = False
       ParentFont = False
       Visible = False
     end
@@ -663,6 +689,7 @@ object frmJournal: TfrmJournal
       Font.Color = clRed
       Font.Height = -15
       Font.Style = [fsBold]
+      ParentColor = False
       ParentFont = False
       Visible = False
     end
@@ -681,6 +708,7 @@ object frmJournal: TfrmJournal
       Width = 123
       Caption = 'Journalmodus:'
       Font.Height = -19
+      ParentColor = False
       ParentFont = False
     end
   end

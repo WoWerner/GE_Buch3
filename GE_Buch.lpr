@@ -12,7 +12,7 @@ uses
   datetimectrls,
   Main,
   dm,
-  zcomponent,
+  zcomponent, zcore,
   sachkonten,
   global,
   vinfo,

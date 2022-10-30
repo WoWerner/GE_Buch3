@@ -842,7 +842,7 @@ begin
                           then
                             begin
                               AddLine('('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(0), IntToCurrency(0), line); //Neues Sachkonto, neue Zeile
-                              sLastSachkontoNr            := sSachkontoNr;
+                              sLastSachkontoNr    := sSachkontoNr;
                               Col1LineSummePart3b := 0;
                               Col2LineSummePart3b := 0;
                             end;
