@@ -8,6 +8,7 @@ select
    (select '('||ifnull(journal.konto_nach,'')||') '||ifnull(konten.Name,'') from konten where journal.konto_nach = konten.KontoNr) as Sachkonto,
    ifnull(Betrag,'')                                               as Betrag,
    Buchungstext,
+   journal.PersonenID                                              as PersonenNr, 
    ifnull(Personen.Vorname,'')||' '||ifnull(Personen.Nachname,'')  as Name,
    Bemerkung,
    CAST((select Anfangssaldo from Bankenabschluss where journal.BankNr = Bankenabschluss.KontoNr) as text) as Saldo, 
