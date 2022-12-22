@@ -146,6 +146,8 @@ type
     procedure Datensicherung(Auto, Reconnect: boolean; FileExtension : String = '');
   end;
 
+  TArrayOfConst = array of TVarRec;
+
 var
   frmMain: TfrmMain;
 
@@ -1182,10 +1184,31 @@ begin
   frmDrucken.showmodal;
 end;
 
+function CreateArrayOfConst(const A: array of const): TArrayOfConst;
+var
+  i: SizeInt;
+begin
+  SetLength(Result, Length(A));
+  for i := Low(A) to High(A) do
+    Result[i] := A[i];
+end;
+
+operator + (const A, B: TArrayOfConst): TArrayOfConst;
+var
+  i, Shift: SizeInt;
+begin
+  SetLength(Result, Length(A) + Length(B));
+  for i := Low(A) to High(A) do
+    Result[i] := A[i];
+  Shift := Length(A);
+  for i := Low(B) to High(B) do
+    Result[i + Shift] := B[i];
+end;
+
 procedure TfrmMain.mnuAbgleichClick(Sender: TObject);
 
 const
-  maxGemeinden = 6;
+  maxGemeinden = 20;
 
 var
   i,
@@ -1202,7 +1225,8 @@ var
   sSQL   : string;
   sWhere : String = '';
   sData  : String;
-  aGemeinden: array [0..maxGemeinden-1] of String = ('Reserve','Reserve','Reserve','Reserve','Reserve','Reserve');
+  aGemeinden: array [0..maxGemeinden-1] of String;
+  Buttons: TArrayOfConst;
 
 begin
   slSQL       := Tstringlist.Create;
@@ -1230,7 +1254,7 @@ begin
         while (not frmDM.ZQueryGE_Kart_Personen.EOF) and (nGemeinden<maxGemeinden) do
           begin
             aGemeinden[nGemeinden] := frmDM.ZQueryGE_Kart_Personen.FieldByName('Gemeinde').AsString;
-            if aGemeinden[nGemeinden] = '' then aGemeinden[nGemeinden] := 'leer';
+            if aGemeinden[nGemeinden] = '' then aGemeinden[nGemeinden] := 'leerer Eintrag';
             inc(nGemeinden);
             frmDM.ZQueryGE_Kart_Personen.Next;
           end;
@@ -1238,14 +1262,21 @@ begin
 
         if (nGemeinden > 1) then
           begin
+            Buttons := CreateArrayOfConst([0, aGemeinden[0]]);  //1. Button
+            for i := 1 to nGemeinden-1 do
+              begin
+                Buttons := Buttons + CreateArrayOfConst([i, aGemeinden[i]]);
+              end;
+            Buttons := Buttons + CreateArrayOfConst([maxGemeinden, 'Alle']);
+            Buttons := Buttons + CreateArrayOfConst([maxGemeinden+1, 'Abbrechen', 'IsDefault']);
             nSelectedGemeinde := QuestionDlg('Personenabgleich',
                                              'Es wurden in der Gemeindekartei '+inttostr(nGemeinden)+' Gemeinden gefunden'+#13+
                                              'Für welche Gemeinde soll der Abgleich gemacht werden?',
                                              mtConfirmation,
-                                             [0, aGemeinden[0], 1, aGemeinden[1], 2, aGemeinden[2], 3, aGemeinden[3], 4, aGemeinden[4], 5, aGemeinden[5], maxGemeinden, 'Alle', 11, 'Abbrechen', 'IsDefault'],
+                                             Buttons,
                                              '');
             if nSelectedGemeinde <= nGemeinden-1 then
-              if aGemeinden[nSelectedGemeinde] <> 'leer' then
+              if aGemeinden[nSelectedGemeinde] <> 'leerer Eintrag' then
                 sWhere := 'where Gemeinde = "'+aGemeinden[nSelectedGemeinde]+'"';
           end;
 
