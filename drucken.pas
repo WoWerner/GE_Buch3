@@ -20,7 +20,9 @@ uses
   Graphics,
   Dialogs,
   StdCtrls,
-  ExtCtrls, Menus,
+  ExtCtrls,
+  Printers,
+  Menus,
   types;
 
 type
@@ -34,7 +36,7 @@ type
                  EinAus,
                  Personenliste,
                  PersonenlisteKompakt,
-                 Jahresabschluss,
+                 Finanzbericht,
                  Sachkontenliste,
                  Bankenliste,
                  BeitragslisteSK,
@@ -69,12 +71,14 @@ type
     btnSummenliste: TButton;
     btnSchliessen: TButton;
     btnPersonenliste: TButton;
-    btnJahresabschluss: TButton;
+    btnFinanzbericht: TButton;
     btnBeitragsliste: TButton;
     btnDurchgang: TButton;
     btnZuwendungsbescheinigungen: TButton;
     btnSummenlistCSV: TButton;
     cbDatum: TCheckBox;
+    cbDrucker: TComboBox;
+    cbDruckeDirekt: TCheckBox;
     DateTimePickerVon: TDateTimePicker;
     DateTimePickerBis: TDateTimePicker;
     frCSVExport: TfrCSVExport;
@@ -106,8 +110,8 @@ type
     procedure btnBeitragslisteClick(Sender: TObject);
     procedure btnBeitragslisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnDurchgangClick(Sender: TObject);
-    procedure btnJahresabschlussClick(Sender: TObject);
-    procedure btnJahresabschlussContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+    procedure btnFinanzberichtClick(Sender: TObject);
+    procedure btnFinanzberichtContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnJournaldruckClick(Sender: TObject);
     procedure btnJournaldruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnPersonenlisteClick(Sender: TObject);
@@ -167,6 +171,7 @@ uses
   global,
   LConvEncoding,
   LCLIntf,  //Opendocument
+  LazUTF8,  //UTF8ToSys
   help,
   main,
   dm;
@@ -231,12 +236,12 @@ begin
     end;
   try
     case Druckmode of
-      Jahresabschluss:
+      Finanzbericht:
         begin
            nEinnahmen      := 0;
            nAusgaben       := 0;
            nBestand        := 0;
-          frReport.LoadFromFile(sAppDir+'module\Jahresabschluss.lrf');
+          frReport.LoadFromFile(sAppDir+'module\Finanzbericht.lrf');
           frReport.Dataset := nil;
         end;
       BeitragslisteSK:
@@ -403,15 +408,16 @@ begin
         begin
           frDBDataSet.DataSource := frmDM.dsDrucken;
           frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\ZuwendungDrucken.sql');
-          frmDM.ZQueryDrucken.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
+          frmDM.ZQueryDrucken.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
+          frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':ADDWHERE', '', [rfReplaceAll]);
 
           frmDM.ZQueryDruckenDetail.SQL.LoadFromFile(sAppDir+'module\ZuwendungDruckenDetail.sql');
-          frmDM.ZQueryDruckenDetail.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
+          frmDM.ZQueryDruckenDetail.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
           frmDM.ZQueryDruckenDetail.MasterFields := 'PersonenID';
           frmDM.ZQueryDruckenDetail.LinkedFields := 'PersonenID';
 
           frmDM.ZQueryDruckenDetail1.SQL.LoadFromFile(sAppDir+'module\ZuwendungDruckenDetail1.sql');
-          frmDM.ZQueryDruckenDetail1.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
+          frmDM.ZQueryDruckenDetail1.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
           frmDM.ZQueryDruckenDetail1.MasterFields := 'PersonenID';
           frmDM.ZQueryDruckenDetail1.LinkedFields := 'PersonenID';
 
@@ -1082,7 +1088,45 @@ begin
                 end;
             end;
           end
-        else frReport.ShowReport;
+        else
+        begin
+          if Printer.PrinterIndex <> cbDrucker.ItemIndex
+            then
+              begin
+                frReport.ChangePrinter(Printer.PrinterIndex, cbDrucker.ItemIndex);
+                Printer.PrinterIndex := cbDrucker.ItemIndex;
+              end;
+          if cbDruckeDirekt.Checked
+            then
+              begin
+                case Druckmode of
+                  Journal:                 Printer.FileName:='Journal.pdf';
+                  JournalBK:               Printer.FileName:='JournalBK.pdf';
+                  JournalSK:               Printer.FileName:='JournalSK.pdf';
+                  JournalGefiltert:        Printer.FileName:='JournalGefiltert.pdf';
+                  JournalKompaktGefiltert: Printer.FileName:='JournalKompaktGefiltert.pdf';
+                  Summenliste:             Printer.FileName:='Summenliste.pdf';
+                  EinAus:                  Printer.FileName:='EinAus.pdf';
+                  Personenliste:           Printer.FileName:='Personenliste.pdf';
+                  PersonenlisteKompakt:    Printer.FileName:='PersonenlisteKompakt.pdf';
+                  Finanzbericht:           Printer.FileName:='Finanzbericht.pdf';
+                  Sachkontenliste:         Printer.FileName:='Sachkontenliste.pdf';
+                  Bankenliste:             Printer.FileName:='Bankenliste.pdf';
+                  BeitragslisteSK:         Printer.FileName:='Beitragsliste.pdf';
+                  Zahlungsliste:           Printer.FileName:='Zahlungsliste.pdf';
+                  Zuwendung:               Printer.FileName:='Zuwendung.pdf';
+                  else                     Printer.FileName:='Ausgabe.pdf';
+                end;
+                ForceDirectories(UTF8ToSys(sPrintPath));
+                Printer.FileName := sPrintPath+'\'+Printer.FileName;
+                if frReport.PrepareReport then
+                   frReport.PrintPreparedReport('1-'+IntToStr(frReport.EMFPages.Count),1);
+              end
+            else
+              begin
+                frReport.ShowReport;
+              end;
+        end;
   except
     on E: Exception do LogAndShowError(E.Message);
   end;
@@ -1104,9 +1148,9 @@ begin
   PreparePrint();
 end;
 
-procedure TfrmDrucken.btnJahresabschlussClick(Sender: TObject);
+procedure TfrmDrucken.btnFinanzberichtClick(Sender: TObject);
 begin
-  Druckmode := Jahresabschluss;
+  Druckmode := Finanzbericht;
   PreparePrint();
 end;
 
@@ -1295,9 +1339,9 @@ begin
       end;
 end;
 
-procedure TfrmDrucken.btnJahresabschlussContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+procedure TfrmDrucken.btnFinanzberichtContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
 begin
-  Druckmode := Jahresabschluss;
+  Druckmode := Finanzbericht;
   PreparePrint(true);
   Handled := true;
 end;
@@ -1423,8 +1467,10 @@ begin
   DateTimePickerVon.Date := EncodeDate(jahr_, 1, 1);
   DateTimePickerBis.Date := EncodeDate(jahr_, 12, 31);
   slHelp := TStringlist.Create;
+  cbDrucker.Items := Printer.Printers;
+  if cbDrucker.Items.Count > 0 then
+    cbDrucker.ItemIndex := 0;
 end;
-
 
 procedure TfrmDrucken.FormShow(Sender: TObject);
 begin
@@ -1584,7 +1630,7 @@ begin
   else if ParName = 'ue_rechts'           then ParValue := formatdatetime('dd.mm.yyyy', now())
   else
   case Druckmode of
-    Jahresabschluss:
+    Finanzbericht:
       begin
         t := ParName[1];
         if ParName = 'Einnahmen' then

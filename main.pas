@@ -250,6 +250,7 @@ begin
   sIniFile    := vConfigurations.ConfigFile;
   sDebugFile  := help.ReadIniVal(sIniFile, 'Debug'     , 'Name', sAppDir+'debug.txt', true);
   sSavePath   := help.ReadIniVal(sIniFile, 'Sicherung' , 'Verzeichnis', sAppDir+'Sicherung', true);
+  sPrintPath  := help.ReadIniVal(sIniFile, 'Ausgaben'  , 'Verzeichnis', sAppDir+'Ausgaben', true);
   sImportPath := help.ReadIniVal(sIniFile, 'CSV-Import', 'Verzeichnis', sAppDir, true);
   sDatabase   := help.ReadIniVal(sIniFile, 'Datenbank' , 'Name', sAppDir+'ge_buch3.db', true);
 

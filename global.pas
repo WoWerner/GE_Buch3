@@ -68,6 +68,7 @@ var
   sRendantAdr          : String;
   sRendantOrt          : String;
   sSavePath            : String;
+  sPrintPath           : String;
   sSteuer              : String;
   nBuchungsjahr        : integer;
   bSQLDebug            : boolean;
