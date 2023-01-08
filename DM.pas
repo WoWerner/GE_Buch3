@@ -274,6 +274,7 @@ begin
       end;
 
   if sHelp = '3.0' then sHelp := DoDBUpdate('3.1',sAppDir+'module\update31.sql');
+  if sHelp = '3.1' then sHelp := DoDBUpdate('3.2',sAppDir+'module\update32.sql');
 
   //Prüfung auf zu neue DB Version
   result := not (strtoint(XCharsOnly(sHelp, ['0'..'9']))*100 > strtoint(XCharsOnly(sProductVersionString, ['0'..'9'])));       //Im Fehlerfall result auf false
