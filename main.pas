@@ -430,6 +430,9 @@ begin
         end;
     if not frmDM.ZQueryInit.Active then frmDM.ZQueryInit.Open;
     FillStringsAusInit;
+    frmDM.ZQueryHelp.SQL.Text:='update Bankenabschluss set Buchungsjahr=:BJahr where Bankenabschluss.Buchungsjahr = 9999';
+    frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := nBuchungsjahr;
+    frmDM.ZQueryHelp.ExecSQL;
   except
     on E: Exception do
       begin
