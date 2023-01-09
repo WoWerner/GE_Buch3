@@ -9,9 +9,6 @@ INSERT INTO "Personen" VALUES(302,'','','Karolina','','Albrecht','Finkenstr.24',
 INSERT INTO "Personen" VALUES(400,'Frau','','Irmgard','Elisabeth','Adam','Bergstraße 9','','35753','Greifenstein','Ulm','06478/2361','77','','',1,'1945-01-18','Y','test','Y');
 INSERT INTO "Personen" VALUES(407,'Frau','','Heike','Angelika','Arndt','Herrenacker 5','','35753','Greifenstein','Allendorf','06478/1298','','','heike.ar@arcor.de',5,'1960-07-15','False','','true');
 CREATE TABLE [konten] ([KontoNr] INTEGER  NOT NULL PRIMARY KEY,[Sortpos] INTEGER  NULL,[Statistik] INTEGER  NULL,[Name] VARCHAR (100)  NULL,[Kontotype] VARCHAR(2)  NULL,[Kontostand] INTEGER  NULL,[Finanzamt] VARCHAR(100)  NULL,[Finanzamtvom] VARCHAR(100)  NULL,[Finanzamtnr] VARCHAR(100)  NULL);
-INSERT INTO "konten" VALUES(23,230,23,'Gesamtkirchliche Kollekten','D',0,NULL,NULL,NULL);
-INSERT INTO "konten" VALUES(24,240,24,'Kollekten und Spenden für Ämter und Werke der SELK','D',0,NULL,NULL,NULL);
-INSERT INTO "konten" VALUES(25,250,25,'Kollekten und Spenden für Ämter und Werke außerhalb der SELK','D',0,'','','');
 INSERT INTO "konten" VALUES(39,390,3,'Andere Personalaufwendungen','A',0,NULL,NULL,NULL);
 INSERT INTO "konten" VALUES(41,410,41,'Reise- und Sitzungskosten','A',0,NULL,NULL,NULL);
 INSERT INTO "konten" VALUES(42,420,42,'Kraftfahrzeug-Unterhaltung','A',0,NULL,NULL,NULL);
