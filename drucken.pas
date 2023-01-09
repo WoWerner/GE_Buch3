@@ -1091,91 +1091,92 @@ begin
             end;
           end
         else
-        begin
-          if Printer.PrinterIndex <> cbDrucker.ItemIndex
-            then
-              begin
-                frReport.ChangePrinter(Printer.PrinterIndex, cbDrucker.ItemIndex);
-                Printer.PrinterIndex := cbDrucker.ItemIndex;
-              end;
-          if cbDruckeDirekt.Checked
-            then
-              begin
-                case Druckmode of
-                  Journal:                        Printer.FileName:='Journal.pdf';
-                  JournalNachBankenGruppiert:     Printer.FileName:='JournalNachBankenGruppiert.pdf';
-                  JournalNachSachkontenGruppiert: Printer.FileName:='JournalNachSachkontenGruppiert.pdf';
-                  JournalGefiltert:               Printer.FileName:='JournalGefiltert.pdf';
-                  JournalKompaktGefiltert:        Printer.FileName:='JournalKompaktGefiltert.pdf';
-                  Summenliste:                    Printer.FileName:='Summenliste.pdf';
-                  EinAus:                         Printer.FileName:='EinAus.pdf';
-                  Personenliste:                  Printer.FileName:='Personenliste.pdf';
-                  PersonenlisteKompakt:           Printer.FileName:='PersonenlisteKompakt.pdf';
-                  Finanzbericht:                  Printer.FileName:='Finanzbericht.pdf';
-                  Sachkontenliste:                Printer.FileName:='Sachkontenliste.pdf';
-                  Bankenliste:                    Printer.FileName:='Bankenliste.pdf';
-                  BeitragslisteSK:                Printer.FileName:='Beitragsliste.pdf';
-                  Zahlungsliste:                  Printer.FileName:='Zahlungsliste.pdf';
-                  Zuwendung:                      Printer.FileName:='Zuwendung'+inttostr(nBuchungsJahr)+'.pdf';
-                  else                            Printer.FileName:='Ausgabe.pdf';
+          begin
+            if Printer.PrinterIndex <> cbDrucker.ItemIndex
+              then
+                begin
+                  frReport.ChangePrinter(Printer.PrinterIndex, cbDrucker.ItemIndex);
+                  Printer.PrinterIndex := cbDrucker.ItemIndex;
                 end;
-                ForceDirectories(UTF8ToSys(sPrintPath));
-                Printer.Title    := Printer.FileName;
-                Printer.FileName := sPrintPath+'\'+Printer.FileName;
-                if einzeln
-                  then
-                    begin
-                      if Druckmode = Zuwendung
-                        then
-                          begin
-                            frmDM.ZQueryHelp.SQL.Text:='Select * from Personen';
-                            frmDM.ZQueryHelp.Open;
-                            frmDM.ZQueryHelp.First;
-                            while not frmDM.ZQueryHelp.EOF do
-                              begin
-                                Printer.FileName:=sPrintPath+'\Zuwendung_'+
-                                                  frmDM.ZQueryHelp.FieldByName('Vorname').AsString+'_'+
-                                                  frmDM.ZQueryHelp.FieldByName('Nachname').AsString+'_'+
-                                                  frmDM.ZQueryHelp.FieldByName('PersonenID').AsString+'.pdf';
-                                frmDM.ZQueryDrucken.Close;
+            if cbDruckeDirekt.Checked
+              then
+                begin
+                  case Druckmode of
+                    Journal:                        Printer.FileName:='Journal.pdf';
+                    JournalNachBankenGruppiert:     Printer.FileName:='JournalNachBankenGruppiert.pdf';
+                    JournalNachSachkontenGruppiert: Printer.FileName:='JournalNachSachkontenGruppiert.pdf';
+                    JournalGefiltert:               Printer.FileName:='JournalGefiltert.pdf';
+                    JournalKompaktGefiltert:        Printer.FileName:='JournalKompaktGefiltert.pdf';
+                    Summenliste:                    Printer.FileName:='Summenliste.pdf';
+                    EinAus:                         Printer.FileName:='EinAus.pdf';
+                    Personenliste:                  Printer.FileName:='Personenliste.pdf';
+                    PersonenlisteKompakt:           Printer.FileName:='PersonenlisteKompakt.pdf';
+                    Finanzbericht:                  Printer.FileName:='Finanzbericht.pdf';
+                    Sachkontenliste:                Printer.FileName:='Sachkontenliste.pdf';
+                    Bankenliste:                    Printer.FileName:='Bankenliste.pdf';
+                    BeitragslisteSK:                Printer.FileName:='Beitragsliste.pdf';
+                    Zahlungsliste:                  Printer.FileName:='Zahlungsliste.pdf';
+                    Zuwendung:                      Printer.FileName:='Zuwendung'+inttostr(nBuchungsJahr)+'.pdf';
+                    else                            Printer.FileName:='Ausgabe.pdf';
+                  end;
+                  ForceDirectories(UTF8ToSys(sPrintPath));
+                  Printer.Title    := Printer.FileName;
+                  Printer.FileName := sPrintPath+'\'+Printer.FileName;
+                  if einzeln
+                    then
+                      begin
+                        if Druckmode = Zuwendung
+                          then
+                            begin
+                              frmDM.ZQueryHelp.SQL.Text:='Select * from Personen where PersonenID IN (select PersonenID from Journal where (BuchungsJahr = :BJahr) and (PersonenID <> 0) and (not (PersonenID isnull)) group by PersonenID Order by PersonenID) Order by PersonenID';
+                              frmDM.ZQueryHelp.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
+                              frmDM.ZQueryHelp.Open;
+                              frmDM.ZQueryHelp.First;
+                              while not frmDM.ZQueryHelp.EOF do
+                                begin
+                                  Printer.FileName:=sPrintPath+'\Zuwendung_'+
+                                                    frmDM.ZQueryHelp.FieldByName('Vorname').AsString+'_'+
+                                                    frmDM.ZQueryHelp.FieldByName('Nachname').AsString+'_'+
+                                                    frmDM.ZQueryHelp.FieldByName('PersonenID').AsString+'.pdf';
+                                  frmDM.ZQueryDrucken.Close;
 
-                                frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\ZuwendungDrucken.sql');
-                                frmDM.ZQueryDrucken.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
-                                frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':ADDWHERE', 'and journal.PersonenID = '+frmDM.ZQueryHelp.FieldByName('PersonenID').AsString, [rfReplaceAll]);
-                                frmDM.ZQueryDrucken.Open;
-                                frReport.ShowProgress:=false;
-                                if frReport.PrepareReport
-                                  then
-                                    begin
-                                      if frReport.EMFPages.Count > 1
-                                        then
-                                          begin
-                                            frReport.ShowProgress:=true;
-                                            frReport.PrintPreparedReport('1-'+IntToStr(frReport.EMFPages.Count),1);
-                                          end;
-                                    end;
-                                frmDM.ZQueryHelp.Next;
-                              end;
-                            frmDM.ZQueryHelp.Close;
-                            frReport.ShowProgress:=true;
-                            MessageDlg('Alle Reporte wurden erzeugt', mtInformation, [mbOK],0);
-                          end
-                        else
-                          begin
-                            MessageDlg('Druckmodus nicht implementiert', mtInformation, [mbOK],0);
-                          end;
-                    end
-                  else
-                    begin
-                      if frReport.PrepareReport then
-                        frReport.PrintPreparedReport('1-'+IntToStr(frReport.EMFPages.Count),1);
-                    end;
-              end
-            else
-              begin
-                frReport.ShowReport;
-              end;
-        end;
+                                  frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\ZuwendungDrucken.sql');
+                                  frmDM.ZQueryDrucken.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
+                                  frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':ADDWHERE', 'and journal.PersonenID = '+frmDM.ZQueryHelp.FieldByName('PersonenID').AsString, [rfReplaceAll]);
+                                  frmDM.ZQueryDrucken.Open;
+                                  frReport.ShowProgress:=false;
+                                  if frReport.PrepareReport
+                                    then
+                                      begin
+                                        if frReport.EMFPages.Count > 1
+                                          then
+                                            begin
+                                              frReport.ShowProgress:=true;
+                                              frReport.PrintPreparedReport('1-'+IntToStr(frReport.EMFPages.Count),1);
+                                            end;
+                                      end;
+                                  frmDM.ZQueryHelp.Next;
+                                end;
+                              frmDM.ZQueryHelp.Close;
+                              frReport.ShowProgress:=true;
+                              MessageDlg('Alle Reporte wurden erzeugt', mtInformation, [mbOK],0);
+                            end
+                          else
+                            begin
+                              MessageDlg('Druckmodus nicht implementiert', mtInformation, [mbOK],0);
+                            end;
+                      end
+                    else
+                      begin
+                        if frReport.PrepareReport then
+                          frReport.PrintPreparedReport('1-'+IntToStr(frReport.EMFPages.Count),1);
+                      end;
+                end
+              else
+                begin
+                  frReport.ShowReport;
+                end;
+          end;
   except
     on E: Exception do LogAndShowError(E.Message);
   end;
