@@ -63,6 +63,7 @@ type
     btnJournalFiltered: TButton;
     btnJournalKompaktFiltered: TButton;
     btnEinAus: TButton;
+    btnZuwendungsbescheinigungenEinzeln: TButton;
     btnZahlerliste: TButton;
     btnPersonenlisteKompakt: TButton;
     btnSachkontenliste: TButton;
@@ -126,6 +127,7 @@ type
     procedure btnZuwendungsbescheinigungenContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnSummenlisteClick(Sender: TObject);
     procedure btnSummenlisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+    procedure btnZuwendungsbescheinigungenEinzelnClick(Sender: TObject);
     procedure cbDatumChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -149,7 +151,7 @@ type
     nAusgaben : longint;
     nBestand  : longint;
     slHelp    : TStringList;
-    Procedure PreparePrint(CallDesigner : boolean = false; CSV_Export : boolean = false);
+    Procedure PreparePrint(CallDesigner : boolean = false; CSV_Export : boolean = false; Einzeln: boolean = false);
     Procedure AddLine(sName, Col1, Col2: String;  Typ: TColType);
   public
     { public declarations }
@@ -189,7 +191,7 @@ begin
   TwoColReportData[FRow].typ  := Typ;
 end;
 
-Procedure TfrmDrucken.PreparePrint(CallDesigner: boolean = false; CSV_Export: boolean = false);
+Procedure TfrmDrucken.PreparePrint(CallDesigner: boolean = false; CSV_Export: boolean = false; Einzeln: boolean = false);
 
 var
   sSachkontoNr         : string;
@@ -1119,8 +1121,54 @@ begin
                 end;
                 ForceDirectories(UTF8ToSys(sPrintPath));
                 Printer.FileName := sPrintPath+'\'+Printer.FileName;
-                if frReport.PrepareReport then
-                   frReport.PrintPreparedReport('1-'+IntToStr(frReport.EMFPages.Count),1);
+                if einzeln
+                  then
+                    begin
+                      if Druckmode = Zuwendung
+                        then
+                          begin
+                            frmDM.ZQueryHelp.SQL.Text:='Select * from Personen';
+                            frmDM.ZQueryHelp.Open;
+                            frmDM.ZQueryHelp.First;
+                            while not frmDM.ZQueryHelp.EOF do
+                              begin
+                                Printer.FileName:=sPrintPath+'\Zuwendung_'+
+                                                  frmDM.ZQueryHelp.FieldByName('Vorname').AsString+'_'+
+                                                  frmDM.ZQueryHelp.FieldByName('Nachname').AsString+'_'+
+                                                  frmDM.ZQueryHelp.FieldByName('PersonenID').AsString+'.pdf';
+                                frmDM.ZQueryDrucken.Close;
+
+                                frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\ZuwendungDrucken.sql');
+                                frmDM.ZQueryDrucken.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
+                                frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':ADDWHERE', 'and journal.PersonenID = '+frmDM.ZQueryHelp.FieldByName('PersonenID').AsString, [rfReplaceAll]);
+                                frmDM.ZQueryDrucken.Open;
+                                frReport.ShowProgress:=false;
+                                if frReport.PrepareReport
+                                  then
+                                    begin
+                                      if frReport.EMFPages.Count > 1
+                                        then
+                                          begin
+                                            frReport.ShowProgress:=true;
+                                            frReport.PrintPreparedReport('1-'+IntToStr(frReport.EMFPages.Count),1);
+                                          end;
+                                    end;
+                                frmDM.ZQueryHelp.Next;
+                              end;
+                            frmDM.ZQueryHelp.Close;
+                            frReport.ShowProgress:=true;
+                            MessageDlg('Alle Reporte wurden erzeugt', mtInformation, [mbOK],0);
+                          end
+                        else
+                          begin
+                            MessageDlg('Druckmodus nicht implementiert', mtInformation, [mbOK],0);
+                          end;
+                    end
+                  else
+                    begin
+                      if frReport.PrepareReport then
+                        frReport.PrintPreparedReport('1-'+IntToStr(frReport.EMFPages.Count),1);
+                    end;
               end
             else
               begin
@@ -1428,6 +1476,13 @@ begin
   Druckmode := Summenliste;
   PreparePrint(true);
   Handled   := true;
+end;
+
+procedure TfrmDrucken.btnZuwendungsbescheinigungenEinzelnClick(Sender: TObject);
+begin
+  Druckmode := Zuwendung;
+  cbDruckeDirekt.Checked:=true;
+  PreparePrint(false, false, true);
 end;
 
 procedure TfrmDrucken.cbDatumChange(Sender: TObject);

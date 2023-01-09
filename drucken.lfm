@@ -347,6 +347,18 @@ object frmDrucken: TfrmDrucken
     Caption = 'Drucke direkt auf'
     TabOrder = 24
   end
+  object btnZuwendungsbescheinigungenEinzeln: TButton
+    Left = 160
+    Height = 25
+    Hint = 'Bitte einen PDF Drucker rechts wählen'
+    Top = 304
+    Width = 48
+    Caption = 'Einzeln'
+    OnClick = btnZuwendungsbescheinigungenEinzelnClick
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 25
+  end
   object frReport: TfrReport
     DefaultCopies = 0
     InitialZoom = pzOnePage
