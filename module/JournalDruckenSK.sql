@@ -18,4 +18,4 @@ where
 group by
    journal.konto_nach 
 order by
-   journal.konto_nach
+   konten.sortpos
