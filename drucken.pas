@@ -1534,6 +1534,7 @@ begin
   Seite     := 1;
 end;
 
+
 procedure TfrmDrucken.frReportBeginBand(Band: TfrBand);
 begin
   case Druckmode of
@@ -1658,6 +1659,16 @@ begin
                            end;
                     end;
                   end;
+      end;
+    Zuwendung,
+    Finanzbericht:
+      begin
+        if (View.Name='picUnterschrift') then
+          begin
+            if FileExists(sAppDir+'module\unterschrift.png')
+              then TFrPictureView(View).Picture.LoadFromFile(sAppDir+'module\unterschrift.png')
+              else TFrPictureView(View).Picture.Clear;
+          end;
       end;
   end;
 end;
