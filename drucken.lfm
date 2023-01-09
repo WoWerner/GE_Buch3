@@ -99,8 +99,8 @@ object frmDrucken: TfrmDrucken
     Left = 8
     Height = 25
     Top = 304
-    Width = 200
-    Caption = 'Zuwendungsbescheinigungen'
+    Width = 144
+    Caption = 'Zuwendungsbeschein...'
     OnClick = btnZuwendungsbescheinigungenClick
     OnContextPopup = btnZuwendungsbescheinigungenContextPopup
     TabOrder = 5
@@ -227,24 +227,25 @@ object frmDrucken: TfrmDrucken
     ShowHint = True
     TabOrder = 15
   end
-  object btnJournalBKdruck: TButton
+  object btnJournalNachBankenGruppiertdruck: TButton
     Left = 8
     Height = 25
     Top = 45
     Width = 200
     Caption = 'Journal nach Banken gruppiert'
-    OnClick = btnJournalBKdruckClick
-    OnContextPopup = btnJournalBKdruckContextPopup
+    OnClick = btnJournalNachBankenGruppiertdruckClick
+    OnContextPopup = btnJournalNachBankenGruppiertdruckContextPopup
     TabOrder = 17
   end
-  object btnJournalSKdruck: TButton
+  object btnJournalNachSachkontenGruppiertdruck: TButton
     Left = 8
     Height = 25
     Top = 82
     Width = 200
     Caption = 'Journal nach Sachk. gruppiert'
-    OnClick = btnJournalSKdruckClick
-    OnContextPopup = btnJournalSKdruckContextPopup
+    OnClick = btnJournalNachSachkontenGruppiertdruckClick
+    OnContextPopup = btnJournalNachSachkontenGruppiertdruckContextPopup
+    ParentShowHint = False
     TabOrder = 18
   end
   object cbDatum: TCheckBox

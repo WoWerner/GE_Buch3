@@ -28,8 +28,8 @@ uses
 type
   TDruckmode  = (none,
                  Journal,
-                 JournalBK,
-                 JournalSK,
+                 JournalNachBankenGruppiert,
+                 JournalNachSachkontenGruppiert,
                  JournalGefiltert,
                  JournalKompaktGefiltert,
                  Summenliste,
@@ -58,8 +58,8 @@ type
   { TfrmDrucken }
 
   TfrmDrucken = class(TForm)
-    btnJournalBKdruck: TButton;
-    btnJournalSKdruck: TButton;
+    btnJournalNachBankenGruppiertdruck: TButton;
+    btnJournalNachSachkontenGruppiertdruck: TButton;
     btnJournalFiltered: TButton;
     btnJournalKompaktFiltered: TButton;
     btnEinAus: TButton;
@@ -99,14 +99,14 @@ type
     procedure btnBankenlisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnEinAusClick(Sender: TObject);
     procedure btnEinAusContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
-    procedure btnJournalBKdruckClick(Sender: TObject);
-    procedure btnJournalBKdruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+    procedure btnJournalNachBankenGruppiertdruckClick(Sender: TObject);
+    procedure btnJournalNachBankenGruppiertdruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnJournalFilteredClick(Sender: TObject);
     procedure btnJournalFilteredContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnJournalKompaktFilteredClick(Sender: TObject);
     procedure btnJournalKompaktFilteredContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
-    procedure btnJournalSKdruckClick(Sender: TObject);
-    procedure btnJournalSKdruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+    procedure btnJournalNachSachkontenGruppiertdruckClick(Sender: TObject);
+    procedure btnJournalNachSachkontenGruppiertdruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnZahlerlisteClick(Sender: TObject);
     procedure btnBeitragslisteClick(Sender: TObject);
     procedure btnBeitragslisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -458,7 +458,7 @@ begin
           frmDM.ZQueryDrucken.Open;
           frReport.Dataset := frDBDataSet;
         end;
-      JournalBK:
+      JournalNachBankenGruppiert:
         begin
           FRow             := 0;
           Col1SummePart1   := 0;
@@ -539,7 +539,7 @@ begin
           FCol      := 0;
           frReport.Dataset := nil;
         end;
-      JournalSK:
+      JournalNachSachkontenGruppiert:
         begin
           frDBDataSet.DataSource := frmDM.dsDrucken;
           frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\JournalDruckenSK.sql');
@@ -1102,24 +1102,25 @@ begin
             then
               begin
                 case Druckmode of
-                  Journal:                 Printer.FileName:='Journal.pdf';
-                  JournalBK:               Printer.FileName:='JournalBK.pdf';
-                  JournalSK:               Printer.FileName:='JournalSK.pdf';
-                  JournalGefiltert:        Printer.FileName:='JournalGefiltert.pdf';
-                  JournalKompaktGefiltert: Printer.FileName:='JournalKompaktGefiltert.pdf';
-                  Summenliste:             Printer.FileName:='Summenliste.pdf';
-                  EinAus:                  Printer.FileName:='EinAus.pdf';
-                  Personenliste:           Printer.FileName:='Personenliste.pdf';
-                  PersonenlisteKompakt:    Printer.FileName:='PersonenlisteKompakt.pdf';
-                  Finanzbericht:           Printer.FileName:='Finanzbericht.pdf';
-                  Sachkontenliste:         Printer.FileName:='Sachkontenliste.pdf';
-                  Bankenliste:             Printer.FileName:='Bankenliste.pdf';
-                  BeitragslisteSK:         Printer.FileName:='Beitragsliste.pdf';
-                  Zahlungsliste:           Printer.FileName:='Zahlungsliste.pdf';
-                  Zuwendung:               Printer.FileName:='Zuwendung.pdf';
-                  else                     Printer.FileName:='Ausgabe.pdf';
+                  Journal:                        Printer.FileName:='Journal.pdf';
+                  JournalNachBankenGruppiert:     Printer.FileName:='JournalNachBankenGruppiert.pdf';
+                  JournalNachSachkontenGruppiert: Printer.FileName:='JournalNachSachkontenGruppiert.pdf';
+                  JournalGefiltert:               Printer.FileName:='JournalGefiltert.pdf';
+                  JournalKompaktGefiltert:        Printer.FileName:='JournalKompaktGefiltert.pdf';
+                  Summenliste:                    Printer.FileName:='Summenliste.pdf';
+                  EinAus:                         Printer.FileName:='EinAus.pdf';
+                  Personenliste:                  Printer.FileName:='Personenliste.pdf';
+                  PersonenlisteKompakt:           Printer.FileName:='PersonenlisteKompakt.pdf';
+                  Finanzbericht:                  Printer.FileName:='Finanzbericht.pdf';
+                  Sachkontenliste:                Printer.FileName:='Sachkontenliste.pdf';
+                  Bankenliste:                    Printer.FileName:='Bankenliste.pdf';
+                  BeitragslisteSK:                Printer.FileName:='Beitragsliste.pdf';
+                  Zahlungsliste:                  Printer.FileName:='Zahlungsliste.pdf';
+                  Zuwendung:                      Printer.FileName:='Zuwendung'+inttostr(nBuchungsJahr)+'.pdf';
+                  else                            Printer.FileName:='Ausgabe.pdf';
                 end;
                 ForceDirectories(UTF8ToSys(sPrintPath));
+                Printer.Title    := Printer.FileName;
                 Printer.FileName := sPrintPath+'\'+Printer.FileName;
                 if einzeln
                   then
@@ -1228,15 +1229,15 @@ begin
   Handled := true;
 end;
 
-procedure TfrmDrucken.btnJournalBKdruckClick(Sender: TObject);
+procedure TfrmDrucken.btnJournalNachBankenGruppiertdruckClick(Sender: TObject);
 begin
-  Druckmode := JournalBK;
+  Druckmode := JournalNachBankenGruppiert;
   PreparePrint();
 end;
 
-procedure TfrmDrucken.btnJournalBKdruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+procedure TfrmDrucken.btnJournalNachBankenGruppiertdruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
 begin
-  Druckmode := JournalBK;
+  Druckmode := JournalNachBankenGruppiert;
   PreparePrint(true);
   Handled := true;
 end;
@@ -1267,15 +1268,15 @@ begin
   Handled := true;
 end;
 
-procedure TfrmDrucken.btnJournalSKdruckClick(Sender: TObject);
+procedure TfrmDrucken.btnJournalNachSachkontenGruppiertdruckClick(Sender: TObject);
 begin
-  Druckmode := JournalSK;
+  Druckmode := JournalNachSachkontenGruppiert;
   PreparePrint();
 end;
 
-procedure TfrmDrucken.btnJournalSKdruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+procedure TfrmDrucken.btnJournalNachSachkontenGruppiertdruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
 begin
-  Druckmode := JournalSK;
+  Druckmode := JournalNachSachkontenGruppiert;
   PreparePrint(true);
   Handled := true;
 end;
@@ -1537,7 +1538,7 @@ procedure TfrmDrucken.frReportBeginBand(Band: TfrBand);
 begin
   case Druckmode of
     Summenliste,
-    JournalBK,
+    JournalNachBankenGruppiert,
     EinAus,
     BeitragslisteSK,
     Zahlungsliste:
@@ -1571,7 +1572,7 @@ var
 begin
   case Druckmode of
     Summenliste,
-    JournalBK,
+    JournalNachBankenGruppiert,
     EinAus,
     BeitragslisteSK,
     Zahlungsliste:
@@ -1624,7 +1625,7 @@ procedure TfrmDrucken.frReportEnterRect(Memo: TStringList; View: TfrView);
 begin
   case Druckmode of
     Summenliste,
-    JournalBK,
+    JournalNachBankenGruppiert,
     EinAus,
     BeitragslisteSK,
     Zahlungsliste:
@@ -1742,7 +1743,7 @@ begin
           end
       end;
     Summenliste,
-    JournalBK,
+    JournalNachBankenGruppiert,
     EinAus,
     BeitragslisteSK,
     Zahlungsliste:
@@ -1758,11 +1759,11 @@ begin
         else if ParName = 'ueberschrift' then
           begin
             case Druckmode of
-              Summenliste:     ParValue := 'Summenliste';
-              EinAus:          ParValue := 'Ein/Ausgaben';
-              BeitragslisteSK: ParValue := 'Zahler- / Empfängerliste nach Sachkonto';
-              Zahlungsliste:   ParValue := 'Zahlungsliste';
-              JournalBK:       ParValue := 'Journal nach Banken gruppiert';
+              Summenliste:                ParValue := 'Summenliste';
+              EinAus:                     ParValue := 'Ein/Ausgaben';
+              BeitragslisteSK:            ParValue := 'Zahler- / Empfängerliste nach Sachkonto';
+              Zahlungsliste:              ParValue := 'Zahlungsliste';
+              JournalNachBankenGruppiert: ParValue := 'Journal nach Banken gruppiert';
             end;
           end;
       end;
