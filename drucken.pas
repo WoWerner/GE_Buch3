@@ -63,6 +63,7 @@ type
     btnJournalFiltered: TButton;
     btnJournalKompaktFiltered: TButton;
     btnEinAus: TButton;
+    btnJournalNachBankenGruppiertCSV: TButton;
     btnZuwendungsbescheinigungenEinzeln: TButton;
     btnZahlerliste: TButton;
     btnPersonenlisteKompakt: TButton;
@@ -105,6 +106,7 @@ type
     procedure btnJournalFilteredContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnJournalKompaktFilteredClick(Sender: TObject);
     procedure btnJournalKompaktFilteredContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+    procedure btnJournalNachBankenGruppiertCSVClick(Sender: TObject);
     procedure btnJournalNachSachkontenGruppiertdruckClick(Sender: TObject);
     procedure btnJournalNachSachkontenGruppiertdruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnZahlerlisteClick(Sender: TObject);
@@ -1233,6 +1235,12 @@ begin
   Druckmode := EinAus;
   PreparePrint(true);
   Handled := true;
+end;
+
+procedure TfrmDrucken.btnJournalNachBankenGruppiertCSVClick(Sender: TObject);
+begin
+  Druckmode := JournalNachBankenGruppiert;
+  PreparePrint(false, true, false);
 end;
 
 procedure TfrmDrucken.btnJournalNachBankenGruppiertdruckClick(Sender: TObject);
