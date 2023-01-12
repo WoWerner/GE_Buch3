@@ -27,19 +27,19 @@ uses
 
 type
   TDruckmode  = (none,
-                 Journal,
-                 JournalNachBankenGruppiert,
-                 JournalNachSachkontenGruppiert,
-                 JournalGefiltert,
-                 JournalKompaktGefiltert,
-                 Summenliste,
-                 EinAus,
-                 Personenliste,
-                 PersonenlisteKompakt,
-                 Finanzbericht,
-                 Sachkontenliste,
                  Bankenliste,
                  BeitragslisteSK,
+                 EinAus,
+                 Finanzbericht,
+                 Journal,
+                 JournalGefiltert,
+                 JournalKompaktGefiltert,
+                 JournalNachBankenGruppiert,
+                 JournalNachSachkontenGruppiert,
+                 Personenliste,
+                 PersonenlisteKompakt,
+                 Sachkontenliste,
+                 Summenliste,
                  Zahlungsliste,
                  Zuwendung);
   TColType    = (header,
@@ -58,32 +58,33 @@ type
   { TfrmDrucken }
 
   TfrmDrucken = class(TForm)
-    btnJournalNachBankenGruppiertdruck: TButton;
-    btnJournalNachSachkontenGruppiertdruck: TButton;
-    btnEinAusCSV: TButton;
-    btnJournalFiltered: TButton;
-    btnJournalKompaktFiltered: TButton;
-    btnEinAus: TButton;
-    btnJournalNachBankenGruppiertCSV: TButton;
-    btnZuwendungsbescheinigungenEinzeln: TButton;
-    btnZahlerliste: TButton;
-    btnPersonenlisteKompakt: TButton;
-    btnSachkontenliste: TButton;
-    btnJournaldruck: TButton;
     btnBankenliste: TButton;
-    btnSummenliste: TButton;
-    btnSchliessen: TButton;
-    btnPersonenliste: TButton;
-    btnFinanzbericht: TButton;
     btnBeitragsliste: TButton;
     btnDurchgang: TButton;
-    btnZuwendungsbescheinigungen: TButton;
+    btnEinAus: TButton;
+    btnEinAusCSV: TButton;
+    btnFinanzbericht: TButton;
+    btnJournaldruck: TButton;
+    btnJournalFiltered: TButton;
+    btnJournalKompaktFiltered: TButton;
+    btnJournalNachBankenGruppiertCSV: TButton;
+    btnJournalNachBankenGruppiertdruck: TButton;
+    btnJournalNachSachkontenGruppiertdruck: TButton;
+    btnPersonenliste: TButton;
+    btnPersonenlisteKompakt: TButton;
+    btnSachkontenliste: TButton;
+    btnSchliessen: TButton;
     btnSummenlistCSV: TButton;
+    btnSummenliste: TButton;
+    btnZahlerliste: TButton;
+    btnZuwendungsbescheinigungen: TButton;
+    btnZuwendungsbescheinigungenEinzeln: TButton;
     cbDatum: TCheckBox;
-    cbDrucker: TComboBox;
     cbDruckeDirekt: TCheckBox;
-    DateTimePickerVon: TDateTimePicker;
+    cbDrucker: TComboBox;
     DateTimePickerBis: TDateTimePicker;
+    DateTimePickerVon: TDateTimePicker;
+    ediFilter: TLabeledEdit;
     frCSVExport: TfrCSVExport;
     frDBDataSet: TfrDBDataSet;
     frDBDataSetDetail: TfrDBDataSet;
@@ -94,7 +95,6 @@ type
     frTextExport: TfrTextExport;
     Label2: TLabel;
     rgFilter: TRadioGroup;
-    ediFilter: TLabeledEdit;
     Shape1: TShape;
     Shape2: TShape;
     procedure btnBankenlisteClick(Sender: TObject);
@@ -1080,9 +1080,9 @@ begin
                                  TwoColReportData[i].Col1+';'+
                                  TwoColReportData[i].Col2);
             case Druckmode of
-              Summenliste:                sFileName := 'Summenliste.csv';
               EinAus:                     sFileName := 'EinAus.csv';
               JournalNachBankenGruppiert: sFileName := 'JournalNachBankenGruppiert.csv';
+              Summenliste:                sFileName := 'Summenliste.csv';
               else                        sFileName := 'Ausgabe.csv';
 
             end;
@@ -1113,19 +1113,19 @@ begin
               then
                 begin
                   case Druckmode of
-                    Journal:                        Printer.FileName:='Journal.pdf';
-                    JournalNachBankenGruppiert:     Printer.FileName:='JournalNachBankenGruppiert.pdf';
-                    JournalNachSachkontenGruppiert: Printer.FileName:='JournalNachSachkontenGruppiert.pdf';
-                    JournalGefiltert:               Printer.FileName:='JournalGefiltert.pdf';
-                    JournalKompaktGefiltert:        Printer.FileName:='JournalKompaktGefiltert.pdf';
-                    Summenliste:                    Printer.FileName:='Summenliste.pdf';
-                    EinAus:                         Printer.FileName:='EinAus.pdf';
-                    Personenliste:                  Printer.FileName:='Personenliste.pdf';
-                    PersonenlisteKompakt:           Printer.FileName:='PersonenlisteKompakt.pdf';
-                    Finanzbericht:                  Printer.FileName:='Finanzbericht.pdf';
-                    Sachkontenliste:                Printer.FileName:='Sachkontenliste.pdf';
                     Bankenliste:                    Printer.FileName:='Bankenliste.pdf';
                     BeitragslisteSK:                Printer.FileName:='Beitragsliste.pdf';
+                    EinAus:                         Printer.FileName:='EinAus.pdf';
+                    Finanzbericht:                  Printer.FileName:='Finanzbericht.pdf';
+                    Journal:                        Printer.FileName:='Journal.pdf';
+                    JournalGefiltert:               Printer.FileName:='JournalGefiltert.pdf';
+                    JournalKompaktGefiltert:        Printer.FileName:='JournalKompaktGefiltert.pdf';
+                    JournalNachBankenGruppiert:     Printer.FileName:='JournalNachBankenGruppiert.pdf';
+                    JournalNachSachkontenGruppiert: Printer.FileName:='JournalNachSachkontenGruppiert.pdf';
+                    Personenliste:                  Printer.FileName:='Personenliste.pdf';
+                    PersonenlisteKompakt:           Printer.FileName:='PersonenlisteKompakt.pdf';
+                    Sachkontenliste:                Printer.FileName:='Sachkontenliste.pdf';
+                    Summenliste:                    Printer.FileName:='Summenliste.pdf';
                     Zahlungsliste:                  Printer.FileName:='Zahlungsliste.pdf';
                     Zuwendung:                      Printer.FileName:='Zuwendung'+inttostr(nBuchungsJahr)+'.pdf';
                     else                            Printer.FileName:='Ausgabe.pdf';
