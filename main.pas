@@ -249,10 +249,15 @@ begin
   sAppDir     := vConfigurations.MyDirectory;
   sIniFile    := vConfigurations.ConfigFile;
   sDebugFile  := help.ReadIniVal(sIniFile, 'Debug'     , 'Name', sAppDir+'debug.txt', true);
-  sSavePath   := help.ReadIniVal(sIniFile, 'Sicherung' , 'Verzeichnis', sAppDir+'Sicherung', true);
-  sPrintPath  := help.ReadIniVal(sIniFile, 'Ausgaben'  , 'Verzeichnis', sAppDir+'Ausgaben', true);
+  sSavePath   := help.ReadIniVal(sIniFile, 'Sicherung' , 'Verzeichnis', sAppDir+'Sicherung\', true);
+  sPrintPath  := help.ReadIniVal(sIniFile, 'Ausgaben'  , 'Verzeichnis', sAppDir+'Ausgaben\', true);
   sImportPath := help.ReadIniVal(sIniFile, 'CSV-Import', 'Verzeichnis', sAppDir, true);
   sDatabase   := help.ReadIniVal(sIniFile, 'Datenbank' , 'Name', sAppDir+'ge_buch3.db', true);
+
+  sSavePath   := IncludeTrailingPathDelimiter(sSavePath);
+  sPrintPath  := IncludeTrailingPathDelimiter(sPrintPath);
+  ForceDirectories(UTF8ToSys(sSavePath));
+  ForceDirectories(UTF8ToSys(sPrintPath));
 
   //Laden der Steuereinträge
   slHelp.Text            := sSteuerDef;
@@ -295,10 +300,11 @@ begin
   end;
 
   myDebugLN('Starte '    +frmMain.caption);
-  myDebugLN('AppDir   : '+sAppDir);
-  myDebugLN('sIniFile : '+sIniFile);
-  myDebugLN('sSavePath: '+sSavePath);
-  myDebugLN('sDatabase: '+sDatabase);
+  myDebugLN('AppDir    : '+sAppDir);
+  myDebugLN('sIniFile  : '+sIniFile);
+  myDebugLN('sSavePath : '+sSavePath);
+  myDebugLN('sPrintPath: '+sPrintPath);
+  myDebugLN('sDatabase : '+sDatabase);
 
   WorkArea          := GetWorkArea;
   MaxWindowsSize    := GetMaxWindowsSize;
@@ -626,7 +632,7 @@ begin
         //Query wieder öffnen damit die Updates gelesen werden
         frmDM.ZQueryHelp.Open;
         //Exportieren
-        ExportQueToCSVFile(frmDM.ZQueryHelp, sAppDir+'Journal.csv', ';', '"', true, false);
+        ExportQueToCSVFile(frmDM.ZQueryHelp, sPrintPath+'Journal.csv', ';', '"', true, false);
         frmDM.ZQueryHelp.Close;
 
         //Aufräumen
@@ -642,7 +648,7 @@ begin
       begin
         frmDM.ZQueryHelp.SQL.Text := 'select * from journal where BuchungsJahr = '+frmInput.Edit1.Text+' order by LaufendeNr';
         frmDM.ZQueryHelp.Open;
-        ExportQueToCSVFile(frmDM.ZQueryHelp, sAppDir+'Journal_RohDaten.csv', ';', '"', true, false);
+        ExportQueToCSVFile(frmDM.ZQueryHelp, sPrintPath+'Journal_RohDaten.csv', ';', '"', true, false);
         frmDM.ZQueryHelp.Close;
       end;
 end;
@@ -651,7 +657,7 @@ procedure TfrmMain.mnuExportPersonenClick(Sender: TObject);
 begin
   frmDM.ZQueryHelp.SQL.Text := sSelectPersonenSort;
   frmDM.ZQueryHelp.Open;
-  ExportQueToCSVFile(frmDM.ZQueryHelp, sAppDir+'Personen.csv', ';', '"', true, true);
+  ExportQueToCSVFile(frmDM.ZQueryHelp, sPrintPath+'Personen.csv', ';', '"', true, true);
   frmDM.ZQueryHelp.Close;
 end;
 

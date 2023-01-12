@@ -1075,7 +1075,13 @@ begin
               frmMain.slHelp.Add(UTF8toCP1252(TwoColReportData[i].Name)+';'+
                                  TwoColReportData[i].Col1+';'+
                                  TwoColReportData[i].Col2);
-            sFileName := sAppDir+'Summenliste.csv';
+            case Druckmode of
+              Summenliste:                sFileName := 'Summenliste.csv';
+              JournalNachBankenGruppiert: sFileName := 'JournalNachBankenGruppiert.csv';
+              else                        sFileName := 'Ausgabe.csv';
+
+            end;
+            sFileName := sPrintPath+sFileName;
             try
               frmMain.slHelp.SaveToFile(sFileName);
               frmMain.slHelp.Clear;
@@ -1119,9 +1125,8 @@ begin
                     Zuwendung:                      Printer.FileName:='Zuwendung'+inttostr(nBuchungsJahr)+'.pdf';
                     else                            Printer.FileName:='Ausgabe.pdf';
                   end;
-                  ForceDirectories(UTF8ToSys(sPrintPath));
                   Printer.Title    := Printer.FileName;
-                  Printer.FileName := sPrintPath+'\'+Printer.FileName;
+                  Printer.FileName := sPrintPath+Printer.FileName;
                   if einzeln
                     then
                       begin
@@ -1134,7 +1139,7 @@ begin
                               frmDM.ZQueryHelp.First;
                               while not frmDM.ZQueryHelp.EOF do
                                 begin
-                                  Printer.FileName:=sPrintPath+'\Zuwendung_'+
+                                  Printer.FileName:=sPrintPath+'Zuwendung_'+
                                                     frmDM.ZQueryHelp.FieldByName('Vorname').AsString+'_'+
                                                     frmDM.ZQueryHelp.FieldByName('Nachname').AsString+'_'+
                                                     frmDM.ZQueryHelp.FieldByName('PersonenID').AsString+'.pdf';
@@ -1320,7 +1325,7 @@ var
 
 begin
   Error := false;
-  FileName := sAppDir+'DurchgangUebersicht.csv';
+  FileName := sPrintPath+'DurchgangUebersicht.csv';
 
   for nHelp := 0 to 9999 do
     begin
