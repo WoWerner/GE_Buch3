@@ -1105,7 +1105,6 @@ begin
   if frmDM.ZQueryInit.Active         then frmDM.ZQueryInit.close;
   if frmDM.ZConnectionBuch.Connected then frmDM.ZConnectionBuch.Disconnect;
 
-  ForceDirectories(UTF8ToSys(sSavePath));
   shelp                 := 'ge_buch_'+FormatDateTime('yyyymmdd_hhnnss', now())+Fileextension+'.db';
   SaveDialog.InitialDir := sSavePath;
   SaveDialog.FileName   := shelp;
@@ -1113,7 +1112,7 @@ begin
   if Auto
     then
       begin
-        sDest := sAppDir+'Sicherung\'+shelp;
+        sDest := sSavePath+shelp;
       end
     else
       begin
