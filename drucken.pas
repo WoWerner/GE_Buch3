@@ -60,6 +60,7 @@ type
   TfrmDrucken = class(TForm)
     btnJournalNachBankenGruppiertdruck: TButton;
     btnJournalNachSachkontenGruppiertdruck: TButton;
+    btnEinAusCSV: TButton;
     btnJournalFiltered: TButton;
     btnJournalKompaktFiltered: TButton;
     btnEinAus: TButton;
@@ -103,6 +104,7 @@ type
     procedure btnDurchgangClick(Sender: TObject);
     procedure btnEinAusClick(Sender: TObject);
     procedure btnEinAusContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+    procedure btnEinAusCSVClick(Sender: TObject);
     procedure btnFinanzberichtClick(Sender: TObject);
     procedure btnFinanzberichtContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnJournaldruckClick(Sender: TObject);
@@ -1079,6 +1081,7 @@ begin
                                  TwoColReportData[i].Col2);
             case Druckmode of
               Summenliste:                sFileName := 'Summenliste.csv';
+              EinAus:                     sFileName := 'EinAus.csv';
               JournalNachBankenGruppiert: sFileName := 'JournalNachBankenGruppiert.csv';
               else                        sFileName := 'Ausgabe.csv';
 
@@ -1235,6 +1238,12 @@ begin
   Druckmode := EinAus;
   PreparePrint(true);
   Handled := true;
+end;
+
+procedure TfrmDrucken.btnEinAusCSVClick(Sender: TObject);
+begin
+  Druckmode := EinAus;
+  PreparePrint(false, true, false);
 end;
 
 procedure TfrmDrucken.btnJournalNachBankenGruppiertCSVClick(Sender: TObject);
