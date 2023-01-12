@@ -490,12 +490,12 @@ begin
                     if FRow > 0
                       then
                         begin
-                          AddLine('', 'Kontostand', IntToCurrency(Col1SummePart1), footer);  //Zusammenfassung
+                          AddLine('', IntToCurrency(Col1SummePart1), 'Kontostand', footer);  //Zusammenfassung
                           AddLine('', '', '', blank); //Leerzeile
                         end;
                     sLastKontoNr   := sKontoNr;
                     Col1SummePart1 := frmDM.ZQueryDrucken.FieldByName('Startsaldo').AsInteger;
-                    AddLine('('+sKontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, 'Startsaldo', IntToCurrency(Col1SummePart1), header); //Neues Sachkonto, neue Zeile
+                    AddLine('('+sKontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(Col1SummePart1), 'Startsaldo', header); //Neues Sachkonto, neue Zeile
                     frmDM.ZQueryDruckenDetail.First;
                     while not frmDM.ZQueryDruckenDetail.EOF do
                       begin
@@ -519,7 +519,7 @@ begin
                   end;
               frmDM.ZQueryDrucken.Next;
             end;
-            if FRow > 0 then AddLine('', 'Kontostand', IntToCurrency(Col1SummePart1), header);
+            if FRow > 0 then AddLine('', IntToCurrency(Col1SummePart1), 'Kontostand', header);
 
           frmDM.ZQueryDrucken.close;
           frmDM.ZQueryDruckenDetail.close;
