@@ -75,6 +75,8 @@ type
     btnSachkontenliste: TButton;
     btnSchliessen: TButton;
     btnSummenlistCSV: TButton;
+    btnBeitragslisteCSV: TButton;
+    btnZahlerlisteCSV: TButton;
     btnSummenliste: TButton;
     btnZahlerliste: TButton;
     btnZuwendungsbescheinigungen: TButton;
@@ -101,6 +103,7 @@ type
     procedure btnBankenlisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnBeitragslisteClick(Sender: TObject);
     procedure btnBeitragslisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+    procedure btnBeitragslisteCSVClick(Sender: TObject);
     procedure btnDurchgangClick(Sender: TObject);
     procedure btnEinAusClick(Sender: TObject);
     procedure btnEinAusContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -129,6 +132,7 @@ type
     procedure btnSummenlisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnZahlerlisteClick(Sender: TObject);
     procedure btnZahlerlisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+    procedure btnZahlerlisteCSVClick(Sender: TObject);
     procedure btnZuwendungsbescheinigungenClick(Sender: TObject);
     procedure btnZuwendungsbescheinigungenContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnZuwendungsbescheinigungenEinzelnClick(Sender: TObject);
@@ -1080,11 +1084,12 @@ begin
                                  TwoColReportData[i].Col1+';'+
                                  TwoColReportData[i].Col2);
             case Druckmode of
+              BeitragslisteSK:            sFileName := 'BeitragslisteSK.csv';
               EinAus:                     sFileName := 'EinAus.csv';
               JournalNachBankenGruppiert: sFileName := 'JournalNachBankenGruppiert.csv';
               Summenliste:                sFileName := 'Summenliste.csv';
+              Zahlungsliste:              sFileName := 'Zahlungsliste.csv';
               else                        sFileName := 'Ausgabe.csv';
-
             end;
             sFileName := sPrintPath+sFileName;
             try
@@ -1323,6 +1328,12 @@ begin
   Handled := true;
 end;
 
+procedure TfrmDrucken.btnBeitragslisteCSVClick(Sender: TObject);
+begin
+  Druckmode := BeitragslisteSK;
+  PreparePrint(false, true, false);
+end;
+
 procedure TfrmDrucken.btnDurchgangClick(Sender: TObject);
 
 type
@@ -1474,6 +1485,12 @@ begin
   Druckmode := Zahlungsliste;
   PreparePrint(true);
   Handled   := true;
+end;
+
+procedure TfrmDrucken.btnZahlerlisteCSVClick(Sender: TObject);
+begin
+  Druckmode := Zahlungsliste;
+  PreparePrint(false, true, false);
 end;
 
 procedure TfrmDrucken.btnZuwendungsbescheinigungenClick(Sender: TObject);

@@ -100,7 +100,7 @@ object frmDrucken: TfrmDrucken
     Left = 16
     Height = 50
     Top = 608
-    Width = 288
+    Width = 296
     Caption = 'Zuwendungsbeschein...'
     OnClick = btnZuwendungsbescheinigungenClick
     OnContextPopup = btnZuwendungsbescheinigungenContextPopup
@@ -131,7 +131,7 @@ object frmDrucken: TfrmDrucken
     Height = 50
     Hint = 'Übersicht aller Sachkonten'#13#10'Optional mit Datumsfilter'
     Top = 312
-    Width = 400
+    Width = 318
     Caption = 'Zahler- / Empfängerliste (SK)'
     OnClick = btnBeitragslisteClick
     OnContextPopup = btnBeitragslisteContextPopup
@@ -166,7 +166,7 @@ object frmDrucken: TfrmDrucken
     Height = 50
     Hint = 'Übersicht aller Zahlungen nach Personen'
     Top = 386
-    Width = 400
+    Width = 318
     Caption = 'Zahlungsliste nach Zahlern'
     OnClick = btnZahlerlisteClick
     OnContextPopup = btnZahlerlisteContextPopup
@@ -378,6 +378,24 @@ object frmDrucken: TfrmDrucken
     Caption = 'CSV'
     OnClick = btnEinAusCSVClick
     TabOrder = 27
+  end
+  object btnBeitragslisteCSV: TButton
+    Left = 338
+    Height = 50
+    Top = 312
+    Width = 78
+    Caption = 'CSV'
+    OnClick = btnBeitragslisteCSVClick
+    TabOrder = 28
+  end
+  object btnZahlerlisteCSV: TButton
+    Left = 338
+    Height = 50
+    Top = 386
+    Width = 78
+    Caption = 'CSV'
+    OnClick = btnZahlerlisteCSVClick
+    TabOrder = 29
   end
   object frReport: TfrReport
     DefaultCopies = 0
