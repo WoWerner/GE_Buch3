@@ -1,0 +1,22 @@
+﻿Änderungen in der Version 3.2.0.0 
+
+Erweiterungen / Verbesserungen:
+- Konten: Ausgleichskonten wieder eingeführt. Werden für Kredite und Depots benötigt. Beschreibung im Handbuch. 
+- Personenabgleich mit GE_Kart verbessert
+- Finanzbericht AKK mit Kontrollsumme
+- Direkter Ausdruck
+- Zuwendungsbescheinigungen pro Person
+- Zuwendungsbescheinigungen und Finanzbericht mit Unterschrift
+- Ausgaben erfolgen in das Unterverzeichnis Ausgaben
+- Handbuch erweitert (Kredite und Drucken)
+
+Fehlerbeseitigung:
+- Export: PersonenNr wieder eingefügt
+
+Neue Funktionen:
+- CSV Exporte für einige Berichte
+
+Intern: 
+- 
+
+Soll die Meldung noch einmal angezeigt werden?
