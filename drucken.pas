@@ -380,7 +380,7 @@ begin
                 then
                   begin
                     AddLine(sSachkontoNr, IntToCurrency(0), IntToCurrency(0), line);  //Neuer Name, neue Zeile
-                    sLastSachkontoNr            := sSachkontoNr;
+                    sLastSachkontoNr := sSachkontoNr;
                   end;
               if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = nBuchungsjahr
                 then
