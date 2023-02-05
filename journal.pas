@@ -1061,7 +1061,7 @@ begin
                bStartFinished := true;
 
                //Sonderbehandlung negative Zahlen
-               if frmJournal_CSV_Import.StrSollHaben = sgImportData.Cells[ImpColSoll_H,1]
+               if (frmJournal_CSV_Import.ColSollHaben > 0) and (frmJournal_CSV_Import.StrSollHaben = sgImportData.Cells[ImpColSoll_H,1])
                  then Sollbetrag := CurrencyToInt('-'+sgImportData.Cells[ImpColBetrag,1], bEuroModus)
                  else Sollbetrag := CurrencyToInt(sgImportData.Cells[ImpColBetrag,1], bEuroModus);
 
