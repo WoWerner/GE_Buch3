@@ -283,6 +283,7 @@ begin
               if sSachkontoNr <> sLastSachkontoNr
                 then
                   begin
+                    sLastSachkontoNr := sSachkontoNr;
                     if FRow > 0
                       then
                         begin
