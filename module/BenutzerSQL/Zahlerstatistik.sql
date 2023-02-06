@@ -11,7 +11,7 @@ left join
   Personen on Journal.PersonenID=Personen.PersonenID
 Where
   (Journal.PersonenID <> '' or Journal.PersonenID is not null) and
-   Journal.BuchungsJahr = 2021 and
+   Journal.BuchungsJahr = 2022 and
    Personen.Gemeindeglied
 group by Altersgruppe
 order by Altersgruppe
