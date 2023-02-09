@@ -489,6 +489,7 @@ begin
 
           while not frmDM.ZQueryDrucken.EOF do
             begin
+              if CSV_Export then sHelp := ';' else sHelp := '';
               //Kontobereich überprüfen
               sKontoNr := frmDM.ZQueryDrucken.FieldByName('BankNr').AsString;
               if sKontoNr <> sLastKontoNr
@@ -497,12 +498,13 @@ begin
                     if FRow > 0
                       then
                         begin
-                          AddLine('', IntToCurrency(Col1SummePart1), 'Kontostand', footer);  //Zusammenfassung
+                          AddLine(sHelp, IntToCurrency(Col1SummePart1), 'Kontostand', footer);  //Zusammenfassung
                           AddLine('', '', '', blank); //Leerzeile
                         end;
                     sLastKontoNr   := sKontoNr;
                     Col1SummePart1 := frmDM.ZQueryDrucken.FieldByName('Startsaldo').AsInteger;
-                    AddLine('('+sKontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(Col1SummePart1), 'Startsaldo', header); //Neues Sachkonto, neue Zeile
+                    //Überschrift
+                    AddLine('('+sKontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString+sHelp, IntToCurrency(Col1SummePart1), 'Startsaldo', header); //Neues Sachkonto, neue Zeile
                     frmDM.ZQueryDruckenDetail.First;
                     while not frmDM.ZQueryDruckenDetail.EOF do
                       begin
@@ -514,7 +516,12 @@ begin
                               then Betrag := frmDM.ZQueryDruckenDetail.FieldByName('Betrag').AsInteger * -1
                               else Betrag := frmDM.ZQueryDruckenDetail.FieldByName('Betrag').AsInteger;
                             Col1SummePart1 := Col1SummePart1 + Betrag;
-                            AddLine('('+frmDM.ZQueryDruckenDetail.FieldByName('LaufendeNr').AsString+') '+
+                            sHelp := frmDM.ZQueryDruckenDetail.FieldByName('Sachkonto').AsString;
+                            if length(sHelp) >= 23
+                              then sHelp := copy(sHelp,                             0, 20)+'...'
+                              else sHelp := copy(sHelp+'                         ', 0, 23);
+                            AddLine(sHelp+';'+
+                                    '('+frmDM.ZQueryDruckenDetail.FieldByName('LaufendeNr').AsString+') '+
                                     frmDM.ZQueryDruckenDetail.FieldByName('Buchungstext').AsString + ' ' +
                                     frmDM.ZQueryDruckenDetail.FieldByName('Name').AsString,
                                     IntToCurrency(Betrag),
@@ -526,7 +533,9 @@ begin
                   end;
               frmDM.ZQueryDrucken.Next;
             end;
-            if FRow > 0 then AddLine('', IntToCurrency(Col1SummePart1), 'Kontostand', header);
+            //Schlußsumme
+            if CSV_Export then sHelp := ';' else sHelp := '';
+            if FRow > 0 then AddLine(sHelp, IntToCurrency(Col1SummePart1), 'Kontostand', header);
 
           frmDM.ZQueryDrucken.close;
           frmDM.ZQueryDruckenDetail.close;
