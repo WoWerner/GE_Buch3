@@ -271,6 +271,7 @@ begin
       then
         begin
           //Taborder beachten
+          //Datum
           if FormatDateTime('yyyy',DateEditBuchungsdatum.Date) = inttostr(nBuchungsjahr)
             then DateEditBuchungsdatum.Color := clDefault
             else
@@ -279,7 +280,17 @@ begin
                 if bAllesOK and bJournalJump then DateEditBuchungsdatum.SetFocus;
                 bAllesOK := false;
               end;
-          if (ediSachKontoNummer.Text <> '0') and (ediSachKontoNummer.Text <> '')
+          //Bank
+          if (ediBankNr.Text <> '0') and (ediBankNr.Text <> '') and (cbKonto.ItemIndex>0)
+            then ediBankNr.Color := clDefault
+            else
+              begin
+                ediBankNr.Color := $8080FF;
+                if bAllesOK and bJournalJump then ediBankNr.SetFocus;
+                bAllesOK := false;
+              end;
+          //Sachkonto
+          if (ediSachKontoNummer.Text <> '0') and (ediSachKontoNummer.Text <> '') and (cbSachkonto.ItemIndex>0)
             then ediSachKontoNummer.Color := clDefault
             else
               begin
@@ -287,12 +298,14 @@ begin
                 if bAllesOK and bJournalJump then ediSachKontoNummer.SetFocus;
                 bAllesOK := false;
               end;
-          if (ediBankNr.Text <> '0') and (ediBankNr.Text <> '')
-            then ediBankNr.Color := clDefault
+          //Person
+          if ((ediPersonenID.Text =  '0') and                                (cbPersonenname.ItemIndex=0)) or //keine Person
+             ((ediPersonenID.Text <> '0') and (ediPersonenID.Text <> '') and (cbPersonenname.Text <> ''))     //gültige Person
+            then ediPersonenID.Color := clDefault
             else
               begin
-                ediBankNr.Color := $8080FF;
-                if bAllesOK and bJournalJump then ediBankNr.SetFocus;
+                ediPersonenID.Color := $8080FF;
+                if bAllesOK and bJournalJump then ediPersonenID.SetFocus;
                 bAllesOK := false;
               end;
           if CurrencyToInt(ediBetrag.Text, bEuroModus) <> 0
@@ -1282,7 +1295,7 @@ begin
         if frmDM.ZQueryBanken.Locate('KontoNr', ediBankNr.Text, [])
           then
             begin
-              cbKonto.Text := frmDM.ZQueryBanken.FieldByName('Name').AsString;
+              cbKonto.Text := frmDM.ZQueryBanken.FieldByName('KontoNr').AsString+' '+frmDM.ZQueryBanken.FieldByName('Name').AsString;
             end
           else
             begin
@@ -1362,6 +1375,7 @@ begin
             begin
               cbPersonenname.ItemIndex := 0;
             end;
+        CheckSettingsForSave;
         cbPersonenname.Hint := cbPersonenname.Text;
       end;
   {$ifdef DebugCallStack} myDebugLN('ediPersonenIDExit finished'); {$endif}
@@ -1612,7 +1626,7 @@ begin
   cbPersonenname.Hint      := cbPersonenname.Text;
 
   //Banken
-  ediBankNr.Text:='0');
+  ediBankNr.Text:='0';
   cbKonto.Items.Clear;
   slBankenStartSaldo.Clear;
   cbKonto.AddItem('', TObject(0));    //Leere Bank
@@ -1620,7 +1634,8 @@ begin
   frmDM.ZQueryBanken.First;
   while not frmDM.ZQueryBanken.EOF do
     begin
-      cbKonto.AddItem(frmDM.ZQueryBanken.FieldByName('Name').AsString,
+      cbKonto.AddItem(frmDM.ZQueryBanken.FieldByName('KontoNr').AsString+' '+
+                      frmDM.ZQueryBanken.FieldByName('Name').AsString,
                       TObject(frmDM.ZQueryBanken.FieldByName('KontoNr').AsInteger));
       slBankenStartSaldo.Add(frmDM.ZQueryBanken.FieldByName('Anfangssaldo').AsString);
       frmDM.ZQueryBanken.Next;
