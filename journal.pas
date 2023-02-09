@@ -1612,7 +1612,7 @@ begin
   cbPersonenname.Hint      := cbPersonenname.Text;
 
   //Banken
-  ediBankNr.Text:='';
+  ediBankNr.Text:='0');
   cbKonto.Items.Clear;
   slBankenStartSaldo.Clear;
   cbKonto.AddItem('', TObject(0));    //Leere Bank
