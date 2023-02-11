@@ -377,6 +377,7 @@ object frmJournal: TfrmJournal
       Height = 23
       Top = 102
       Width = 231
+      DropDownCount = 12
       ItemHeight = 15
       OnChange = cbSachkontoChange
       ParentShowHint = False
@@ -389,6 +390,7 @@ object frmJournal: TfrmJournal
       Height = 23
       Top = 135
       Width = 231
+      DropDownCount = 10
       ItemHeight = 15
       OnChange = cbPersonennameChange
       ParentShowHint = False
@@ -417,6 +419,7 @@ object frmJournal: TfrmJournal
       Height = 23
       Top = 70
       Width = 231
+      DropDownCount = 14
       ItemHeight = 15
       OnChange = cbKontoChange
       TabOrder = 7
@@ -664,6 +667,7 @@ object frmJournal: TfrmJournal
       Width = 601
       AutoComplete = True
       AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
+      DropDownCount = 40
       ItemHeight = 15
       OnExit = cbBuchungstextExit
       TabOrder = 13
