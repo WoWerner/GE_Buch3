@@ -1,0 +1,19 @@
+﻿Änderungen in der Version 3.2.0.1
+
+Erweiterungen / Verbesserungen:
+- Journal: Prüfung: Es darf nur auf gültige Banken, Sachkonten oder Personen gebucht werden
+- Drucken: Journal nach Banken: Sachkonto hinzugefügt
+- Drucken: Zuwendungsbescheinigungen mit Absender in Adressfeld
+- Drucken: Sortierung der Beitragsliste nach Name
+
+Fehlerbeseitigung:
+- Drucken: Zahler nach Sachkonten: Gruppierung geht wieder
+- Bei Splitbuchungen konnte es vorkommen, das der Betrag negativ wurde
+
+Neue Funktionen:
+- 
+
+Intern: 
+- 
+
+Soll die Meldung noch einmal angezeigt werden?
