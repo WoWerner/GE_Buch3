@@ -308,6 +308,7 @@ begin
                 if bAllesOK and bJournalJump then ediPersonenID.SetFocus;
                 bAllesOK := false;
               end;
+          //Betrag
           if CurrencyToInt(ediBetrag.Text, bEuroModus) <> 0
             then ediBetrag.Color := clDefault
             else
@@ -316,6 +317,7 @@ begin
                 if bAllesOK and bJournalJump then ediBetrag.SetFocus;
                 bAllesOK := false;
               end;
+          //Buchungstext
           if cbBuchungstext.Text <> ''
             then cbBuchungstext.Color := clDefault
             else
@@ -324,6 +326,7 @@ begin
                 if bAllesOK and bJournalJump then cbBuchungstext.SetFocus;
                 bAllesOK := false;
               end;
+          //Belegnummer
           if ediBelegnummer.Text <> ''
             then ediBelegnummer.Color := clDefault
             else
@@ -343,6 +346,7 @@ begin
 
   btnSpeichern.Enabled := bAllesOK;
 
+  //Vorzeichen
   labVZ.Visible := ((pos('A', cbSachKonto.Text) = 1) and (CurrencyToInt(ediBetrag.Text, bEuroModus) > 0)) or
                    ((pos('E', cbSachKonto.Text) = 1) and (CurrencyToInt(ediBetrag.Text, bEuroModus) < 0));
 
@@ -1020,14 +1024,14 @@ begin
              end;
     edit   : begin
                frmDM.ZQueryHelp.SQL.Text := 'update journal set ';
-               frmDM.ZQueryHelp.SQL.add('Datum='        + SQLiteDateFormat(DateEditBuchungsdatum.Date)+',');
-               frmDM.ZQueryHelp.SQL.add('Konto_nach='   + ediSachKontoNummer.Text+',');
-               frmDM.ZQueryHelp.SQL.add('BankNr='       + ediBankNr.Text+',');
-               frmDM.ZQueryHelp.SQL.add('PersonenID='   + ediPersonenID.Text+',');
-               frmDM.ZQueryHelp.SQL.add('Betrag='       + inttostr(CurrencyToInt(ediBetrag.Text, bEuroModus))+',');
-               frmDM.ZQueryHelp.SQL.add('Buchungstext="'+ SQL_QuotedStr(cbBuchungstext.Text)+'",');
-               frmDM.ZQueryHelp.SQL.add('Belegnummer="' + SQL_QuotedStr(ediBelegnummer.Text)+'",');
-               frmDM.ZQueryHelp.SQL.add('Bemerkung="'   + SQL_QuotedStr(ediBemerkung.Text)+'",');
+               frmDM.ZQueryHelp.SQL.add('Datum='            + SQLiteDateFormat(DateEditBuchungsdatum.Date)+',');
+               frmDM.ZQueryHelp.SQL.add('Konto_nach='       + ediSachKontoNummer.Text+',');
+               frmDM.ZQueryHelp.SQL.add('BankNr='           + ediBankNr.Text+',');
+               frmDM.ZQueryHelp.SQL.add('PersonenID='       + ediPersonenID.Text+',');
+               frmDM.ZQueryHelp.SQL.add('Betrag='           + inttostr(CurrencyToInt(ediBetrag.Text, bEuroModus))+',');
+               frmDM.ZQueryHelp.SQL.add('Buchungstext="'    + SQL_QuotedStr(cbBuchungstext.Text)+'",');
+               frmDM.ZQueryHelp.SQL.add('Belegnummer="'     + SQL_QuotedStr(ediBelegnummer.Text)+'",');
+               frmDM.ZQueryHelp.SQL.add('Bemerkung="'       + SQL_QuotedStr(ediBemerkung.Text)+'",');
                frmDM.ZQueryHelp.SQL.add('Aufwandsspende="'  + bool2str(cbAufwendungen.Checked)+'"');
                frmDM.ZQueryHelp.SQL.add('where LaufendeNr=' + frmDM.ZQueryJournal.FieldByName('LaufendeNr').AsString);
                frmDM.ZQueryHelp.ExecSQL;
@@ -1066,7 +1070,8 @@ begin
              end;
     import : begin
                //Daten nach Ini schreiben
-               if ((ediPersonenID.Text <> '0') and (ediPersonenID.Text <> '')) then help.WriteIniVal(sJournalCSVImportINI, 'Key', CSVKeyPers+'_PersID', ediPersonenID.Text);
+               if ((ediPersonenID.Text <> '0') and (ediPersonenID.Text <> ''))
+                  then help.WriteIniVal(sJournalCSVImportINI, 'Key', CSVKeyPers+'_PersID', ediPersonenID.Text);
 
                bStartFinished := false;
                frmDM.ZQueryJournal.Refresh;

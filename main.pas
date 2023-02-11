@@ -437,6 +437,7 @@ begin
         end;
     if not frmDM.ZQueryInit.Active then frmDM.ZQueryInit.Open;
     FillStringsAusInit;
+    //Korrektur für dB-Version 3.2
     frmDM.ZQueryHelp.SQL.Text:='update Bankenabschluss set Buchungsjahr=:BJahr where Bankenabschluss.Buchungsjahr = 9999';
     frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := nBuchungsjahr;
     frmDM.ZQueryHelp.ExecSQL;
