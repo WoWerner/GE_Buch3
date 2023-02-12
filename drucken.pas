@@ -251,7 +251,7 @@ begin
            nEinnahmen      := 0;
            nAusgaben       := 0;
            nBestand        := 0;
-          frReport.LoadFromFile(sAppDir+'module\Finanzbericht.lrf');
+          frReport.LoadFromFile(sAppDir+'module\Reporte\Finanzbericht.lrf');
           frReport.Dataset := nil;
         end;
       BeitragslisteSK:
@@ -329,7 +329,7 @@ begin
           //for i := 1 to FRow do myDebugLN(TwoColReportData[i].Name+';'+TwoColReportData[i].Col1+';'+TwoColReportData[i].Col2);
 
           //Init für Report
-          frReport.LoadFromFile(sAppDir+'module\SummenlisteDrucken1Part2Cols.lrf');
+          frReport.LoadFromFile(sAppDir+'module\Reporte\SummenlisteDrucken1Part2Cols.lrf');
           FRowPart1 := FRow;
           FRow :=  0;
           FCol :=  0;
@@ -409,7 +409,7 @@ begin
           //for i := 1 to FRow do myDebugLN(TwoColReportData[i].Name+';'+TwoColReportData[i].Col1+';'+TwoColReportData[i].Col2);
 
           //Init für Report
-          frReport.LoadFromFile(sAppDir+'module\SummenlisteDrucken1Part2Cols.lrf');
+          frReport.LoadFromFile(sAppDir+'module\Reporte\SummenlisteDrucken1Part2Cols.lrf');
           FRowPart1 := FRow;
           FRow      := 0;
           FCol      := 0;
@@ -432,7 +432,7 @@ begin
           frmDM.ZQueryDruckenDetail1.MasterFields := 'PersonenID';
           frmDM.ZQueryDruckenDetail1.LinkedFields := 'PersonenID';
 
-          frReport.LoadFromFile(sAppDir+'module\ZuwendungDrucken.lrf');
+          frReport.LoadFromFile(sAppDir+'module\Reporte\ZuwendungDrucken.lrf');
           frmDM.ZQueryDrucken.Open;
           frmDM.ZQueryDruckenDetail.Open;
           frmDM.ZQueryDruckenDetail1.Open;
@@ -443,7 +443,7 @@ begin
           frDBDataSet.DataSource := frmDM.dsDrucken;
           frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\BankenDrucken.sql');
           frmDM.ZQueryDrucken.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
-          frReport.LoadFromFile(sAppDir+'module\BankenDrucken.lrf');
+          frReport.LoadFromFile(sAppDir+'module\Reporte\BankenDrucken.lrf');
           frmDM.ZQueryDrucken.Open;
           frReport.Dataset := frDBDataSet;
         end;
@@ -461,8 +461,8 @@ begin
           frDBDataSet.DataSource := frmDM.dsDrucken;
           frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\PersonenDrucken.sql');
           case Druckmode of
-            Personenliste       : frReport.LoadFromFile(sAppDir+'module\PersonenDrucken.lrf');
-            PersonenlisteKompakt: frReport.LoadFromFile(sAppDir+'module\PersonenDruckenKompakt.lrf');
+            Personenliste       : frReport.LoadFromFile(sAppDir+'module\Reporte\PersonenDrucken.lrf');
+            PersonenlisteKompakt: frReport.LoadFromFile(sAppDir+'module\Reporte\PersonenDruckenKompakt.lrf');
           end;
           frmDM.ZQueryDrucken.Open;
           frReport.Dataset := frDBDataSet;
@@ -551,7 +551,7 @@ begin
           //for i := 1 to FRow do myDebugLN(TwoColReportData[i].Name+';'+TwoColReportData[i].Col1+';'+TwoColReportData[i].Col2);
 
           //Init für Report
-          frReport.LoadFromFile(sAppDir+'module\SummenlisteDrucken1Part2Cols.lrf');
+          frReport.LoadFromFile(sAppDir+'module\Reporte\SummenlisteDrucken1Part2Cols.lrf');
           FRowPart1 := FRow;
           FRow      := 0;
           FCol      := 0;
@@ -570,7 +570,7 @@ begin
           frmDM.ZQueryDruckenDetail.MasterFields := 'konto_nach';
           frmDM.ZQueryDruckenDetail.LinkedFields := 'konto_nach';
 
-          frReport.LoadFromFile(sAppDir+'module\JournalDruckenSK.lrf');
+          frReport.LoadFromFile(sAppDir+'module\Reporte\JournalDruckenSK.lrf');
           frmDM.ZQueryDrucken.Open;
           frmDM.ZQueryDruckenDetail.Open;
           frReport.Dataset := frDBDataSet;
@@ -609,9 +609,9 @@ begin
           frmDM.ZQueryDrucken.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
 
           case Druckmode of
-            Journal                 : frReport.LoadFromFile(sAppDir+'module\JournalDrucken.lrf');
-            JournalGefiltert        : frReport.LoadFromFile(sAppDir+'module\JournalDruckenBemerkung.lrf');
-            JournalKompaktGefiltert : frReport.LoadFromFile(sAppDir+'module\JournalDruckenKompakt.lrf');
+            Journal                 : frReport.LoadFromFile(sAppDir+'module\Reporte\JournalDrucken.lrf');
+            JournalGefiltert        : frReport.LoadFromFile(sAppDir+'module\Reporte\JournalDruckenBemerkung.lrf');
+            JournalKompaktGefiltert : frReport.LoadFromFile(sAppDir+'module\Reporte\JournalDruckenKompakt.lrf');
           end;
           frmDM.ZQueryDrucken.Open;
           frReport.Dataset := frDBDataSet;
@@ -1075,7 +1075,7 @@ begin
               end;
 
           //Init für Report
-          frReport.LoadFromFile(sAppDir+'module\SummenlisteDrucken1Part2Cols.lrf');
+          frReport.LoadFromFile(sAppDir+'module\Reporte\SummenlisteDrucken1Part2Cols.lrf');
           FRowPart1 := FRow;
           FRow := 0;
           FCol := 0;
