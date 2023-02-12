@@ -269,7 +269,7 @@ begin
             then sHelp := shelp + ' and (journal.Datum >='+SQLiteDateFormat(DateTimePickerVon.Date)+')'+
                                   ' and (journal.Datum <='+SQLiteDateFormat(DateTimePickerBis.Date)+')';
 
-          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\BeitragslisteDrucken.sql');
+          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\BeitragslisteDrucken.sql');
           frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
           frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
           frmDM.ZQueryDrucken.Open;
@@ -350,7 +350,7 @@ begin
             then sHelp := shelp + ' and (journal.Datum >='+SQLiteDateFormat(DateTimePickerVon.Date)+')'+
                                   ' and (journal.Datum <='+SQLiteDateFormat(DateTimePickerBis.Date)+')';
 
-          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\ZahlerlisteDrucken.sql');
+          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\ZahlerlisteDrucken.sql');
           frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
           frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
           frmDM.ZQueryDrucken.Open;
@@ -418,16 +418,16 @@ begin
       Zuwendung:
         begin
           frDBDataSet.DataSource := frmDM.dsDrucken;
-          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\ZuwendungDrucken.sql');
+          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\ZuwendungDrucken.sql');
           frmDM.ZQueryDrucken.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
           frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':ADDWHERE', '', [rfReplaceAll]);
 
-          frmDM.ZQueryDruckenDetail.SQL.LoadFromFile(sAppDir+'module\ZuwendungDruckenDetail.sql');
+          frmDM.ZQueryDruckenDetail.SQL.LoadFromFile(sAppDir+'module\SQL\ZuwendungDruckenDetail.sql');
           frmDM.ZQueryDruckenDetail.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
           frmDM.ZQueryDruckenDetail.MasterFields := 'PersonenID';
           frmDM.ZQueryDruckenDetail.LinkedFields := 'PersonenID';
 
-          frmDM.ZQueryDruckenDetail1.SQL.LoadFromFile(sAppDir+'module\ZuwendungDruckenDetail1.sql');
+          frmDM.ZQueryDruckenDetail1.SQL.LoadFromFile(sAppDir+'module\SQL\ZuwendungDruckenDetail1.sql');
           frmDM.ZQueryDruckenDetail1.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
           frmDM.ZQueryDruckenDetail1.MasterFields := 'PersonenID';
           frmDM.ZQueryDruckenDetail1.LinkedFields := 'PersonenID';
@@ -441,7 +441,7 @@ begin
       Bankenliste:
         begin
           frDBDataSet.DataSource := frmDM.dsDrucken;
-          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\BankenDrucken.sql');
+          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\BankenDrucken.sql');
           frmDM.ZQueryDrucken.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
           frReport.LoadFromFile(sAppDir+'module\BankenDrucken.lrf');
           frmDM.ZQueryDrucken.Open;
@@ -450,8 +450,8 @@ begin
       Sachkontenliste:
         begin
           frDBDataSet.DataSource := frmDM.dsDrucken;
-          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SachkontenlisteDrucken.sql');
-          frReport.LoadFromFile(sAppDir+'module\SachkontenlisteDrucken.lrf');
+          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SachkontenlisteDrucken.sql');
+          frReport.LoadFromFile(sAppDir+'module\Reporte\SachkontenlisteDrucken.lrf');
           frmDM.ZQueryDrucken.Open;
           frReport.Dataset := frDBDataSet;
         end;
@@ -459,7 +459,7 @@ begin
       PersonenlisteKompakt:
         begin
           frDBDataSet.DataSource := frmDM.dsDrucken;
-          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\PersonenDrucken.sql');
+          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\PersonenDrucken.sql');
           case Druckmode of
             Personenliste       : frReport.LoadFromFile(sAppDir+'module\PersonenDrucken.lrf');
             PersonenlisteKompakt: frReport.LoadFromFile(sAppDir+'module\PersonenDruckenKompakt.lrf');
@@ -478,11 +478,11 @@ begin
             then sHelp := shelp + ' and (journal.Datum >='+SQLiteDateFormat(DateTimePickerVon.Date)+')'+
                                   ' and (journal.Datum <='+SQLiteDateFormat(DateTimePickerBis.Date)+')';
 
-          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\BankenDrucken.sql');
+          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\BankenDrucken.sql');
           frmDM.ZQueryDrucken.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
           frmDM.ZQueryDrucken.Open;
 
-          frmDM.ZQueryDruckenDetail.SQL.LoadFromFile(sAppDir+'module\JournalDruckenBK.sql');
+          frmDM.ZQueryDruckenDetail.SQL.LoadFromFile(sAppDir+'module\SQL\JournalDruckenBK.sql');
           frmDM.ZQueryDruckenDetail.SQL.Text := StringReplace(frmDM.ZQueryDruckenDetail.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
           frmDM.ZQueryDruckenDetail.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
           frmDM.ZQueryDruckenDetail.Open;
@@ -560,10 +560,10 @@ begin
       JournalNachSachkontenGruppiert:
         begin
           frDBDataSet.DataSource := frmDM.dsDrucken;
-          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\JournalDruckenSK.sql');
+          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\JournalDruckenSK.sql');
           frmDM.ZQueryDrucken.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
 
-          frmDM.ZQueryDruckenDetail.SQL.LoadFromFile(sAppDir+'module\JournalDrucken.sql');
+          frmDM.ZQueryDruckenDetail.SQL.LoadFromFile(sAppDir+'module\SQL\JournalDrucken.sql');
           frmDM.ZQueryDruckenDetail.SQL.Text := StringReplace(frmDM.ZQueryDruckenDetail.SQL.Text, ':AddWhere', '', [rfReplaceAll]);
           frmDM.ZQueryDruckenDetail.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
 
@@ -685,7 +685,7 @@ begin
           for i := 0 to slHelp.count-1 do
             begin
               //Part 1 Einnahmen
-              frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenJournalEinAus.sql');
+              frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenJournalEinAus.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
               frmDM.ZQueryDrucken.ParamByName('TYP').AsString    := 'E';
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp + ' and konten.Steuer="'+slHelp.Strings[i]+'"', [rfReplaceAll]);
@@ -751,7 +751,7 @@ begin
           for i := 0 to slHelp.count-1 do
             begin
               //Part 2 Ausgaben
-              frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenJournalEinAus.sql');
+              frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenJournalEinAus.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
               frmDM.ZQueryDrucken.ParamByName('TYP').AsString    := 'A';
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp + ' and konten.Steuer="'+slHelp.Strings[i]+'"', [rfReplaceAll]);
@@ -812,7 +812,7 @@ begin
               AddLine('Durchgang Einzahlungen', inttostr(nBuchungsjahr), inttostr(nBuchungsjahr-1), header); //Überschrift Part 3
 
               //Part 3 Durchgang Einzahlungen
-              frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenJournalDurchgang.sql');
+              frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenJournalDurchgang.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', '' + sHelp, [rfReplaceAll]);
               frmDM.ZQueryDrucken.Open;
@@ -896,7 +896,7 @@ begin
               sLastSachkontoNr := '';
 
               //Part 4 Kassenstände
-              frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenBanken.sql');
+              frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenBanken.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
               frmDM.ZQueryDrucken.Open;
               AddLine('Kassenstände', '', '', header);  //Überschrift Part 4
@@ -905,12 +905,12 @@ begin
                 then
                   begin
                     //Daten Part 4 1. Durchgang "Normale Buchungen"
-                    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenBankenUmsatz.sql');
+                    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenBankenUmsatz.sql');
                     frmDM.ZQueryHelp.ParamByName('BJAHR').AsInteger := nBuchungsjahr;
                     frmDM.ZQueryHelp.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd',DateTimePickerVon.Date-1);
                     frmDM.ZQueryHelp.Open;
 
-                    frmDM.ZQueryHelp1.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenBankenUmsatz.sql');
+                    frmDM.ZQueryHelp1.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenBankenUmsatz.sql');
                     frmDM.ZQueryHelp1.ParamByName('BJAHR').AsInteger := nBuchungsjahr;
                     frmDM.ZQueryHelp1.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd',DateTimePickerBis.Date);
                     frmDM.ZQueryHelp1.Open;
@@ -955,12 +955,12 @@ begin
                     frmDM.ZQueryHelp1.close;
 
                     //Daten Part 4 2. Durchgang "Umbuchungen"
-                    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenBankenUmsatz2.sql');
+                    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenBankenUmsatz2.sql');
                     frmDM.ZQueryHelp.ParamByName('BJAHR').AsInteger := nBuchungsjahr;
                     frmDM.ZQueryHelp.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd',DateTimePickerVon.Date-1);
                     frmDM.ZQueryHelp.Open;
 
-                    frmDM.ZQueryHelp1.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenBankenUmsatz2.sql');
+                    frmDM.ZQueryHelp1.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenBankenUmsatz2.sql');
                     frmDM.ZQueryHelp1.ParamByName('BJAHR').AsInteger := nBuchungsjahr;
                     frmDM.ZQueryHelp1.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd',DateTimePickerBis.Date);
                     frmDM.ZQueryHelp1.Open;
@@ -1028,7 +1028,7 @@ begin
               //Part 6 Umbuchungen
               AddLine('Umbuchungen (werden alle 2 mal aufgeführt)', '', '', header);  //Überschrift Part 6
 
-              frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenUmbuchungen.sql');
+              frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenUmbuchungen.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
               frmDM.ZQueryDrucken.Open;
@@ -1039,7 +1039,7 @@ begin
                   frmDM.ZQueryDrucken.Next;
                 end;
               frmDM.ZQueryDrucken.Close;
-              frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenUmbuchungen2.sql');
+              frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenUmbuchungen2.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
               frmDM.ZQueryDrucken.Open;
@@ -1165,7 +1165,7 @@ begin
                                                     frmDM.ZQueryHelp.FieldByName('PersonenID').AsString+'.pdf';
                                   frmDM.ZQueryDrucken.Close;
 
-                                  frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\ZuwendungDrucken.sql');
+                                  frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\ZuwendungDrucken.sql');
                                   frmDM.ZQueryDrucken.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
                                   frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':ADDWHERE', 'and journal.PersonenID = '+frmDM.ZQueryHelp.FieldByName('PersonenID').AsString, [rfReplaceAll]);
                                   frmDM.ZQueryDrucken.Open;
@@ -1372,7 +1372,7 @@ begin
       Daten[nHelp].Name   := '';
     end;
 
-  frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SummenlisteDruckenJournalDurchgang.sql');
+  frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenJournalDurchgang.sql');
   frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
   frmDM.ZQueryDrucken.SQL.Text := StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', '', [rfReplaceAll]);
   frmDM.ZQueryDrucken.Open;

@@ -592,7 +592,7 @@ begin
         //Aufräumen
         frmDM.ExecSQL('DROP TABLE IF EXISTS TEMP', false, false);
         //Formatiertes Journal in TEMP Tabelle speichern
-        frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\JournalDrucken.sql');
+        frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\JournalDrucken.sql');
         frmDM.ZQueryHelp.SQL.Text := StringReplace(frmDM.ZQueryHelp.SQL.Text, ':AddWhere', '', [rfReplaceAll]);
         //Dieser Befehl speichert das Ergebniss des selects in der Tabelle Temp
         frmDM.ZQueryHelp.SQL.Text := 'Create Table TEMP as '+frmDM.ZQueryHelp.SQL.Text;
@@ -666,7 +666,7 @@ procedure TfrmMain.mnuExportZuwendungClick(Sender: TObject);
 
 begin
   //V1.9.5.0
-  frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\ZuwendungDrucken.sql');
+  frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\ZuwendungDrucken.sql');
   frmDM.ZQueryHelp.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
   ExecSQL('', frmDM.ZQueryHelp, false);
 end;
@@ -681,7 +681,7 @@ begin
                 'gesucht.', mtConfirmation, [mbOK],0) = mrOK
     then
       begin
-        frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\FehlerhafteBuchungenSuchen.sql');
+        frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\FehlerhafteBuchungenSuchen.sql');
         frmDM.ZQueryHelp.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
         ExecSQL('', frmDM.ZQueryHelp, false);
       end;
@@ -929,7 +929,7 @@ var
   ZahlerWert   : longint;
 begin
   try
-    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\ZahlerstatistikAlter.sql');
+    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\ZahlerstatistikAlter.sql');
     frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := nBuchungsjahr;
     frmDM.ZQueryHelp.Open;
     sMessage      := 'Angaben für das Jahr '+inttostr(nBuchungsjahr)+#13+
@@ -977,7 +977,7 @@ begin
                    'Achten Sie auf die Zuordnung des Feldes "Gemeindeglied"'#13+
                    'Anzahl Personen'#13;
 
-    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\ZahlerstatistikAltersStruktur.sql');
+    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\ZahlerstatistikAltersStruktur.sql');
     frmDM.ZQueryHelp.Open;
     sMessage2     := '';
     border        := 0;
@@ -1018,7 +1018,7 @@ begin
       end;
     frmDM.ZQueryHelp.Close;
 
-    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\Zahlerstatistik.sql');
+    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\Zahlerstatistik.sql');
     frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := nBuchungsjahr;
     frmDM.ZQueryHelp.Open;
     sMessage    := sMessage +
@@ -1067,7 +1067,7 @@ begin
     frmDM.ZQueryHelp.Close;
     sMessage := sMessage + Format('%4d Zahler ',[ZahlerSumme]) + sMessage2+ ', Summe: ' + Format('%7d Euro',[Bereichssumme div 100])+#13+sTrenner+#13;
 
-    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\Nichtzahler.sql');
+    frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\Nichtzahler.sql');
     frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := nBuchungsjahr;
     frmDM.ZQueryHelp.Open;
     while not frmDM.ZQueryHelp.EOF do
@@ -1168,11 +1168,11 @@ procedure TfrmMain.btnBankkontenClick(Sender: TObject);
 
 begin
   //Kontostand Bank(en) neu berechnen
-  frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\updateKontostand.sql');
+  frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\updateKontostand.sql');
   frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := nBuchungsjahr;
   frmDM.ZQueryHelp.ExecSQL;
 
-  frmDM.ZQueryBanken.SQL.LoadFromFile(sAppDir+'module\BankenDrucken.sql');
+  frmDM.ZQueryBanken.SQL.LoadFromFile(sAppDir+'module\SQL\BankenDrucken.sql');
   frmDM.ZQueryBanken.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
   frmDM.ZQueryBanken.Open;
   frmBanken.showmodal;

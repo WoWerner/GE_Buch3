@@ -244,18 +244,18 @@ begin
 
   myDebugLN('Aktuelle Datenbank Version ist: '+sHelp);
 
-  if sHelp = '1.0' then sHelp := DoDBUpdate('1.1',sAppDir+'module\update11.sql');
-  if sHelp = '1.1' then sHelp := DoDBUpdate('1.4',sAppDir+'module\update14.sql');
-  if sHelp = '1.4' then sHelp := DoDBUpdate('1.6',sAppDir+'module\update16.sql');
-  if sHelp = '1.6' then sHelp := DoDBUpdate('1.7',sAppDir+'module\update17.sql');
-  if sHelp = '1.7' then sHelp := DoDBUpdate('1.8',sAppDir+'module\update18.sql');
-  if sHelp = '1.8' then sHelp := DoDBUpdate('1.9',sAppDir+'module\update19.sql');
-  if sHelp = '1.9' then sHelp := DoDBUpdate('2.0',sAppDir+'module\update20.sql');
+  if sHelp = '1.0' then sHelp := DoDBUpdate('1.1',sAppDir+'module\SQL\update11.sql');
+  if sHelp = '1.1' then sHelp := DoDBUpdate('1.4',sAppDir+'module\SQL\update14.sql');
+  if sHelp = '1.4' then sHelp := DoDBUpdate('1.6',sAppDir+'module\SQL\update16.sql');
+  if sHelp = '1.6' then sHelp := DoDBUpdate('1.7',sAppDir+'module\SQL\update17.sql');
+  if sHelp = '1.7' then sHelp := DoDBUpdate('1.8',sAppDir+'module\SQL\update18.sql');
+  if sHelp = '1.8' then sHelp := DoDBUpdate('1.9',sAppDir+'module\SQL\update19.sql');
+  if sHelp = '1.9' then sHelp := DoDBUpdate('2.0',sAppDir+'module\SQL\update20.sql');
   if sHelp = '2.0'
     then
       begin
         // Vor Update auf 3.0 ein Vorcheck auf doppelte Kontennummern
-        ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\update30_preCheck.sql');
+        ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\update30_preCheck.sql');
         ZQueryHelp.Open;
         if ZQueryHelp.RecordCount > 0
           then
@@ -273,8 +273,9 @@ begin
         sHelp := DoDBUpdate('3.0',sAppDir+'module\update30.sql');
       end;
 
-  if sHelp = '3.0' then sHelp := DoDBUpdate('3.1',sAppDir+'module\update31.sql');
-  if sHelp = '3.1' then sHelp := DoDBUpdate('3.2',sAppDir+'module\update32.sql');
+  if sHelp = '3.0' then sHelp := DoDBUpdate('3.1',sAppDir+'module\SQL\update31.sql');
+  if sHelp = '3.1' then sHelp := DoDBUpdate('3.2',sAppDir+'module\SQL\update32.sql');
+  if sHelp = '3.2' then sHelp := DoDBUpdate('3.3',sAppDir+'module\SQL\update33.sql');
 
   //Prüfung auf zu neue DB Version
   result := not (strtoint(XCharsOnly(sHelp, ['0'..'9']))*100 > strtoint(XCharsOnly(sProductVersionString, ['0'..'9'])));       //Im Fehlerfall result auf false

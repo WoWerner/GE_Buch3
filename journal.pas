@@ -446,7 +446,7 @@ begin
           append_TakeOver,
           append_Empty   : begin
                               //Vorschäge für Buchungstexte laden
-                              frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\JournalGetBuchungstext.sql');
+                              frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\JournalGetBuchungstext.sql');
                               cbBuchungstext.Items.Text  := GetFirstDBFieldAsStringList(frmDM.ZQueryHelp);
                             end;
         end;
@@ -747,7 +747,7 @@ begin
         frmDM.ZQueryHelp.SQL.Text := 'delete from journal where LaufendeNr=' + frmDM.ZQueryJournal.FieldByName('LaufendeNr').AsString;
         frmDM.ZQueryHelp.ExecSQL;
         //Kontostand Bank(en) neu berechnen
-        frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\updateKontostand.sql');
+        frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\updateKontostand.sql');
         frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := ediBuchungsjahr.Value;
         frmDM.ZQueryHelp.ExecSQL;
         frmDM.ZQueryJournal.Refresh;
@@ -1039,7 +1039,7 @@ begin
   end;
 
   //Kontostand Bank(en)
-  frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\updateKontostand.sql');
+  frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\updateKontostand.sql');
   frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := ediBuchungsjahr.Value;
   frmDM.ZQueryHelp.ExecSQL;
 

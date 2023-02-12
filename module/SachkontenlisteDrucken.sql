@@ -1,1 +1,0 @@
-select * from konten order by SortPos
