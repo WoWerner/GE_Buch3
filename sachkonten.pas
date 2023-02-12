@@ -35,6 +35,8 @@ type
     cbSteuer: TComboBox;
     DBGridSachkontenliste: TDBGrid;
     ediFinanzamt: TEdit;
+    ediPlansumme: TEdit;
+    ediBemerkung: TEdit;
     ediFinanzamtVom: TEdit;
     ediFinanzamtNr: TEdit;
     ediSachkonto: TEdit;
@@ -43,10 +45,12 @@ type
     ediStatistik: TSpinEdit;
     Label1: TLabel;
     Label10: TLabel;
-    Label3: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
     Label4: TLabel;
     Label5: TLabel;
-    Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
     Label9: TLabel;
@@ -61,8 +65,7 @@ type
     procedure btnSetFreistellungClick(Sender: TObject);
     procedure btnSetFreistellungContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnSpeichernClick(Sender: TObject);
-    //procedure DBGridSachkontenlisteDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
-    procedure DBGridSachkontenlistePrepareCanvas(sender: TObject; DataCol: Integer; Column: TColumn; AState: TGridDrawState);
+    procedure DBGridSachkontenlisteDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure ediSachkontoEnter(Sender: TObject);
     procedure ediSachkontonummerExit(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -120,29 +123,34 @@ end;
 procedure TfrmSachkonten.AfterScroll;
 begin
   //Hier wegen Query Refresh
-  DBGridSachkontenliste.Columns.Items[0].Width   :=  60;    //SachkontoNr
-  DBGridSachkontenliste.Columns.Items[1].Width   :=  60;    //Sortpos
-  DBGridSachkontenliste.Columns.Items[2].Width   :=  60;    //Statistik
-  DBGridSachkontenliste.Columns.Items[3].Width   := 400;    //Name
-  DBGridSachkontenliste.Columns.Items[4].Width   :=  70;    //KontoType
-  DBGridSachkontenliste.Columns.Items[5].Visible:=false;    //Kontostand
-  DBGridSachkontenliste.Columns.Items[6].Width   := 180;    //Finanzamt
-  DBGridSachkontenliste.Columns.Items[7].Width   := 100;    //Finanzamt vom
-  DBGridSachkontenliste.Columns.Items[8].Width   := 100;    //Finanzamt am
+  DBGridSachkontenliste.Columns.Items[0] .Width   :=  60;    //SachkontoNr
+  DBGridSachkontenliste.Columns.Items[1] .Width   :=  60;    //Sortpos
+  DBGridSachkontenliste.Columns.Items[2] .Width   :=  60;    //Statistik
+  DBGridSachkontenliste.Columns.Items[3] .Width   := 400;    //Name
+  DBGridSachkontenliste.Columns.Items[4] .Width   :=  70;    //KontoType
+  DBGridSachkontenliste.Columns.Items[5] .Visible := false;  //Kontostand
+  DBGridSachkontenliste.Columns.Items[6] .Width   := 180;    //Finanzamt
+  DBGridSachkontenliste.Columns.Items[7] .Width   := 100;    //Finanzamt vom
+  DBGridSachkontenliste.Columns.Items[8] .Width   := 100;    //Finanzamt am
+  DBGridSachkontenliste.Columns.Items[9] .Width   := 100;    //Steuer
+  DBGridSachkontenliste.Columns.Items[10].Width   := 100;    //Bemerkung
+  DBGridSachkontenliste.Columns.Items[11].Width   :=  90;    //PlanSumme
 
-  ediSachkontonummer.Value := frmDM.ZQuerySachkonten.FieldByName('KontoNr').AsInteger;
-  ediSachkonto.Text        := frmDM.ZQuerySachkonten.FieldByName('Name').AsString;
-  ediSortPos.Value         := frmDM.ZQuerySachkonten.FieldByName('Sortpos').AsInteger;
-  cbKontoType.Text         := frmDM.ZQuerySachkonten.FieldByName('KontoType').AsString;
-  cbSteuer.Text            := frmDM.ZQuerySachkonten.FieldByName('Steuer').AsString;
-  ediStatistik.Value       := frmDM.ZQuerySachkonten.FieldByName('Statistik').AsInteger;
-  ediFinanzamt.Text        := frmDM.ZQuerySachkonten.FieldByName('Finanzamt').AsString;
-  ediFinanzamtNr.Text      := frmDM.ZQuerySachkonten.FieldByName('FinanzamtNr').AsString;
-  ediFinanzamtVom.Text     := frmDM.ZQuerySachkonten.FieldByName('FinanzamtVom').AsString;
-  btnDelete.ShowHint       := false;
-  btnDelete.Enabled        := true;
-  ediSachkontonummer.ShowHint:= false;
-  ediSachkontonummer.Enabled := btnDelete.Enabled;
+  ediSachkontonummer.Value    := frmDM.ZQuerySachkonten.FieldByName('KontoNr').AsInteger;
+  ediSachkonto.Text           := frmDM.ZQuerySachkonten.FieldByName('Name').AsString;
+  ediSortPos.Value            := frmDM.ZQuerySachkonten.FieldByName('Sortpos').AsInteger;
+  cbKontoType.Text            := frmDM.ZQuerySachkonten.FieldByName('KontoType').AsString;
+  cbSteuer.Text               := frmDM.ZQuerySachkonten.FieldByName('Steuer').AsString;
+  ediStatistik.Value          := frmDM.ZQuerySachkonten.FieldByName('Statistik').AsInteger;
+  ediFinanzamt.Text           := frmDM.ZQuerySachkonten.FieldByName('Finanzamt').AsString;
+  ediFinanzamtNr.Text         := frmDM.ZQuerySachkonten.FieldByName('FinanzamtNr').AsString;
+  ediFinanzamtVom.Text        := frmDM.ZQuerySachkonten.FieldByName('FinanzamtVom').AsString;
+  ediBemerkung.Text           := frmDM.ZQuerySachkonten.FieldByName('Bemerkung').AsString;
+  ediPlansumme.Text           := IntToCurrency(frmDM.ZQuerySachkonten.FieldByName('Plansumme').AsInteger);
+  btnDelete.ShowHint          := false;
+  btnDelete.Enabled           := true;
+  ediSachkontonummer.ShowHint := false;
+  ediSachkontonummer.Enabled  := btnDelete.Enabled;
 
   if btnDelete.Enabled
     then
@@ -185,21 +193,6 @@ begin
   cbSteuer.Items.Text:=sSteuer;
 end;
 
-procedure TfrmSachkonten.DBGridSachkontenlistePrepareCanvas(sender: TObject; DataCol: Integer; Column: TColumn; AState: TGridDrawState);
-
-var
-  MyTextStyle: TTextStyle;
-
-begin
-  if DataCol in [0,5]
-    then
-      begin
-        MyTextStyle := DBGridSachkontenliste.Canvas.TextStyle;
-        MyTextStyle.Alignment:=taLeftJustify;
-        DBGridSachkontenliste.Canvas.TextStyle := MyTextStyle;
-      end;
-end;
-
 procedure TfrmSachkonten.btnNeuClick(Sender: TObject);
 begin
   btnAbbrechen.Visible       := true;
@@ -214,6 +207,8 @@ begin
   ediSortPos.Value           := 500;
   ediStatistik.Value         := 500;
   cbSteuer.Text              := 'Nicht umsatzsteuerbar';
+  ediBemerkung.Text          := '';
+  ediPlanSumme.Text          := '0,00';
   ediSachkontonummer.Enabled := true;
   application.ProcessMessages;
   ediSachkontonummer.SetFocus;
@@ -253,7 +248,7 @@ begin
 
   sPos := inttostr(ediSachkontonummer.Value);
 
-  frmDM.ZQueryHelp.SQL.Text:='insert into konten (kontonr, Name, Sortpos, KontoType, Statistik, Finanzamt, FinanzamtVom, FinanzamtNr, Steuer) values ('+
+  frmDM.ZQueryHelp.SQL.Text:='insert into konten (kontonr, Name, Sortpos, KontoType, Statistik, Finanzamt, FinanzamtVom, FinanzamtNr, Steuer, Bemerkung, Plansumme) values ('+
                               inttostr(ediSachkontonummer.Value)+', "'+
                               ediSachkonto.text+
                               '",'+
@@ -263,7 +258,9 @@ begin
                               ediFinanzamt.Text+'", "'+
                               ediFinanzamtVom.Text+'", "'+
                               ediFinanzamtNr.Text+'", "'+
-                              cbSteuer.Text+'")';
+                              cbSteuer.Text+'", "'+
+                              ediBemerkung.Text+'",'+
+                              inttostr(CurrencyToInt(ediPlanSumme.text, bEuroModus))+')';
   try
     frmDM.ZQueryHelp.ExecSQL;
   except
@@ -272,6 +269,23 @@ begin
   frmDM.ZQuerySachkonten.Refresh;
   frmDM.ZQuerySachkonten.Locate('kontonr', sPos, []);
   AfterScroll;
+end;
+
+procedure TfrmSachkonten.DBGridSachkontenlisteDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+
+begin
+  try
+    if (Column.FieldName = 'PlanSumme')
+      then
+        begin
+          //den, vom System gezeichneten, Inhalt löschen
+          DBGridSachkontenliste.Canvas.FillRect(Rect);
+          //eigenen Text reinschreiben
+          DBGridSachkontenliste.Canvas.TextRect(Rect,Rect.Left,Rect.Top+2, Format('%m ',[Column.Field.AsLongint/100]));
+        end;
+  except
+
+  end;
 end;
 
 procedure TfrmSachkonten.btnAendernClick(Sender: TObject);
@@ -289,8 +303,10 @@ begin
                              'Finanzamt="'+ediFinanzamt.text+'", '+
                              'FinanzamtVom="'+ediFinanzamtVom.text+'", '+
                              'FinanzamtNr="'+ediFinanzamtNr.text+'", '+
+                             'Bemerkung="'+ediBemerkung.Text+'", '+
                              'Steuer="'+cbSteuer.Text+'", '+
-                             'Statistik='+inttostr(ediStatistik.Value)+' '+
+                             'Statistik='+inttostr(ediStatistik.Value)+', '+
+                             'PlanSumme='+inttostr(CurrencyToInt(ediPlanSumme.text, bEuroModus))+' '+
                              'where kontoNr='+frmDM.ZQuerySachkonten.FieldByName('kontoNr').AsString;
   frmDM.ZQueryHelp.ExecSQL;
   frmDM.ZQuerySachkonten.Refresh;

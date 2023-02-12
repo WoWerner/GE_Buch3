@@ -62,7 +62,9 @@ type
     btnBeitragsliste: TButton;
     btnDurchgang: TButton;
     btnEinAus: TButton;
+    btnHaushaltsplan: TButton;
     btnEinAusCSV: TButton;
+    btnHaushaltsplanCSV: TButton;
     btnFinanzbericht: TButton;
     btnJournaldruck: TButton;
     btnJournalFiltered: TButton;
@@ -110,6 +112,8 @@ type
     procedure btnEinAusCSVClick(Sender: TObject);
     procedure btnFinanzberichtClick(Sender: TObject);
     procedure btnFinanzberichtContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+    procedure btnHaushaltsplanClick(Sender: TObject);
+    procedure btnHaushaltsplanCSVClick(Sender: TObject);
     procedure btnJournaldruckClick(Sender: TObject);
     procedure btnJournaldruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnJournalFilteredClick(Sender: TObject);
@@ -616,8 +620,9 @@ begin
           frmDM.ZQueryDrucken.Open;
           frReport.Dataset := frDBDataSet;
         end;
-      Summenliste,
-      EinAus:
+      EinAus,
+      Haushaltsplan,
+      Summenliste:
         begin
           FRowPart1          := 0;
           FRow               := 0;
@@ -664,7 +669,7 @@ begin
           //Part 5 Ergebnis
           //Part 6 Umbuchungen
 
-          //Der "EinAus" Report enthält 2 Teile.
+          //Der "EinAus" und "Haushaltsplan" Report enthält 2 Teile.
           //Part 1 Einnahmen
           //Part 2 Ausgaben
           //
@@ -688,7 +693,10 @@ begin
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenJournalEinAus.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
               frmDM.ZQueryDrucken.ParamByName('TYP').AsString    := 'E';
-              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp + ' and konten.Steuer="'+slHelp.Strings[i]+'"', [rfReplaceAll]);
+              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd', sHelp + ' and (konten.Steuer="'+slHelp.Strings[i]+'")', [rfReplaceAll]);
+              if Druckmode = Haushaltsplan
+                then frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereOr', ' or (konten.PlanSumme>0)', [rfReplaceAll])
+                else frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereOr', '', [rfReplaceAll]);
               frmDM.ZQueryDrucken.Open;
 
               if frmDM.ZQueryDrucken.RecordCount > 0 then
@@ -696,7 +704,9 @@ begin
                   //Überschrift Part 1
                   sBereich := 'Einnahmen';
                   if slHelp.Strings[i] <> '' then sBereich := sBereich + ' ('+slHelp.Strings[i]+')';
-                  AddLine(sBereich,  inttostr(nBuchungsjahr),  inttostr(nBuchungsjahr-1), header2);
+                  if Druckmode = Haushaltsplan
+                    then AddLine(sBereich,  inttostr(nBuchungsjahr),  'Haushaltsplan'          , header2)
+                    else AddLine(sBereich,  inttostr(nBuchungsjahr),  inttostr(nBuchungsjahr-1), header2);
                   Col1ZwischenSummePart1 := 0;
                   Col2ZwischenSummePart1 := 0;
 
@@ -704,26 +714,25 @@ begin
                   while not frmDM.ZQueryDrucken.EOF do
                     begin
                       //Kontobereich überprüfen
-                      sSachkontoNr := frmDM.ZQueryDrucken.FieldByName('konto_nach').AsString;
-                      if sSachkontoNr <> sLastSachkontoNr
+                      sSachkontoNr := frmDM.ZQueryDrucken.FieldByName('KontoNr').AsString;
+                      AddLine('('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(0), IntToCurrency(0), line);
+
+                      TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint);
+                      Col1SummePart1              := Col1SummePart1         + frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint;
+                      Col1ZwischenSummePart1      := Col1ZwischenSummePart1 + frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint;
+                      if Druckmode = Haushaltsplan
                         then
                           begin
-                            //Neues Sachkonto, neue Zeile
-                            sLastSachkontoNr := sSachkontoNr;
-                            AddLine('('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(0), IntToCurrency(0), line);
-                          end;
-                      if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = nBuchungsjahr
-                        then
-                          begin
-                            TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe').aslongint);
-                            Col1SummePart1         := Col1SummePart1         + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
-                            Col1ZwischenSummePart1 := Col1ZwischenSummePart1 + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
+                            TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('PlanSumme').aslongint);
+                            Col2SummePart1              := Col2SummePart1         + frmDM.ZQueryDrucken.FieldByName('PlanSumme').aslongint;
+                            Col2ZwischenSummePart1      := Col2ZwischenSummePart1 + frmDM.ZQueryDrucken.FieldByName('PlanSumme').aslongint;
                           end
                         else
                           begin
-                            TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe').aslongint);
-                            Col2SummePart1         := Col2SummePart1         + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
-                            Col2ZwischenSummePart1 := Col2ZwischenSummePart1 + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
+                            TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe_letztes_Jahr').aslongint);
+                            Col2SummePart1              := Col2SummePart1         + frmDM.ZQueryDrucken.FieldByName('Summe_letztes_Jahr').aslongint;
+                            Col2ZwischenSummePart1      := Col2ZwischenSummePart1 + frmDM.ZQueryDrucken.FieldByName('Summe_letztes_Jahr').aslongint;
+
                           end;
                       frmDM.ZQueryDrucken.Next;
                     end;
@@ -754,39 +763,43 @@ begin
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenJournalEinAus.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
               frmDM.ZQueryDrucken.ParamByName('TYP').AsString    := 'A';
-              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp + ' and konten.Steuer="'+slHelp.Strings[i]+'"', [rfReplaceAll]);
+              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd', sHelp + ' and (konten.Steuer="'+slHelp.Strings[i]+'")', [rfReplaceAll]);
+              if Druckmode = Haushaltsplan
+                then frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereOr', ' or (konten.PlanSumme>0)', [rfReplaceAll])
+                else frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereOr', '', [rfReplaceAll]);
               frmDM.ZQueryDrucken.Open;
 
               if frmDM.ZQueryDrucken.RecordCount > 0 then
                 begin
                   sBereich := 'Ausgaben';
                   if slHelp.Strings[i] <> '' then sBereich := sBereich + ' ('+slHelp.Strings[i]+')';
-                  AddLine(sBereich, inttostr(nBuchungsjahr), inttostr(nBuchungsjahr-1), header2); //Überschrift Part 2
+                  if Druckmode = Haushaltsplan
+                    then AddLine(sBereich,  inttostr(nBuchungsjahr),  'Haushaltsplan', header2)  //Überschrift Part 2
+                    else AddLine(sBereich,  inttostr(nBuchungsjahr),  inttostr(nBuchungsjahr-1), header2);
                   Col1ZwischenSummePart2 := 0;
                   Col2ZwischenSummePart2 := 0;
 
                   //Daten Part 2
                   while not frmDM.ZQueryDrucken.EOF do
                     begin
-                      sSachkontoNr := frmDM.ZQueryDrucken.FieldByName('konto_nach').AsString;
-                      if sSachkontoNr <> sLastSachkontoNr
+                      sSachkontoNr := frmDM.ZQueryDrucken.FieldByName('KontoNr').AsString;
+                      AddLine('('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(0), IntToCurrency(0), line);  //Neues Sachkonto, neue Zeile
+                      sLastSachkontoNr            := sSachkontoNr;
+                      TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint);
+                      Col1SummePart2         := Col1SummePart2         + frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint;
+                      Col1ZwischenSummePart2 := Col1ZwischenSummePart2 + frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint;
+                      if Druckmode = Haushaltsplan
                         then
                           begin
-                            AddLine('('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(0), IntToCurrency(0), line);  //Neues Sachkonto, neue Zeile
-                            sLastSachkontoNr            := sSachkontoNr;
-                          end;
-                      if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = nBuchungsjahr
-                        then
-                          begin
-                            TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe').aslongint);
-                            Col1SummePart2         := Col1SummePart2         + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
-                            Col1ZwischenSummePart2 := Col1ZwischenSummePart2 + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
+                            TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('PlanSumme').aslongint);
+                            Col2SummePart2         := Col2SummePart2         + frmDM.ZQueryDrucken.FieldByName('PlanSumme').aslongint;
+                            Col2ZwischenSummePart2 := Col2ZwischenSummePart2 + frmDM.ZQueryDrucken.FieldByName('PlanSumme').aslongint;
                           end
                         else
                           begin
-                            TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe').aslongint);
-                            Col2SummePart2         := Col2SummePart2         + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
-                            Col2ZwischenSummePart2 := Col2ZwischenSummePart2 + frmDM.ZQueryDrucken.FieldByName('Summe').aslongint;
+                            TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe_letztes_Jahr').aslongint);
+                            Col2SummePart2         := Col2SummePart2         + frmDM.ZQueryDrucken.FieldByName('Summe_letztes_Jahr').aslongint;
+                            Col2ZwischenSummePart2 := Col2ZwischenSummePart2 + frmDM.ZQueryDrucken.FieldByName('Summe_letztes_Jahr').aslongint;
                           end;
                       frmDM.ZQueryDrucken.Next;
                     end;
@@ -1439,6 +1452,18 @@ begin
   Handled := true;
 end;
 
+procedure TfrmDrucken.btnHaushaltsplanClick(Sender: TObject);
+begin
+  Druckmode := Haushaltsplan;
+  PreparePrint();
+end;
+
+procedure TfrmDrucken.btnHaushaltsplanCSVClick(Sender: TObject);
+begin
+  Druckmode := Haushaltsplan;
+  PreparePrint(false, true, false);
+end;
+
 procedure TfrmDrucken.btnJournaldruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
 begin
   Druckmode := Journal;
@@ -1591,6 +1616,7 @@ begin
     Summenliste,
     JournalNachBankenGruppiert,
     EinAus,
+    Haushaltsplan,
     BeitragslisteSK,
     Zahlungsliste:
       begin
@@ -1625,6 +1651,7 @@ begin
     Summenliste,
     JournalNachBankenGruppiert,
     EinAus,
+    Haushaltsplan,
     BeitragslisteSK,
     Zahlungsliste:
       begin
@@ -1678,6 +1705,7 @@ begin
     Summenliste,
     JournalNachBankenGruppiert,
     EinAus,
+    Haushaltsplan,
     BeitragslisteSK,
     Zahlungsliste:
       begin
@@ -1806,6 +1834,7 @@ begin
     Summenliste,
     JournalNachBankenGruppiert,
     EinAus,
+    Haushaltsplan,
     BeitragslisteSK,
     Zahlungsliste:
       begin
@@ -1822,6 +1851,7 @@ begin
             case Druckmode of
               Summenliste:                ParValue := 'Summenliste';
               EinAus:                     ParValue := 'Ein/Ausgaben';
+              Haushaltsplan:              ParValue := 'Haushaltsplan';
               BeitragslisteSK:            ParValue := 'Zahler- / Empfängerliste nach Sachkonto';
               Zahlungsliste:              ParValue := 'Zahlungsliste';
               JournalNachBankenGruppiert: ParValue := 'Journal nach Banken gruppiert';
