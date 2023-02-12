@@ -580,7 +580,7 @@ begin
       JournalKompaktGefiltert:
         begin
           frDBDataSet.DataSource := frmDM.dsDrucken;
-          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\JournalDrucken.sql');
+          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\JournalDrucken.sql');
 
           if Druckmode = Journal
             then
