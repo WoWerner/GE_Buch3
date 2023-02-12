@@ -109,7 +109,6 @@ type
     procedure btnBeitragslisteCSVClick(Sender: TObject);
     procedure btnDurchgangClick(Sender: TObject);
     procedure btnEinAusClick(Sender: TObject);
-    procedure btnEinAusContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnEinAusCSVClick(Sender: TObject);
     procedure btnFinanzberichtClick(Sender: TObject);
     procedure btnFinanzberichtContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -165,7 +164,7 @@ type
     nBestand  : longint;
     slHelp    : TStringList;
     Procedure PreparePrint(CallDesigner : boolean = false; CSV_Export : boolean = false; Einzeln: boolean = false);
-    Procedure AddLine(sName, Col1, Col2: String;  Typ: TColType);
+    Procedure AddLine(sName, Col1, Col2: String; Typ: TColType);
   public
     { public declarations }
   end;
@@ -1262,13 +1261,6 @@ procedure TfrmDrucken.btnEinAusClick(Sender: TObject);
 begin
   Druckmode := EinAus;
   PreparePrint();
-end;
-
-procedure TfrmDrucken.btnEinAusContextPopup(Sender: TObject; MousePos: TPoint;  var Handled: Boolean);
-begin
-  Druckmode := EinAus;
-  PreparePrint(true);
-  Handled := true;
 end;
 
 procedure TfrmDrucken.btnEinAusCSVClick(Sender: TObject);

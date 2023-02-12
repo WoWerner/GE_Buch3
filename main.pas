@@ -1633,7 +1633,7 @@ end;
 
 procedure TfrmMain.btnSachkontenClick(Sender: TObject);
 begin
-  frmDM.ZQuerySachkonten.SQL.Text := 'select * from konten Where kontotype <> "B" order by sortpos, kontoNr';
+  frmDM.ZQuerySachkonten.SQL.Text := 'select * from Konten where kontotype <> "B" order by SortPos, kontoNr';
   frmDM.ZQuerySachkonten.Open;
   frmSachkonten.showModal;
 end;
