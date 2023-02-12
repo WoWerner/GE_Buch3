@@ -37,7 +37,6 @@ object frmDrucken: TfrmDrucken
     Width = 159
     Caption = 'Ein / Ausgaben (gefiltert)'
     OnClick = btnEinAusClick
-    OnContextPopup = btnEinAusContextPopup
     TabOrder = 16
   end
   object btnJournaldruck: TButton
@@ -76,7 +75,7 @@ object frmDrucken: TfrmDrucken
     Left = 424
     Height = 25
     Top = 82
-    Width = 200
+    Width = 128
     Caption = 'Personenliste'
     OnClick = btnPersonenlisteClick
     OnContextPopup = btnPersonenlisteContextPopup
@@ -139,11 +138,11 @@ object frmDrucken: TfrmDrucken
     TabOrder = 8
   end
   object btnPersonenlisteKompakt: TButton
-    Left = 424
+    Left = 559
     Height = 25
-    Top = 120
-    Width = 200
-    Caption = 'Personenliste (kompakt)'
+    Top = 82
+    Width = 64
+    Caption = 'Kompakt'
     OnClick = btnPersonenlisteKompaktClick
     OnContextPopup = btnPersonenlisteKompaktContextPopup
     TabOrder = 9
@@ -334,8 +333,9 @@ object frmDrucken: TfrmDrucken
   object cbDrucker: TComboBox
     Left = 424
     Height = 23
-    Top = 187
+    Top = 177
     Width = 200
+    DropDownCount = 12
     ItemHeight = 15
     TabOrder = 23
     Text = 'cbDrucker'
@@ -343,7 +343,7 @@ object frmDrucken: TfrmDrucken
   object cbDruckeDirekt: TCheckBox
     Left = 424
     Height = 19
-    Top = 162
+    Top = 152
     Width = 110
     Caption = 'Drucke direkt auf'
     TabOrder = 24
@@ -395,6 +395,24 @@ object frmDrucken: TfrmDrucken
     Caption = 'CSV'
     OnClick = btnZahlerlisteCSVClick
     TabOrder = 29
+  end
+  object btnHaushaltsplan: TButton
+    Left = 424
+    Height = 25
+    Top = 120
+    Width = 128
+    Caption = 'Haushaltsplan'
+    OnClick = btnHaushaltsplanClick
+    TabOrder = 30
+  end
+  object btnHaushaltsplanCSV: TButton
+    Left = 560
+    Height = 25
+    Top = 120
+    Width = 64
+    Caption = 'CSV'
+    OnClick = btnHaushaltsplanCSVClick
+    TabOrder = 31
   end
   object frReport: TfrReport
     DefaultCopies = 0

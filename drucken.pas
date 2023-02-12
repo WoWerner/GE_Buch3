@@ -31,6 +31,7 @@ type
                  BeitragslisteSK,
                  EinAus,
                  Finanzbericht,
+                 Haushaltsplan,
                  Journal,
                  JournalGefiltert,
                  JournalKompaktGefiltert,
@@ -1109,6 +1110,7 @@ begin
             case Druckmode of
               BeitragslisteSK:            sFileName := 'BeitragslisteSK.csv';
               EinAus:                     sFileName := 'EinAus.csv';
+              Haushaltsplan:              sFileName := 'Haushaltsplan.csv';
               JournalNachBankenGruppiert: sFileName := 'JournalNachBankenGruppiert.csv';
               Summenliste:                sFileName := 'Summenliste.csv';
               Zahlungsliste:              sFileName := 'Zahlungsliste.csv';
@@ -1144,6 +1146,7 @@ begin
                     Bankenliste:                    Printer.FileName:='Bankenliste.pdf';
                     BeitragslisteSK:                Printer.FileName:='Beitragsliste.pdf';
                     EinAus:                         Printer.FileName:='EinAus.pdf';
+                    Haushaltsplan:                  Printer.FileName:='Haushaltsplan.pdf';
                     Finanzbericht:                  Printer.FileName:='Finanzbericht.pdf';
                     Journal:                        Printer.FileName:='Journal.pdf';
                     JournalGefiltert:               Printer.FileName:='JournalGefiltert.pdf';
