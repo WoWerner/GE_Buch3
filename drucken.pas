@@ -1715,8 +1715,8 @@ begin
       begin
         if (View.Name='picUnterschrift') then
           begin
-            if FileExists(sAppDir+'module\unterschrift.png')
-              then TFrPictureView(View).Picture.LoadFromFile(sAppDir+'module\unterschrift.png')
+            if FileExists(sAppDir+'module\Bilder\unterschrift.png')
+              then TFrPictureView(View).Picture.LoadFromFile(sAppDir+'module\Bilder\unterschrift.png')
               else TFrPictureView(View).Picture.Clear;
           end;
       end;

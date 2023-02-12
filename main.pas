@@ -294,7 +294,7 @@ begin
   labMyWeb.Caption       := global.sHomePage;
 
   try
-    imgSELK.Picture.LoadFromFile(sAppDir+'module\selk_ohne.png');
+    imgSELK.Picture.LoadFromFile(sAppDir+'module\Bilder\selk_ohne.png');
   except
 
   end;
