@@ -348,7 +348,7 @@ object frmJournal: TfrmJournal
       Value = 2000
     end
     object Label4: TLabel
-      Left = 16
+      Left = 15
       Height = 15
       Top = 11
       Width = 73

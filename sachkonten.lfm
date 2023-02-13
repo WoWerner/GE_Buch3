@@ -135,7 +135,7 @@ object frmSachkonten: TfrmSachkonten
     object btnClose: TButton
       Left = 688
       Height = 25
-      Top = 163
+      Top = 165
       Width = 110
       Caption = 'Schließen'
       OnClick = btnCloseClick
@@ -144,7 +144,7 @@ object frmSachkonten: TfrmSachkonten
     object btnHilfe: TButton
       Left = 688
       Height = 25
-      Top = 3
+      Top = 135
       Width = 110
       Caption = 'Hilfe'
       OnClick = btnHilfeClick
@@ -239,10 +239,10 @@ object frmSachkonten: TfrmSachkonten
       TabOrder = 6
     end
     object btnSetFreistellung: TButton
-      Left = 688
+      Left = 576
       Height = 25
-      Top = 36
-      Width = 110
+      Top = 165
+      Width = 104
       Caption = 'Setze Freistellung'
       OnClick = btnSetFreistellungClick
       OnContextPopup = btnSetFreistellungContextPopup
@@ -279,8 +279,8 @@ object frmSachkonten: TfrmSachkonten
       Left = 8
       Height = 15
       Top = 168
-      Width = 118
-      Caption = 'Haushalts Plansumme'
+      Width = 115
+      Caption = 'Haushaltsplansumme'
       ParentColor = False
     end
     object ediPlansumme: TEdit

@@ -37,7 +37,7 @@ object frmBanken: TfrmBanken
     ClientWidth = 748
     TabOrder = 1
     object btnClose: TButton
-      Left = 515
+      Left = 603
       Height = 25
       Top = 129
       Width = 136
@@ -46,7 +46,7 @@ object frmBanken: TfrmBanken
       TabOrder = 0
     end
     object btnHilfe: TButton
-      Left = 515
+      Left = 603
       Height = 25
       Top = 99
       Width = 136
