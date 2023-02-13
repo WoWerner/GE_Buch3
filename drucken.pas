@@ -12,9 +12,6 @@ uses
   LR_Class,
   LR_DBSet,
   LR_Desgn,
-  LR_E_HTM,
-  LR_E_CSV,
-  LR_E_TXT,
   Forms,
   Controls,
   Graphics,
@@ -22,7 +19,7 @@ uses
   StdCtrls,
   ExtCtrls,
   Printers,
-  Menus,
+  Menus, Spin,
   types;
 
 type
@@ -89,16 +86,15 @@ type
     cbDrucker: TComboBox;
     DateTimePickerBis: TDateTimePicker;
     DateTimePickerVon: TDateTimePicker;
+    ediBuchungsjahr: TSpinEdit;
     ediFilter: TLabeledEdit;
-    frCSVExport: TfrCSVExport;
     frDBDataSet: TfrDBDataSet;
     frDBDataSetDetail: TfrDBDataSet;
     frDBDataSetDetail1: TfrDBDataSet;
     frDesigner: TfrDesigner;
-    frHTMExport: TfrHTMExport;
     frReport: TfrReport;
-    frTextExport: TfrTextExport;
     Label2: TLabel;
+    Label4: TLabel;
     rgFilter: TRadioGroup;
     Shape1: TShape;
     Shape2: TShape;
@@ -271,11 +267,11 @@ begin
           sHelp            := '';
 
           if cbDatum.Checked
-            then sHelp := shelp + ' and (journal.Datum >='+SQLiteDateFormat(DateTimePickerVon.Date)+')'+
-                                  ' and (journal.Datum <='+SQLiteDateFormat(DateTimePickerBis.Date)+')';
+            then sHelp := ' and (journal.Datum >='+SQLiteDateFormat(DateTimePickerVon.Date)+')'+
+                          ' and (journal.Datum <='+SQLiteDateFormat(DateTimePickerBis.Date)+')';
 
           frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\BeitragslisteDrucken.sql');
-          frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
+          frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
           frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
           frmDM.ZQueryDrucken.Open;
 
@@ -295,7 +291,7 @@ begin
                           AddLine('Summe', IntToCurrency(Col1SummePart1), IntToCurrency(Col2SummePart1), footer); //Zusammenfassung
                           AddLine('', '', '', blank); //Leerzeile
                         end;
-                    AddLine(sSachkontoNr, inttostr(nBuchungsjahr), inttostr(nBuchungsjahr-1), header); //Neues Sachkonto, neue Rubrik
+                    AddLine(sSachkontoNr, inttostr(ediBuchungsjahr.value), inttostr(ediBuchungsjahr.value-1), header); //Neues Sachkonto, neue Rubrik
                     Col1SummePart1 := 0;
                     Col2SummePart1 := 0;
                     sLastName      := '';
@@ -306,7 +302,7 @@ begin
                     AddLine(sName, IntToCurrency(0), IntToCurrency(0), line);  //Neuer Name, neue Zeile
                     sLastName := sName;
                   end;
-              if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = nBuchungsjahr
+              if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = ediBuchungsjahr.value
                 then
                   begin
                     TwoColReportData[FRow].Col1 := IntToCurrency(Betrag);
@@ -352,12 +348,12 @@ begin
           sHelp            := '';
 
           if cbDatum.Checked
-            then sHelp := shelp + ' and (journal.Datum >='+SQLiteDateFormat(DateTimePickerVon.Date)+')'+
-                                  ' and (journal.Datum <='+SQLiteDateFormat(DateTimePickerBis.Date)+')';
+            then sHelp := ' and (journal.Datum >='+SQLiteDateFormat(DateTimePickerVon.Date)+')'+
+                          ' and (journal.Datum <='+SQLiteDateFormat(DateTimePickerBis.Date)+')';
 
           frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\ZahlerlisteDrucken.sql');
           frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
-          frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
+          frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
           frmDM.ZQueryDrucken.Open;
 
           while not frmDM.ZQueryDrucken.EOF do
@@ -375,7 +371,7 @@ begin
                           AddLine('Summe', IntToCurrency(Col1SummePart1), IntToCurrency(Col2SummePart1), footer);  //Zusammenfassung
                           AddLine('', '', '', blank); //Leerzeile
                         end;
-                    AddLine(sName, inttostr(nBuchungsjahr), inttostr(nBuchungsjahr-1), header); //Neues Sachkonto, neue Rubrik
+                    AddLine(sName, inttostr(ediBuchungsjahr.value), inttostr(ediBuchungsjahr.value-1), header); //Neues Sachkonto, neue Rubrik
                     sLastName        := sName;
                     Col1SummePart1   := 0;
                     Col2SummePart1   := 0;
@@ -387,7 +383,7 @@ begin
                     AddLine(sSachkontoNr, IntToCurrency(0), IntToCurrency(0), line);  //Neuer Name, neue Zeile
                     sLastSachkontoNr := sSachkontoNr;
                   end;
-              if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = nBuchungsjahr
+              if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = ediBuchungsjahr.value
                 then
                   begin
                     TwoColReportData[FRow].Col1 := IntToCurrency(Betrag);
@@ -424,16 +420,16 @@ begin
         begin
           frDBDataSet.DataSource := frmDM.dsDrucken;
           frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\ZuwendungDrucken.sql');
-          frmDM.ZQueryDrucken.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
+          frmDM.ZQueryDrucken.ParamByName('BJAHR').AsString := inttostr(ediBuchungsjahr.value);
           frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':ADDWHERE', '', [rfReplaceAll]);
 
           frmDM.ZQueryDruckenDetail.SQL.LoadFromFile(sAppDir+'module\SQL\ZuwendungDruckenDetail.sql');
-          frmDM.ZQueryDruckenDetail.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
+          frmDM.ZQueryDruckenDetail.ParamByName('BJAHR').AsString := inttostr(ediBuchungsjahr.value);
           frmDM.ZQueryDruckenDetail.MasterFields := 'PersonenID';
           frmDM.ZQueryDruckenDetail.LinkedFields := 'PersonenID';
 
           frmDM.ZQueryDruckenDetail1.SQL.LoadFromFile(sAppDir+'module\SQL\ZuwendungDruckenDetail1.sql');
-          frmDM.ZQueryDruckenDetail1.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
+          frmDM.ZQueryDruckenDetail1.ParamByName('BJAHR').AsString := inttostr(ediBuchungsjahr.value);
           frmDM.ZQueryDruckenDetail1.MasterFields := 'PersonenID';
           frmDM.ZQueryDruckenDetail1.LinkedFields := 'PersonenID';
 
@@ -447,7 +443,7 @@ begin
         begin
           frDBDataSet.DataSource := frmDM.dsDrucken;
           frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\BankenDrucken.sql');
-          frmDM.ZQueryDrucken.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
+          frmDM.ZQueryDrucken.ParamByName('BJahr').AsString := inttostr(ediBuchungsjahr.value);
           frReport.LoadFromFile(sAppDir+'module\Reporte\BankenDrucken.lrf');
           frmDM.ZQueryDrucken.Open;
           frReport.Dataset := frDBDataSet;
@@ -478,18 +474,19 @@ begin
           Col1SummePart1   := 0;
           sLastKontoNr     := '';
           sKontoNr         := '';
+          sHelp            := '';
 
           if cbDatum.Checked
-            then sHelp := shelp + ' and (journal.Datum >='+SQLiteDateFormat(DateTimePickerVon.Date)+')'+
-                                  ' and (journal.Datum <='+SQLiteDateFormat(DateTimePickerBis.Date)+')';
+            then sHelp := ' and (journal.Datum >='+SQLiteDateFormat(DateTimePickerVon.Date)+')'+
+                          ' and (journal.Datum <='+SQLiteDateFormat(DateTimePickerBis.Date)+')';
 
           frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\BankenDrucken.sql');
-          frmDM.ZQueryDrucken.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
+          frmDM.ZQueryDrucken.ParamByName('BJahr').AsString := inttostr(ediBuchungsjahr.value);
           frmDM.ZQueryDrucken.Open;
 
           frmDM.ZQueryDruckenDetail.SQL.LoadFromFile(sAppDir+'module\SQL\JournalDruckenBK.sql');
           frmDM.ZQueryDruckenDetail.SQL.Text := StringReplace(frmDM.ZQueryDruckenDetail.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
-          frmDM.ZQueryDruckenDetail.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
+          frmDM.ZQueryDruckenDetail.ParamByName('BJAHR').AsString := inttostr(ediBuchungsjahr.value);
           frmDM.ZQueryDruckenDetail.Open;
 
           while not frmDM.ZQueryDrucken.EOF do
@@ -566,11 +563,11 @@ begin
         begin
           frDBDataSet.DataSource := frmDM.dsDrucken;
           frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\JournalDruckenSK.sql');
-          frmDM.ZQueryDrucken.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
+          frmDM.ZQueryDrucken.ParamByName('BJahr').AsString := inttostr(ediBuchungsjahr.value);
 
           frmDM.ZQueryDruckenDetail.SQL.LoadFromFile(sAppDir+'module\SQL\JournalDrucken.sql');
           frmDM.ZQueryDruckenDetail.SQL.Text := StringReplace(frmDM.ZQueryDruckenDetail.SQL.Text, ':AddWhere', '', [rfReplaceAll]);
-          frmDM.ZQueryDruckenDetail.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
+          frmDM.ZQueryDruckenDetail.ParamByName('BJAHR').AsString := inttostr(ediBuchungsjahr.value);
 
           frmDM.ZQueryDruckenDetail.MasterFields := 'konto_nach';
           frmDM.ZQueryDruckenDetail.LinkedFields := 'konto_nach';
@@ -611,7 +608,7 @@ begin
 
 
           frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
-          frmDM.ZQueryDrucken.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
+          frmDM.ZQueryDrucken.ParamByName('BJahr').AsString := inttostr(ediBuchungsjahr.value);
 
           case Druckmode of
             Journal                 : frReport.LoadFromFile(sAppDir+'module\Reporte\JournalDrucken.lrf');
@@ -647,19 +644,11 @@ begin
           sSachkontoNr       := '';
           sBereich           := '';
 
-          if Druckmode = Summenliste then rgFilter.ItemIndex := 0;
-
-          case rgFilter.ItemIndex of
-            0: sHelp := '';
-            1: sHelp := 'and (journal.BankNr ='+ediFilter.Text+')';
-            2: sHelp := 'and (journal.konto_nach ='+ediFilter.Text+')';
-            3: sHelp := 'and (journal.PersonenID ='+ediFilter.Text+')';
-            4: sHelp := 'and (journal.bemerkung like ''%'+ediFilter.Text+'%'')';
-          end;
+          rgFilter.ItemIndex := 0;  //Nur Datumsfilter
 
           if cbDatum.Checked
-            then sHelp := shelp + ' and (journal.Datum >='+SQLiteDateFormat(DateTimePickerVon.Date)+')'+
-                                  ' and (journal.Datum <='+SQLiteDateFormat(DateTimePickerBis.Date)+')';
+            then sHelp := ' and (journal.Datum >='+SQLiteDateFormat(DateTimePickerVon.Date)+')'+
+                          ' and (journal.Datum <='+SQLiteDateFormat(DateTimePickerBis.Date)+')';
 
           //Der "Summenliste" Report enthält 6 Teile.
           //Part 1 Einnahmen
@@ -698,7 +687,7 @@ begin
               //AddWhereAnd1 Filter (Bereiche und Datum)
               //AddWhereAnd2 Steuer
               //AddWhereOr   Plansumme > 0 mit ausgeben
-              frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
+              frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
               frmDM.ZQueryDrucken.ParamByName('TYP').AsString    := 'E';
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd1', sHelp, [rfReplaceAll]);
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd2', ' and (konten.Steuer="'+slHelp.Strings[i]+'")', [rfReplaceAll]);
@@ -713,8 +702,8 @@ begin
                   sBereich := 'Einnahmen';
                   if slHelp.Strings[i] <> '' then sBereich := sBereich + ' ('+slHelp.Strings[i]+')';
                   if Druckmode = Haushaltsplan
-                    then AddLine(sBereich,  inttostr(nBuchungsjahr),  'Haushaltsplan'          , header2)
-                    else AddLine(sBereich,  inttostr(nBuchungsjahr),  inttostr(nBuchungsjahr-1), header2);
+                    then AddLine(sBereich,  inttostr(ediBuchungsjahr.value),  'Haushaltsplan'          , header2)
+                    else AddLine(sBereich,  inttostr(ediBuchungsjahr.value),  inttostr(ediBuchungsjahr.value-1), header2);
                   Col1ZwischenSummePart1 := 0;
                   Col2ZwischenSummePart1 := 0;
 
@@ -769,7 +758,7 @@ begin
             begin
               //Part 2 Ausgaben
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenJournalEinAus.sql');
-              frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
+              frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
               frmDM.ZQueryDrucken.ParamByName('TYP').AsString    := 'A';
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd1', sHelp, [rfReplaceAll]);
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd2', ' and (konten.Steuer="'+slHelp.Strings[i]+'")', [rfReplaceAll]);
@@ -783,8 +772,8 @@ begin
                   sBereich := 'Ausgaben';
                   if slHelp.Strings[i] <> '' then sBereich := sBereich + ' ('+slHelp.Strings[i]+')';
                   if Druckmode = Haushaltsplan
-                    then AddLine(sBereich,  inttostr(nBuchungsjahr),  'Haushaltsplan', header2)  //Überschrift Part 2
-                    else AddLine(sBereich,  inttostr(nBuchungsjahr),  inttostr(nBuchungsjahr-1), header2);
+                    then AddLine(sBereich,  inttostr(ediBuchungsjahr.value),  'Haushaltsplan', header2)  //Überschrift Part 2
+                    else AddLine(sBereich,  inttostr(ediBuchungsjahr.value),  inttostr(ediBuchungsjahr.value-1), header2);
                   Col1ZwischenSummePart2 := 0;
                   Col2ZwischenSummePart2 := 0;
 
@@ -831,11 +820,11 @@ begin
           if Druckmode = Summenliste then
             begin
               AddLine('', '', '', blank); //Leerzeile
-              AddLine('Durchgang Einzahlungen', inttostr(nBuchungsjahr), inttostr(nBuchungsjahr-1), header); //Überschrift Part 3
+              AddLine('Durchgang Einzahlungen', inttostr(ediBuchungsjahr.value), inttostr(ediBuchungsjahr.value-1), header); //Überschrift Part 3
 
               //Part 3 Durchgang Einzahlungen
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenJournalDurchgang.sql');
-              frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
+              frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', '' + sHelp, [rfReplaceAll]);
               frmDM.ZQueryDrucken.Open;
                 //Daten Part 3
@@ -853,7 +842,7 @@ begin
                               Col1LineSummePart3 := 0;
                               Col2LineSummePart3 := 0;
                             end;
-                        if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = nBuchungsjahr
+                        if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = ediBuchungsjahr.value
                           then
                             begin
                               Col1SummePart3     := Col1SummePart3     + frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint;
@@ -877,7 +866,7 @@ begin
               sLastSachkontoNr := '';
 
               //Part 3b Durchgang Weiterleitungen
-              AddLine('Durchgang Weiterleitungen', inttostr(nBuchungsjahr), inttostr(nBuchungsjahr-1), header); //Überschrift Part 3b
+              AddLine('Durchgang Weiterleitungen', inttostr(ediBuchungsjahr.value), inttostr(ediBuchungsjahr.value-1), header); //Überschrift Part 3b
 
               //Daten Part 3b
               while not frmDM.ZQueryDrucken.EOF do
@@ -894,7 +883,7 @@ begin
                               Col1LineSummePart3b := 0;
                               Col2LineSummePart3b := 0;
                             end;
-                        if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = nBuchungsjahr
+                        if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = ediBuchungsjahr.value
                           then
                             begin
                               Col1SummePart3b     := Col1SummePart3b     + frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint;
@@ -919,7 +908,7 @@ begin
 
               //Part 4 Kassenstände
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenBanken.sql');
-              frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
+              frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
               frmDM.ZQueryDrucken.Open;
               AddLine('Kassenstände', '', '', header);  //Überschrift Part 4
 
@@ -928,12 +917,12 @@ begin
                   begin
                     //Daten Part 4 1. Durchgang "Normale Buchungen"
                     frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenBankenUmsatz.sql');
-                    frmDM.ZQueryHelp.ParamByName('BJAHR').AsInteger := nBuchungsjahr;
+                    frmDM.ZQueryHelp.ParamByName('BJAHR').AsInteger := ediBuchungsjahr.value;
                     frmDM.ZQueryHelp.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd',DateTimePickerVon.Date-1);
                     frmDM.ZQueryHelp.Open;
 
                     frmDM.ZQueryHelp1.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenBankenUmsatz.sql');
-                    frmDM.ZQueryHelp1.ParamByName('BJAHR').AsInteger := nBuchungsjahr;
+                    frmDM.ZQueryHelp1.ParamByName('BJAHR').AsInteger := ediBuchungsjahr.value;
                     frmDM.ZQueryHelp1.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd',DateTimePickerBis.Date);
                     frmDM.ZQueryHelp1.Open;
 
@@ -978,12 +967,12 @@ begin
 
                     //Daten Part 4 2. Durchgang "Umbuchungen"
                     frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenBankenUmsatz2.sql');
-                    frmDM.ZQueryHelp.ParamByName('BJAHR').AsInteger := nBuchungsjahr;
+                    frmDM.ZQueryHelp.ParamByName('BJAHR').AsInteger := ediBuchungsjahr.value;
                     frmDM.ZQueryHelp.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd',DateTimePickerVon.Date-1);
                     frmDM.ZQueryHelp.Open;
 
                     frmDM.ZQueryHelp1.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenBankenUmsatz2.sql');
-                    frmDM.ZQueryHelp1.ParamByName('BJAHR').AsInteger := nBuchungsjahr;
+                    frmDM.ZQueryHelp1.ParamByName('BJAHR').AsInteger := ediBuchungsjahr.value;
                     frmDM.ZQueryHelp1.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd',DateTimePickerBis.Date);
                     frmDM.ZQueryHelp1.Open;
 
@@ -1021,8 +1010,8 @@ begin
                   end
                 else
                   begin
-                    TwoColReportData[FRow].Col1 := inttostr(nBuchungsjahr);
-                    TwoColReportData[FRow].Col2 := '31.12.'+inttostr(nBuchungsjahr-1);
+                    TwoColReportData[FRow].Col1 := inttostr(ediBuchungsjahr.value);
+                    TwoColReportData[FRow].Col2 := '31.12.'+inttostr(ediBuchungsjahr.value-1);
                     //Daten Part 4
                     while not frmDM.ZQueryDrucken.EOF do
                       begin
@@ -1051,7 +1040,7 @@ begin
               AddLine('Umbuchungen (werden alle 2 mal aufgeführt)', '', '', header);  //Überschrift Part 6
 
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenUmbuchungen.sql');
-              frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
+              frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
               frmDM.ZQueryDrucken.Open;
                 //Daten Part 6 BankNr
@@ -1062,7 +1051,7 @@ begin
                 end;
               frmDM.ZQueryDrucken.Close;
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenUmbuchungen2.sql');
-              frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
+              frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
               frmDM.ZQueryDrucken.Open;
                 //Daten Part 6 Konto_Nach
@@ -1166,7 +1155,7 @@ begin
                     Sachkontenliste:                Printer.FileName:='Sachkontenliste.pdf';
                     Summenliste:                    Printer.FileName:='Summenliste.pdf';
                     Zahlungsliste:                  Printer.FileName:='Zahlungsliste.pdf';
-                    Zuwendung:                      Printer.FileName:='Zuwendung'+inttostr(nBuchungsJahr)+'.pdf';
+                    Zuwendung:                      Printer.FileName:='Zuwendung'+inttostr(ediBuchungsjahr.value)+'.pdf';
                     else                            Printer.FileName:='Ausgabe.pdf';
                   end;
                   Printer.Title    := Printer.FileName;
@@ -1178,7 +1167,7 @@ begin
                           then
                             begin
                               frmDM.ZQueryHelp.SQL.Text:='Select * from Personen where PersonenID IN (select PersonenID from Journal where (BuchungsJahr = :BJahr) and (PersonenID <> 0) and (not (PersonenID isnull)) group by PersonenID Order by PersonenID) Order by PersonenID';
-                              frmDM.ZQueryHelp.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
+                              frmDM.ZQueryHelp.ParamByName('BJAHR').AsString := inttostr(ediBuchungsjahr.value);
                               frmDM.ZQueryHelp.Open;
                               frmDM.ZQueryHelp.First;
                               while not frmDM.ZQueryHelp.EOF do
@@ -1190,7 +1179,7 @@ begin
                                   frmDM.ZQueryDrucken.Close;
 
                                   frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\ZuwendungDrucken.sql');
-                                  frmDM.ZQueryDrucken.ParamByName('BJAHR').AsString := inttostr(nBuchungsjahr);
+                                  frmDM.ZQueryDrucken.ParamByName('BJAHR').AsString := inttostr(ediBuchungsjahr.value);
                                   frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':ADDWHERE', 'and journal.PersonenID = '+frmDM.ZQueryHelp.FieldByName('PersonenID').AsString, [rfReplaceAll]);
                                   frmDM.ZQueryDrucken.Open;
                                   frReport.ShowProgress:=false;
@@ -1390,13 +1379,13 @@ begin
     end;
 
   frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenJournalDurchgang.sql');
-  frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
+  frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
   frmDM.ZQueryDrucken.SQL.Text := StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', '', [rfReplaceAll]);
   frmDM.ZQueryDrucken.Open;
   while not frmDM.ZQueryDrucken.EOF do
     begin
       //Zwichenspeichern
-      if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = nBuchungsjahr
+      if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = ediBuchungsjahr.value
         then
           begin
             nHelp := frmDM.ZQueryDrucken.FieldByName('Konto_nach').AsInteger;
@@ -1570,19 +1559,21 @@ begin
   DateTimePickerVon.Enabled := false;
   DateTimePickerBis.Enabled := false;
   shape1.Visible            := (rgFilter.ItemIndex <> 0) or  cbDatum.Checked;
-  shape3.Visible            := (rgFilter.ItemIndex <> 0) or  cbDatum.Checked;
-  shape2.Visible            := (rgFilter.ItemIndex = 0 ) and cbDatum.Checked;
+  shape3.Visible            := shape1.Visible;
+  shape2.Visible            := (rgFilter.ItemIndex =  0) and cbDatum.Checked;
   if cbDatum.Checked
     then
       begin
         DateTimePickerVon.Enabled := true;
         DateTimePickerBis.Enabled := true;
-        DateTimePickerVon.Date    := StrToDate('01.01.'+inttostr(nBuchungsjahr));
-        DateTimePickerBis.Date    := StrToDate('31.12.'+inttostr(nBuchungsjahr));
-        DateTimePickerVon.MinDate := DateTimePickerVon.Date;
-        DateTimePickerVon.MaxDate := DateTimePickerBis.Date;
-        DateTimePickerBis.MinDate := DateTimePickerVon.Date;
-        DateTimePickerBis.MaxDate := DateTimePickerBis.Date;
+        //Zuerst die Grenzen
+        DateTimePickerVon.MinDate := StrToDate('01.01.'+inttostr(ediBuchungsjahr.value));
+        DateTimePickerVon.MaxDate := StrToDate('31.12.'+inttostr(ediBuchungsjahr.value));
+        DateTimePickerBis.MinDate := DateTimePickerVon.MinDate;
+        DateTimePickerBis.MaxDate := DateTimePickerVon.MaxDate;
+        //dann der Wert
+        DateTimePickerVon.Date    := DateTimePickerVon.MinDate;
+        DateTimePickerBis.Date    := DateTimePickerVon.MaxDate;
       end;
 end;
 
@@ -1610,8 +1601,9 @@ end;
 
 procedure TfrmDrucken.FormShow(Sender: TObject);
 begin
-  Druckmode := none;
-  Seite     := 1;
+  Druckmode             := none;
+  Seite                 := 1;
+  ediBuchungsjahr.Value := nBuchungsjahr;
 end;
 
 
@@ -1766,7 +1758,7 @@ var
   sWord  : string;
 
 begin
-  if      ParName = 'Buchungsjahr' then ParValue := inttostr(nBuchungsjahr)
+  if      ParName = 'Buchungsjahr' then ParValue := inttostr(ediBuchungsjahr.value)
   else if ParName = 'GemName'      then ParValue := sGemeindeName
   else if ParName = 'GemOrt'       then ParValue := sGemeindeOrt
   else if ParName = 'GemStrOrt'    then ParValue := sGemeindeAdr2
@@ -1813,7 +1805,7 @@ begin
             sWhere := sWhere + ')';
             if (t = 'B') then
               begin
-                i := GetDBSum(frmDM.ZQueryHelp, 'BankenAbschluss', 'Anfangssaldo', 'left join konten on konten.KontoNr=BankenAbschluss.KontoNr', sWhere+' and BuchungsJahr='+inttostr(nBuchungsjahr));
+                i := GetDBSum(frmDM.ZQueryHelp, 'BankenAbschluss', 'Anfangssaldo', 'left join konten on konten.KontoNr=BankenAbschluss.KontoNr', sWhere+' and BuchungsJahr='+inttostr(ediBuchungsjahr.value));
                 nBestand := i;
               end
             else if (t = 'S') then
@@ -1822,17 +1814,17 @@ begin
               end
             else if (t = 'P') or (t = 'E') then
               begin
-                i := GetDBSum(frmDM.ZQueryHelp, 'Journal left join konten on konten.KontoNr=journal.Konto_Nach', 'Betrag', '', sWhere+' and BuchungsJahr='+inttostr(nBuchungsjahr) + ' and (((journal.Betrag > 0) and (konten.Kontotype = "D")) or (konten.Kontotype = "E")) ');
+                i := GetDBSum(frmDM.ZQueryHelp, 'Journal left join konten on konten.KontoNr=journal.Konto_Nach', 'Betrag', '', sWhere+' and BuchungsJahr='+inttostr(ediBuchungsjahr.value) + ' and (((journal.Betrag > 0) and (konten.Kontotype = "D")) or (konten.Kontotype = "E")) ');
                 if (t = 'E') then nEinnahmen := i;
               end
             else if (t = 'N') or (t = 'A') then
               begin
-                i := GetDBSum(frmDM.ZQueryHelp, 'Journal left join konten on konten.KontoNr=journal.Konto_Nach', 'Betrag', '', sWhere+' and BuchungsJahr='+inttostr(nBuchungsjahr) + ' and (((journal.Betrag < 0) and (konten.Kontotype = "D")) or (konten.Kontotype = "A")) ');
+                i := GetDBSum(frmDM.ZQueryHelp, 'Journal left join konten on konten.KontoNr=journal.Konto_Nach', 'Betrag', '', sWhere+' and BuchungsJahr='+inttostr(ediBuchungsjahr.value) + ' and (((journal.Betrag < 0) and (konten.Kontotype = "D")) or (konten.Kontotype = "A")) ');
                 if (t = 'A') then nAusgaben := i;
               end
             else
               // K
-              i := GetDBSum(frmDM.ZQueryHelp, 'Journal left join konten on konten.KontoNr=journal.Konto_Nach', 'Betrag', '', sWhere+' and BuchungsJahr='+inttostr(nBuchungsjahr));
+              i := GetDBSum(frmDM.ZQueryHelp, 'Journal left join konten on konten.KontoNr=journal.Konto_Nach', 'Betrag', '', sWhere+' and BuchungsJahr='+inttostr(ediBuchungsjahr.value));
             ParValue := IntToCurrency(i)+' €'; ;
           end
       end;
@@ -1899,8 +1891,8 @@ procedure TfrmDrucken.rgFilterSelectionChanged(Sender: TObject);
 begin
   ediFilter.Enabled := false;
   shape1.Visible    := cbDatum.Checked;
-  shape3.Visible    := cbDatum.Checked;
   shape2.Visible    := cbDatum.Checked and (rgFilter.ItemIndex = 0);
+  shape3.Visible    := cbDatum.Checked or (rgFilter.ItemIndex <> 0);
   case rgFilter.ItemIndex of
     1,
     2,
@@ -1908,7 +1900,6 @@ begin
     4  : begin
            ediFilter.Enabled := true;
            shape1.Visible    := true;
-           shape3.Visible    := true;
            ediFilter.Text    := '';
          end;
   end;
