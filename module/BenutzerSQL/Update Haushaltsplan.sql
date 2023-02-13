@@ -1,0 +1,1 @@
+update konten set PlanSumme = 100 where KontoNr = 84

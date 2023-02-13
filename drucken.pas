@@ -102,6 +102,7 @@ type
     rgFilter: TRadioGroup;
     Shape1: TShape;
     Shape2: TShape;
+    Shape3: TShape;
     procedure btnBankenlisteClick(Sender: TObject);
     procedure btnBankenlisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnBeitragslisteClick(Sender: TObject);
@@ -680,7 +681,7 @@ begin
 
           //Part 1 Einnahmen
           //Part 2 Ausgaben
-          //werden noch in die Steuerbereiche aufgeteilt
+          //werden noch in die "Steuer" - Bereiche aufgeteilt
 
           //Überschrift Part 1
           AddLine('Einnahmen', '', '', header);
@@ -691,9 +692,16 @@ begin
             begin
               //Part 1 Einnahmen
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenJournalEinAus.sql');
+              //Diese SQL Abfrage enthält 5 Variablen
+              //BJahr        Buchungsjahr
+              //Type         E oder A für Kontotype
+              //AddWhereAnd1 Filter (Bereiche und Datum)
+              //AddWhereAnd2 Steuer
+              //AddWhereOr   Plansumme > 0 mit ausgeben
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
               frmDM.ZQueryDrucken.ParamByName('TYP').AsString    := 'E';
-              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd', sHelp + ' and (konten.Steuer="'+slHelp.Strings[i]+'")', [rfReplaceAll]);
+              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd1', sHelp, [rfReplaceAll]);
+              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd2', ' and (konten.Steuer="'+slHelp.Strings[i]+'")', [rfReplaceAll]);
               if Druckmode = Haushaltsplan
                 then frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereOr', ' or (konten.PlanSumme>0)', [rfReplaceAll])
                 else frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereOr', '', [rfReplaceAll]);
@@ -763,7 +771,8 @@ begin
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenJournalEinAus.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := nBuchungsjahr;
               frmDM.ZQueryDrucken.ParamByName('TYP').AsString    := 'A';
-              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd', sHelp + ' and (konten.Steuer="'+slHelp.Strings[i]+'")', [rfReplaceAll]);
+              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd1', sHelp, [rfReplaceAll]);
+              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd2', ' and (konten.Steuer="'+slHelp.Strings[i]+'")', [rfReplaceAll]);
               if Druckmode = Haushaltsplan
                 then frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereOr', ' or (konten.PlanSumme>0)', [rfReplaceAll])
                 else frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereOr', '', [rfReplaceAll]);
@@ -1561,6 +1570,7 @@ begin
   DateTimePickerVon.Enabled := false;
   DateTimePickerBis.Enabled := false;
   shape1.Visible            := (rgFilter.ItemIndex <> 0) or  cbDatum.Checked;
+  shape3.Visible            := (rgFilter.ItemIndex <> 0) or  cbDatum.Checked;
   shape2.Visible            := (rgFilter.ItemIndex = 0 ) and cbDatum.Checked;
   if cbDatum.Checked
     then
@@ -1889,6 +1899,7 @@ procedure TfrmDrucken.rgFilterSelectionChanged(Sender: TObject);
 begin
   ediFilter.Enabled := false;
   shape1.Visible    := cbDatum.Checked;
+  shape3.Visible    := cbDatum.Checked;
   shape2.Visible    := cbDatum.Checked and (rgFilter.ItemIndex = 0);
   case rgFilter.ItemIndex of
     1,
@@ -1897,6 +1908,7 @@ begin
     4  : begin
            ediFilter.Enabled := true;
            shape1.Visible    := true;
+           shape3.Visible    := true;
            ediFilter.Text    := '';
          end;
   end;

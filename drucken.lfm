@@ -1,17 +1,26 @@
 object frmDrucken: TfrmDrucken
   Left = 590
-  Height = 339
+  Height = 340
   Top = 219
   Width = 633
   BorderStyle = bsDialog
   Caption = 'Drucken'
-  ClientHeight = 339
+  ClientHeight = 340
   ClientWidth = 633
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '2.2.4.0'
+  object Shape3: TShape
+    Left = 416
+    Height = 40
+    Top = 112
+    Width = 217
+    Brush.Color = clSilver
+    Pen.Color = clSilver
+    Visible = False
+  end
   object Shape2: TShape
     Left = 0
     Height = 110
@@ -37,6 +46,7 @@ object frmDrucken: TfrmDrucken
     Width = 159
     Caption = 'Ein / Ausgaben (gefiltert)'
     OnClick = btnEinAusClick
+    OnContextPopup = btnSummenlisteContextPopup
     TabOrder = 16
   end
   object btnJournaldruck: TButton
@@ -138,10 +148,10 @@ object frmDrucken: TfrmDrucken
     TabOrder = 8
   end
   object btnPersonenlisteKompakt: TButton
-    Left = 559
+    Left = 552
     Height = 25
     Top = 82
-    Width = 64
+    Width = 72
     Caption = 'Kompakt'
     OnClick = btnPersonenlisteKompaktClick
     OnContextPopup = btnPersonenlisteKompaktContextPopup
@@ -403,13 +413,14 @@ object frmDrucken: TfrmDrucken
     Width = 128
     Caption = 'Haushaltsplan'
     OnClick = btnHaushaltsplanClick
+    OnContextPopup = btnSummenlisteContextPopup
     TabOrder = 30
   end
   object btnHaushaltsplanCSV: TButton
-    Left = 560
+    Left = 552
     Height = 25
     Top = 120
-    Width = 64
+    Width = 72
     Caption = 'CSV'
     OnClick = btnHaushaltsplanCSVClick
     TabOrder = 31

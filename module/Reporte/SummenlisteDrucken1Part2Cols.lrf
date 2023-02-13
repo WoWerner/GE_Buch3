@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CONFIG>
   <LazReport>
-    <Version Value="29"/>
+    <Version Value="31"/>
     <Title Value=""/>
     <Subject Value=""/>
     <KeyWords Value=""/>
     <Comments Value=""/>
     <ReportCreateDate Value="2016-01-12 20:09:16"/>
-    <ReportLastChange Value="2016-11-09 19:41:08"/>
+    <ReportLastChange Value="2023-02-13 18:07:25"/>
     <ReportVersionBuild Value=""/>
     <ReportVersionMajor Value=""/>
     <ReportVersionMinor Value=""/>
@@ -398,34 +398,6 @@
           <Child Value=""/>
         </Object2>
         <Object3>
-          <Name Value="CrossHeader1"/>
-          <ClassName Value="TfrBandView"/>
-          <Visible Value="True"/>
-          <Typ Value="gtBand"/>
-          <StreamMode Value="0"/>
-          <Size>
-            <Left Value="72"/>
-            <Top Value="0"/>
-            <Width Value="420"/>
-            <Height Value="1071"/>
-          </Size>
-          <Flags Value="48"/>
-          <Data>
-            <Script Value=""/>
-            <GapX Value="0"/>
-            <GapY Value="0"/>
-          </Data>
-          <Tag Value=""/>
-          <FURLInfo Value=""/>
-          <Frames>
-            <Restrictions Value=""/>
-          </Frames>
-          <BandType Value="btCrossHeader"/>
-          <Condition Value=""/>
-          <DatasetStr Value=""/>
-          <Child Value=""/>
-        </Object3>
-        <Object4>
           <Name Value="CrossData1"/>
           <ClassName Value="TfrBandView"/>
           <Visible Value="True"/>
@@ -451,6 +423,34 @@
           <BandType Value="btCrossData"/>
           <Condition Value=""/>
           <DatasetStr Value="MasterData1=[Keine];MasterHeader1=[Keine];MasterFooter1=0;"/>
+          <Child Value=""/>
+        </Object3>
+        <Object4>
+          <Name Value="CrossHeader1"/>
+          <ClassName Value="TfrBandView"/>
+          <Visible Value="True"/>
+          <Typ Value="gtBand"/>
+          <StreamMode Value="0"/>
+          <Size>
+            <Left Value="72"/>
+            <Top Value="0"/>
+            <Width Value="420"/>
+            <Height Value="1071"/>
+          </Size>
+          <Flags Value="48"/>
+          <Data>
+            <Script Value=""/>
+            <GapX Value="0"/>
+            <GapY Value="0"/>
+          </Data>
+          <Tag Value=""/>
+          <FURLInfo Value=""/>
+          <Frames>
+            <Restrictions Value=""/>
+          </Frames>
+          <BandType Value="btCrossHeader"/>
+          <Condition Value=""/>
+          <DatasetStr Value=""/>
           <Child Value=""/>
         </Object4>
         <Object5>
@@ -499,7 +499,7 @@
           </Font>
           <Highlight>
             <FontStyle Value="2"/>
-            <FontColor Value="clBlack"/>
+            <FontColor Value="clRed"/>
             <FillColor Value="clWhite"/>
             <HighlightStr Value=""/>
           </Highlight>
