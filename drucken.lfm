@@ -332,10 +332,10 @@ object frmDrucken: TfrmDrucken
     TabOrder = 22
   end
   object cbDrucker: TComboBox
-    Left = 429
+    Left = 424
     Height = 23
     Top = 238
-    Width = 200
+    Width = 208
     DropDownCount = 12
     ItemHeight = 15
     TabOrder = 23
@@ -425,7 +425,7 @@ object frmDrucken: TfrmDrucken
     ParentColor = False
   end
   object ediBuchungsjahr: TSpinEdit
-    Left = 429
+    Left = 424
     Height = 23
     Top = 267
     Width = 59

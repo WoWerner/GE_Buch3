@@ -19,7 +19,8 @@ uses
   StdCtrls,
   ExtCtrls,
   Printers,
-  Menus, Spin,
+  Menus,
+  Spin,
   types;
 
 type
