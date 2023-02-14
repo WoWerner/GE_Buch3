@@ -188,10 +188,10 @@ object frmBanken: TfrmBanken
     object ediStatistik: TSpinEdit
       Left = 96
       Height = 23
-      Hint = 'Statistikbereiche:'#13#10'11 (Bar)Kassen'#13#10'12 Girokonten'#13#10'13 Festgeld, Sparbuch'#13#10'14 Wertpapierkonten'#13#10'15 sonstige Finanzanlagen '#13#10'16 Darlehnsforderungen'#13#10'17 Darlehnsverbindlichkeiten'#13#10'18 Forderungen aus Etatumlage'#13#10'19 Verbindlichkeiten aus Etatumlage'
+      Hint = '--Statistikbereiche'#13#10'11 (Bar)Kassen'#13#10'12 Girokonten'#13#10'13 Festgeld, Sparbuch'#13#10'14 Wertpapierkonten'#13#10'15 sonstige Finanzanlagen '#13#10'16 Darlehnsforderungen'#13#10'17 Darlehnsverbindlichkeiten'#13#10'18 Forderungen aus Etatumlage'#13#10'19 Verbindlichkeiten aus Etatumlage'#13#10'--Sonstiges'#13#10'99  Nicht erfassen'
       Top = 71
       Width = 56
-      MaxValue = 19
+      MaxValue = 99
       MinValue = 11
       OnExit = ediKontoNrExit
       ParentShowHint = False
