@@ -55,7 +55,11 @@ type
     MainMenu: TMainMenu;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
+    mnuHaushaltsplan: TMenuItem;
     mnuZahlerverteilung: TMenuItem;
+    mnuLimitsZahlerverteilungAlter: TMenuItem;
+    mnuLimitsZahlerBetrag: TMenuItem;
+    mnuZahlerverteilungEntry: TMenuItem;
     mnuJournalLast: TMenuItem;
     mnuJournalJump: TMenuItem;
     mnuShowDebug: TMenuItem;
@@ -64,13 +68,10 @@ type
     mnuExecSQLBatch: TMenuItem;
     mnuExportZuwendung: TMenuItem;
     mnuSuchtexteImport: TMenuItem;
-    mnuLimitsZahlerverteilungAlter: TMenuItem;
-    mnuLimitsZahlerBetrag: TMenuItem;
     MenuItem2: TMenuItem;
     mnuFehlerSuchen: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem7: TMenuItem;
-    MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
     mnuHilfe: TMenuItem;
     mnuSQLDebug: TMenuItem;
@@ -95,6 +96,8 @@ type
     OpenDialog: TOpenDialog;
     ProgressBar: TProgressBar;
     SaveDialog: TSaveDialog;
+    Separator1: TMenuItem;
+    Separator2: TMenuItem;
     procedure btnAktuellesClick(Sender: TObject);
     procedure btnBankkontenClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
@@ -123,6 +126,7 @@ type
     procedure mnuExportPersonenClick(Sender: TObject);
     procedure mnuExportZuwendungClick(Sender: TObject);
     procedure mnuFehlerSuchenClick(Sender: TObject);
+    procedure mnuHaushaltsplanClick(Sender: TObject);
     procedure mnuHilfeClick(Sender: TObject);
     procedure mnuJahresabschlussClick(Sender: TObject);
     procedure mnuJournalJumpClick(Sender: TObject);
@@ -684,6 +688,39 @@ begin
         frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\FehlerhafteBuchungenSuchen.sql');
         frmDM.ZQueryHelp.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
         ExecSQL('', frmDM.ZQueryHelp, false);
+      end;
+end;
+
+procedure TfrmMain.mnuHaushaltsplanClick(Sender: TObject);
+var
+  i         : integer;
+  rows      : longint;
+  sHelp     : String;
+
+begin
+  frmDM.ZQueryHelp.SQL.Text:='select * from konten where (konten.Kontotype = "A" or konten.Kontotype = "E") and (konten.Statistik <> 99) order by konten.Sortpos';
+  sHelp := '--Beträge in Cent'#13#10;
+  frmDM.ZQueryHelp.Open;
+  while (not frmDM.ZQueryHelp.EOF) do
+    begin
+      sHelp := sHelp + 'update konten set PlanSumme = '+frmDM.ZQueryHelp.FieldByName('PlanSumme').AsString.PadLeft(8, ' ')+
+                       ' where KontoNr = '+frmDM.ZQueryHelp.FieldByName('KontoNr').AsString.PadLeft(3, ' ')+
+                       '; --'+frmDM.ZQueryHelp.FieldByName('Name').AsString+#13#10;
+      frmDM.ZQueryHelp.Next;
+    end;
+  frmDM.ZQueryHelp.Close;
+  frmAusgabe.SetDefaults('Haushaltsplan aktualisieren', sHelp, '', 'SQL ausführen', 'Abbrechen', true);
+  if frmAusgabe.ShowModal = mrOK
+    then
+      begin
+        rows := 0;
+        for i := 0 to frmAusgabe.Memo.Lines.count-1 do
+          begin
+            sHelp := frmAusgabe.Memo.Lines[i];
+            sHelp := SQL_DeleteComment(sHelp);
+            if sHelp <> '' then rows := rows + ExecSQL(sHelp, frmDM.ZQueryHelp, false);
+          end;
+        if rows > 0 then Showmessage(inttostr(rows)+' Zeile(n) bearbeitet');
       end;
 end;
 
@@ -1615,7 +1652,7 @@ begin
   frmJournal.rgSort.ItemIndex     := 0;
   frmDM.ZQueryJournal.SQL.Text    := Format(sSelectJournal, [inttostr(nBuchungsjahr)]) + frmJournal.GetSortOrder;
   frmDM.ZQueryJournal.Open;
-  frmDM.ZQueryBanken.SQL.Text     := 'select konten.* ,bankenabschluss.* from konten left join bankenabschluss on konten.kontonr=bankenabschluss.kontonr where bankenabschluss.Buchungsjahr='+inttostr(nBuchungsjahr)+' order by konten.kontonr';
+  frmDM.ZQueryBanken.SQL.Text     := 'select konten.* ,bankenabschluss.* from konten left join bankenabschluss on konten.kontonr=bankenabschluss.kontonr where bankenabschluss.Buchungsjahr='+inttostr(nBuchungsjahr)+' order by konten.SortPos';
   frmDM.ZQueryBanken.Open;
   frmDM.ZQueryPersonen.SQL.Text   := sSelectPersonenSort;
   frmDM.ZQueryPersonen.Open;

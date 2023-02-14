@@ -357,6 +357,55 @@ object frmMain: TfrmMain
         end
       end
     end
+    object mnuEinstellungenMain: TMenuItem
+      Caption = 'Einstellungen'
+      object mnuEinstellungen: TMenuItem
+        Caption = 'Allgemeine Einstellungen'
+        OnClick = mnuEinstellungenClick
+      end
+      object mnuSuchtexteImport: TMenuItem
+        Caption = 'Suchtexte für Import'
+        OnClick = mnuSuchtexteImportClick
+      end
+      object mnuTausender: TMenuItem
+        Caption = 'Beträge mit Tausendertrennzeichen'
+        OnClick = mnuTausenderClick
+      end
+      object mnuEuroModus: TMenuItem
+        Caption = 'Beträge ohne Komma als Euro'
+        OnClick = mnuEuroModusClick
+      end
+      object mnuJournalJump: TMenuItem
+        Caption = 'Journal: zu fehlerhaftem Eintrag springen'
+        OnClick = mnuJournalJumpClick
+      end
+      object mnuJournalLast: TMenuItem
+        Caption = 'Journal: letzter Beitrag vorschlagen'
+        OnClick = mnuJournalLastClick
+      end
+      object MenuItem9: TMenuItem
+        Caption = '-'
+      end
+      object mnuHaushaltsplan: TMenuItem
+        Caption = 'Haushaltsplan aktualisieren'
+        OnClick = mnuHaushaltsplanClick
+      end
+      object Separator2: TMenuItem
+        Caption = '-'
+      end
+      object mnuDebug: TMenuItem
+        Caption = 'Debug'
+        OnClick = mnuDebugClick
+      end
+      object mnuSQLDebug: TMenuItem
+        Caption = 'SQL Debug'
+        OnClick = mnuSQLDebugClick
+      end
+      object mnuShowDebug: TMenuItem
+        Caption = 'Zeige Debug'
+        OnClick = mnuShowDebugClick
+      end
+    end
     object MenuItem6: TMenuItem
       Caption = 'Tools'
       object mnuDelOld: TMenuItem
@@ -392,62 +441,23 @@ object frmMain: TfrmMain
         Caption = 'Fehler in der Datenbank suchen'
         OnClick = mnuFehlerSuchenClick
       end
-      object mnuZahlerverteilung: TMenuItem
+      object mnuZahlerverteilungEntry: TMenuItem
         Caption = 'Zahlerverteilung'
-        OnClick = mnuZahlerverteilungClick
-      end
-    end
-    object mnuEinstellungenMain: TMenuItem
-      Caption = 'Einstellungen'
-      object mnuEinstellungen: TMenuItem
-        Caption = 'Allgemeine Einstellungen'
-        OnClick = mnuEinstellungenClick
-      end
-      object mnuSuchtexteImport: TMenuItem
-        Caption = 'Suchtexte für Import'
-        OnClick = mnuSuchtexteImportClick
-      end
-      object mnuTausender: TMenuItem
-        Caption = 'Beträge mit Tausendertrennzeichen'
-        OnClick = mnuTausenderClick
-      end
-      object mnuEuroModus: TMenuItem
-        Caption = 'Beträge ohne Komma als Euro'
-        OnClick = mnuEuroModusClick
-      end
-      object mnuJournalJump: TMenuItem
-        Caption = 'Journal: zu fehlerhaftem Eintrag springen'
-        OnClick = mnuJournalJumpClick
-      end
-      object mnuJournalLast: TMenuItem
-        Caption = 'Journal: letzter Beitrag vorschlagen'
-        OnClick = mnuJournalLastClick
-      end
-      object MenuItem8: TMenuItem
-        Caption = '-'
-      end
-      object mnuLimitsZahlerBetrag: TMenuItem
-        Caption = 'Grenzen Zahlerverteilung (Betrag)'
-        OnClick = mnuLimitsZahlerBetragClick
-      end
-      object mnuLimitsZahlerverteilungAlter: TMenuItem
-        Caption = 'Grenzen Zahlerverteilung (Alter)'
-        OnClick = mnuLimitsZahlerverteilungAlterClick
-      end
-      object MenuItem9: TMenuItem
-        Caption = '-'
-      end
-      object mnuDebug: TMenuItem
-        Caption = 'Debug'
-        OnClick = mnuDebugClick
-      end
-      object mnuSQLDebug: TMenuItem
-        Caption = 'SQL Debug'
-        OnClick = mnuSQLDebugClick
-      end
-      object mnuShowDebug: TMenuItem
-        Caption = 'Zeige Debug'
-        OnClick = mnuShowDebugClick
+        object mnuZahlerverteilung: TMenuItem
+          Caption = 'Zahlerverteilung'
+          OnClick = mnuZahlerverteilungClick
+        end
+        object Separator1: TMenuItem
+          Caption = '-'
+        end
+        object mnuLimitsZahlerBetrag: TMenuItem
+          Caption = 'Grenzen Zahlerverteilung (Betrag)'
+          OnClick = mnuLimitsZahlerBetragClick
+        end
+        object mnuLimitsZahlerverteilungAlter: TMenuItem
+          Caption = 'Grenzen Zahlerverteilung (Alter)'
+          OnClick = mnuLimitsZahlerverteilungAlterClick
+        end
       end
     end
     object mnuHilfe: TMenuItem
