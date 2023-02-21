@@ -1,6 +1,10 @@
 BEGIN TRANSACTION;
 alter table konten add column [Bemerkung] VARCHAR (100) NOT NULL DEFAULT "";
 alter table konten add column [PlanSumme] INTEGER NOT NULL DEFAULT 0;
+alter table init add column [Server] VARCHAR (50) NOT NULL DEFAULT "smtp.googlemail.com";
+alter table init add column [Port] VARCHAR (6) NOT NULL DEFAULT "465";
+alter table init add column [UserName] VARCHAR (50) NOT NULL DEFAULT "maxmustermann@gmail.com";
+alter table init add column [MailServerPasswort] VARCHAR (30) NOT NULL DEFAULT "1234567890ABCDEF";
 Update init set version = "3.3";
 COMMIT;
 vacuum;
