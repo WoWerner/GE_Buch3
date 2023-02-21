@@ -67,6 +67,11 @@ var
   sProductVersionString: String;
   sRendantAdr          : String;
   sRendantOrt          : String;
+  sRendantEMail        : String;
+  sEMailServer         : String;
+  sEMailPort           : String;
+  sEMailUsername       : String;
+  sEMailServerPassWort : String;
   sSavePath            : String;
   sPrintPath           : String;
   sSteuer              : String;

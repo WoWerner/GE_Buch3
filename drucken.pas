@@ -41,12 +41,14 @@ type
                  Summenliste,
                  Zahlungsliste,
                  Zuwendung);
+
   TColType    = (header,
                  header2,
                  blank,
                  footer,
                  footer2,
                  line);
+
   T2ColReport =  record
     Name : string;
     Col1 : string;
@@ -81,6 +83,7 @@ type
     btnSummenliste: TButton;
     btnZahlerliste: TButton;
     btnZuwendungsbescheinigungen: TButton;
+    btnZuwendungsbescheinigungenMail: TButton;
     btnZuwendungsbescheinigungenEinzeln: TButton;
     cbDatum: TCheckBox;
     cbDruckeDirekt: TCheckBox;
@@ -138,6 +141,7 @@ type
     procedure btnZuwendungsbescheinigungenClick(Sender: TObject);
     procedure btnZuwendungsbescheinigungenContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnZuwendungsbescheinigungenEinzelnClick(Sender: TObject);
+    procedure btnZuwendungsbescheinigungenMailClick(Sender: TObject);
     procedure cbDatumChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -185,7 +189,9 @@ uses
   LCLIntf,  //Opendocument
   LazUTF8,  //UTF8ToSys
   help,
+  freelist,
   main,
+  mailsend,
   dm;
 
 Var
@@ -1173,9 +1179,9 @@ begin
                               frmDM.ZQueryHelp.First;
                               while not frmDM.ZQueryHelp.EOF do
                                 begin
-                                  Printer.FileName:=sPrintPath+'Zuwendung_'+
-                                                    frmDM.ZQueryHelp.FieldByName('Vorname').AsString+'_'+
+                                  Printer.FileName:=sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+
                                                     frmDM.ZQueryHelp.FieldByName('Nachname').AsString+'_'+
+                                                    frmDM.ZQueryHelp.FieldByName('Vorname').AsString+'_'+
                                                     frmDM.ZQueryHelp.FieldByName('PersonenID').AsString+'.pdf';
                                   frmDM.ZQueryDrucken.Close;
 
@@ -1202,7 +1208,7 @@ begin
                             end
                           else
                             begin
-                              MessageDlg('Druckmodus nicht implementiert', mtInformation, [mbOK],0);
+                              MessageDlg('Druckmodus nicht implementiert', mtError, [mbOK],0);
                             end;
                       end
                     else
@@ -1553,6 +1559,116 @@ begin
   Druckmode := Zuwendung;
   cbDruckeDirekt.Checked:=true;
   PreparePrint(false, false, true);
+end;
+
+procedure TfrmDrucken.btnZuwendungsbescheinigungenMailClick(Sender: TObject);
+var
+  slNamen,
+  slMail,
+  Content,
+  Attach   : TStringList;
+  sName,
+  fileName : String;
+  i,j      : integer;
+  SMTP     : TMySMTPSend;
+
+begin
+  try
+    slNamen := TStringlist.Create;
+    slMail  := TStringlist.Create;
+    Content := TStringList.Create;
+    Attach  := TStringList.Create;
+    SMTP    := TMySMTPSend.Create;
+
+    Content.Add('Hallo, '#13#13'hier kommt Ihre Zuwendungsbescheinigung!'#13#13'Mit freundlichen Grüßen'#13'Wolfgang Werner');
+
+    SMTP.TargetHost       := sEMailServer;
+    SMTP.TargetPort       := sEMailPort;
+    SMTP.Username         := sEMailUsername;
+    SMTP.Password         := sEMailServerPassWort;
+    SMTP.FullSSL          := True;
+    SMTP.Sock.RaiseExcept := True;
+
+    frmDM.ZQueryHelp.SQL.Text:='Select * from Personen where eMail <> "" Order by Nachname, Vorname, PersonenID';
+    frmDM.ZQueryHelp.Open;
+    frmDM.ZQueryHelp.First;
+    while not frmDM.ZQueryHelp.EOF do
+      begin
+        sName := frmDM.ZQueryHelp.FieldByName('Nachname').AsString+'_'+
+                 frmDM.ZQueryHelp.FieldByName('Vorname').AsString+'_'+
+                 frmDM.ZQueryHelp.FieldByName('PersonenID').AsString;
+        fileName := sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+sName+'.pdf';
+         if FileExists(fileName)
+            then
+              begin
+                 slNamen.Add(sName);
+                 slMail.Add(frmDM.ZQueryHelp.FieldByName('eMail').AsString);
+              end;
+        frmDM.ZQueryHelp.Next;
+      end;
+    frmDM.ZQueryHelp.Close;
+    //MessageDlg('Namen', slNamen.Text, mtInformation, [mbOK], 0);
+    //MessageDlg('eMail', slMail.Text, mtInformation, [mbOK], 0);
+    if slNamen.Count > 0
+      then
+        begin
+          frmFreieListe.SrcList.Items.Text := slNamen.Text;
+          frmFreieListe.DstList.Items.Clear;
+          frmFreieListe.SrcLabel.Caption :='Namen';
+          frmFreieListe.DstLabel.Caption :='zu versenden';
+          frmFreieListe.rbCSV.Visible    := false;
+          frmFreieListe.rbFix.Visible    := false;
+          if frmFreieListe.ShowModal = mrOK
+            then
+              begin
+                if frmFreieListe.DstList.Items.Count = 0
+                  then Showmessage('Keine Namen gewählt')
+                  else
+                    begin
+                      screen.cursor := crhourglass;
+                      //MessageDlg('Namen', frmFreieListe.DstList.Items.Text, mtInformation, [mbOK], 0);
+                      for i := 0 to frmFreieListe.DstList.Items.Count-1 do
+                        begin
+                          j := slNamen.IndexOf(frmFreieListe.DstList.Items[i]);
+                          //MessageDlg('Mail', slMail.Strings[j], mtInformation, [mbOK], 0);
+                          Attach.Clear;
+                          Attach.Add(sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+frmFreieListe.DstList.Items[i]+'.pdf');
+                          try
+                            if SMTP.SendMessage( sRendantEMail,     // AFrom
+                                                 slMail.Strings[j], // ATo
+                                                 'Zuwendungsbescheinigung '+ediBuchungsjahr.Text, // ASubject
+                                                 Content,
+                                                 Attach)
+                              then
+                                begin
+                                  myDebugLN('Erfolgreich: Sende Mail zu '+slMail.Strings[j]+' mit der Datei: '+Attach.Text);
+                                end
+                              else
+                                begin
+                                  myDebugLN('Fehler: Sende Mail zu '+slMail.Strings[j]+' mit der Datei: '+Attach.Text);
+                                  myDebugLN(SMTP.FullResult.Text);
+                                end;
+                          except
+                            on E: Exception do
+                              MessageDlg('Fehler', 'EXCEPTION: '+ E.Message, mtError, [mbOK], 0);
+                          end;
+                        end;
+                      screen.cursor := crDefault;
+                      MessageDlg('Namen', frmFreieListe.DstList.Items.Count.ToString+' Bescheinigungen versendet', mtInformation, [mbOK], 0);
+                    end;
+              end;
+        end
+      else
+        begin
+          MessageDlg('Fehler', 'Keine EMail - Zuwendungsbescheinigungs Paare gefunden', mtError, [mbOK], 0);
+        end;
+  finally
+    slNamen.Free;
+    slMail.Free;
+    Content.Free;
+    Attach.free;
+    SMTP.Free;
+  end;
 end;
 
 procedure TfrmDrucken.cbDatumChange(Sender: TObject);

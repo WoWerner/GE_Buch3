@@ -231,6 +231,11 @@ begin
                           frmDM.ZQueryInit.FieldByName('RendantTel').AsString+#13#10+
                           frmDM.ZQueryInit.FieldByName('RendantEMail').AsString;
   sRendantOrt          := frmDM.ZQueryInit.FieldByName('RendantOrt').AsString;
+  sRendantEMail        := frmDM.ZQueryInit.FieldByName('RendantEMail').AsString;
+  sEMailServer         := frmDM.ZQueryInit.FieldByName('Server').AsString;
+  sEMailPort           := frmDM.ZQueryInit.FieldByName('Port').AsString;
+  sEMailUsername       := frmDM.ZQueryInit.FieldByName('UserName').AsString;
+  sEMailServerPassWort := frmDM.ZQueryInit.FieldByName('MailServerPasswort').AsString;
   nBuchungsjahr        := frmDM.ZQueryInit.FieldByName('Buchungsjahr').asinteger;
   sFinanzamt           := frmDM.ZQueryInit.FieldByName('Finanzamt').AsString;
   sFinanzamtVom        := frmDM.ZQueryInit.FieldByName('FinanzamtVom').AsString;

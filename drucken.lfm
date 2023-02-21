@@ -443,6 +443,15 @@ object frmDrucken: TfrmDrucken
     Pen.Color = clSilver
     Visible = False
   end
+  object btnZuwendungsbescheinigungenMail: TButton
+    Left = 216
+    Height = 25
+    Top = 200
+    Width = 200
+    Caption = 'Zuwendungsbeschein... per Mail'
+    OnClick = btnZuwendungsbescheinigungenMailClick
+    TabOrder = 33
+  end
   object frReport: TfrReport
     DefaultCopies = 0
     InitialZoom = pzOnePage

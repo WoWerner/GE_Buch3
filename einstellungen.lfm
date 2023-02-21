@@ -1,35 +1,35 @@
 object frmEinstellungen: TfrmEinstellungen
   Left = 469
   Height = 335
-  Top = 347
-  Width = 684
+  Top = 223
+  Width = 1010
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Einstellungen'
   ClientHeight = 335
-  ClientWidth = 684
+  ClientWidth = 1010
   Position = poScreenCenter
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.4.0'
   object btnSpeichern: TButton
-    Left = 536
+    Left = 864
     Height = 25
-    Top = 222
+    Top = 302
     Width = 136
     Caption = 'Speichern'
     OnClick = btnSpeichernClick
     TabOrder = 0
   end
   object btnAbbrechen: TButton
-    Left = 536
+    Left = 720
     Height = 25
-    Top = 262
+    Top = 302
     Width = 136
     Caption = 'Abbrechen'
     OnClick = btnAbbrechenClick
     TabOrder = 1
   end
   object btnClose: TButton
-    Left = 536
+    Left = 576
     Height = 25
     Top = 302
     Width = 136
@@ -53,6 +53,7 @@ object frmEinstellungen: TfrmEinstellungen
     Top = 8
     Width = 89
     Caption = 'Gemeinde Name'
+    ParentColor = False
   end
   object Label3: TLabel
     Left = 96
@@ -60,6 +61,7 @@ object frmEinstellungen: TfrmEinstellungen
     Top = 88
     Width = 17
     Caption = 'Ort'
+    ParentColor = False
   end
   object DBEdit3: TDBEdit
     Left = 96
@@ -77,6 +79,7 @@ object frmEinstellungen: TfrmEinstellungen
     Top = 88
     Width = 20
     Caption = 'PLZ'
+    ParentColor = False
   end
   object DBEdit4: TDBEdit
     Left = 16
@@ -94,6 +97,7 @@ object frmEinstellungen: TfrmEinstellungen
     Top = 48
     Width = 36
     Caption = 'Strasse'
+    ParentColor = False
   end
   object DBEdit2: TDBEdit
     Left = 16
@@ -121,6 +125,7 @@ object frmEinstellungen: TfrmEinstellungen
     Top = 128
     Width = 38
     Caption = 'Telefon'
+    ParentColor = False
   end
   object DBEdit6: TDBEdit
     Left = 352
@@ -138,6 +143,7 @@ object frmEinstellungen: TfrmEinstellungen
     Top = 8
     Width = 79
     Caption = 'Rendant Name'
+    ParentColor = False
   end
   object Label7: TLabel
     Left = 432
@@ -145,6 +151,7 @@ object frmEinstellungen: TfrmEinstellungen
     Top = 88
     Width = 17
     Caption = 'Ort'
+    ParentColor = False
   end
   object DBEdit7: TDBEdit
     Left = 432
@@ -162,6 +169,7 @@ object frmEinstellungen: TfrmEinstellungen
     Top = 88
     Width = 20
     Caption = 'PLZ'
+    ParentColor = False
   end
   object DBEdit8: TDBEdit
     Left = 352
@@ -179,6 +187,7 @@ object frmEinstellungen: TfrmEinstellungen
     Top = 48
     Width = 36
     Caption = 'Strasse'
+    ParentColor = False
   end
   object DBEdit9: TDBEdit
     Left = 352
@@ -196,6 +205,7 @@ object frmEinstellungen: TfrmEinstellungen
     Top = 128
     Width = 38
     Caption = 'Telefon'
+    ParentColor = False
   end
   object DBEdit10: TDBEdit
     Left = 352
@@ -213,6 +223,7 @@ object frmEinstellungen: TfrmEinstellungen
     Top = 168
     Width = 29
     Caption = 'EMail'
+    ParentColor = False
   end
   object DBEdit11: TDBEdit
     Left = 352
@@ -225,17 +236,18 @@ object frmEinstellungen: TfrmEinstellungen
     TabOrder = 16
   end
   object Label12: TLabel
-    Left = 352
+    Left = 680
     Height = 15
-    Top = 248
-    Width = 47
-    Caption = 'Passwort'
+    Top = 208
+    Width = 104
+    Caption = 'Programmpasswort'
+    ParentColor = False
   end
   object DBEdit12: TDBEdit
-    Left = 352
+    Left = 680
     Height = 23
-    Top = 264
-    Width = 176
+    Top = 224
+    Width = 320
     DataField = 'Passwort'
     DataSource = frmDM.dsInit
     MaxLength = 0
@@ -248,6 +260,7 @@ object frmEinstellungen: TfrmEinstellungen
     Top = 288
     Width = 112
     Caption = 'Freistellungsnummer'
+    ParentColor = False
   end
   object DBEdit13: TDBEdit
     Left = 16
@@ -265,6 +278,7 @@ object frmEinstellungen: TfrmEinstellungen
     Top = 208
     Width = 55
     Caption = 'Finanzamt'
+    ParentColor = False
   end
   object DBEdit14: TDBEdit
     Left = 16
@@ -282,6 +296,7 @@ object frmEinstellungen: TfrmEinstellungen
     Top = 248
     Width = 88
     Caption = 'Freistellung vom'
+    ParentColor = False
   end
   object DBEdit15: TDBEdit
     Left = 16
@@ -292,5 +307,78 @@ object frmEinstellungen: TfrmEinstellungen
     DataSource = frmDM.dsInit
     MaxLength = 0
     TabOrder = 9
+  end
+  object Label16: TLabel
+    Left = 680
+    Height = 15
+    Top = 8
+    Width = 64
+    Caption = 'EMail Server'
+    ParentColor = False
+  end
+  object DBEdit16: TDBEdit
+    Left = 680
+    Height = 23
+    Top = 24
+    Width = 320
+    DataField = 'Server'
+    DataSource = frmDM.dsInit
+    MaxLength = 0
+    TabOrder = 18
+  end
+  object Label17: TLabel
+    Left = 680
+    Height = 15
+    Top = 48
+    Width = 22
+    Caption = 'Port'
+    ParentColor = False
+  end
+  object DBEdit17: TDBEdit
+    Left = 680
+    Height = 23
+    Top = 64
+    Width = 72
+    DataField = 'Port'
+    DataSource = frmDM.dsInit
+    MaxLength = 0
+    TabOrder = 19
+  end
+  object Label18: TLabel
+    Left = 680
+    Height = 15
+    Top = 88
+    Width = 76
+    Caption = 'Benutzername'
+    ParentColor = False
+  end
+  object DBEdit18: TDBEdit
+    Left = 680
+    Height = 23
+    Top = 104
+    Width = 320
+    DataField = 'UserName'
+    DataSource = frmDM.dsInit
+    MaxLength = 0
+    TabOrder = 20
+  end
+  object Label19: TLabel
+    Left = 680
+    Height = 15
+    Top = 128
+    Width = 114
+    Caption = 'EMail Server Passwort'
+    ParentColor = False
+  end
+  object DBEdit19: TDBEdit
+    Left = 680
+    Height = 23
+    Top = 144
+    Width = 320
+    DataField = 'MailServerPasswort'
+    DataSource = frmDM.dsInit
+    MaxLength = 0
+    PasswordChar = '*'
+    TabOrder = 21
   end
 end
