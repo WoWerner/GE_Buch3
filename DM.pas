@@ -171,6 +171,7 @@ var
   begin
     sHelp  := '';
     Fehler := false;
+    result := sNeuVersion;
     try
       frmMain.Datensicherung(true, true, '_vor_update_');
     except
@@ -213,9 +214,12 @@ var
 
     if not fehler
       then sHelp := 'Datenbankstruktur auf Version '+sNeuVersion+' angepasst.'
-      else sHelp := 'Fehler beim aktualisieren auf die Datenbankversion '+sNeuVersion+#13#10+sHelp;
+      else
+        begin
+          sHelp := 'Fehler beim aktualisieren auf die Datenbankversion '+sNeuVersion+#13#10+sHelp;
+          result := 'Error';
+        end;
     LogAndShow(sHelp);
-    result := sNeuVersion;
   end;
 
 begin
@@ -266,7 +270,6 @@ begin
                               'Die Datenbank kann nicht auf die Version 3 aktualisiert werden.'#13#13+
                               'Das Programm wird beendet');
               FlushDebug;
-
               Halt; // End of program execution
             end;
 
