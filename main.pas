@@ -710,7 +710,7 @@ begin
     begin
       sHelp := sHelp + 'update konten set PlanSumme = '+frmDM.ZQueryHelp.FieldByName('PlanSumme').AsString.PadLeft(8, ' ')+
                        ' where KontoNr = '+frmDM.ZQueryHelp.FieldByName('KontoNr').AsString.PadLeft(3, ' ')+
-                       '; --'+frmDM.ZQueryHelp.FieldByName('Name').AsString+#13#10;
+                       '; --('+frmDM.ZQueryHelp.FieldByName('Kontotype').AsString+') '+frmDM.ZQueryHelp.FieldByName('Name').AsString+#13#10;
       frmDM.ZQueryHelp.Next;
     end;
   frmDM.ZQueryHelp.Close;
