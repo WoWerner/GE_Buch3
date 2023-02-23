@@ -1,0 +1,30 @@
+object frmProgress: TfrmProgress
+  Left = 711
+  Height = 45
+  Top = 324
+  Width = 639
+  BorderStyle = bsNone
+  Caption = 'frmProgress'
+  ClientHeight = 45
+  ClientWidth = 639
+  Position = poScreenCenter
+  LCLVersion = '2.2.4.0'
+  object ProgressBar: TProgressBar
+    Left = 0
+    Height = 28
+    Top = 17
+    Width = 639
+    Align = alBottom
+    TabOrder = 0
+  end
+  object labMessage: TLabel
+    Left = 0
+    Height = 17
+    Top = 0
+    Width = 639
+    Align = alClient
+    Alignment = taCenter
+    Caption = 'labMessage'
+    ParentColor = False
+  end
+end
