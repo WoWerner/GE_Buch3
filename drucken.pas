@@ -1575,21 +1575,24 @@ var
   slNamen,
   slMail,
   Content,
-  Attach   : TStringList;
+  Attach      : TStringList;
   sName,
-  fileName : String;
-  i,j      : integer;
-  SMTP     : TMySMTPSend;
+  sMessage,
+  sErgebnis,
+  sfileName   : String;
+  i,j         : integer;
+  SMTP        : TMySMTPSend;
 
 begin
   try
-    slNamen := TStringlist.Create;
-    slMail  := TStringlist.Create;
-    Content := TStringList.Create;
-    Attach  := TStringList.Create;
-    SMTP    := TMySMTPSend.Create;
+    slNamen   := TStringlist.Create;
+    slMail    := TStringlist.Create;
+    Content   := TStringList.Create;
+    Attach    := TStringList.Create;
+    SMTP      := TMySMTPSend.Create;
+    sErgebnis := '';
 
-    Content.Add('Hallo, '#13#13'hier kommt Ihre Zuwendungsbescheinigung!'#13#13'Mit freundlichen Grüßen'#13'Wolfgang Werner');
+    Content.Add('Hallo, '#13#13'hier kommt Ihre Zuwendungsbescheinigung!'#13#13'Mit freundlichen Grüßen'#13+frmMain.LabRendant1.Caption);
 
     SMTP.TargetHost       := sEMailServer;
     SMTP.TargetPort       := sEMailPort;
@@ -1598,6 +1601,7 @@ begin
     SMTP.FullSSL          := True;
     SMTP.Sock.RaiseExcept := True;
 
+    //ermitteln für welche Personen gibt es eine EMail Adresse
     frmDM.ZQueryHelp.SQL.Text:='Select * from Personen where eMail <> "" Order by Nachname, Vorname, PersonenID';
     frmDM.ZQueryHelp.Open;
     frmDM.ZQueryHelp.First;
@@ -1606,13 +1610,14 @@ begin
         sName := frmDM.ZQueryHelp.FieldByName('Nachname').AsString+'_'+
                  frmDM.ZQueryHelp.FieldByName('Vorname').AsString+'_'+
                  frmDM.ZQueryHelp.FieldByName('PersonenID').AsString;
-        fileName := sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+sName+'.pdf';
-         if FileExists(fileName)
-            then
-              begin
-                 slNamen.Add(sName);
-                 slMail.Add(frmDM.ZQueryHelp.FieldByName('eMail').AsString);
-              end;
+        sfileName := sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+sName+'.pdf';
+        //und gibt es eine Zuwendungsbescheinigung?
+        if FileExists(sfileName)
+          then
+            begin
+              slNamen.Add(sName);
+              slMail.Add(frmDM.ZQueryHelp.FieldByName('eMail').AsString);
+            end;
         frmDM.ZQueryHelp.Next;
       end;
     frmDM.ZQueryHelp.Close;
@@ -1636,34 +1641,53 @@ begin
                     begin
                       screen.cursor := crhourglass;
                       //MessageDlg('Namen', frmFreieListe.DstList.Items.Text, mtInformation, [mbOK], 0);
+                      frmProgress.ProgressBar.Max:=frmFreieListe.DstList.Items.Count-1;
+                      frmProgress.ProgressBar.Position:=0;
+                      frmProgress.labMessage.Caption:='Bescheinigungen';
+                      frmProgress.Show;
+                      frmProgress.Top:=frmDrucken.Top;
                       for i := 0 to frmFreieListe.DstList.Items.Count-1 do
                         begin
+                          frmProgress.ProgressBar.Position:=i;
                           j := slNamen.IndexOf(frmFreieListe.DstList.Items[i]);
                           //MessageDlg('Mail', slMail.Strings[j], mtInformation, [mbOK], 0);
                           Attach.Clear;
                           Attach.Add(sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+frmFreieListe.DstList.Items[i]+'.pdf');
                           try
-                            if SMTP.SendMessage( sRendantEMail,     // AFrom
+                            if SMTP.SendMessage( frmMain.LabRendant1.Caption+' <'+sRendantEMail+'>',     // AFrom
                                                  slMail.Strings[j], // ATo
-                                                 'Zuwendungsbescheinigung '+ediBuchungsjahr.Text, // ASubject
+                                                 'Zuwendungsbescheinigung der '+sGemeindeName+' für das Jahr '+ediBuchungsjahr.Text, // ASubject
                                                  Content,
                                                  Attach)
                               then
                                 begin
-                                  myDebugLN('Erfolgreich: Sende Mail zu '+slMail.Strings[j]+' mit der Datei: '+Attach.Text);
+                                  sMessage  := 'Erfolgreich: Sende Mail zu '+slMail.Strings[j]+' mit der Datei: '+Attach.Text;
+                                  sErgebnis := sErgebnis + sMessage + #13#10;
+                                  myDebugLN(sMessage);
                                 end
                               else
                                 begin
-                                  myDebugLN('Fehler: Sende Mail zu '+slMail.Strings[j]+' mit der Datei: '+Attach.Text);
+                                  sMessage  := 'Fehler: Sende Mail zu '+slMail.Strings[j]+' mit der Datei: '+Attach.Text;
+                                  sErgebnis := sErgebnis + sMessage + #13#10 + SMTP.FullResult.Text + #13#10;
+                                  myDebugLN(sMessage);
                                   myDebugLN(SMTP.FullResult.Text);
                                 end;
                           except
                             on E: Exception do
-                              MessageDlg('Fehler', 'EXCEPTION: '+ E.Message, mtError, [mbOK], 0);
+                              begin
+                                sMessage := 'EXCEPTION: '+ E.Message;
+                                MessageDlg('Fehler', sMessage, mtError, [mbOK], 0);
+                                sErgebnis := sErgebnis + sMessage + #13#10;
+                              end;
                           end;
+                          application.ProcessMessages;
                         end;
+                      frmProgress.Close;
                       screen.cursor := crDefault;
-                      MessageDlg('Namen', frmFreieListe.DstList.Items.Count.ToString+' Bescheinigungen versendet', mtInformation, [mbOK], 0);
+                      MessageDlg('Namen',
+                                 frmFreieListe.DstList.Items.Count.ToString+' Bescheinigungen versucht zu versenden'#13+
+                                 sErgebnis,
+                                 mtInformation, [mbOK], 0);
                     end;
               end;
         end
