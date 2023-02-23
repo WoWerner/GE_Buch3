@@ -190,6 +190,7 @@ uses
   LazUTF8,  //UTF8ToSys
   help,
   freelist,
+  progress,
   main,
   mailsend,
   dm;
@@ -1176,9 +1177,16 @@ begin
                               frmDM.ZQueryHelp.SQL.Text:='Select * from Personen where PersonenID IN (select PersonenID from Journal where (BuchungsJahr = :BJahr) and (PersonenID <> 0) and (not (PersonenID isnull)) group by PersonenID Order by PersonenID) Order by PersonenID';
                               frmDM.ZQueryHelp.ParamByName('BJAHR').AsString := inttostr(ediBuchungsjahr.value);
                               frmDM.ZQueryHelp.Open;
-                              frmDM.ZQueryHelp.First;
+                              frmDM.ZQueryHelp.last; //für RecordCount
+                              frmProgress.ProgressBar.Max:=frmDM.ZQueryHelp.RecordCount;
+                              frmProgress.ProgressBar.Position:=0;
+                              frmProgress.labMessage.Caption:='Bescheinigungen';
+                              frmProgress.Show;
+                              frmProgress.Top:=frmDrucken.Top;
+                              frmDM.ZQueryHelp.first;
                               while not frmDM.ZQueryHelp.EOF do
                                 begin
+                                  frmProgress.ProgressBar.Position := frmDM.ZQueryHelp.RecNo;
                                   Printer.FileName:=sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+
                                                     frmDM.ZQueryHelp.FieldByName('Nachname').AsString+'_'+
                                                     frmDM.ZQueryHelp.FieldByName('Vorname').AsString+'_'+
@@ -1204,6 +1212,7 @@ begin
                                 end;
                               frmDM.ZQueryHelp.Close;
                               frReport.ShowProgress:=true;
+                              frmProgress.Close;
                               MessageDlg('Alle Reporte wurden erzeugt', mtInformation, [mbOK],0);
                             end
                           else
