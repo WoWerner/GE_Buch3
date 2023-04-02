@@ -127,7 +127,7 @@ object frmEinstellungen: TfrmEinstellungen
     Caption = 'Telefon'
     ParentColor = False
   end
-  object DBEdit6: TDBEdit
+  object dbEdiRendantName: TDBEdit
     Left = 352
     Height = 23
     Top = 24
@@ -225,7 +225,7 @@ object frmEinstellungen: TfrmEinstellungen
     Caption = 'EMail'
     ParentColor = False
   end
-  object DBEdit11: TDBEdit
+  object dbEdiRendantMail: TDBEdit
     Left = 352
     Height = 23
     Top = 184
@@ -236,17 +236,17 @@ object frmEinstellungen: TfrmEinstellungen
     TabOrder = 16
   end
   object Label12: TLabel
-    Left = 680
+    Left = 352
     Height = 15
-    Top = 208
+    Top = 248
     Width = 104
     Caption = 'Programmpasswort'
     ParentColor = False
   end
   object DBEdit12: TDBEdit
-    Left = 680
+    Left = 352
     Height = 23
-    Top = 224
+    Top = 264
     Width = 320
     DataField = 'Passwort'
     DataSource = frmDM.dsInit
@@ -316,7 +316,7 @@ object frmEinstellungen: TfrmEinstellungen
     Caption = 'EMail Server'
     ParentColor = False
   end
-  object DBEdit16: TDBEdit
+  object dbEdiServer: TDBEdit
     Left = 680
     Height = 23
     Top = 24
@@ -334,7 +334,7 @@ object frmEinstellungen: TfrmEinstellungen
     Caption = 'Port'
     ParentColor = False
   end
-  object DBEdit17: TDBEdit
+  object dbEdiPort: TDBEdit
     Left = 680
     Height = 23
     Top = 64
@@ -352,7 +352,7 @@ object frmEinstellungen: TfrmEinstellungen
     Caption = 'Benutzername'
     ParentColor = False
   end
-  object DBEdit18: TDBEdit
+  object dbEdiEMailUserName: TDBEdit
     Left = 680
     Height = 23
     Top = 104
@@ -370,7 +370,7 @@ object frmEinstellungen: TfrmEinstellungen
     Caption = 'EMail Server Passwort'
     ParentColor = False
   end
-  object DBEdit19: TDBEdit
+  object dbEdiServerPasswort: TDBEdit
     Left = 680
     Height = 23
     Top = 144
@@ -380,5 +380,14 @@ object frmEinstellungen: TfrmEinstellungen
     MaxLength = 0
     PasswordChar = '*'
     TabOrder = 21
+  end
+  object btnSendTestMail: TButton
+    Left = 680
+    Height = 23
+    Top = 184
+    Width = 200
+    Caption = '<----- Sende Test EMail an'
+    OnClick = btnSendTestMailClick
+    TabOrder = 22
   end
 end

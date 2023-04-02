@@ -191,6 +191,7 @@ uses
   help,
   freelist,
   progress,
+  ausgabe,
   main,
   mailsend,
   dm;
@@ -1213,7 +1214,7 @@ begin
                               frmDM.ZQueryHelp.Close;
                               frReport.ShowProgress:=true;
                               frmProgress.Close;
-                              MessageDlg('Alle Reporte wurden erzeugt', mtInformation, [mbOK],0);
+                              MessageDlg('Alle Bescheinigungen wurden erzeugt'#13+'Ausgabe in: '+sPrintPath, mtInformation, [mbOK],0);
                             end
                           else
                             begin
@@ -1676,7 +1677,7 @@ begin
                             on E: Exception do
                               begin
                                 sMessage := 'EXCEPTION: '+ E.Message;
-                                MessageDlg('Fehler', sMessage, mtError, [mbOK], 0);
+                                //MessageDlg('Fehler', sMessage, mtError, [mbOK], 0);
                                 sErgebnis := sErgebnis + sMessage + #13#10;
                               end;
                           end;
@@ -1684,10 +1685,10 @@ begin
                         end;
                       frmProgress.Close;
                       screen.cursor := crDefault;
-                      MessageDlg('Namen',
-                                 frmFreieListe.DstList.Items.Count.ToString+' Bescheinigungen versucht zu versenden'#13+
-                                 sErgebnis,
-                                 mtInformation, [mbOK], 0);
+                      frmAusgabe.SetDefaults('Ergebnisse des EMailversandes',
+                                             frmFreieListe.DstList.Items.Count.ToString+' Bescheinigungen versucht zu versenden'#13+sErgebnis,
+                                             '', '', 'Schliessen', false);
+                      frmAusgabe.ShowModal;
                     end;
               end;
         end

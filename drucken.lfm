@@ -446,10 +446,13 @@ object frmDrucken: TfrmDrucken
   object btnZuwendungsbescheinigungenMail: TButton
     Left = 216
     Height = 25
+    Hint = 'Versendet zuvor erstellte Zuwendungsbescheinigungen (PDFs) per Mail.'
     Top = 200
     Width = 200
-    Caption = 'Zuwendungsbeschein... per Mail'
+    Caption = 'Erzeugte Zuwe. per Mail versenden'
     OnClick = btnZuwendungsbescheinigungenMailClick
+    ParentShowHint = False
+    ShowHint = True
     TabOrder = 33
   end
   object frReport: TfrReport
