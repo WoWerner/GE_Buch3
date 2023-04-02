@@ -407,7 +407,7 @@ object frmMain: TfrmMain
       end
     end
     object MenuItem6: TMenuItem
-      Caption = 'Tools'
+      Caption = 'Werkzeuge'
       object mnuDelOld: TMenuItem
         Caption = 'Löche alte Einträge'
         OnClick = mnuDelOldClick
@@ -440,6 +440,13 @@ object frmMain: TfrmMain
       object mnuFehlerSuchen: TMenuItem
         Caption = 'Fehler in der Datenbank suchen'
         OnClick = mnuFehlerSuchenClick
+      end
+      object mnuFehlerInStatistik: TMenuItem
+        Caption = 'Fehler in der Statistikzuordnung suchen'
+        OnClick = mnuFehlerInStatistikClick
+      end
+      object Separator3: TMenuItem
+        Caption = '-'
       end
       object mnuZahlerverteilungEntry: TMenuItem
         Caption = 'Zahlerverteilung'

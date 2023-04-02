@@ -55,6 +55,7 @@ type
     MainMenu: TMainMenu;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
+    mnuFehlerInStatistik: TMenuItem;
     mnuHaushaltsplan: TMenuItem;
     mnuZahlerverteilung: TMenuItem;
     mnuLimitsZahlerverteilungAlter: TMenuItem;
@@ -98,6 +99,7 @@ type
     SaveDialog: TSaveDialog;
     Separator1: TMenuItem;
     Separator2: TMenuItem;
+    Separator3: TMenuItem;
     procedure btnAktuellesClick(Sender: TObject);
     procedure btnBankkontenClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
@@ -125,6 +127,7 @@ type
     procedure mnuExpJournalRAWClick(Sender: TObject);
     procedure mnuExportPersonenClick(Sender: TObject);
     procedure mnuExportZuwendungClick(Sender: TObject);
+    procedure mnuFehlerInStatistikClick(Sender: TObject);
     procedure mnuFehlerSuchenClick(Sender: TObject);
     procedure mnuHaushaltsplanClick(Sender: TObject);
     procedure mnuHilfeClick(Sender: TObject);
@@ -678,6 +681,16 @@ begin
   frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\ZuwendungDrucken.sql');
   frmDM.ZQueryHelp.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
   ExecSQL('', frmDM.ZQueryHelp, false);
+end;
+
+procedure TfrmMain.mnuFehlerInStatistikClick(Sender: TObject);
+begin
+  if MessageDlg('Es wird nach fehlerhaften Werten bei der Statistikzuordnung gesucht.', mtConfirmation, [mbOK],0) = mrOK
+    then
+      begin
+        frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\FehlerhafteStatistikSuchen.sql');
+        ExecSQL('', frmDM.ZQueryHelp, false);
+      end;
 end;
 
 procedure TfrmMain.mnuFehlerSuchenClick(Sender: TObject);
