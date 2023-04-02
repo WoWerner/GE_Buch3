@@ -15,7 +15,8 @@ uses
   DBGrids,
   Grids,
   StdCtrls,
-  Spin, ExtCtrls,
+  Spin,
+  ExtCtrls,
   types;
 
 type

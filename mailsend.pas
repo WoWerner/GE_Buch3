@@ -38,8 +38,10 @@ uses
 { TMySMTPSend }
  
 function TMySMTPSend.SendToRaw(const AFrom, ATo: String; const AMailData: TStrings): Boolean;
+
 var
   S, T: String;
+
 begin
   Result := False;
   if Self.Login then
@@ -63,10 +65,12 @@ begin
 end;
  
 function TMySMTPSend.SendMessage(AFrom, ATo, ASubject: String; AContent, AAttachments: TStrings): Boolean;
+
 var
   Mime: TMimeMess;
   P: TMimePart;
   I: Integer;
+
 begin
   Mime := TMimeMess.Create;
   try
