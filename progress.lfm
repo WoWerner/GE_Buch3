@@ -3,6 +3,7 @@ object frmProgress: TfrmProgress
   Height = 45
   Top = 324
   Width = 639
+  BorderIcons = []
   BorderStyle = bsNone
   Caption = 'frmProgress'
   ClientHeight = 45
