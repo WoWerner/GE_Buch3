@@ -7,7 +7,7 @@
     <KeyWords Value=""/>
     <Comments Value=""/>
     <ReportCreateDate Value="2014-11-10 21:49:47"/>
-    <ReportLastChange Value="2023-01-09 09:50:50"/>
+    <ReportLastChange Value="2023-12-16 13:24:07"/>
     <ReportVersionBuild Value=""/>
     <ReportVersionMajor Value=""/>
     <ReportVersionMinor Value=""/>
@@ -17,7 +17,7 @@
     <Pages>
       <PrintToDefault Value="False"/>
       <DoublePass Value="False"/>
-      <SelectedPrinter Value="Samsung M2070"/>
+      <SelectedPrinter Value="Samsung M2070 Series"/>
       <PageCount Value="3"/>
       <Page1>
         <Name Value="Page1"/>
@@ -9437,7 +9437,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="Bitte drei Exemplare jeweils bis zum 28. Februar an den zuständigen Superintendenten einschicken.&#xD;&#xA;(Für den Kirchenbezirk Bln/Brbg: Bitte als eMail oder als Brief (nur ein Exemplar!) an Herrn Kaufmann schicken)&#xD;&#xA;"/>
+            <Memo Value="Bitte drei Exemplare jeweils bis zum 28. Februar an den zuständigen Superintendenten einschicken. &#xD;&#xA;Bitte nicht an die Kirchenleitung oder den zuständigen Propst einsenden.&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
