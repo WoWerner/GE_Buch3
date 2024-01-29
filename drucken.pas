@@ -68,6 +68,7 @@ type
     btnHaushaltsplanCSV: TButton;
     btnFinanzbericht: TButton;
     btnJournaldruck: TButton;
+    btnZahlerMonatlicheZahlungen: TButton;
     btnJournalFiltered: TButton;
     btnJournalKompaktFiltered: TButton;
     btnJournalNachBankenGruppiertCSV: TButton;
@@ -82,6 +83,7 @@ type
     btnZahlerlisteCSV: TButton;
     btnSummenliste: TButton;
     btnZahlerliste: TButton;
+    btnMonatlicheAusgaben: TButton;
     btnZuwendungsbescheinigungen: TButton;
     btnZuwendungsbescheinigungenMail: TButton;
     btnZuwendungsbescheinigungenEinzeln: TButton;
@@ -126,6 +128,7 @@ type
     procedure btnJournalNachBankenGruppiertdruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnJournalNachSachkontenGruppiertdruckClick(Sender: TObject);
     procedure btnJournalNachSachkontenGruppiertdruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+    procedure btnMonatlicheAusgabenClick(Sender: TObject);
     procedure btnPersonenlisteClick(Sender: TObject);
     procedure btnPersonenlisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnPersonenlisteKompaktClick(Sender: TObject);
@@ -138,6 +141,7 @@ type
     procedure btnZahlerlisteClick(Sender: TObject);
     procedure btnZahlerlisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnZahlerlisteCSVClick(Sender: TObject);
+    procedure btnZahlerMonatlicheZahlungenClick(Sender: TObject);
     procedure btnZuwendungsbescheinigungenClick(Sender: TObject);
     procedure btnZuwendungsbescheinigungenContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnZuwendungsbescheinigungenEinzelnClick(Sender: TObject);
@@ -1342,6 +1346,15 @@ begin
   Handled := true;
 end;
 
+procedure TfrmDrucken.btnMonatlicheAusgabenClick(Sender: TObject);
+begin
+  frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\MonatlicheAusgaben.sql');
+  frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
+  frmDM.ZQueryDrucken.Open;
+  ExportQueToCSVFile(frmDM.ZQueryDrucken, sPrintPath+'MonatlicheAusgaben.csv', ';', '"', true, false);
+  frmDM.ZQueryDrucken.Close;
+end;
+
 procedure TfrmDrucken.btnZahlerlisteClick(Sender: TObject);
 begin
   Druckmode := Zahlungsliste;
@@ -1536,6 +1549,15 @@ procedure TfrmDrucken.btnZahlerlisteCSVClick(Sender: TObject);
 begin
   Druckmode := Zahlungsliste;
   PreparePrint(false, true, false);
+end;
+
+procedure TfrmDrucken.btnZahlerMonatlicheZahlungenClick(Sender: TObject);
+begin
+  frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\MonatlicheZahlungen.sql');
+  frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
+  frmDM.ZQueryDrucken.Open;
+  ExportQueToCSVFile(frmDM.ZQueryDrucken, sPrintPath+'Zahler_Monatliche_Zahlungen.csv', ';', '"', true, false);
+  frmDM.ZQueryDrucken.Close;
 end;
 
 procedure TfrmDrucken.btnZuwendungsbescheinigungenClick(Sender: TObject);

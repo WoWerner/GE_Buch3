@@ -1,17 +1,17 @@
 object frmDrucken: TfrmDrucken
   Left = 590
-  Height = 328
+  Height = 390
   Top = 219
   Width = 639
   BorderStyle = bsDialog
   Caption = 'Drucken'
-  ClientHeight = 328
+  ClientHeight = 390
   ClientWidth = 639
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '3.0.0.3'
   object Shape2: TShape
     Left = 0
     Height = 163
@@ -36,9 +36,9 @@ object frmDrucken: TfrmDrucken
     Top = 200
     Width = 159
     Caption = 'Ein / Ausgaben'
+    TabOrder = 18
     OnClick = btnEinAusClick
     OnContextPopup = btnSummenlisteContextPopup
-    TabOrder = 16
   end
   object btnJournaldruck: TButton
     Left = 8
@@ -46,18 +46,18 @@ object frmDrucken: TfrmDrucken
     Top = 8
     Width = 200
     Caption = 'Journal'
+    TabOrder = 0
     OnClick = btnJournaldruckClick
     OnContextPopup = btnJournaldruckContextPopup
-    TabOrder = 0
   end
   object btnSchliessen: TButton
     Left = 424
     Height = 25
-    Top = 296
+    Top = 359
     Width = 208
     Caption = 'Schließen'
+    TabOrder = 35
     OnClick = btnSchliessenClick
-    TabOrder = 1
   end
   object btnSummenliste: TButton
     Left = 8
@@ -66,11 +66,11 @@ object frmDrucken: TfrmDrucken
     Top = 168
     Width = 159
     Caption = 'Summenliste'
-    OnClick = btnSummenlisteClick
-    OnContextPopup = btnSummenlisteContextPopup
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 2
+    TabOrder = 4
+    OnClick = btnSummenlisteClick
+    OnContextPopup = btnSummenlisteContextPopup
   end
   object btnPersonenliste: TButton
     Left = 216
@@ -78,9 +78,9 @@ object frmDrucken: TfrmDrucken
     Top = 72
     Width = 128
     Caption = 'Personenliste'
+    TabOrder = 5
     OnClick = btnPersonenlisteClick
     OnContextPopup = btnPersonenlisteContextPopup
-    TabOrder = 3
   end
   object btnFinanzbericht: TButton
     Left = 216
@@ -89,11 +89,11 @@ object frmDrucken: TfrmDrucken
     Top = 136
     Width = 200
     Caption = 'Finanzbericht (für AKK)'
-    OnClick = btnFinanzberichtClick
-    OnContextPopup = btnFinanzberichtContextPopup
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 4
+    TabOrder = 6
+    OnClick = btnFinanzberichtClick
+    OnContextPopup = btnFinanzberichtContextPopup
   end
   object btnZuwendungsbescheinigungen: TButton
     Left = 216
@@ -101,9 +101,9 @@ object frmDrucken: TfrmDrucken
     Top = 168
     Width = 150
     Caption = 'Zuwendungsbeschein...'
+    TabOrder = 7
     OnClick = btnZuwendungsbescheinigungenClick
     OnContextPopup = btnZuwendungsbescheinigungenContextPopup
-    TabOrder = 5
   end
   object btnBankenliste: TButton
     Left = 216
@@ -111,9 +111,9 @@ object frmDrucken: TfrmDrucken
     Top = 8
     Width = 200
     Caption = 'Bankenliste'
+    TabOrder = 8
     OnClick = btnBankenlisteClick
     OnContextPopup = btnBankenlisteContextPopup
-    TabOrder = 6
   end
   object btnSachkontenliste: TButton
     Left = 216
@@ -121,9 +121,9 @@ object frmDrucken: TfrmDrucken
     Top = 40
     Width = 200
     Caption = 'Sachkontenliste'
+    TabOrder = 9
     OnClick = btnSachkontenlisteClick
     OnContextPopup = btnSachkontenlisteContextPopup
-    TabOrder = 7
   end
   object btnBeitragsliste: TButton
     Left = 8
@@ -132,11 +132,11 @@ object frmDrucken: TfrmDrucken
     Top = 264
     Width = 159
     Caption = 'Zahler- / Empfängerliste (SK)'
-    OnClick = btnBeitragslisteClick
-    OnContextPopup = btnBeitragslisteContextPopup
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 8
+    TabOrder = 10
+    OnClick = btnBeitragslisteClick
+    OnContextPopup = btnBeitragslisteContextPopup
   end
   object btnPersonenlisteKompakt: TButton
     Left = 344
@@ -144,9 +144,9 @@ object frmDrucken: TfrmDrucken
     Top = 72
     Width = 72
     Caption = 'Kompakt'
+    TabOrder = 11
     OnClick = btnPersonenlisteKompaktClick
     OnContextPopup = btnPersonenlisteKompaktContextPopup
-    TabOrder = 9
   end
   object btnDurchgang: TButton
     Left = 216
@@ -155,10 +155,10 @@ object frmDrucken: TfrmDrucken
     Top = 104
     Width = 200
     Caption = 'Durchgangskontenübersicht (CSV)'
-    OnClick = btnDurchgangClick
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 10
+    TabOrder = 12
+    OnClick = btnDurchgangClick
   end
   object btnZahlerliste: TButton
     Left = 8
@@ -167,11 +167,11 @@ object frmDrucken: TfrmDrucken
     Top = 296
     Width = 159
     Caption = 'Zahlungsliste nach Zahlern'
-    OnClick = btnZahlerlisteClick
-    OnContextPopup = btnZahlerlisteContextPopup
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 11
+    TabOrder = 13
+    OnClick = btnZahlerlisteClick
+    OnContextPopup = btnZahlerlisteContextPopup
   end
   object btnJournalFiltered: TButton
     Left = 8
@@ -180,11 +180,11 @@ object frmDrucken: TfrmDrucken
     Top = 104
     Width = 200
     Caption = 'Journal m. Bemerk. (gefiltert)'
-    OnClick = btnJournalFilteredClick
-    OnContextPopup = btnJournalFilteredContextPopup
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 12
+    TabOrder = 14
+    OnClick = btnJournalFilteredClick
+    OnContextPopup = btnJournalFilteredContextPopup
   end
   object rgFilter: TRadioGroup
     Left = 429
@@ -212,7 +212,7 @@ object frmDrucken: TfrmDrucken
       'Bemerkung enthält'
     )
     OnSelectionChanged = rgFilterSelectionChanged
-    TabOrder = 13
+    TabOrder = 15
   end
   object btnJournalKompaktFiltered: TButton
     Left = 8
@@ -221,11 +221,11 @@ object frmDrucken: TfrmDrucken
     Top = 136
     Width = 200
     Caption = 'Journal kompakt (gefiltert)'
-    OnClick = btnJournalKompaktFilteredClick
-    OnContextPopup = btnJournalKompaktFilteredContextPopup
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 15
+    TabOrder = 17
+    OnClick = btnJournalKompaktFilteredClick
+    OnContextPopup = btnJournalKompaktFilteredContextPopup
   end
   object btnJournalNachBankenGruppiertdruck: TButton
     Left = 8
@@ -233,9 +233,9 @@ object frmDrucken: TfrmDrucken
     Top = 72
     Width = 159
     Caption = 'Journal nach Banken grup.'
+    TabOrder = 2
     OnClick = btnJournalNachBankenGruppiertdruckClick
     OnContextPopup = btnJournalNachBankenGruppiertdruckContextPopup
-    TabOrder = 17
   end
   object btnJournalNachSachkontenGruppiertdruck: TButton
     Left = 8
@@ -243,18 +243,18 @@ object frmDrucken: TfrmDrucken
     Top = 40
     Width = 200
     Caption = 'Journal nach Sachkonten gruppiert'
+    ParentShowHint = False
+    TabOrder = 1
     OnClick = btnJournalNachSachkontenGruppiertdruckClick
     OnContextPopup = btnJournalNachSachkontenGruppiertdruckContextPopup
-    ParentShowHint = False
-    TabOrder = 18
   end
   object cbDatum: TCheckBox
     Left = 429
-    Height = 19
+    Height = 17
     Top = 189
-    Width = 20
-    OnChange = cbDatumChange
+    Width = 18
     TabOrder = 19
+    OnChange = cbDatumChange
   end
   object Label2: TLabel
     Left = 530
@@ -274,7 +274,7 @@ object frmDrucken: TfrmDrucken
     EditLabel.Caption = 'Nr. oder Text'
     EditLabel.ParentColor = False
     Enabled = False
-    TabOrder = 14
+    TabOrder = 16
   end
   object DateTimePickerVon: TDateTimePicker
     Left = 445
@@ -328,13 +328,13 @@ object frmDrucken: TfrmDrucken
     Top = 168
     Width = 39
     Caption = 'CSV'
-    OnClick = mnuSummenlisteCSVExportClick
     TabOrder = 22
+    OnClick = mnuSummenlisteCSVExportClick
   end
   object cbDrucker: TComboBox
     Left = 424
     Height = 23
-    Top = 238
+    Top = 253
     Width = 208
     DropDownCount = 12
     ItemHeight = 15
@@ -344,8 +344,8 @@ object frmDrucken: TfrmDrucken
   object cbDruckeDirekt: TCheckBox
     Left = 429
     Height = 19
-    Top = 216
-    Width = 110
+    Top = 231
+    Width = 108
     Caption = 'Drucke direkt auf'
     TabOrder = 24
   end
@@ -356,10 +356,10 @@ object frmDrucken: TfrmDrucken
     Top = 168
     Width = 48
     Caption = 'Einzeln'
-    OnClick = btnZuwendungsbescheinigungenEinzelnClick
     ParentShowHint = False
     ShowHint = True
     TabOrder = 25
+    OnClick = btnZuwendungsbescheinigungenEinzelnClick
   end
   object btnJournalNachBankenGruppiertCSV: TButton
     Left = 169
@@ -367,8 +367,8 @@ object frmDrucken: TfrmDrucken
     Top = 72
     Width = 39
     Caption = 'CSV'
+    TabOrder = 3
     OnClick = btnJournalNachBankenGruppiertCSVClick
-    TabOrder = 26
   end
   object btnEinAusCSV: TButton
     Left = 169
@@ -376,8 +376,8 @@ object frmDrucken: TfrmDrucken
     Top = 200
     Width = 39
     Caption = 'CSV'
+    TabOrder = 26
     OnClick = btnEinAusCSVClick
-    TabOrder = 27
   end
   object btnBeitragslisteCSV: TButton
     Left = 169
@@ -385,8 +385,8 @@ object frmDrucken: TfrmDrucken
     Top = 264
     Width = 39
     Caption = 'CSV'
+    TabOrder = 27
     OnClick = btnBeitragslisteCSVClick
-    TabOrder = 28
   end
   object btnZahlerlisteCSV: TButton
     Left = 169
@@ -394,8 +394,8 @@ object frmDrucken: TfrmDrucken
     Top = 296
     Width = 39
     Caption = 'CSV'
+    TabOrder = 28
     OnClick = btnZahlerlisteCSVClick
-    TabOrder = 29
   end
   object btnHaushaltsplan: TButton
     Left = 8
@@ -403,9 +403,9 @@ object frmDrucken: TfrmDrucken
     Top = 232
     Width = 159
     Caption = 'Haushaltsplan'
+    TabOrder = 29
     OnClick = btnHaushaltsplanClick
     OnContextPopup = btnSummenlisteContextPopup
-    TabOrder = 30
   end
   object btnHaushaltsplanCSV: TButton
     Left = 169
@@ -413,13 +413,13 @@ object frmDrucken: TfrmDrucken
     Top = 232
     Width = 39
     Caption = 'CSV'
+    TabOrder = 30
     OnClick = btnHaushaltsplanCSVClick
-    TabOrder = 31
   end
   object Label4: TLabel
     Left = 494
     Height = 15
-    Top = 271
+    Top = 308
     Width = 73
     Caption = 'Buchungsjahr'
     ParentColor = False
@@ -427,11 +427,11 @@ object frmDrucken: TfrmDrucken
   object ediBuchungsjahr: TSpinEdit
     Left = 424
     Height = 23
-    Top = 267
+    Top = 304
     Width = 59
     MaxValue = 2099
     MinValue = 2000
-    TabOrder = 32
+    TabOrder = 31
     Value = 2000
   end
   object Shape3: TShape
@@ -450,10 +450,28 @@ object frmDrucken: TfrmDrucken
     Top = 200
     Width = 200
     Caption = 'Erzeugte Zuwe. per Mail versenden'
-    OnClick = btnZuwendungsbescheinigungenMailClick
     ParentShowHint = False
     ShowHint = True
+    TabOrder = 32
+    OnClick = btnZuwendungsbescheinigungenMailClick
+  end
+  object btnZahlerMonatlicheZahlungen: TButton
+    Left = 8
+    Height = 25
+    Top = 331
+    Width = 200
+    Caption = 'Zahler: Monatliche Zahlungen'
     TabOrder = 33
+    OnClick = btnZahlerMonatlicheZahlungenClick
+  end
+  object btnMonatlicheAusgaben: TButton
+    Left = 8
+    Height = 25
+    Top = 359
+    Width = 200
+    Caption = 'Monatliche Ausgaben'
+    TabOrder = 34
+    OnClick = btnMonatlicheAusgabenClick
   end
   object frReport: TfrReport
     DefaultCopies = 0
