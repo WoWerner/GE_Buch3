@@ -55,6 +55,9 @@ type
     MainMenu: TMainMenu;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
+    mnuExportKonten: TMenuItem;
+    Separator5: TMenuItem;
+    Separator4: TMenuItem;
     mnuFehlerInStatistik: TMenuItem;
     mnuHaushaltsplan: TMenuItem;
     mnuZahlerverteilung: TMenuItem;
@@ -125,6 +128,7 @@ type
     procedure mnuExecSQLSingleClick(Sender: TObject);
     procedure mnuExpJournalClick(Sender: TObject);
     procedure mnuExpJournalRAWClick(Sender: TObject);
+    procedure mnuExportKontenClick(Sender: TObject);
     procedure mnuExportPersonenClick(Sender: TObject);
     procedure mnuExportZuwendungClick(Sender: TObject);
     procedure mnuFehlerInStatistikClick(Sender: TObject);
@@ -528,6 +532,7 @@ begin
       begin
         //Automatische Datensicherung
         Datensicherung(true, true);
+        if not frmDM.ZQueryInit.Active then frmDM.ZQueryInit.Open;
       end
     else
       if (trunc(random(12)) = 1)
@@ -578,7 +583,7 @@ var
   rows : integer;
 
 begin
-  frmAusgabe.SetDefaults('SQL Kommando ausführen', '--Hier SQL Kommando eingeben'+#10#13, '', 'SQL ausführen', 'Abbrechen', true);
+  frmAusgabe.SetDefaults('SQL Kommando ausführen', '--Hier SQL Kommando eingeben', '', 'SQL ausführen', 'Abbrechen', true);
   if frmAusgabe.ShowModal = mrOK
     then
       begin
@@ -666,11 +671,19 @@ begin
       end;
 end;
 
+procedure TfrmMain.mnuExportKontenClick(Sender: TObject);
+begin
+  frmDM.ZQueryHelp.SQL.Text := 'select * from konten order by sortpos';
+  frmDM.ZQueryHelp.Open;
+  ExportQueToCSVFile(frmDM.ZQueryHelp, sPrintPath+'Konten.csv', ';', '"', true, false);
+  frmDM.ZQueryHelp.Close;
+end;
+
 procedure TfrmMain.mnuExportPersonenClick(Sender: TObject);
 begin
   frmDM.ZQueryHelp.SQL.Text := sSelectPersonenSort;
   frmDM.ZQueryHelp.Open;
-  ExportQueToCSVFile(frmDM.ZQueryHelp, sPrintPath+'Personen.csv', ';', '"', true, true);
+  ExportQueToCSVFile(frmDM.ZQueryHelp, sPrintPath+'Personen.csv', ';', '"', true, false);
   frmDM.ZQueryHelp.Close;
 end;
 
@@ -680,6 +693,7 @@ begin
   //V1.9.5.0
   frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\ZuwendungDrucken.sql');
   frmDM.ZQueryHelp.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
+  frmDM.ZQueryHelp.SQL.Text:=StringReplace(frmDM.ZQueryHelp.SQL.Text, ':ADDWHERE', '', [rfReplaceAll]);
   ExecSQL('', frmDM.ZQueryHelp, false);
 end;
 
@@ -763,6 +777,7 @@ begin
     then
       begin
         Datensicherung(true, true, '_vor_Jahresabschuss_');
+        if not frmDM.ZQueryInit.Active then frmDM.ZQueryInit.Open;
         if frmDM.ZQueryBanken.Active then frmDM.ZQueryBanken.Close;
 
         // BankenAbschluss / Abschlusssaldo schreiben für aktuelles Jahr
@@ -1148,6 +1163,7 @@ procedure TfrmMain.nmuDatensicherungClick(Sender: TObject);
 
 begin
   Datensicherung(false, true);
+  if not frmDM.ZQueryInit.Active then frmDM.ZQueryInit.Open;
 end;
 
 procedure TfrmMain.Datensicherung(Auto, Reconnect: boolean; Fileextension: String = '');
@@ -1201,11 +1217,7 @@ begin
             end;
       end;
 
-  if Reconnect then
-    begin
-      frmDM.ZConnectionBuch.Connect;
-      frmDM.ZQueryInit.Open;
-    end;
+  if Reconnect then frmDM.ZConnectionBuch.Connect;
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -1349,6 +1361,7 @@ begin
         if (nGemeinden = 1) or (nSelectedGemeinde <= nGemeinden-1) or (nSelectedGemeinde = maxGemeinden) then
           begin
             Datensicherung(true, true, '_vor_Personenabgleich_');
+            if not frmDM.ZQueryInit.Active then frmDM.ZQueryInit.Open;
 
             screen.Cursor:=crHourglass;
 
@@ -1608,25 +1621,28 @@ begin
                     inttostr(n)+' Einträge gelöscht'+#13+
                     inttostr(m)+' Einträge überarbeitet');
       end;
-
 end;
 
 procedure TfrmMain.mnuDelOldClick(Sender: TObject);
 begin
-  Datensicherung(true, true);
   if MessageDlg('Sollen die Daten aus dem Journal, die älter als '+inttostr(nBuchungsjahr-3)+' gelöscht werden?'#13#13+
                 'Sicherheitsfunktion: Zum Fortfahren "Wiederholen" drücken!', mtConfirmation, [mbYes, mbRetry, mbNo],0) = mrRetry
     then
-      showmessage(inttostr(ExecSQL('delete from journal where BuchungsJahr<'+inttostr(nBuchungsjahr-3), frmDM.ZQueryHelp, false))+' Buchungen gelöscht');
+      begin
+        Datensicherung(true, true, '_vor_löschen_');
+        if not frmDM.ZQueryInit.Active then frmDM.ZQueryInit.Open;
+        showmessage(inttostr(ExecSQL('delete from journal where BuchungsJahr<'+inttostr(nBuchungsjahr-3), frmDM.ZQueryHelp, false))+' Buchungen gelöscht');
+      end;
 end;
 
 procedure TfrmMain.mnuDelOldPersonenClick(Sender: TObject);
 begin
-  Datensicherung(true, true);
   if MessageDlg('Sollen die Personen, die als Abgang markiert sind gelöscht werden?'#13#13+
                 'Sicherheitsfunktion: Zum Fortfahren "Wiederholen" drücken!', mtConfirmation, [mbYes, mbRetry, mbNo],0) = mrRetry
     then
       begin
+        Datensicherung(true, true, '_vor_löschen_');
+        if not frmDM.ZQueryInit.Active then frmDM.ZQueryInit.Open;
         ExecSQL('Update journal set PersonenID = 0 where PersonenID in (Select PersonenID from Personen where (Abgang = 1) or (Abgang = ''true'') or (Abgang = ''True'') or (Abgang = ''Y''))', frmDM.ZQueryHelp, false);
         LogAndShow(inttostr(ExecSQL('Delete from Personen where (Abgang = 1) or (Abgang = ''true'') or (Abgang = ''True'') or (Abgang = ''Y'')', frmDM.ZQueryHelp, false))+' Personen gelöscht');
       end;

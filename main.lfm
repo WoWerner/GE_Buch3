@@ -6,14 +6,14 @@ object frmMain: TfrmMain
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'GE_Buch'
-  ClientHeight = 400
+  ClientHeight = 420
   ClientWidth = 581
   Menu = MainMenu
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '3.0.0.3'
   object imgSELK: TImage
     Cursor = crHandPoint
     Left = 328
@@ -30,8 +30,8 @@ object frmMain: TfrmMain
     Top = 314
     Width = 163
     Caption = 'Bankkonten und Barkassen'
-    OnClick = btnBankkontenClick
     TabOrder = 2
+    OnClick = btnBankkontenClick
   end
   object btnSachkonten: TButton
     Left = 210
@@ -39,8 +39,8 @@ object frmMain: TfrmMain
     Top = 342
     Width = 163
     Caption = 'Sachkonten'
-    OnClick = btnSachkontenClick
     TabOrder = 3
+    OnClick = btnSachkontenClick
   end
   object btnPersonen: TButton
     Left = 210
@@ -48,8 +48,8 @@ object frmMain: TfrmMain
     Top = 370
     Width = 163
     Caption = 'Personen'
-    OnClick = btnPersonenClick
     TabOrder = 4
+    OnClick = btnPersonenClick
   end
   object lb_Name: TLabel
     Left = 40
@@ -184,8 +184,8 @@ object frmMain: TfrmMain
     Width = 163
     Caption = 'Journal'
     Default = True
-    OnClick = btnJournalClick
     TabOrder = 0
+    OnClick = btnJournalClick
   end
   object btnDrucken: TButton
     Left = 16
@@ -193,8 +193,8 @@ object frmMain: TfrmMain
     Top = 370
     Width = 163
     Caption = 'Drucken'
-    OnClick = btnDruckenClick
     TabOrder = 1
+    OnClick = btnDruckenClick
   end
   object Label3: TLabel
     Left = 16
@@ -236,8 +236,8 @@ object frmMain: TfrmMain
     Top = 370
     Width = 163
     Caption = 'Schließen'
-    OnClick = btnCloseClick
     TabOrder = 5
+    OnClick = btnCloseClick
   end
   object labDatensicherung: TLabel
     Left = 16
@@ -265,10 +265,10 @@ object frmMain: TfrmMain
     Top = 344
     Width = 163
     Caption = 'Aktuelles'
-    OnClick = btnAktuellesClick
     ParentFont = False
     TabOrder = 6
     Visible = False
+    OnClick = btnAktuellesClick
   end
   object ProgressBar: TProgressBar
     Left = 404
@@ -336,6 +336,9 @@ object frmMain: TfrmMain
           Caption = 'Journal (Rohdaten)'
           OnClick = mnuExpJournalRAWClick
         end
+        object Separator4: TMenuItem
+          Caption = '-'
+        end
         object mnuExportPersonen: TMenuItem
           Caption = 'Personen'
           OnClick = mnuExportPersonenClick
@@ -343,6 +346,13 @@ object frmMain: TfrmMain
         object mnuExportZuwendung: TMenuItem
           Caption = 'Zuwendungsbescheinigungen'
           OnClick = mnuExportZuwendungClick
+        end
+        object Separator5: TMenuItem
+          Caption = '-'
+        end
+        object mnuExportKonten: TMenuItem
+          Caption = 'Konten'
+          OnClick = mnuExportKontenClick
         end
       end
       object mnuImport: TMenuItem
@@ -389,21 +399,6 @@ object frmMain: TfrmMain
       object mnuHaushaltsplan: TMenuItem
         Caption = 'Haushaltsplan aktualisieren'
         OnClick = mnuHaushaltsplanClick
-      end
-      object Separator2: TMenuItem
-        Caption = '-'
-      end
-      object mnuDebug: TMenuItem
-        Caption = 'Debug'
-        OnClick = mnuDebugClick
-      end
-      object mnuSQLDebug: TMenuItem
-        Caption = 'SQL Debug'
-        OnClick = mnuSQLDebugClick
-      end
-      object mnuShowDebug: TMenuItem
-        Caption = 'Zeige Debug'
-        OnClick = mnuShowDebugClick
       end
     end
     object MenuItem6: TMenuItem
@@ -465,6 +460,21 @@ object frmMain: TfrmMain
           Caption = 'Grenzen Zahlerverteilung (Alter)'
           OnClick = mnuLimitsZahlerverteilungAlterClick
         end
+      end
+      object Separator2: TMenuItem
+        Caption = '-'
+      end
+      object mnuDebug: TMenuItem
+        Caption = 'Debug'
+        OnClick = mnuDebugClick
+      end
+      object mnuSQLDebug: TMenuItem
+        Caption = 'SQL Debug'
+        OnClick = mnuSQLDebugClick
+      end
+      object mnuShowDebug: TMenuItem
+        Caption = 'Zeige Debug'
+        OnClick = mnuShowDebugClick
       end
     end
     object mnuHilfe: TMenuItem
