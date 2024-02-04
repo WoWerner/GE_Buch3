@@ -14,6 +14,6 @@ SELECT '('||konten.KontoNr||') '||Konten.Name as Name,
        replace(printf('%.2f €', SUM(Betrag)/100.0), '.', ',') AS Summe
 FROM Journal
 left join Konten on Konten.KontoNr=Journal.konto_nach
-where Kontotype = "A" AND BuchungsJahr = :BJAHR
+where Kontotype = "A" AND konten.statistik <> 99 AND BuchungsJahr = :BJAHR
 GROUP BY Name
 order by konten.sortpos
