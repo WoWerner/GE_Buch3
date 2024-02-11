@@ -145,16 +145,23 @@ var i : integer;
 
 begin
   result := '';
-  if nBuchungstextbis.Value > nBuchungstext.Value
-    then
-      begin
-        //BuchungstextBereich definiert
-        //Alle Felder lesen und verknüpfen
-        for i := nBuchungstext.Value  to nBuchungstextbis.Value
-          do result := result + ' ' + StringGridDaten.Cells[i, R];
-        result := trim(result);
-      end
-    else result := StringGridDaten.Cells[nBuchungstext.Value, R];
+  if nBuchungstextbis.Value > nBuchungstext.Value then
+    begin
+      //Bereich definiert: Alle Felder lesen und verknüpfen
+      for i := nBuchungstext.Value  to nBuchungstextbis.Value
+        do result := result + ' ' + StringGridDaten.Cells[i, R];
+      result := trim(result);
+    end
+  else if (nBuchungstextbis.Value < nBuchungstext.Value) and (nBuchungstextbis.Value <> 0) then
+    begin
+      //Zweispaltenmodus
+      result := StringGridDaten.Cells[nBuchungstextbis.Value, R] + ' ' + StringGridDaten.Cells[nBuchungstext.Value, R];
+    end
+  else
+    begin
+      //Nur eine Zelle
+      result := StringGridDaten.Cells[nBuchungstext.Value, R];
+    end;
 end;
 
 function TfrmJournal_CSV_Import.GetRowKeySK(R: Integer): String;
@@ -163,16 +170,23 @@ var i : integer;
 
 begin
   result := '';
-  if nKeySKBis.Value > nKeySK.Value
-    then
-      begin
-        //BuchungstextBereich definiert
-        //Alle Felder lesen und verknüpfen
-        for i := nKeySK.Value  to nKeySKBis.Value
-          do result := result + ' ' + StringGridDaten.Cells[i, R];
-        result := trim(result);
-      end
-    else result := StringGridDaten.Cells[nKeySK.Value, R];
+  if nKeySKBis.Value > nKeySK.Value then
+    begin
+      //Bereich definiert: Alle Felder lesen und verknüpfen
+      for i := nKeySK.Value  to nKeySKBis.Value
+        do result := result + ' ' + StringGridDaten.Cells[i, R];
+      result := trim(result);
+    end
+  else if (nKeySKBis.Value < nKeySK.Value) and (nKeySKBis.Value <> 0) then
+    begin
+      //Zweispaltenmodus
+      result := StringGridDaten.Cells[nKeySKBis.Value, R] + ' ' + StringGridDaten.Cells[nKeySK.Value, R];
+    end
+  else
+    begin
+      //Nur eine Zelle
+      result := StringGridDaten.Cells[nKeySK.Value, R];
+    end;
 end;
 
 function TfrmJournal_CSV_Import.GetRowKeyPers(R: Integer): String;
@@ -181,16 +195,23 @@ var i : integer;
 
 begin
   result := '';
-  if nKeyPersBis.Value > nKeyPers.Value
-    then
-      begin
-        //BuchungstextBereich definiert
-        //Alle Felder lesen und verknüpfen
-        for i := nKeyPers.Value  to nKeyPersBis.Value
-          do result := result + ' ' + StringGridDaten.Cells[i, R];
-        result := trim(result);
-      end
-    else result := StringGridDaten.Cells[nKeyPers.Value, R];
+  if nKeyPersBis.Value > nKeyPers.Value then
+    begin
+      //Bereich definiert: Alle Felder lesen und verknüpfen
+      for i := nKeyPers.Value  to nKeyPersBis.Value
+        do result := result + ' ' + StringGridDaten.Cells[i, R];
+      result := trim(result);
+    end
+  else if (nKeyPersBis.Value < nKeyPers.Value) and (nKeyPersBis.Value <> 0) then
+    begin
+      //Zweispaltenmodus
+      result := StringGridDaten.Cells[nKeyPersBis.Value, R] + ' ' + StringGridDaten.Cells[nKeyPers.Value, R];
+    end
+  else
+    begin
+      //Nur eine Zelle
+      result := StringGridDaten.Cells[nKeyPers.Value, R];
+    end;
 end;
 
 function TfrmJournal_CSV_Import.GetDatumsformat: String;
@@ -524,11 +545,17 @@ begin
                 then s := S_Add(s, 'Betrag');
               if (i = nSollHaben.Value)
                 then s := S_Add(s, 'Soll_Haben');
-              if (i = nKeySK.Value)        or ((nKeySKBis.Value > nKeySK.Value)               and (i >= nKeySK.Value)        and (i <= nKeySKBis.Value))
+              if (i = nKeySK.Value) or
+                 ((nKeySKBis.Value > nKeySK.Value) and (i >= nKeySK.Value) and (i <= nKeySKBis.Value)) or
+                 ((nKeySKBis.Value < nKeySK.Value) and ((i =  nKeySK.Value) or (i =  nKeySKBis.Value)) and (nKeySKBis.Value <> 0))
                 then s := S_Add(s, 'Schlüssel(SK)');
-              if (i = nKeyPers.Value)      or ((nKeyPersBis.Value > nKeyPers.Value)           and (i >= nKeyPers.Value)      and (i <= nKeyPersBis.Value))
+              if (i = nKeyPers.Value) or
+                 ((nKeyPersBis.Value > nKeyPers.Value) and (i >= nKeyPers.Value) and (i <= nKeyPersBis.Value)) or
+                 ((nKeyPersBis.Value < nKeyPers.Value) and ((i =  nKeyPers.Value) or (i =  nKeyPersBis.Value)) and (nKeyPersBis.Value <> 0))
                 then s := S_Add(s, 'Schlüssel(Pers)');
-              if (i = nBuchungstext.Value) or ((nBuchungstextBis.Value > nBuchungstext.Value) and (i >= nBuchungstext.Value) and (i <= nBuchungstextBis.Value))
+              if (i = nBuchungstext.Value) or
+                 ((nBuchungstextBis.Value > nBuchungstext.Value) and (i >= nBuchungstext.Value) and (i <= nBuchungstextBis.Value) )or
+                 ((nBuchungstextBis.Value < nBuchungstext.Value) and ((i =  nBuchungstext.Value) or (i =  nBuchungstextBis.Value)) and (nBuchungstextBis.Value <> 0))
                 then s := S_Add(s, 'Buchungstext');
               StringGridDaten.Cells[i, 0] := trim(s);
             end;
@@ -554,39 +581,24 @@ begin
               else
                 begin
                   Canvas.Brush.Color := clWindow;
+
                   if ARow = nHeader.Value                              then Canvas.Brush.Color := clGray;   //Kopf
                   if (ARow >= nDStart.Value) and (ARow <= nDEnd.Value) then Canvas.Brush.Color := clSilver; //Daten
-
-                  if nBuchungstextBis.Value > nBuchungstext.Value
-                    then
-                      begin
-                        if (ACol >= nBuchungstext.Value) and (ACol <= nBuchungstextBis.Value) then Canvas.Brush.Color := clYellow;
-                      end
-                    else
-                      begin
-                        if (ACol = nBuchungstext.Value)                                       then Canvas.Brush.Color := clYellow;
-                      end;
-
-                  if nKeySKBis.Value > nKeySK.Value
-                    then
-                      begin
-                        if (ACol >= nKeySK.Value) and (ACol <= nKeySKBis.Value) then Canvas.Brush.Color := clAqua;
-                      end
-                    else
-                      begin
-                        if (ACol = nKeySK.Value)                                then Canvas.Brush.Color := clAqua;
-                      end;
-
-                  if nKeyPersBis.Value > nKeyPers.Value
-                    then
-                      begin
-                        if (ACol >= nKeyPers.Value) and (ACol <= nKeyPersBis.Value) then Canvas.Brush.Color := clFuchsia;
-                      end
-                    else
-                      begin
-                        if (ACol = nKeyPers.Value)                                  then Canvas.Brush.Color := clFuchsia;
-                      end;
-
+                  //SK
+                  if (ACol = nKeySK.Value) or
+                     ((nKeySKBis.Value > nKeySK.Value) and (ACol >= nKeySK.Value) and (ACol <= nKeySKBis.Value)) or
+                     ((nKeySKBis.Value < nKeySK.Value) and ((ACol =  nKeySK.Value) or (ACol =  nKeySKBis.Value)) and (nKeySKBis.Value <> 0))
+                    then Canvas.Brush.Color := clAqua;
+                  //Person
+                  if (ACol = nKeyPers.Value) or
+                     ((nKeyPersBis.Value > nKeyPers.Value) and (ACol >= nKeyPers.Value) and (ACol <= nKeyPersBis.Value)) or
+                     ((nKeyPersBis.Value < nKeyPers.Value) and ((ACol =  nKeyPers.Value) or (ACol =  nKeyPersBis.Value)) and (nKeyPersBis.Value <> 0))
+                    then Canvas.Brush.Color := clFuchsia;
+                  //Buchungstext
+                  if (ACol = nBuchungstext.Value) or
+                     ((nBuchungstextBis.Value > nBuchungstext.Value) and (ACol >= nBuchungstext.Value) and (ACol <= nBuchungstextBis.Value) )or
+                     ((nBuchungstextBis.Value < nBuchungstext.Value) and ((ACol =  nBuchungstext.Value) or (ACol =  nBuchungstextBis.Value)) and (nBuchungstextBis.Value <> 0))
+                    then Canvas.Brush.Color := clYellow;
                   if (ACol = nDatum.Value)     then Canvas.Brush.Color := clLime;                  //Datum
                   if (ACol = nBetrag.Value)    then Canvas.Brush.Color := clSkyBlue;               //Betrag
                   if (ACol = nSollHaben.Value) then Canvas.Brush.Color := clMoneyGreen;            //Soll_Haben

@@ -10,7 +10,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
   Constraints.MinWidth = 800
   OnClose = FormClose
   OnShow = FormShow
-  LCLVersion = '1.8.0.6'
+  LCLVersion = '3.0.0.3'
   object Panel1: TPanel
     Left = 0
     Height = 180
@@ -152,6 +152,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       ClientHeight = 103
       ClientWidth = 186
       Color = clSilver
+      ParentBackground = False
       ParentColor = False
       TabOrder = 6
       object nDStart: TSpinEdit
@@ -193,6 +194,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
           'von unten'
           'von oben'
         )
+        ParentBackground = False
         TabOrder = 2
       end
       object Label6: TLabel
@@ -217,6 +219,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       ClientHeight = 32
       ClientWidth = 340
       Color = clYellow
+      ParentBackground = False
       ParentColor = False
       TabOrder = 7
       object nBuchungstextBis: TSpinEdit
@@ -234,7 +237,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         Left = 56
         Height = 15
         Top = 8
-        Width = 72
+        Width = 73
         Caption = 'Buchungstext'
         Color = clYellow
         ParentColor = False
@@ -252,10 +255,10 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       end
       object DelUntil1: TRadioButton
         Left = 213
-        Height = 19
+        Height = 17
         Hint = 'Alles vor diesem Zeichen löschen'
         Top = 8
-        Width = 20
+        Width = 18
         Checked = True
         ParentShowHint = False
         ShowHint = True
@@ -264,10 +267,10 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       end
       object DelFrom1: TRadioButton
         Left = 311
-        Height = 19
+        Height = 17
         Hint = 'Alles (einschließlich diesen Zeichens) bis zum Ende löschen'
         Top = 9
-        Width = 20
+        Width = 18
         ParentShowHint = False
         ShowHint = True
         TabOrder = 2
@@ -289,6 +292,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       ClientHeight = 32
       ClientWidth = 186
       Color = clGray
+      ParentBackground = False
       ParentColor = False
       TabOrder = 8
       object nHeader: TSpinEdit
@@ -320,6 +324,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       ClientHeight = 32
       ClientWidth = 340
       Color = clLime
+      ParentBackground = False
       ParentColor = False
       TabOrder = 9
       object ediDatumsformat: TEdit
@@ -328,12 +333,12 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         Hint = 'Rechtsklick: Setze default Suchmaske'
         Top = 4
         Width = 229
-        OnContextPopup = ediDatumsformatContextPopup
-        OnExit = ediDatumsformatExit
         ParentShowHint = False
         ShowHint = True
         TabOrder = 0
         Text = 'DD.MM.YY'
+        OnContextPopup = ediDatumsformatContextPopup
+        OnExit = ediDatumsformatExit
       end
       object Label2: TLabel
         Left = 56
@@ -365,6 +370,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       ClientHeight = 32
       ClientWidth = 200
       Color = clAqua
+      ParentBackground = False
       ParentColor = False
       TabOrder = 10
       object nKeySK: TSpinEdit
@@ -407,6 +413,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       ClientHeight = 32
       ClientWidth = 136
       Color = clSkyBlue
+      ParentBackground = False
       ParentColor = False
       TabOrder = 11
       object nBetrag: TSpinEdit
@@ -440,6 +447,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       ClientHeight = 32
       ClientWidth = 200
       Color = clMoneyGreen
+      ParentBackground = False
       ParentColor = False
       ParentShowHint = False
       ShowHint = True
@@ -488,8 +496,8 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       Width = 89
       Caption = 'Weiter'
       ModalResult = 1
-      OnClick = btnOKClick
       TabOrder = 14
+      OnClick = btnOKClick
     end
     object Panel2: TPanel
       Left = 464
@@ -500,14 +508,15 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       ClientHeight = 32
       ClientWidth = 138
       Color = clYellow
+      ParentBackground = False
       ParentColor = False
       TabOrder = 15
       object DelUntil2: TRadioButton
         Left = 14
-        Height = 19
+        Height = 17
         Hint = 'Alles vor diesem Zeichen löschen'
         Top = 8
-        Width = 20
+        Width = 18
         Checked = True
         ParentShowHint = False
         ShowHint = True
@@ -523,10 +532,10 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       end
       object DelFrom2: TRadioButton
         Left = 111
-        Height = 19
+        Height = 17
         Hint = 'Alles (einschließlich diesen Zeichens) bis zum Ende löschen'
         Top = 8
-        Width = 20
+        Width = 18
         ParentShowHint = False
         ShowHint = True
         TabOrder = 2
@@ -541,14 +550,15 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       ClientHeight = 32
       ClientWidth = 138
       Color = clYellow
+      ParentBackground = False
       ParentColor = False
       TabOrder = 16
       object DelUntil3: TRadioButton
         Left = 13
-        Height = 19
+        Height = 17
         Hint = 'Alles vor diesem Zeichen löschen'
         Top = 8
-        Width = 20
+        Width = 18
         Checked = True
         ParentShowHint = False
         ShowHint = True
@@ -564,10 +574,10 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       end
       object DelFrom3: TRadioButton
         Left = 111
-        Height = 19
+        Height = 17
         Hint = 'Alles (einschließlich diesen Zeichens) bis zum Ende löschen'
         Top = 8
-        Width = 20
+        Width = 18
         ParentShowHint = False
         ShowHint = True
         TabOrder = 2
@@ -598,6 +608,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       ClientHeight = 32
       ClientWidth = 200
       Color = clFuchsia
+      ParentBackground = False
       ParentColor = False
       TabOrder = 18
       object nKeyPers: TSpinEdit
