@@ -1651,6 +1651,7 @@ begin
         begin
           frmFreieListe.SrcList.Items.Text := slNamen.Text;
           frmFreieListe.DstList.Items.Clear;
+          frmFreieListe.Caption          := 'Personen auswählen.';
           frmFreieListe.SrcLabel.Caption :='Namen';
           frmFreieListe.DstLabel.Caption :='zu versenden';
           frmFreieListe.rbCSV.Visible    := false;
