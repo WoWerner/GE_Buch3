@@ -10,7 +10,7 @@ object frmBanken: TfrmBanken
   OnClose = FormClose
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '3.0.0.3'
   object DBGridBankListe: TDBGrid
     Left = 0
     Height = 338
@@ -42,8 +42,8 @@ object frmBanken: TfrmBanken
       Top = 129
       Width = 136
       Caption = 'Schließen'
-      OnClick = btnCloseClick
       TabOrder = 0
+      OnClick = btnCloseClick
     end
     object btnHilfe: TButton
       Left = 603
@@ -51,8 +51,8 @@ object frmBanken: TfrmBanken
       Top = 99
       Width = 136
       Caption = 'Hilfe'
-      OnClick = btnHilfeClick
       TabOrder = 1
+      OnClick = btnHilfeClick
     end
     object btnAbbrechen: TButton
       Left = 371
@@ -60,9 +60,9 @@ object frmBanken: TfrmBanken
       Top = 99
       Width = 136
       Caption = 'Abbrechen'
-      OnClick = btnAbbrechenClick
       TabOrder = 2
       Visible = False
+      OnClick = btnAbbrechenClick
     end
     object btnSpeichern: TButton
       Left = 371
@@ -70,9 +70,9 @@ object frmBanken: TfrmBanken
       Top = 129
       Width = 136
       Caption = 'Speichern'
-      OnClick = btnSpeichernClick
       TabOrder = 3
       Visible = False
+      OnClick = btnSpeichernClick
     end
     object btnDelete: TButton
       Left = 371
@@ -80,8 +80,8 @@ object frmBanken: TfrmBanken
       Top = 69
       Width = 136
       Caption = 'Löschen'
-      OnClick = btnDeleteClick
       TabOrder = 4
+      OnClick = btnDeleteClick
     end
     object btnAendern: TButton
       Left = 371
@@ -90,10 +90,10 @@ object frmBanken: TfrmBanken
       Top = 39
       Width = 136
       Caption = 'Ändern'
-      OnClick = btnAendernClick
       ParentShowHint = False
       ShowHint = True
       TabOrder = 5
+      OnClick = btnAendernClick
     end
     object btnNeu: TButton
       Left = 371
@@ -101,8 +101,8 @@ object frmBanken: TfrmBanken
       Top = 9
       Width = 136
       Caption = 'Neu'
-      OnClick = btnNeuClick
       TabOrder = 6
+      OnClick = btnNeuClick
     end
     object Label5: TLabel
       Left = 8
@@ -117,7 +117,7 @@ object frmBanken: TfrmBanken
       Height = 23
       Top = 11
       Width = 56
-      MaxValue = 199
+      MaxValue = 9999
       MinValue = 1
       OnExit = ediKontoNrExit
       ParentShowHint = False
@@ -137,8 +137,8 @@ object frmBanken: TfrmBanken
       Height = 23
       Top = 101
       Width = 256
-      OnEnter = ediNameEnter
       TabOrder = 10
+      OnEnter = ediNameEnter
     end
     object Label3: TLabel
       Left = 8
@@ -172,7 +172,7 @@ object frmBanken: TfrmBanken
       Height = 23
       Top = 41
       Width = 56
-      MaxValue = 199
+      MaxValue = 9999
       MinValue = 1
       TabOrder = 9
       Value = 100

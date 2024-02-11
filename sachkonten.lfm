@@ -12,7 +12,7 @@ object frmSachkonten: TfrmSachkonten
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '3.0.0.3'
   object DBGridSachkontenliste: TDBGrid
     Left = 0
     Height = 304
@@ -48,6 +48,7 @@ object frmSachkonten: TfrmSachkonten
       ClientHeight = 63
       ClientWidth = 216
       Color = clSilver
+      ParentBackground = False
       ParentColor = False
       ParentShowHint = False
       ShowHint = True
@@ -74,8 +75,8 @@ object frmSachkonten: TfrmSachkonten
       Height = 23
       Top = 5
       Width = 432
-      OnEnter = ediSachkontoEnter
       TabOrder = 3
+      OnEnter = ediSachkontoEnter
     end
     object Label1: TLabel
       Left = 8
@@ -91,8 +92,8 @@ object frmSachkonten: TfrmSachkonten
       Top = 3
       Width = 104
       Caption = 'Neu'
-      OnClick = btnNeuClick
       TabOrder = 7
+      OnClick = btnNeuClick
     end
     object btnAendern: TButton
       Left = 576
@@ -100,8 +101,8 @@ object frmSachkonten: TfrmSachkonten
       Top = 36
       Width = 104
       Caption = 'Ändern'
-      OnClick = btnAendernClick
       TabOrder = 8
+      OnClick = btnAendernClick
     end
     object btnDelete: TButton
       Left = 576
@@ -109,8 +110,8 @@ object frmSachkonten: TfrmSachkonten
       Top = 70
       Width = 104
       Caption = 'Löschen'
-      OnClick = btnDeleteClick
       TabOrder = 9
+      OnClick = btnDeleteClick
     end
     object btnSpeichern: TButton
       Left = 576
@@ -118,9 +119,9 @@ object frmSachkonten: TfrmSachkonten
       Top = 135
       Width = 104
       Caption = 'Speichern'
-      OnClick = btnSpeichernClick
       TabOrder = 11
       Visible = False
+      OnClick = btnSpeichernClick
     end
     object btnAbbrechen: TButton
       Left = 576
@@ -128,9 +129,9 @@ object frmSachkonten: TfrmSachkonten
       Top = 102
       Width = 104
       Caption = 'Abbrechen'
-      OnClick = btnAbbrechenClick
       TabOrder = 10
       Visible = False
+      OnClick = btnAbbrechenClick
     end
     object btnClose: TButton
       Left = 688
@@ -138,8 +139,8 @@ object frmSachkonten: TfrmSachkonten
       Top = 165
       Width = 110
       Caption = 'Schließen'
-      OnClick = btnCloseClick
       TabOrder = 13
+      OnClick = btnCloseClick
     end
     object btnHilfe: TButton
       Left = 688
@@ -147,8 +148,8 @@ object frmSachkonten: TfrmSachkonten
       Top = 135
       Width = 110
       Caption = 'Hilfe'
-      OnClick = btnHilfeClick
       TabOrder = 12
+      OnClick = btnHilfeClick
     end
     object Label5: TLabel
       Left = 8
@@ -202,8 +203,8 @@ object frmSachkonten: TfrmSachkonten
       Height = 23
       Top = 69
       Width = 232
-      OnEnter = ediSachkontoEnter
       TabOrder = 4
+      OnEnter = ediSachkontoEnter
     end
     object Label8: TLabel
       Left = 216
@@ -218,8 +219,8 @@ object frmSachkonten: TfrmSachkonten
       Height = 23
       Top = 101
       Width = 232
-      OnEnter = ediSachkontoEnter
       TabOrder = 5
+      OnEnter = ediSachkontoEnter
     end
     object Label9: TLabel
       Left = 216
@@ -235,8 +236,8 @@ object frmSachkonten: TfrmSachkonten
       Height = 23
       Top = 133
       Width = 232
-      OnEnter = ediSachkontoEnter
       TabOrder = 6
+      OnEnter = ediSachkontoEnter
     end
     object btnSetFreistellung: TButton
       Left = 576
@@ -244,11 +245,11 @@ object frmSachkonten: TfrmSachkonten
       Top = 165
       Width = 104
       Caption = 'Setze Freistellung'
-      OnClick = btnSetFreistellungClick
-      OnContextPopup = btnSetFreistellungContextPopup
       ParentShowHint = False
       ShowHint = True
       TabOrder = 14
+      OnClick = btnSetFreistellungClick
+      OnContextPopup = btnSetFreistellungContextPopup
     end
     object cbSteuer: TComboBox
       Left = 280
@@ -289,8 +290,8 @@ object frmSachkonten: TfrmSachkonten
       Top = 165
       Width = 72
       Alignment = taRightJustify
-      OnEnter = ediSachkontoEnter
       TabOrder = 16
+      OnEnter = ediSachkontoEnter
     end
     object Label12: TLabel
       Left = 216
@@ -305,8 +306,8 @@ object frmSachkonten: TfrmSachkonten
       Height = 23
       Top = 165
       Width = 232
-      OnEnter = ediSachkontoEnter
       TabOrder = 17
+      OnEnter = ediSachkontoEnter
     end
     object ediStatistik: TSpinEdit
       Left = 136
@@ -314,7 +315,7 @@ object frmSachkonten: TfrmSachkonten
       Hint = '--Durchlaufende Konten'#13#10'---Gesamtkirchliche Kollekten'#13#10'231 Mission'#13#10'232 Diakonisches Werk'#13#10'233 Lutherische Stunde'#13#10'234 Diasporawerk'#13#10'235 Studienbeihilfe'#13#10'236 Hilfswerk der SELK'#13#10'---Kollekten und Spenden für Ämter und Werke der SELK'#13#10'241 Mission'#13#10'242 Jugendarbeit'#13#10'243 Theol. Hochschule'#13#10'244 Kirchenmusik'#13#10'245 Bausteine/Diasporawerk'#13#10'246 Sonstige'#13#10'---Kollekten und Spenden für Ämter und Werke außerhalb der SELK'#13#10'251 Brot für die Welt'#13#10'253 Sonstige'#13#10'254 Weltbibelhilfe'#13#10'--Ausgaben'#13#10'3  Personalaufwendungen'#13#10'41 Reise- und Sitzungskosten'#13#10'42 Kraftfahrzeug-Unterhaltung'#13#10'43 Postgebühren (Porto, Telefon)'#13#10'44 allg. Verwaltungskosten'#13#10'45 Aufwendungen für Grundstücke und Gebäude'#13#10'46 sonstige Sachaufwendungen'#13#10'51 Publizistik'#13#10'52 Gottesdienstbedarf'#13#10'53 Kinder- und Jugendarbeit'#13#10'54 Alten- und Krankenbetreuung'#13#10'55 Chöre'#13#10'56 sonstige Gemeindekreise'#13#10'57 Druckschriften'#13#10'58 verborgene Not'#13#10'59 außerordentliche Aufwendungen'#13#10'66 Etatzuschüsse an kirchliche Werke'#13#10'67 Zahlungen an AKK'#13#10'68 Zahlungen an KB-Kasse'#13#10'71 Zinsen'#13#10'72 Gebühren der Kreditinstitute'#13#10'73 Sonstige Kosten des Finanzverkehrs'#13#10'--Einnahmen'#13#10'81 Erlöse aus Vermögen'#13#10'82 Zuschüsse und allgemeine Erstattungen'#13#10'84 allgemeine Kirchenbeiträge'#13#10'85 Spenden für gemeindeeigene Zwecke'#13#10'86 Kollekten für gemeindeeigene Zwecke'#13#10'87 Sonstige Einnahmen'#13#10'88 Einnahmen für gemeindeeigene Zwecke'#13#10'--Sonstiges'#13#10'99 Nicht erfassen'
       Top = 101
       Width = 72
-      MaxValue = 999
+      MaxValue = 99
       MinValue = 1
       ParentShowHint = False
       ShowHint = True
