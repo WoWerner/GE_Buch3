@@ -221,6 +221,7 @@ object frmDrucken: TfrmDrucken
       'Bemerkung enthält'
     )
     OnSelectionChanged = rgFilterSelectionChanged
+    ParentBackground = False
     TabOrder = 27
   end
   object btnJournalKompaktFiltered: TButton

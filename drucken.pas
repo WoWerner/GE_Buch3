@@ -1901,7 +1901,19 @@ begin
                            end;
                     line:  begin
                              Font.Style:=[];
-                             View.FillColor:=clWhite;
+                             if Druckmode = Haushaltsplan then
+                               if CurrencyToInt(TwoColReportData[FRow].Col2, false) = 0 then
+                                 View.FillColor := clYellow
+                               else if ((CurrencyToInt(TwoColReportData[FRow].Col2, false) > 0) and (CurrencyToInt(TwoColReportData[FRow].Col1, false) > CurrencyToInt(TwoColReportData[FRow].Col2, false))) or
+                                       ((CurrencyToInt(TwoColReportData[FRow].Col2, false) < 0) and (CurrencyToInt(TwoColReportData[FRow].Col1, false) > CurrencyToInt(TwoColReportData[FRow].Col2, false))) then
+                                 View.FillColor := clLime
+                               else if ((CurrencyToInt(TwoColReportData[FRow].Col2, false) > 0) and (CurrencyToInt(TwoColReportData[FRow].Col1, false) < CurrencyToInt(TwoColReportData[FRow].Col2, false))) or
+                                       ((CurrencyToInt(TwoColReportData[FRow].Col2, false) < 0) and (CurrencyToInt(TwoColReportData[FRow].Col1, false) < CurrencyToInt(TwoColReportData[FRow].Col2, false))) then
+                                 View.FillColor := TColor($008080FF) //leichtes Rot
+                               else
+                                 View.FillColor:=clWhite
+                             else
+                               View.FillColor:=clWhite;
                            end;
                     blank: begin
                              Visible:= false;
