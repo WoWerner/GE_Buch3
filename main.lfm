@@ -1,12 +1,12 @@
 object frmMain: TfrmMain
   Left = 651
-  Height = 420
+  Height = 401
   Top = 176
   Width = 581
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'GE_Buch'
-  ClientHeight = 420
+  ClientHeight = 401
   ClientWidth = 581
   Menu = MainMenu
   OnClose = FormClose
@@ -87,8 +87,8 @@ object frmMain: TfrmMain
     Left = 72
     Height = 15
     Top = 222
-    Width = 241
-    Caption = 'Ulmtalstr. 26, 35753 Greifenstein / Holzhausen'
+    Width = 247
+    Caption = 'Grüner Weg 2, 35753 Greifenstein / Holzhausen'
     Font.Color = clNavy
     Font.Height = 16
     ParentColor = False
