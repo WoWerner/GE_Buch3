@@ -1,9 +1,10 @@
-select LaufendeNr,
+select journal.LaufendeNr,
        journal.Belegnummer,
-       journal.Konto_nach,
-       journal.BankNr,
+	   journal.BankNr,
+       journal.Konto_nach,       
        Journal.PersonenID,
-       ifnull(Betrag/100,0) as Betrag
+       printf('%.2f', journal.Betrag/100.0) as Betrag,
+	   Journal.Buchungstext
 from journal
 left join personen on personen.PersonenID = Journal.PersonenID
 left join konten   on konten.KontoNr      = Journal.Konto_nach
