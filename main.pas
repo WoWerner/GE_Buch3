@@ -274,6 +274,7 @@ begin
   sPrintPath  := IncludeTrailingPathDelimiter(sPrintPath);
   ForceDirectories(UTF8ToSys(sSavePath));
   ForceDirectories(UTF8ToSys(sPrintPath));
+  ForceDirectories(UTF8ToSys(ExtractFilePath(sDebugFile)));
 
   //Laden der Steuereinträge
   slHelp.Text            := sSteuerDef;

@@ -26,8 +26,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="3"/>
-      <MinorVersionNr Value="2"/>
-      <BuildNr Value="1"/>
+      <MinorVersionNr Value="3"/>
       <Language Value="0407"/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -75,7 +74,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="21">
+    <Units Count="24">
       <Unit0>
         <Filename Value="GE_Buch.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -108,102 +107,118 @@
         <IsPartOfProject Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="vinfo.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit5>
-      <Unit6>
-        <Filename Value="appsettings.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit6>
-      <Unit7>
         <Filename Value="einstellungen.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmEinstellungen"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit7>
-      <Unit8>
+      </Unit5>
+      <Unit6>
         <Filename Value="personen.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmPersonen"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit8>
-      <Unit9>
+      </Unit6>
+      <Unit7>
         <Filename Value="banken.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmBanken"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit9>
-      <Unit10>
+      </Unit7>
+      <Unit8>
         <Filename Value="journal.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmJournal"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit10>
-      <Unit11>
+      </Unit8>
+      <Unit9>
         <Filename Value="db_liste.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmListe"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit11>
-      <Unit12>
+      </Unit9>
+      <Unit10>
         <Filename Value="drucken.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmDrucken"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit12>
-      <Unit13>
+      </Unit10>
+      <Unit11>
         <Filename Value="cscsv.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit13>
-      <Unit14>
+      </Unit11>
+      <Unit12>
         <Filename Value="journal_csv_import.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmJournal_CSV_Import"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Journal_CSV_Import"/>
-      </Unit14>
-      <Unit15>
+      </Unit12>
+      <Unit13>
         <Filename Value="uStrToDateFmt.pas"/>
         <IsPartOfProject Value="True"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="mailsend.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="progress.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmProgress"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Progress"/>
       </Unit15>
       <Unit16>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\ausgabe.pas"/>
+        <Filename Value="..\..\Lazarus\shared\appsettings.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="..\..\Lazarus\shared\ausgabe.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmAusgabe"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Ausgabe"/>
-      </Unit16>
-      <Unit17>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\help.pas"/>
-        <IsPartOfProject Value="True"/>
       </Unit17>
       <Unit18>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\input.pas"/>
+        <Filename Value="..\..\Lazarus\shared\freelist.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmInput"/>
+        <ComponentName Value="frmFreieListe"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Freelist"/>
       </Unit18>
       <Unit19>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\pgmupdate.pas"/>
+        <Filename Value="..\..\Lazarus\shared\help.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmPgmUpdate"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="PgmUpdate"/>
       </Unit19>
       <Unit20>
-        <Filename Value="..\..\GE_Kart\GE_Kart7\uhttpdownloader.pas"/>
+        <Filename Value="..\..\Lazarus\shared\input.pas"/>
         <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
       </Unit20>
+      <Unit21>
+        <Filename Value="..\..\Lazarus\shared\pgmupdate.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="PgmUpdate"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="..\..\Lazarus\shared\uhttpdownloader.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="..\..\Lazarus\shared\vinfo.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit23>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -214,12 +229,13 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\..\GE_Kart\GE_Kart7;C:\lazarus\components\synapse40\source\lib\"/>
+      <OtherUnitFiles Value="C:\lazarus\components\synapse40\source\lib\;..\..\Lazarus\shared"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
       <Debugging>
         <GenerateDebugInfo Value="False"/>
+        <DebugInfoType Value="dsDwarf2Set"/>
       </Debugging>
       <Options>
         <Win32>
