@@ -740,8 +740,8 @@ begin
   frmDM.ZQueryHelp.Open;
   while (not frmDM.ZQueryHelp.EOF) do
     begin
-      sHelp := sHelp + 'update konten set PlanSumme = '+frmDM.ZQueryHelp.FieldByName('PlanSumme').AsString.PadLeft(8, ' ')+
-                       ' where KontoNr = '+frmDM.ZQueryHelp.FieldByName('KontoNr').AsString.PadLeft(3, ' ')+
+      sHelp := sHelp + 'update konten set PlanSumme = '+frmDM.ZQueryHelp.FieldByName('PlanSumme').AsString.PadLeft(9, ' ')+
+                       ' where KontoNr = '+frmDM.ZQueryHelp.FieldByName('KontoNr').AsString.PadLeft(4, ' ')+
                        '; --('+frmDM.ZQueryHelp.FieldByName('Kontotype').AsString+') '+frmDM.ZQueryHelp.FieldByName('Name').AsString+#13#10;
       frmDM.ZQueryHelp.Next;
     end;
