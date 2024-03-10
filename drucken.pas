@@ -699,13 +699,13 @@ begin
               //Type         E oder A für Kontotype
               //AddWhereAnd1 Filter (Bereiche und Datum)
               //AddWhereAnd2 Steuer
-              //AddWhereOr   Plansumme > 0 mit ausgeben
+              //AddWhereOr   Plansumme <> 0 mit ausgeben
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
               frmDM.ZQueryDrucken.ParamByName('TYP').AsString    := 'E';
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd1', sHelp, [rfReplaceAll]);
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd2', ' and (konten.Steuer="'+slHelp.Strings[i]+'")', [rfReplaceAll]);
               if Druckmode = Haushaltsplan
-                then frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereOr', ' or (konten.PlanSumme>0)', [rfReplaceAll])
+                then frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereOr', ' or (konten.PlanSumme<>0)', [rfReplaceAll])
                 else frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereOr', '', [rfReplaceAll]);
               frmDM.ZQueryDrucken.Open;
 
@@ -776,7 +776,7 @@ begin
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd1', sHelp, [rfReplaceAll]);
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd2', ' and (konten.Steuer="'+slHelp.Strings[i]+'")', [rfReplaceAll]);
               if Druckmode = Haushaltsplan
-                then frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereOr', ' or (konten.PlanSumme>0)', [rfReplaceAll])
+                then frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereOr', ' or (konten.PlanSumme<>0)', [rfReplaceAll])
                 else frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereOr', '', [rfReplaceAll]);
               frmDM.ZQueryDrucken.Open;
 
