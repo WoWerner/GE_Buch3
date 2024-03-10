@@ -340,7 +340,7 @@ begin
 	  myDebugLN('ERROR HTTPGET, Resultcode: '+inttostr(Http.Resultcode)+' '+Http.Resultstring);
           labVersionNeu.Font.Size := -10;
           labVersionNeu.Caption   := 'Keine Verbindung zum Updateserver';
-          labVersionNeu.Color     := clNone;
+          labVersionNeu.Color     := clSkyBlue;
           labVersionNeu.OnClick   := nil;
         end
       else
@@ -371,9 +371,13 @@ begin
                         then
                           begin
                             labVersionNeu.Caption   := 'Das Programm ist aktuell';
-                            labVersionNeu.Color     := clNone;
+                            labVersionNeu.Color     := clMoneyGreen;
                           end
-                        else labVersionNeu.Caption   := 'Das Programm ist neuer. Aktuelle Version im Internet: '+sNewVers;
+                        else
+                          begin
+                            labVersionNeu.Color     := clAqua;
+                            labVersionNeu.Caption   := 'Das Programm ist neuer. Aktuelle Version im Internet: '+sNewVers;
+                          end;
                     end;
               end
             else
