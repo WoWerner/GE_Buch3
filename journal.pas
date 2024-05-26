@@ -48,6 +48,7 @@ type
     DBGridJournal: TDBGrid;
     ediBankNr: TEdit;
     ediBankNummerFilter: TEdit;
+    ediBetragFilter: TEdit;
     ediTextFilter: TEdit;
     ediBelegnummer: TEdit;
     ediBemerkung: TEdit;
@@ -1416,13 +1417,14 @@ var
 
 begin
   sFilter := '';
-  if ediSachKontoNummerFilter.Text <> '' then sFilter := sFilter + ' and Konto_nach = '        + ediSachKontoNummerFilter.Text+ ' ';
-  if ediBankNummerFilter.Text      <> '' then sFilter := sFilter + ' and BankNr = '             + ediBankNummerFilter.Text+ ' ';
-  if ediPersonenNummerFilter.Text  <> '' then sFilter := sFilter + ' and journal.PersonenID = ' + ediPersonenNummerFilter.Text+ ' ';
-  if ediTextFilter.Text            <> '' then sFilter := sFilter + ' and ((Buchungstext like ''%'+ediTextFilter.Text+'%'') or '+
-                                                                         '(Belegnummer  like ''%'+ediTextFilter.Text+'%'') or '+
-                                                                         '(Bemerkung    like ''%'+ediTextFilter.Text+'%'') or '+
-                                                                         '(Name         like ''%'+ediTextFilter.Text+'%'')) ';
+  if ediSachKontoNummerFilter.Text <> '' then sFilter := sFilter + ' and Konto_nach = '          + ediSachKontoNummerFilter.Text+ ' ';
+  if ediBankNummerFilter.Text      <> '' then sFilter := sFilter + ' and BankNr = '              + ediBankNummerFilter.Text+ ' ';
+  if ediPersonenNummerFilter.Text  <> '' then sFilter := sFilter + ' and journal.PersonenID =  ' + ediPersonenNummerFilter.Text+ ' ';
+  if ediBetragFilter.Text          <> '' then sFilter := sFilter + ' and journal.Betrag = '      + inttostr(CurrencyToInt(ediBetragFilter.Text, bEuroModus))+ ' ';
+  if ediTextFilter.Text            <> '' then sFilter := sFilter + ' and ((Buchungstext like ''%'+ ediTextFilter.Text+'%'') or '+
+                                                                         '(Belegnummer  like ''%'+ ediTextFilter.Text+'%'') or '+
+                                                                         '(Bemerkung    like ''%'+ ediTextFilter.Text+'%'') or '+
+                                                                         '(Name         like ''%'+ ediTextFilter.Text+'%'')) ';
 
   frmDM.ZQueryJournal.Close;
   frmDM.ZQueryJournal.SQL.Text := Format(sSelectJournal, [inttostr(ediBuchungsjahr.Value)+sFilter]) + GetSortOrder;
@@ -1433,6 +1435,7 @@ begin
     ediSachKontoNummerFilter.Text := '';
     ediBankNummerFilter.Text      := '';
     ediPersonenNummerFilter.Text  := '';
+    ediBetragFilter.Text          := '';
     ediTextFilter.Text            := '';
     Showmessage('Fehler beim Öffnen der Datenbank'+#13+frmDM.ZQueryJournal.SQL.Text);
     frmDM.ZQueryJournal.SQL.Text := Format(sSelectJournal, [inttostr(ediBuchungsjahr.Value)]) + GetSortOrder;
@@ -1463,6 +1466,7 @@ begin
   ediSachKontoNummerFilter.Text := '';
   ediBankNummerFilter.Text      := '';
   ediPersonenNummerFilter.Text  := '';
+  ediBetragFilter.Text          := '';
   ediTextFilter.Text            := '';
   ediFilterExit(self);
 end;
@@ -1653,8 +1657,10 @@ begin
   ediSachKontoNummerFilter.Text := '';
   ediPersonenNummerFilter.Text  := '';
   ediBankNummerFilter.Text      := '';
+  ediBetragFilter.Text          := '';
   ediTextFilter.Text            := '';
   labFilter.Visible             := false;
+  labVZ.Visible                 := false;
 
   frmDM.ZQueryJournal.Last;
   bStartFinished := true;
