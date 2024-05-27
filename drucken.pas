@@ -1385,6 +1385,7 @@ procedure TfrmDrucken.btnDurchgangClick(Sender: TObject);
 type
   T3ColReport =  record
     Name      : string;
+    KontoNr   : integer;
     EinBetrag : Longint;
     AusBetrag : Longint;
   end;
@@ -1405,7 +1406,8 @@ begin
     begin
       Daten[nHelp].EinBetrag := 0;
       Daten[nHelp].AusBetrag := 0;
-      Daten[nHelp].Name   := '';
+      Daten[nHelp].KontoNr   := 0;
+      Daten[nHelp].Name      := '';
     end;
 
   frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenJournalDurchgang.sql');
@@ -1418,8 +1420,9 @@ begin
       if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = ediBuchungsjahr.value
         then
           begin
-            nHelp := frmDM.ZQueryDrucken.FieldByName('Konto_nach').AsInteger;
-            Daten[nHelp].Name := frmDM.ZQueryDrucken.FieldByName('Name').AsString;
+            nHelp := frmDM.ZQueryDrucken.FieldByName('Sortpos').AsInteger;
+            Daten[nHelp].Name    := frmDM.ZQueryDrucken.FieldByName('Name').AsString;
+            Daten[nHelp].KontoNr := frmDM.ZQueryDrucken.FieldByName('konto_nach').AsInteger;
             if frmDM.ZQueryDrucken.FieldByName('Betrag').AsInteger > 0
               then
                 begin
@@ -1445,7 +1448,7 @@ begin
           then
             begin
               frmMain.slHelp.Add('"'+UTF8toCP1252(DeleteChar(Daten[nHelp].Name, '"'))+'";"'+
-                                 inttostr(nHelp)+'";'+
+                                 inttostr(Daten[nHelp].KontoNr)+'";'+
                                  IntToCurrency(Daten[nHelp].EinBetrag)+';'+
                                  IntToCurrency(Daten[nHelp].AusBetrag)+';'+
                                  IntToCurrency(Daten[nHelp].EinBetrag+Daten[nHelp].AusBetrag));

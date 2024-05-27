@@ -1,5 +1,6 @@
 select
    journal.konto_nach as konto_nach,
+   konten.SortPos as SortPos,
    konten.name as name,
    konten.Kontotype as Kontotype,
    journal.BuchungsJahr as BuchungsJahr,
