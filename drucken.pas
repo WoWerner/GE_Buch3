@@ -1351,7 +1351,7 @@ begin
   frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\MonatlicheAusgaben.sql');
   frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
   frmDM.ZQueryDrucken.Open;
-  ExportQueToCSVFile(frmDM.ZQueryDrucken, sPrintPath+'MonatlicheAusgaben.csv', ';', '"', true, false);
+  ExportQueToCSVFile(frmDM.ZQueryDrucken, sPrintPath+'MonatlicheAusgaben.csv', ';', '"', true, false, false);
   frmDM.ZQueryDrucken.Close;
 end;
 
@@ -1559,7 +1559,7 @@ begin
   frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\MonatlicheZahlungen.sql');
   frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
   frmDM.ZQueryDrucken.Open;
-  ExportQueToCSVFile(frmDM.ZQueryDrucken, sPrintPath+'Zahler_Monatliche_Zahlungen.csv', ';', '"', true, false);
+  ExportQueToCSVFile(frmDM.ZQueryDrucken, sPrintPath+'Zahler_Monatliche_Zahlungen.csv', ';', '"', true, false, false);
   frmDM.ZQueryDrucken.Close;
 end;
 
