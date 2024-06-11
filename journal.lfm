@@ -599,11 +599,11 @@ object frmJournal: TfrmJournal
     end
     object panFilter1: TPanel
       Left = 448
-      Height = 30
-      Top = 164
+      Height = 29
+      Top = 165
       Width = 266
       BevelOuter = bvNone
-      ClientHeight = 30
+      ClientHeight = 29
       ClientWidth = 266
       Color = clSilver
       ParentBackground = False
