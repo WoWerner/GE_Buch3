@@ -103,7 +103,6 @@ type
     Label4: TLabel;
     rgFilter: TRadioGroup;
     Shape1: TShape;
-    Shape2: TShape;
     Shape3: TShape;
     procedure btnBankenlisteClick(Sender: TObject);
     procedure btnBankenlisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -171,6 +170,7 @@ type
     slHelp    : TStringList;
     Procedure PreparePrint(CallDesigner : boolean = false; CSV_Export : boolean = false; Einzeln: boolean = false);
     Procedure AddLine(sName, Col1, Col2: String; Typ: TColType);
+    Procedure AddFilter;
   public
     { public declarations }
   end;
@@ -213,6 +213,35 @@ begin
   TwoColReportData[FRow].typ  := Typ;
 end;
 
+Procedure TfrmDrucken.AddFilter;
+
+var
+  sHelp : String;
+
+begin
+  //Ausgabe der Filter
+  case rgFilter.ItemIndex of
+    0: sHelp := '';
+    1: sHelp := 'BankNr='+ediFilter.Text;
+    2: sHelp := 'Konto_nach='+ediFilter.Text;
+    3: sHelp := 'PersonenID='+ediFilter.Text;
+    4: sHelp := 'Bemerkung enthält '+ediFilter.Text;
+  end;
+  if sHelp <> ''
+    then
+      begin
+        AddLine('', '', '', blank); //Leerzeile
+        AddLine('Filter: '+sHelp, '', '', header);
+      end;
+
+if cbDatum.Checked
+  then
+    begin
+      if sHelp = '' then AddLine('', '', '', blank); //Leerzeile
+      AddLine('Filter von '+formatdatetime('dd.mm.yyyy', DateTimePickerVon.Date)+' bis '+formatdatetime('dd.mm.yyyy', DateTimePickerBis.Date), '', '', header);
+    end;
+end;
+
 Procedure TfrmDrucken.PreparePrint(CallDesigner: boolean = false; CSV_Export: boolean = false; Einzeln: boolean = false);
 
 var
@@ -222,6 +251,7 @@ var
   sLastKontoNr           : string;
   sName                  : string;
   sLastName              : string;
+  sFilterWhere           : string;
   sHelp                  : string;
   sBereich               : string;
   sFileName              : string;
@@ -258,34 +288,62 @@ begin
       TwoColReportData[i].Col2 := '';
       TwoColReportData[i].typ  := blank;
     end;
+
+  Col1LineSummePart3 := 0;
+  Col1LineSummePart3b:= 0;
+  Col1Summe          := 0;
+  Col1SummePart1     := 0;
+  Col1SummePart2     := 0;
+  Col1SummePart3     := 0;
+  Col1SummePart3b    := 0;
+  Col1SummePart4     := 0;
+  Col2LineSummePart3 := 0;
+  Col2LineSummePart3b:= 0;
+  Col2Summe          := 0;
+  Col2SummePart1     := 0;
+  Col2SummePart2     := 0;
+  Col2SummePart3     := 0;
+  Col2SummePart3b    := 0;
+  Col2SummePart4     := 0;
+  FRow               := 0;
+  FRowPart1          := 0;
+  nAusgaben          := 0;
+  nBestand           := 0;
+  nEinnahmen         := 0;
+  sBereich           := '';
+  sFilterWhere       := '';
+  sHelp              := '';
+  sKontoNr           := '';
+  sLastKontoNr       := '';
+  sLastName          := '';
+  sLastSachkontoNr   := '';
+  sName              := '';
+  sSachkontoNr       := '';
+
+  //Filter
+  if cbDatum.Checked
+    then sFilterWhere := ' and (journal.Datum >='+SQLiteDateFormat(DateTimePickerVon.Date)+')'+
+                         ' and (journal.Datum <='+SQLiteDateFormat(DateTimePickerBis.Date)+')';
+
+  case rgFilter.ItemIndex of
+    1: sFilterWhere += ' and (journal.BankNr ='+ediFilter.Text+')';
+    2: sFilterWhere += ' and (journal.Konto_nach ='+ediFilter.Text+')';
+    3: sFilterWhere += ' and (journal.PersonenID ='+ediFilter.Text+')';
+    4: sFilterWhere += ' and (journal.bemerkung like ''%'+ediFilter.Text+'%'')';
+  end;
+
   try
     case Druckmode of
       Finanzbericht:
         begin
-           nEinnahmen      := 0;
-           nAusgaben       := 0;
-           nBestand        := 0;
           frReport.LoadFromFile(sAppDir+'module\Reporte\Finanzbericht.lrf');
           frReport.Dataset := nil;
         end;
       BeitragslisteSK:
         begin
-          FRow             := 0;
-          Col1SummePart1   := 0;
-          Col2SummePart1   := 0;
-          sLastSachkontoNr := '';
-          sSachkontoNr     := '';
-          sName            := '';
-          sLastName        := '';
-          sHelp            := '';
-
-          if cbDatum.Checked
-            then sHelp := ' and (journal.Datum >='+SQLiteDateFormat(DateTimePickerVon.Date)+')'+
-                          ' and (journal.Datum <='+SQLiteDateFormat(DateTimePickerBis.Date)+')';
-
           frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\BeitragslisteDrucken.sql');
           frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
-          frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
+          frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sFilterWhere, [rfReplaceAll]);
           frmDM.ZQueryDrucken.Open;
 
           while not frmDM.ZQueryDrucken.EOF do
@@ -332,12 +390,7 @@ begin
 
           frmDM.ZQueryDrucken.close;
 
-          if cbDatum.Checked
-            then
-              begin
-                AddLine('', '', '', blank); //Leerzeile
-                AddLine('Filter von '+formatdatetime('dd.mm.yyyy', DateTimePickerVon.Date)+' bis '+formatdatetime('dd.mm.yyyy', DateTimePickerBis.Date), '', '', header);
-              end;
+          AddFilter;
 
           //Debug
           //for i := 1 to FRow do myDebugLN(TwoColReportData[i].Name+';'+TwoColReportData[i].Col1+';'+TwoColReportData[i].Col2);
@@ -351,21 +404,8 @@ begin
         end;
       Zahlungsliste:
         begin
-          FRow             := 0;
-          Col1SummePart1   := 0;
-          Col2SummePart1   := 0;
-          sLastSachkontoNr := '';
-          sSachkontoNr     := '';
-          sName            := '';
-          sLastName        := '';
-          sHelp            := '';
-
-          if cbDatum.Checked
-            then sHelp := ' and (journal.Datum >='+SQLiteDateFormat(DateTimePickerVon.Date)+')'+
-                          ' and (journal.Datum <='+SQLiteDateFormat(DateTimePickerBis.Date)+')';
-
           frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\ZahlerlisteDrucken.sql');
-          frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
+          frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sFilterWhere, [rfReplaceAll]);
           frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
           frmDM.ZQueryDrucken.Open;
 
@@ -412,21 +452,16 @@ begin
             if FRow > 0 then AddLine('Summe', IntToCurrency(Col1SummePart1), IntToCurrency(Col2SummePart1), header);  //Zusammenfassung
           frmDM.ZQueryDrucken.close;
 
-          if cbDatum.Checked
-            then
-              begin
-                AddLine('', '', '', blank); //Leerzeile
-                AddLine('Filter von '+formatdatetime('dd.mm.yyyy', DateTimePickerVon.Date)+' bis '+formatdatetime('dd.mm.yyyy', DateTimePickerBis.Date), '', '', header);
-              end;
+          AddFilter;
 
           //Debug
           //for i := 1 to FRow do myDebugLN(TwoColReportData[i].Name+';'+TwoColReportData[i].Col1+';'+TwoColReportData[i].Col2);
 
           //Init für Report
           frReport.LoadFromFile(sAppDir+'module\Reporte\SummenlisteDrucken1Part2Cols.lrf');
-          FRowPart1 := FRow;
-          FRow      := 0;
-          FCol      := 0;
+          FRowPart1        := FRow;
+          FRow             := 0;
+          FCol             := 0;
           frReport.Dataset := nil;
         end;
       Zuwendung:
@@ -483,22 +518,12 @@ begin
         end;
       JournalNachBankenGruppiert:
         begin
-          FRow             := 0;
-          Col1SummePart1   := 0;
-          sLastKontoNr     := '';
-          sKontoNr         := '';
-          sHelp            := '';
-
-          if cbDatum.Checked
-            then sHelp := ' and (journal.Datum >='+SQLiteDateFormat(DateTimePickerVon.Date)+')'+
-                          ' and (journal.Datum <='+SQLiteDateFormat(DateTimePickerBis.Date)+')';
-
           frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\BankenDrucken.sql');
           frmDM.ZQueryDrucken.ParamByName('BJahr').AsString := inttostr(ediBuchungsjahr.value);
           frmDM.ZQueryDrucken.Open;
 
           frmDM.ZQueryDruckenDetail.SQL.LoadFromFile(sAppDir+'module\SQL\JournalDruckenBK.sql');
-          frmDM.ZQueryDruckenDetail.SQL.Text := StringReplace(frmDM.ZQueryDruckenDetail.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
+          frmDM.ZQueryDruckenDetail.SQL.Text := StringReplace(frmDM.ZQueryDruckenDetail.SQL.Text, ':AddWhere', sFilterWhere, [rfReplaceAll]);
           frmDM.ZQueryDruckenDetail.ParamByName('BJAHR').AsString := inttostr(ediBuchungsjahr.value);
           frmDM.ZQueryDruckenDetail.Open;
 
@@ -555,12 +580,7 @@ begin
           frmDM.ZQueryDrucken.close;
           frmDM.ZQueryDruckenDetail.close;
 
-          if cbDatum.Checked
-            then
-              begin
-                AddLine('', '', '', blank); //Leerzeile
-                AddLine('Filter von '+formatdatetime('dd.mm.yyyy', DateTimePickerVon.Date)+' bis '+formatdatetime('dd.mm.yyyy', DateTimePickerBis.Date), '', '', header);
-              end;
+          AddFilter;
 
           //Debug
           //for i := 1 to FRow do myDebugLN(TwoColReportData[i].Name+';'+TwoColReportData[i].Col1+';'+TwoColReportData[i].Col2);
@@ -597,30 +617,15 @@ begin
           frDBDataSet.DataSource := frmDM.dsDrucken;
           frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\JournalDrucken.sql');
 
-          if Druckmode = Journal
+          if Druckmode = Journal   //Filter zurücksetzen
             then
               begin
                 rgFilter.ItemIndex := 0;
                 cbDatum.Checked    := false;
-                sHelp := '';
-              end
-            else
-              begin
-                case rgFilter.ItemIndex of
-                  0: sHelp := '';
-                  1: sHelp := 'and (journal.BankNr ='+ediFilter.Text+')';
-                  2: sHelp := 'and (journal.Konto_nach ='+ediFilter.Text+')';
-                  3: sHelp := 'and (journal.PersonenID ='+ediFilter.Text+')';
-                  4: sHelp := 'and (journal.bemerkung like ''%'+ediFilter.Text+'%'')';
-                end;
-
-                if cbDatum.Checked
-                  then sHelp := shelp + ' and (journal.Datum >='+SQLiteDateFormat(DateTimePickerVon.Date)+')'+
-                                        ' and (journal.Datum <='+SQLiteDateFormat(DateTimePickerBis.Date)+')';
+                sFilterWhere       := '';
               end;
 
-
-          frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
+          frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sFilterWhere, [rfReplaceAll]);
           frmDM.ZQueryDrucken.ParamByName('BJahr').AsString := inttostr(ediBuchungsjahr.value);
 
           case Druckmode of
@@ -635,34 +640,6 @@ begin
       Haushaltsplan,
       Summenliste:
         begin
-          FRowPart1          := 0;
-          FRow               := 0;
-          Col1SummePart1     := 0;
-          Col2SummePart1     := 0;
-          Col1SummePart2     := 0;
-          Col2SummePart2     := 0;
-          Col1SummePart3     := 0;
-          Col2SummePart3     := 0;
-          Col1SummePart3b    := 0;
-          Col2SummePart3b    := 0;
-          Col1LineSummePart3 := 0;
-          Col2LineSummePart3 := 0;
-          Col1LineSummePart3b:= 0;
-          Col2LineSummePart3b:= 0;
-          Col1SummePart4     := 0;
-          Col2SummePart4     := 0;
-          Col1Summe          := 0;
-          Col2Summe          := 0;
-          sLastSachkontoNr   := '';
-          sSachkontoNr       := '';
-          sBereich           := '';
-
-          rgFilter.ItemIndex := 0;  //Nur Datumsfilter
-
-          if cbDatum.Checked
-            then sHelp := ' and (journal.Datum >='+SQLiteDateFormat(DateTimePickerVon.Date)+')'+
-                          ' and (journal.Datum <='+SQLiteDateFormat(DateTimePickerBis.Date)+')';
-
           //Der "Summenliste" Report enthält 6 Teile.
           //Part 1 Einnahmen
           //Part 2 Ausgaben
@@ -702,7 +679,7 @@ begin
               //AddWhereOr   Plansumme <> 0 mit ausgeben
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
               frmDM.ZQueryDrucken.ParamByName('TYP').AsString    := 'E';
-              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd1', sHelp, [rfReplaceAll]);
+              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd1', sFilterWhere, [rfReplaceAll]);
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd2', ' and (konten.Steuer="'+slHelp.Strings[i]+'")', [rfReplaceAll]);
               if Druckmode = Haushaltsplan
                 then frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereOr', ' or (konten.PlanSumme<>0)', [rfReplaceAll])
@@ -773,7 +750,7 @@ begin
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenJournalEinAus.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
               frmDM.ZQueryDrucken.ParamByName('TYP').AsString    := 'A';
-              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd1', sHelp, [rfReplaceAll]);
+              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd1', sFilterWhere, [rfReplaceAll]);
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereAnd2', ' and (konten.Steuer="'+slHelp.Strings[i]+'")', [rfReplaceAll]);
               if Druckmode = Haushaltsplan
                 then frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhereOr', ' or (konten.PlanSumme<>0)', [rfReplaceAll])
@@ -838,7 +815,7 @@ begin
               //Part 3 Durchgang Einzahlungen
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenJournalDurchgang.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
-              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', '' + sHelp, [rfReplaceAll]);
+              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', '' + sFilterWhere, [rfReplaceAll]);
               frmDM.ZQueryDrucken.Open;
                 //Daten Part 3
               while not frmDM.ZQueryDrucken.EOF do
@@ -1054,7 +1031,7 @@ begin
 
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenUmbuchungen.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
-              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
+              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sFilterWhere, [rfReplaceAll]);
               frmDM.ZQueryDrucken.Open;
                 //Daten Part 6 BankNr
               while not frmDM.ZQueryDrucken.EOF do
@@ -1065,7 +1042,7 @@ begin
               frmDM.ZQueryDrucken.Close;
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenUmbuchungen2.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
-              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sHelp, [rfReplaceAll]);
+              frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sFilterWhere, [rfReplaceAll]);
               frmDM.ZQueryDrucken.Open;
                 //Daten Part 6 Konto_Nach
               while not frmDM.ZQueryDrucken.EOF do
@@ -1076,27 +1053,7 @@ begin
               frmDM.ZQueryDrucken.Close;
             end;
 
-            //Ausgabe der Filter
-            case rgFilter.ItemIndex of
-              0: sHelp := '';
-              1: sHelp := 'BankNr='+ediFilter.Text;
-              2: sHelp := 'Konto_nach='+ediFilter.Text;
-              3: sHelp := 'PersonenID='+ediFilter.Text;
-              4: sHelp := 'Bemerkung enthält '+ediFilter.Text;
-            end;
-            if sHelp <> ''
-              then
-                begin
-                  AddLine('', '', '', blank); //Leerzeile
-                  AddLine('Filter: '+sHelp, '', '', header);
-                end;
-
-          if cbDatum.Checked
-            then
-              begin
-                if sHelp = '' then AddLine('', '', '', blank); //Leerzeile
-                AddLine('Filter von '+formatdatetime('dd.mm.yyyy', DateTimePickerVon.Date)+' bis '+formatdatetime('dd.mm.yyyy', DateTimePickerBis.Date), '', '', header);
-              end;
+          AddFilter;
 
           //Init für Report
           frReport.LoadFromFile(sAppDir+'module\Reporte\SummenlisteDrucken1Part2Cols.lrf');
@@ -1106,6 +1063,7 @@ begin
           frReport.Dataset := nil;
         end;
     end;
+
     if CallDesigner
       then frReport.DesignReport
       else if CSV_Export
@@ -1737,7 +1695,6 @@ begin
   DateTimePickerBis.Enabled := false;
   shape1.Visible            := (rgFilter.ItemIndex <> 0) or  cbDatum.Checked;
   shape3.Visible            := shape1.Visible;
-  shape2.Visible            := (rgFilter.ItemIndex =  0) and cbDatum.Checked;
   if cbDatum.Checked
     then
       begin
@@ -2079,16 +2036,14 @@ end;
 procedure TfrmDrucken.rgFilterSelectionChanged(Sender: TObject);
 begin
   ediFilter.Enabled := false;
-  shape1.Visible    := cbDatum.Checked;
-  shape2.Visible    := cbDatum.Checked and (rgFilter.ItemIndex = 0);
   shape3.Visible    := cbDatum.Checked or (rgFilter.ItemIndex <> 0);
+  shape1.Visible    := shape3.Visible;
   case rgFilter.ItemIndex of
     1,
     2,
     3,
     4  : begin
            ediFilter.Enabled := true;
-           shape1.Visible    := true;
            ediFilter.Text    := '';
          end;
   end;

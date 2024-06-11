@@ -14,18 +14,9 @@ object frmDrucken: TfrmDrucken
   LCLVersion = '3.0.0.3'
   object Shape3: TShape
     Left = 0
-    Height = 65
-    Top = 100
-    Width = 212
-    Brush.Color = clSilver
-    Pen.Color = clSilver
-    Visible = False
-  end
-  object Shape2: TShape
-    Left = 0
-    Height = 163
-    Top = 165
-    Width = 212
+    Height = 225
+    Top = 101
+    Width = 211
     Brush.Color = clSilver
     Pen.Color = clSilver
     Visible = False
