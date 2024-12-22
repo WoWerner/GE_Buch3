@@ -751,8 +751,13 @@ begin
         frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\updateKontostand.sql');
         frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := ediBuchungsjahr.Value;
         frmDM.ZQueryHelp.ExecSQL;
-        frmDM.ZQueryJournal.Refresh;
+
+        frmDM.ZQueryJournal.DisableControls;
+        //frmDM.ZQueryJournal.Refresh;  //Verursacht Access violation
+        frmDM.ZQueryJournal.close;
+        frmDM.ZQueryJournal.open;
         frmDM.ZQueryJournal.Last;
+        frmDM.ZQueryJournal.EnableControls;
         frmDM.ZQueryBanken.Refresh;
         FilterClear;
         SetFormular;
