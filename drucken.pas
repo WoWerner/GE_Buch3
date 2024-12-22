@@ -640,16 +640,17 @@ begin
       Haushaltsplan,
       Summenliste:
         begin
-          //Der "Summenliste" Report enthält 6 Teile.
+          //Der "Summenliste" und "Haushaltsplan" Report enthält 4 Teile.
           //Part 1 Einnahmen
           //Part 2 Ausgaben
           //Part 3 Durchgang Eingang
           //Part 3b Durchgang Ausgang
           //Part 4 Kassenstände
+          //Der "Summenliste" enthält zusätzlich.
           //Part 5 Ergebnis
           //Part 6 Umbuchungen
 
-          //Der "EinAus" und "Haushaltsplan" Report enthält 2 Teile.
+          //Der "EinAus" Report enthält 2 Teile.
           //Part 1 Einnahmen
           //Part 2 Ausgaben
           //
@@ -807,7 +808,7 @@ begin
           frmDM.ZQueryDrucken.Close;
           sLastSachkontoNr := '';
 
-          if Druckmode = Summenliste then
+          if Druckmode in [Summenliste, Haushaltsplan] then
             begin
               AddLine('', '', '', blank); //Leerzeile
               AddLine('Durchgang Einzahlungen', inttostr(ediBuchungsjahr.value), inttostr(ediBuchungsjahr.value-1), header); //Überschrift Part 3
@@ -1016,7 +1017,10 @@ begin
 
               AddLine('Summe Kassenstände', IntToCurrency(Col1SummePart4), IntToCurrency(Col2SummePart4), footer);  //Abschluss Part 4
               AddLine('', '', '', blank); //Leerzeile
+            end;
 
+          if Druckmode in [Summenliste] then
+            begin
               //Part 5 Ergebniss
               AddLine('Ergebnis', '', '', header);                                //Überschrift Part 5
               AddLine('Anfangsbestand', IntToCurrency(Col2SummePart4), '', line); //Daten Part 5
@@ -1862,7 +1866,9 @@ begin
                     line:  begin
                              Font.Style:=[];
                              if Druckmode = Haushaltsplan then
-                               if CurrencyToInt(TwoColReportData[FRow].Col2, false) = 0 then
+                               if TwoColReportData[FRow].Col2 = '' then
+                                 View.FillColor := clWhite
+                               else if CurrencyToInt(TwoColReportData[FRow].Col2, false) = 0 then
                                  View.FillColor := clYellow
                                else if ((CurrencyToInt(TwoColReportData[FRow].Col2, false) > 0) and (CurrencyToInt(TwoColReportData[FRow].Col1, false) >= CurrencyToInt(TwoColReportData[FRow].Col2, false))) or
                                        ((CurrencyToInt(TwoColReportData[FRow].Col2, false) < 0) and (CurrencyToInt(TwoColReportData[FRow].Col1, false) >= CurrencyToInt(TwoColReportData[FRow].Col2, false))) then
