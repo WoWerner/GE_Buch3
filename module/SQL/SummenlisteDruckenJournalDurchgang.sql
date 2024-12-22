@@ -19,6 +19,10 @@ where
    (
       konten.kontotype = 'D'
    )
+   and 
+   (
+      konten.statistik <> 99
+   )
    :AddWhere 
 order by
    konten.SortPos
