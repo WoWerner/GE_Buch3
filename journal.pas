@@ -1076,7 +1076,7 @@ begin
              end;
     import : begin
                //Daten nach Ini schreiben
-               if ((ediPersonenID.Text <> '0') and (ediPersonenID.Text <> ''))
+               if ((ediPersonenID.Text <> '0') and (ediPersonenID.Text <> '') and (CSVKeyPers <> ''))
                   then help.WriteIniVal(sJournalCSVImportINI, 'Key', CSVKeyPers+'_PersID', ediPersonenID.Text);
 
                bStartFinished := false;

@@ -1,8 +1,8 @@
 object frmJournal: TfrmJournal
-  Left = 473
+  Left = 309
   Height = 580
   Hint = 'Rechtsklick für Listen'
-  Top = 112
+  Top = 113
   Width = 900
   Caption = 'Journal'
   ClientHeight = 580
@@ -18,7 +18,7 @@ object frmJournal: TfrmJournal
   PopupMenu = mnuPopup
   Position = poScreenCenter
   ShowHint = True
-  LCLVersion = '3.0.0.3'
+  LCLVersion = '3.6.0.0'
   object panDaten: TPanel
     Left = 0
     Height = 267
@@ -430,7 +430,7 @@ object frmJournal: TfrmJournal
       Left = 16
       Height = 15
       Top = 202
-      Width = 73
+      Width = 72
       Caption = 'Buchungstext'
       ParentColor = False
     end
