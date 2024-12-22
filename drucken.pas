@@ -170,7 +170,7 @@ type
     slHelp    : TStringList;
     Procedure PreparePrint(CallDesigner : boolean = false; CSV_Export : boolean = false; Einzeln: boolean = false);
     Procedure AddLine(sName, Col1, Col2: String; Typ: TColType);
-    Procedure AddFilter;
+    Procedure AddFilterToReport;
   public
     { public declarations }
   end;
@@ -213,7 +213,7 @@ begin
   TwoColReportData[FRow].typ  := Typ;
 end;
 
-Procedure TfrmDrucken.AddFilter;
+Procedure TfrmDrucken.AddFilterToReport;
 
 var
   sHelp : String;
@@ -390,7 +390,7 @@ begin
 
           frmDM.ZQueryDrucken.close;
 
-          AddFilter;
+          AddFilterToReport;
 
           //Debug
           //for i := 1 to FRow do myDebugLN(TwoColReportData[i].Name+';'+TwoColReportData[i].Col1+';'+TwoColReportData[i].Col2);
@@ -452,7 +452,7 @@ begin
             if FRow > 0 then AddLine('Summe', IntToCurrency(Col1SummePart1), IntToCurrency(Col2SummePart1), header);  //Zusammenfassung
           frmDM.ZQueryDrucken.close;
 
-          AddFilter;
+          AddFilterToReport;
 
           //Debug
           //for i := 1 to FRow do myDebugLN(TwoColReportData[i].Name+';'+TwoColReportData[i].Col1+';'+TwoColReportData[i].Col2);
@@ -580,7 +580,7 @@ begin
           frmDM.ZQueryDrucken.close;
           frmDM.ZQueryDruckenDetail.close;
 
-          AddFilter;
+          AddFilterToReport;
 
           //Debug
           //for i := 1 to FRow do myDebugLN(TwoColReportData[i].Name+';'+TwoColReportData[i].Col1+';'+TwoColReportData[i].Col2);
@@ -1057,7 +1057,7 @@ begin
               frmDM.ZQueryDrucken.Close;
             end;
 
-          AddFilter;
+          AddFilterToReport;
 
           //Init für Report
           frReport.LoadFromFile(sAppDir+'module\Reporte\SummenlisteDrucken1Part2Cols.lrf');
@@ -1699,20 +1699,19 @@ begin
   DateTimePickerBis.Enabled := false;
   shape1.Visible            := (rgFilter.ItemIndex <> 0) or  cbDatum.Checked;
   shape3.Visible            := shape1.Visible;
-  if cbDatum.Checked
-    then
-      begin
-        DateTimePickerVon.Enabled := true;
-        DateTimePickerBis.Enabled := true;
-        //Zuerst die Grenzen
-        DateTimePickerVon.MinDate := StrToDate('01.01.'+inttostr(ediBuchungsjahr.value));
-        DateTimePickerVon.MaxDate := StrToDate('31.12.'+inttostr(ediBuchungsjahr.value));
-        DateTimePickerBis.MinDate := DateTimePickerVon.MinDate;
-        DateTimePickerBis.MaxDate := DateTimePickerVon.MaxDate;
-        //dann der Wert
-        DateTimePickerVon.Date    := DateTimePickerVon.MinDate;
-        DateTimePickerBis.Date    := DateTimePickerVon.MaxDate;
-      end;
+  if cbDatum.Checked then
+    begin
+      DateTimePickerVon.Enabled := true;
+      DateTimePickerBis.Enabled := true;
+      //Zuerst die Grenzen
+      DateTimePickerVon.MinDate := StrToDate('01.01.'+inttostr(ediBuchungsjahr.value));
+      DateTimePickerVon.MaxDate := StrToDate('31.12.'+inttostr(ediBuchungsjahr.value));
+      DateTimePickerBis.MinDate := DateTimePickerVon.MinDate;
+      DateTimePickerBis.MaxDate := DateTimePickerVon.MaxDate;
+      //dann der Wert
+      DateTimePickerVon.Date    := DateTimePickerVon.MinDate;
+      DateTimePickerBis.Date    := DateTimePickerVon.MaxDate;
+    end;
 end;
 
 procedure TfrmDrucken.FormClose(Sender: TObject; var CloseAction: TCloseAction);

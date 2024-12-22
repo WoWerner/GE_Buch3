@@ -1271,6 +1271,7 @@ var
   myRect: TRect;
 
 begin
+  DBGridJournal.Canvas.Font.Color:=clDefault;
   myRect := Rect;
   case DBGridJournal.Canvas.TextStyle.Alignment of
     taRightJustify : myRect.Right := Rect.Right - 4;
@@ -1293,6 +1294,8 @@ begin
         //den, vom System gezeichneten, Inhalt löschen
         DBGridJournal.Canvas.FillRect(Rect);
         //eigenen Text reinschreiben
+        if Column.Field.AsLongint < 0
+          then DBGridJournal.Canvas.Font.Color:=clRed;
         DBGridJournal.Canvas.TextRect(myRect,Rect.Left,Rect.Top, Format('%m',[Column.Field.AsLongint/100]));
       end;
 end;
