@@ -11,7 +11,7 @@ object frmDrucken: TfrmDrucken
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '3.0.0.3'
+  LCLVersion = '3.6.0.0'
   object Shape3: TShape
     Left = 0
     Height = 225
@@ -456,14 +456,14 @@ object frmDrucken: TfrmDrucken
     TabOrder = 16
     OnClick = btnZahlerMonatlicheZahlungenClick
   end
-  object btnMonatlicheAusgaben: TButton
+  object btnMonatlicheZahlungen: TButton
     Left = 8
     Height = 25
     Top = 364
     Width = 200
-    Caption = 'Monatliche Ausgaben (CSV)'
+    Caption = 'Monatliche Zahlungen (SK) (CSV)'
     TabOrder = 17
-    OnClick = btnMonatlicheAusgabenClick
+    OnClick = btnMonatlicheZahlungenClick
   end
   object frReport: TfrReport
     DefaultCopies = 0

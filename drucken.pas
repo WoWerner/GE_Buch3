@@ -83,7 +83,7 @@ type
     btnZahlerlisteCSV: TButton;
     btnSummenliste: TButton;
     btnZahlerliste: TButton;
-    btnMonatlicheAusgaben: TButton;
+    btnMonatlicheZahlungen: TButton;
     btnZuwendungsbescheinigungen: TButton;
     btnZuwendungsbescheinigungenMail: TButton;
     btnZuwendungsbescheinigungenEinzeln: TButton;
@@ -127,7 +127,7 @@ type
     procedure btnJournalNachBankenGruppiertdruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnJournalNachSachkontenGruppiertdruckClick(Sender: TObject);
     procedure btnJournalNachSachkontenGruppiertdruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
-    procedure btnMonatlicheAusgabenClick(Sender: TObject);
+    procedure btnMonatlicheZahlungenClick(Sender: TObject);
     procedure btnPersonenlisteClick(Sender: TObject);
     procedure btnPersonenlisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnPersonenlisteKompaktClick(Sender: TObject);
@@ -1308,12 +1308,12 @@ begin
   Handled := true;
 end;
 
-procedure TfrmDrucken.btnMonatlicheAusgabenClick(Sender: TObject);
+procedure TfrmDrucken.btnMonatlicheZahlungenClick(Sender: TObject);
 begin
-  frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\MonatlicheAusgaben.sql');
+  frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\MonatlicheZahlungenSK.sql');
   frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
   frmDM.ZQueryDrucken.Open;
-  ExportQueToCSVFile(frmDM.ZQueryDrucken, sPrintPath+'MonatlicheAusgaben.csv', ';', '"', true, false, false);
+  ExportQueToCSVFile(frmDM.ZQueryDrucken, sPrintPath+'MonatlicheZahlungenSK.csv', ';', '"', true, false, false);
   frmDM.ZQueryDrucken.Close;
 end;
 
