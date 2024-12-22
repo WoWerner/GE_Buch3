@@ -1,14 +1,14 @@
 object frmDM: TfrmDM
-  Left = 412
+  Left = 414
   Height = 351
-  Top = 165
+  Top = 166
   Width = 780
   Caption = 'DM'
   OnCreate = FormCreate
-  LCLVersion = '3.0.0.3'
+  LCLVersion = '3.6.0.0'
   object ZQueryBanken: TZQuery
-    Connection = ZConnectionBuch
     AfterScroll = ZQueryBankenAfterScroll
+    Connection = ZConnectionBuch
     Params = <>
     Left = 136
     Top = 72
@@ -67,8 +67,8 @@ object frmDM: TfrmDM
     Top = 291
   end
   object ZQuerySachkonten: TZQuery
-    Connection = ZConnectionBuch
     AfterScroll = ZQuerySachkontenAfterScroll
+    Connection = ZConnectionBuch
     SQL.Strings = (
       ''
     )
@@ -82,8 +82,8 @@ object frmDM: TfrmDM
     Top = 235
   end
   object ZQueryJournal: TZQuery
-    Connection = ZConnectionBuch
     AfterScroll = ZQueryJournalAfterScroll
+    Connection = ZConnectionBuch
     SQL.Strings = (
       ''
     )
@@ -154,10 +154,10 @@ object frmDM: TfrmDM
   end
   object ZConnectionGE_Kart: TZConnection
     ControlsCodePage = cCP_UTF8
-    AutoEncodeStrings = True
     Properties.Strings = (
       'AutoEncodeStrings='
     )
+    DisableSavepoints = False
     Port = 0
     Protocol = 'sqlite-3'
     Left = 352
@@ -172,12 +172,12 @@ object frmDM: TfrmDM
   end
   object ZConnectionBuch: TZConnection
     ControlsCodePage = cCP_UTF8
-    AutoEncodeStrings = True
     Properties.Strings = (
       'AutoEncodeStrings='
     )
+    DisableSavepoints = False
     Port = 0
-    Protocol = 'sqlite-3'
+    Protocol = 'sqlite'
     Left = 40
     Top = 16
   end

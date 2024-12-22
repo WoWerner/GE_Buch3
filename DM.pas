@@ -297,7 +297,6 @@ begin
   ZSQLMonitor.Active       := bSQLDebug;
 end;
 
-
 procedure TfrmDM.ZQueryJournalAfterScroll(DataSet: TDataSet);
 
 begin
