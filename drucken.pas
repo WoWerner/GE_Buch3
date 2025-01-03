@@ -145,6 +145,7 @@ type
     procedure btnZuwendungsbescheinigungenContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnZuwendungsbescheinigungenEinzelnClick(Sender: TObject);
     procedure btnZuwendungsbescheinigungenMailClick(Sender: TObject);
+    procedure btnZuwendungsbescheinigungenMailContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure cbDatumChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -1691,6 +1692,49 @@ begin
     Attach.free;
     SMTP.Free;
   end;
+end;
+
+procedure TfrmDrucken.btnZuwendungsbescheinigungenMailContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+var
+  slNamen     : TStringList;
+  sName,
+  sfileName   : String;
+
+begin
+  try
+    slNamen   := TStringlist.Create;
+
+    //ermitteln für welche Personen gibt es keine EMail Adresse
+    frmDM.ZQueryHelp.SQL.Text:='Select * from Personen where eMail = "" Order by Nachname, Vorname, PersonenID';
+    frmDM.ZQueryHelp.Open;
+    frmDM.ZQueryHelp.First;
+    while not frmDM.ZQueryHelp.EOF do
+      begin
+        sName := frmDM.ZQueryHelp.FieldByName('Nachname').AsString+'_'+
+                 frmDM.ZQueryHelp.FieldByName('Vorname').AsString+'_'+
+                 frmDM.ZQueryHelp.FieldByName('PersonenID').AsString;
+        sfileName := sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+sName+'.pdf';
+        //und gibt es eine Zuwendungsbescheinigung?
+        if FileExists(sfileName) then slNamen.Add(sName);
+        frmDM.ZQueryHelp.Next;
+      end;
+    frmDM.ZQueryHelp.Close;
+    //MessageDlg('Namen', slNamen.Text, mtInformation, [mbOK], 0);
+    if slNamen.Count > 0
+      then
+        begin
+          frmAusgabe.SetDefaults('Bescheinigungen ohne EMail', slNamen.Text, '', '', 'Schliessen', false);
+          frmAusgabe.ShowModal;
+        end
+      else
+        begin
+          MessageDlg('Fehler', 'Keine Zuwendungsbescheinigungen gefunden', mtError, [mbOK], 0);
+        end;
+  finally
+    slNamen.Free;
+  end;
+
+  Handled := true;
 end;
 
 procedure TfrmDrucken.cbDatumChange(Sender: TObject);
