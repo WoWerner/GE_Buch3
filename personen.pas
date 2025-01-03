@@ -23,6 +23,7 @@ type
 
   TfrmPersonen = class(TForm)
     btnSchliessen: TButton;
+    btnCopyAdr: TButton;
     DBCBAnrede: TDBComboBox;
     DBCheckBoxAbgang: TDBCheckBox;
     DBCheckBoxAbgang1: TDBCheckBox;
@@ -65,6 +66,7 @@ type
     Panel1: TPanel;
     Panel2: TPanel;
     procedure btnSchliessenClick(Sender: TObject);
+    procedure btnCopyAdrClick(Sender: TObject);
     procedure DBGridPersonenColumnSized(Sender: TObject);
     procedure DBNavigator1Click(Sender: TObject; Button: TDBNavButtonType);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -89,6 +91,7 @@ uses
   DB,      //Dataset.state
   dm,
   global,
+  clipbrd,
   help;
 
 var
@@ -200,6 +203,19 @@ end;
 procedure TfrmPersonen.btnSchliessenClick(Sender: TObject);
 begin
   close;
+end;
+
+procedure TfrmPersonen.btnCopyAdrClick(Sender: TObject);
+
+var sAdr : string;
+
+begin
+  sAdr := trim(frmDM.ZQueryPersonen.FieldByName('BriefAnrede').AsString +  ' ' + frmDM.ZQueryPersonen.FieldByName('Titel').AsString);
+  if sAdr <> '' then sAdr := sAdr + #13#10;
+  sAdr := sAdr + frmDM.ZQueryPersonen.FieldByName('Vorname').AsString + ' ' + frmDM.ZQueryPersonen.FieldByName('Nachname').AsString+#13#10;
+  sAdr := sAdr + frmDM.ZQueryPersonen.FieldByName('Strasse').AsString+#13#10;
+  sAdr := sAdr + trim(frmDM.ZQueryPersonen.FieldByName('Land').AsString + ' ' + frmDM.ZQueryPersonen.FieldByName('PLZ').AsString + ' ' + frmDM.ZQueryPersonen.FieldByName('Ort').AsString);
+  Clipboard.AsText := sAdr;
 end;
 
 procedure TfrmPersonen.DBGridPersonenColumnSized(Sender: TObject);

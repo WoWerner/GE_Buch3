@@ -1,7 +1,7 @@
 object frmPersonen: TfrmPersonen
-  Left = 248
+  Left = 551
   Height = 500
-  Top = 30
+  Top = 47
   Width = 950
   Caption = 'Personen'
   ClientHeight = 500
@@ -13,7 +13,7 @@ object frmPersonen: TfrmPersonen
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.12.0'
+  LCLVersion = '3.6.0.0'
   object DBGridPersonen: TDBGrid
     Left = 0
     Height = 208
@@ -96,7 +96,6 @@ object frmPersonen: TfrmPersonen
         Width = 240
         DataField = 'Vorname'
         DataSource = frmDM.dsPersonen
-        CharCase = ecNormal
         Font.Style = [fsBold]
         MaxLength = 255
         ParentFont = False
@@ -118,7 +117,6 @@ object frmPersonen: TfrmPersonen
         Width = 224
         DataField = 'Vorname2'
         DataSource = frmDM.dsPersonen
-        CharCase = ecNormal
         MaxLength = 255
         ParentFont = False
         TabOrder = 2
@@ -139,7 +137,6 @@ object frmPersonen: TfrmPersonen
         Width = 224
         DataField = 'Nachname'
         DataSource = frmDM.dsPersonen
-        CharCase = ecNormal
         Font.Style = [fsBold]
         MaxLength = 255
         ParentFont = False
@@ -161,7 +158,6 @@ object frmPersonen: TfrmPersonen
         Width = 408
         DataField = 'Strasse'
         DataSource = frmDM.dsPersonen
-        CharCase = ecNormal
         MaxLength = 255
         ParentFont = False
         TabOrder = 4
@@ -182,7 +178,6 @@ object frmPersonen: TfrmPersonen
         Width = 40
         DataField = 'Land'
         DataSource = frmDM.dsPersonen
-        CharCase = ecNormal
         MaxLength = 255
         ParentFont = False
         TabOrder = 5
@@ -203,7 +198,6 @@ object frmPersonen: TfrmPersonen
         Width = 56
         DataField = 'PLZ'
         DataSource = frmDM.dsPersonen
-        CharCase = ecNormal
         MaxLength = 255
         ParentFont = False
         TabOrder = 6
@@ -224,7 +218,6 @@ object frmPersonen: TfrmPersonen
         Width = 296
         DataField = 'Ort'
         DataSource = frmDM.dsPersonen
-        CharCase = ecNormal
         MaxLength = 255
         ParentFont = False
         TabOrder = 7
@@ -245,7 +238,6 @@ object frmPersonen: TfrmPersonen
         Width = 288
         DataField = 'Ortsteil'
         DataSource = frmDM.dsPersonen
-        CharCase = ecNormal
         MaxLength = 255
         ParentFont = False
         TabOrder = 8
@@ -254,7 +246,7 @@ object frmPersonen: TfrmPersonen
         Left = 16
         Height = 15
         Top = 168
-        Width = 71
+        Width = 72
         Caption = 'Telefon privat'
         ParentColor = False
         ParentFont = False
@@ -266,7 +258,6 @@ object frmPersonen: TfrmPersonen
         Width = 240
         DataField = 'TelPrivat'
         DataSource = frmDM.dsPersonen
-        CharCase = ecNormal
         MaxLength = 255
         ParentFont = False
         TabOrder = 9
@@ -275,7 +266,7 @@ object frmPersonen: TfrmPersonen
         Left = 264
         Height = 15
         Top = 168
-        Width = 92
+        Width = 93
         Caption = 'Telefon dienstlich'
         ParentColor = False
         ParentFont = False
@@ -287,7 +278,6 @@ object frmPersonen: TfrmPersonen
         Width = 224
         DataField = 'TelDienst'
         DataSource = frmDM.dsPersonen
-        CharCase = ecNormal
         MaxLength = 255
         ParentFont = False
         TabOrder = 10
@@ -296,7 +286,7 @@ object frmPersonen: TfrmPersonen
         Left = 496
         Height = 15
         Top = 168
-        Width = 72
+        Width = 73
         Caption = 'Telefon mobil'
         ParentColor = False
         ParentFont = False
@@ -308,7 +298,6 @@ object frmPersonen: TfrmPersonen
         Width = 224
         DataField = 'TelMobil'
         DataSource = frmDM.dsPersonen
-        CharCase = ecNormal
         MaxLength = 255
         ParentFont = False
         TabOrder = 11
@@ -330,7 +319,6 @@ object frmPersonen: TfrmPersonen
         Width = 408
         DataField = 'eMail'
         DataSource = frmDM.dsPersonen
-        CharCase = ecNormal
         MaxLength = 255
         ParentFont = False
         ParentShowHint = False
@@ -374,15 +362,15 @@ object frmPersonen: TfrmPersonen
         Width = 75
         Caption = 'Schliessen'
         Default = True
-        OnClick = btnSchliessenClick
         ParentFont = False
         TabOrder = 14
+        OnClick = btnSchliessenClick
       end
       object Label6: TLabel
         Left = 331
         Height = 15
         Top = 1
-        Width = 22
+        Width = 23
         Caption = 'Titel'
         ParentColor = False
         ParentFont = False
@@ -394,7 +382,6 @@ object frmPersonen: TfrmPersonen
         Width = 160
         DataField = 'Titel'
         DataSource = frmDM.dsPersonen
-        CharCase = ecNormal
         MaxLength = 255
         ParentFont = False
         TabOrder = 15
@@ -415,7 +402,6 @@ object frmPersonen: TfrmPersonen
         Width = 56
         DataField = 'GE_KartID'
         DataSource = frmDM.dsPersonen
-        CharCase = ecNormal
         MaxLength = 255
         ParentFont = False
         TabOrder = 16
@@ -427,7 +413,6 @@ object frmPersonen: TfrmPersonen
         Width = 56
         DataField = 'PersonenID'
         DataSource = frmDM.dsPersonen
-        CharCase = ecNormal
         MaxLength = 255
         ParentFont = False
         TabOrder = 17
@@ -448,7 +433,6 @@ object frmPersonen: TfrmPersonen
         Width = 120
         DataField = 'Geburtstag'
         DataSource = frmDM.dsPersonen
-        CharCase = ecNormal
         MaxLength = 255
         ParentFont = False
         TabOrder = 18
@@ -478,6 +462,18 @@ object frmPersonen: TfrmPersonen
         TabOrder = 20
         ValueChecked = 'True'
         ValueUnchecked = 'False'
+      end
+      object btnCopyAdr: TButton
+        Left = 645
+        Height = 25
+        Hint = 'Kopiere die Adresse in die Zwischenablage'
+        Top = 18
+        Width = 75
+        Caption = 'Kopieren'
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 21
+        OnClick = btnCopyAdrClick
       end
     end
     object DBMemo1: TDBMemo
