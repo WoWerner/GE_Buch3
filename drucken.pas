@@ -1654,6 +1654,8 @@ begin
                                   sMessage  := 'Erfolgreich: Sende Mail zu '+slMail.Strings[j]+' mit der Datei: '+Attach.Text;
                                   sErgebnis := sErgebnis + sMessage + #13#10;
                                   myDebugLN(sMessage);
+                                  RenameFile(sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+frmFreieListe.DstList.Items[i]+'.pdf',
+                                             sPrintPath+'Versendet\Zuwendung_'+ediBuchungsjahr.Text+'_'+frmFreieListe.DstList.Items[i]+'.pdf');
                                 end
                               else
                                 begin
