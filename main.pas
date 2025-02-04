@@ -285,10 +285,7 @@ begin
   slHelp.Clear;
 
   if not FileExists(sDatabase)
-    then
-      begin
-        MessageDlg('Die Datenbank '+sDatabase+' wurde nicht gefunden.', mtInformation, [mbOK],0);
-      end;
+    then MessageDlg('Die Datenbank '+sDatabase+' wurde nicht gefunden.', mtInformation, [mbOK],0);
 
   sProductVersionString := GetProductVersionString;
   labDB.Caption := 'Datenbank: '+sDatabase;
