@@ -29,4 +29,4 @@ ifnull((
 			Journal.buchungsjahr = :BJAHR), 0) 
 where
   konten.Kontotype = "B" and 
-  konten.KontoNr < 999;
+  konten.statistik <> 99;
