@@ -1358,7 +1358,6 @@ var
   Daten    : array[0..9999] of T3ColReport;
   sHelp    : String;
   nHelp    : integer;
-  f        : TextFile;
   error    : boolean;
 
 begin

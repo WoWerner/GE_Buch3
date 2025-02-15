@@ -733,18 +733,12 @@ end;
 
 procedure TfrmJournal.btnLoeschenClick(Sender: TObject);
 
-var
-  BankNr : longint;
-  Betrag : longint;
-
 begin
   {$ifdef DebugCallStack} myDebugLN('btnLoeschenClick'); {$endif}
   if MessageDlg('Buchung Nr. '+frmDM.ZQueryJournal.FieldByName('LaufendeNr').AsString+' löschen?'#13#13+
                 'Sicherheitsfunktion: Zum Fortfahren "Wiederholen" drücken!', mtConfirmation, [mbYes, mbRetry, mbNo],0) = mrRetry
     then
       begin
-        BankNr := frmDM.ZQueryJournal.FieldByName('BankNr').AsLongint;
-        Betrag := frmDM.ZQueryJournal.FieldByName('Betrag').AsLongint;
         frmDM.ZQueryHelp.SQL.Text := 'delete from journal where LaufendeNr=' + frmDM.ZQueryJournal.FieldByName('LaufendeNr').AsString;
         frmDM.ZQueryHelp.ExecSQL;
         //Kontostand Bank(en) neu berechnen
