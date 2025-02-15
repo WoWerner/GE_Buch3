@@ -7,11 +7,12 @@ select
    journal.konto_nach                                              as konto_nach,
    (select '('||ifnull(journal.konto_nach,'')||') '||ifnull(konten.Name,'') from konten where journal.konto_nach = konten.KontoNr) as Sachkonto,
    ifnull(Betrag,'')                                               as Betrag,
+   CAST((select Anfangssaldo from Bankenabschluss where (journal.BankNr = Bankenabschluss.KontoNr) and (Bankenabschluss.Buchungsjahr=:BJAHR)) as text) as Saldo, 
+   ''                                                              as SaldoDanach,
    Buchungstext,
    journal.PersonenID                                              as PersonenNr, 
    ifnull(Personen.Vorname,'')||' '||ifnull(Personen.Nachname,'')  as Name,
-   Bemerkung,
-   CAST((select Anfangssaldo from Bankenabschluss where (journal.BankNr = Bankenabschluss.KontoNr) and (Bankenabschluss.Buchungsjahr=:BJAHR)) as text) as Saldo, 
+   Bemerkung,   
    (select Steuer from konten where journal.konto_nach = konten.KontoNr) as Steuer
 from journal
 
