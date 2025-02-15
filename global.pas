@@ -77,6 +77,7 @@ var
   sSteuer              : String;
   nBuchungsjahr        : integer;
   bSQLDebug            : boolean;
+  bCleanUpRequired     : boolean;
   bJournalJump         : boolean;
   bJournalLast         : boolean;
   WorkArea             : TRect;

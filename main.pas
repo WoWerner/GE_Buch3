@@ -256,8 +256,10 @@ end;
 procedure TfrmMain.FormCreate(Sender: TObject);
 
 var
-  sRelease              : String;
-  HTTP                  : THTTPSend;
+  sRelease : String;
+  HTTP     : THTTPSend;
+  SR       : TSearchRec;
+  Ext      : String;
 
 begin
   Application.OnException := @HandleException;
@@ -290,12 +292,13 @@ begin
   sProductVersionString := GetProductVersionString;
   labDB.Caption := 'Datenbank: '+sDatabase;
 
-  bSQLDebug              := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Debug', 'SQLDebug', 'true', true));
-  bDebug                 := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Debug', 'Debug'   , 'true', true));
-  bTausendertrennung     := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Programm', 'Tausendertrennzeichen', 'true', true));
-  bEuroModus             := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Programm', 'EuroModus', 'false', true));
-  bJournalJump           := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Programm', 'JournalJump', 'true', true));
-  bJournalLast           := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Programm', 'JournalLast', 'true', true));
+  bSQLDebug              := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Debug',    'SQLDebug'             , 'true' , true));
+  bDebug                 := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Debug',    'Debug'                , 'true' , true));
+  bTausendertrennung     := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Programm', 'Tausendertrennzeichen', 'true' , true));
+  bEuroModus             := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Programm', 'EuroModus'            , 'false', true));
+  bJournalJump           := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Programm', 'JournalJump'          , 'false', true));
+  bJournalLast           := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Programm', 'JournalLast'          , 'true' , true));
+  bCleanUpRequired       := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Programm', 'CleanUpRequired'      , 'true' , true));
   mnuSQLDebug.Checked    := bSQLDebug;
   mnuDebug.Checked       := bDebug;
   mnuTausender.Checked   := bTausendertrennung;
@@ -314,12 +317,13 @@ begin
 
   end;
 
-  myDebugLN('Starte '    +frmMain.caption);
-  myDebugLN('AppDir    : '+sAppDir);
-  myDebugLN('sIniFile  : '+sIniFile);
-  myDebugLN('sSavePath : '+sSavePath);
-  myDebugLN('sPrintPath: '+sPrintPath);
-  myDebugLN('sDatabase : '+sDatabase);
+  myDebugLN('Starte        : '+frmMain.caption);
+  myDebugLN('LazarusVersion: '+frmMain.LCLVersion);
+  myDebugLN('AppDir        : '+sAppDir);
+  myDebugLN('sIniFile      : '+sIniFile);
+  myDebugLN('sSavePath     : '+sSavePath);
+  myDebugLN('sPrintPath    : '+sPrintPath);
+  myDebugLN('sDatabase     : '+sDatabase);
 
   WorkArea          := GetWorkArea;
   MaxWindowsSize    := GetMaxWindowsSize;
@@ -427,6 +431,42 @@ begin
           then
             if MessageDlg(slHelp.Text, mtConfirmation, [mbYes, mbNo],0) = mrNo
               then help.WriteIniVal(sIniFile, 'Programm', 'Version', sProductVersionString)
+      end;
+  //CleanUp
+  if bCleanUpRequired
+    then
+      begin
+        myDebugLN('Starte CleanUp');
+        ForceDirectories(UTF8ToSys(sAppDir+'module\CleanUp'));
+        if FindFirst (sAppDir+'module\*.*',faAnyFile,SR)=0
+          then
+            begin
+              repeat
+                With SR do
+                  begin
+                    if (Attr and faDirectory) = faDirectory
+                      then
+                        begin
+                          //nix
+                        end
+                      else
+                        begin
+                          Ext := Uppercase(ExtractFileExt(name));
+                          if ((Ext = '.SQL') or
+                              (Ext = '.LRF') or
+                              (Ext = '.PNG') or
+                              (Ext = '.OLD'))
+                            then
+                              begin
+                                myDebugLN('RenameFile: '+sAppDir+'module\'+name+ ' nach '+ sAppDir+'module\CleanUp\'+name);
+                                RenameFile(sAppDir+'module\'+name, sAppDir+'module\CleanUp\'+name);
+                              end;
+                        end;
+                  end;
+              until FindNext(SR)<>0;
+            FindClose(SR);
+           end;
+        help.WriteIniVal(sIniFile, 'Programm', 'CleanUpRequired', 'false');
       end;
 end;
 
