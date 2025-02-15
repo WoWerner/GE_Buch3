@@ -600,6 +600,7 @@ procedure TfrmMain.mnuExpJournalClick(Sender: TObject);
 var
   BankNr     : integer;
   Saldo      : longint;
+  SaldoDanach: longint;
   Betrag     : longint;
   LaufendeNr : Longint;
   sSQL       : String;
@@ -629,21 +630,21 @@ begin
         //Saldo berechnen;
         while not frmDM.ZQueryHelp.EOF do
           begin
-            if frmDM.ZQueryHelp.FieldByName('BankNr').AsInteger <> BankNr
-              then
-                begin
-                  //In Saldo ist das Bankenabschluss.Anfangssaldo gepeichert,
-                  //wird zwischengespeichert und dann überschrieben
-                  Saldo  := strtoint(frmDM.ZQueryHelp.FieldByName('Saldo').AsString);
-                  BankNr := frmDM.ZQueryHelp.FieldByName('BankNr').AsInteger;
-                end;
-            Betrag     := frmDM.ZQueryHelp.FieldByName('Betrag').AsLongint;
-            LaufendeNr := frmDM.ZQueryHelp.FieldByName('LaufendeNr').AsLongint;
-            Saldo      := Saldo + Betrag;
+            if frmDM.ZQueryHelp.FieldByName('BankNr').AsInteger <> BankNr then //Neue Bank
+              begin
+                //In Saldo ist das Bankenabschluss.Anfangssaldo gepeichert,
+                //wird zwischengespeichert und dann überschrieben
+                Saldo  := StrToInt(frmDM.ZQueryHelp.FieldByName('Saldo').Asstring);
+                BankNr := frmDM.ZQueryHelp.FieldByName('BankNr').AsInteger;
+              end;
+            Betrag      := frmDM.ZQueryHelp.FieldByName('Betrag').AsLongint;
+            LaufendeNr  := frmDM.ZQueryHelp.FieldByName('LaufendeNr').AsLongint;
+            SaldoDanach := Saldo + Betrag;
 
             //Beträge formatieren
-            sSQL := sSQL + 'UPDATE Temp SET Saldo="'+IntToCurrency(Saldo)+'", Betrag="'+IntToCurrency(Betrag)+'" WHERE LaufendeNr="'+IntToStr(LaufendeNr)+'";'+#13#10;
+            sSQL := sSQL + 'UPDATE Temp SET Saldo="'+IntToCurrency(Saldo)+'", SaldoDanach="'+IntToCurrency(SaldoDanach)+'", Betrag="'+IntToCurrency(Betrag)+'" WHERE LaufendeNr="'+IntToStr(LaufendeNr)+'";'+#13#10;
 
+            Saldo := SaldoDanach;
             frmDM.ZQueryHelp.Next;
           end;
         frmDM.ZQueryHelp.Close; //Schliessen und ....
