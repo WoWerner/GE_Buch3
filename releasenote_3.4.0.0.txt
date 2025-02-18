@@ -1,0 +1,68 @@
+﻿Änderungen in der Version 3.4.0.0
+Drucken 
+	Haushaltsplan
+		Zeilen ohne Buchung ausgeben
+		Farben angepasst
+		4 stellige Kontonummern erlaubt
+	Durchgangskontenübersicht
+		Sortierung angepasst
+		Ausgleichskonto ausgeblendet
+	Fenster
+		Filter erweitert
+	Zuwendungsbescheinigungen
+		Mailversand: Anzeige der Fehler beim Versand
+		Versendete werden nach versendet verschoben
+	Summenliste
+		Statistk 99 wird berücksichtigt
+Journal
+	Filter für Betrag
+	Löschen: Absturz beseitigt
+Datenexport
+	berücksichtigt Buchungsjahr
+	liefert Kontostand vor und nach der Buchung 
+	Reihenfolge angepasst
+
+Intern: 
+- Modulordner clean up
+- LazarusVersion 3.8.0.0
+- SQLite Version 3.48.0
+- Zeos Version   8.0.0-release
+
+
+
+Änderungen in der Version 3.3.0.0
+
+- Unterstützung für einen Haushaltsplan
+- Drucken: Jahr auswählbar
+- Zuwendungsbescheinigungen per Mail
+- Fehlerhafte Statistikwerte suchen
+- Monatliche Ausertungen hinzugefügt
+- Export Konten als CSV
+- Neues Handbuch
+- Summenliste: Ausgleichskonten entfernt
+- Unterstützung für 4 stellige Kontonummern
+
+Intern: 
+- Modulordner neu sortiert
+- SQLite 3.45.1
+
+
+Änderungen in der Version 3.2.0.1
+
+Erweiterungen / Verbesserungen:
+- Journal: Prüfung: Es darf nur auf gültige Banken, Sachkonten oder Personen gebucht werden
+- Drucken: Journal nach Banken: Sachkonto hinzugefügt
+- Drucken: Zuwendungsbescheinigungen mit Absender in Adressfeld
+- Drucken: Sortierung der Beitragsliste nach Name
+
+Fehlerbeseitigung:
+- Drucken: Zahler nach Sachkonten: Gruppierung geht wieder
+- Bei Splitbuchungen konnte es vorkommen, das der Betrag negativ wurde
+
+Neue Funktionen:
+- 
+
+Intern: 
+- 
+
+Soll die Meldung noch einmal angezeigt werden?
