@@ -26,8 +26,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="3"/>
-      <MinorVersionNr Value="3"/>
-      <BuildNr Value="2"/>
+      <MinorVersionNr Value="4"/>
       <Language Value="0407"/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -209,7 +208,9 @@
       <Unit21>
         <Filename Value="..\..\Lazarus\shared\pgmupdate.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmPgmUpdate"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="PgmUpdate"/>
       </Unit21>
       <Unit22>
