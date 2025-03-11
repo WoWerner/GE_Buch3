@@ -15,5 +15,5 @@ SELECT '('||konten.KontoNr||') '||Konten.Name as Name,
 FROM Journal
 left join Konten on Konten.KontoNr=Journal.konto_nach
 where konten.statistik <> 99 AND BuchungsJahr = :BJAHR
-GROUP BY Name
+GROUP BY Journal.konto_nach
 order by konten.sortpos
