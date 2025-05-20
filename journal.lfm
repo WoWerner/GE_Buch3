@@ -1,14 +1,14 @@
 object frmJournal: TfrmJournal
-  Left = 309
+  Left = 443
   Height = 580
   Hint = 'Rechtsklick für Listen'
-  Top = 113
-  Width = 900
+  Top = 123
+  Width = 1100
   Caption = 'Journal'
   ClientHeight = 580
-  ClientWidth = 900
+  ClientWidth = 1100
   Constraints.MinHeight = 580
-  Constraints.MinWidth = 900
+  Constraints.MinWidth = 1100
   KeyPreview = True
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
@@ -18,22 +18,22 @@ object frmJournal: TfrmJournal
   PopupMenu = mnuPopup
   Position = poScreenCenter
   ShowHint = True
-  LCLVersion = '3.6.0.0'
+  LCLVersion = '3.8.0.0'
   object panDaten: TPanel
     Left = 0
     Height = 267
     Top = 0
-    Width = 900
+    Width = 1100
     Align = alClient
     BevelOuter = bvNone
     ClientHeight = 267
-    ClientWidth = 900
+    ClientWidth = 1100
     TabOrder = 0
     object DBGridJournal: TDBGrid
       Left = 0
       Height = 179
       Top = 0
-      Width = 900
+      Width = 1100
       Align = alClient
       AlternateColor = clBtnFace
       Color = clWindow
@@ -50,22 +50,22 @@ object frmJournal: TfrmJournal
       Left = 0
       Height = 88
       Top = 179
-      Width = 900
+      Width = 1100
       Align = alBottom
       BevelOuter = bvNone
       ClientHeight = 88
-      ClientWidth = 900
+      ClientWidth = 1100
       TabOrder = 1
       object panHinweise: TPanel
         Left = 0
         Height = 26
         Top = 62
-        Width = 900
+        Width = 1100
         Align = alClient
         BevelColor = clMoneyGreen
         BevelOuter = bvNone
         ClientHeight = 26
-        ClientWidth = 900
+        ClientWidth = 1100
         Color = clMoneyGreen
         ParentBackground = False
         ParentColor = False
@@ -83,17 +83,17 @@ object frmJournal: TfrmJournal
         Left = 0
         Height = 62
         Top = 0
-        Width = 900
+        Width = 1100
         Align = alTop
         BevelOuter = bvNone
         ClientHeight = 62
-        ClientWidth = 900
+        ClientWidth = 1100
         TabOrder = 1
         object sgImportData: TStringGrid
           Left = 0
           Height = 44
           Top = 18
-          Width = 900
+          Width = 1100
           Align = alBottom
           BorderStyle = bsNone
           ColCount = 7
@@ -108,7 +108,7 @@ object frmJournal: TfrmJournal
           Left = 0
           Height = 18
           Top = 0
-          Width = 900
+          Width = 1100
           Align = alClient
           Alignment = taCenter
           AutoSize = False
@@ -124,14 +124,14 @@ object frmJournal: TfrmJournal
     Left = 0
     Height = 313
     Top = 267
-    Width = 900
+    Width = 1100
     Align = alBottom
     BevelOuter = bvNone
     ClientHeight = 313
-    ClientWidth = 900
+    ClientWidth = 1100
     TabOrder = 1
     object panSummen: TPanel
-      Left = 440
+      Left = 642
       Height = 106
       Top = 54
       Width = 240
@@ -251,7 +251,7 @@ object frmJournal: TfrmJournal
       end
     end
     object btnClose: TButton
-      Left = 728
+      Left = 924
       Height = 25
       Top = 283
       Width = 164
@@ -284,7 +284,7 @@ object frmJournal: TfrmJournal
       ParentColor = False
     end
     object btnNeueBuchung: TButton
-      Left = 728
+      Left = 924
       Height = 25
       Hint = 'Neuer Datensatz mit Übernahme der aktuellen Daten'#13#10#13#10'Felder:'#13#10'Datum'#13#10'Sachkonto'#13#10'Personen'#13#10'Bank'#13#10'Betrag'#13#10'Buchungstext'#13#10'Bemerkung'#13#10'Belegnummer'#13#10'Aufwendungsersatz'
       Top = 35
@@ -296,7 +296,7 @@ object frmJournal: TfrmJournal
       OnClick = btnNeueBuchungClick
     end
     object btnAendern: TButton
-      Left = 728
+      Left = 924
       Height = 25
       Top = 97
       Width = 164
@@ -305,7 +305,7 @@ object frmJournal: TfrmJournal
       OnClick = btnAendernClick
     end
     object btnAbbrechen: TButton
-      Left = 728
+      Left = 924
       Height = 25
       Top = 252
       Width = 164
@@ -377,7 +377,7 @@ object frmJournal: TfrmJournal
       Left = 161
       Height = 23
       Top = 102
-      Width = 231
+      Width = 430
       DropDownCount = 12
       ItemHeight = 15
       ParentShowHint = False
@@ -390,7 +390,7 @@ object frmJournal: TfrmJournal
       Left = 160
       Height = 23
       Top = 135
-      Width = 231
+      Width = 430
       DropDownCount = 10
       ItemHeight = 15
       ParentShowHint = False
@@ -419,7 +419,7 @@ object frmJournal: TfrmJournal
       Left = 161
       Height = 23
       Top = 70
-      Width = 231
+      Width = 430
       DropDownCount = 14
       ItemHeight = 15
       TabOrder = 7
@@ -447,12 +447,12 @@ object frmJournal: TfrmJournal
       Height = 23
       Hint = 'Bei Eingabe einer Zahl wird sie automatisch erhöht'
       Top = 231
-      Width = 601
+      Width = 480
       TabOrder = 14
       OnExit = ediBelegnummerExit
     end
     object btnSpeichern: TButton
-      Left = 728
+      Left = 924
       Height = 25
       Hint = 'Hotkey: ALT-S'
       Top = 192
@@ -470,7 +470,7 @@ object frmJournal: TfrmJournal
       OnExit = ediPersonenIDExit
     end
     object btnImport: TButton
-      Left = 728
+      Left = 924
       Height = 25
       Top = 66
       Width = 164
@@ -479,7 +479,7 @@ object frmJournal: TfrmJournal
       OnClick = btnImportClick
     end
     object cbCSVAutomatik: TCheckBox
-      Left = 611
+      Left = 813
       Height = 19
       Top = 32
       Width = 99
@@ -489,7 +489,7 @@ object frmJournal: TfrmJournal
       TabOrder = 22
     end
     object btnSpeichernAuto: TButton
-      Left = 728
+      Left = 924
       Height = 25
       Hint = 'Hotkey: ALT-A'#13#10#13#10'Speichert auch die Informationen für automatische Buchen'
       Top = 221
@@ -499,7 +499,7 @@ object frmJournal: TfrmJournal
       OnClick = btnSpeichernAutoClick
     end
     object btnLoeschen: TButton
-      Left = 728
+      Left = 924
       Height = 25
       Top = 128
       Width = 164
@@ -519,13 +519,13 @@ object frmJournal: TfrmJournal
       Left = 111
       Height = 23
       Top = 264
-      Width = 601
+      Width = 801
       ParentShowHint = False
       TabOrder = 15
       OnExit = ediBelegnummerExit
     end
     object panFilter: TPanel
-      Left = 398
+      Left = 600
       Height = 142
       Top = 52
       Width = 50
@@ -598,7 +598,7 @@ object frmJournal: TfrmJournal
       end
     end
     object panFilter1: TPanel
-      Left = 448
+      Left = 650
       Height = 29
       Top = 165
       Width = 266
@@ -631,7 +631,7 @@ object frmJournal: TfrmJournal
       end
     end
     object labFilter: TLabel
-      Left = 398
+      Left = 600
       Height = 30
       Top = 24
       Width = 140
@@ -644,7 +644,7 @@ object frmJournal: TfrmJournal
       Visible = False
     end
     object btnSkip: TButton
-      Left = 728
+      Left = 924
       Height = 25
       Top = 159
       Width = 164
@@ -654,9 +654,9 @@ object frmJournal: TfrmJournal
     end
     object rgSort: TRadioGroup
       Left = 254
-      Height = 57
-      Top = 7
-      Width = 98
+      Height = 32
+      Top = 32
+      Width = 234
       AutoFill = True
       Caption = 'Sortierung'
       ChildSizing.LeftRightSpacing = 6
@@ -665,9 +665,10 @@ object frmJournal: TfrmJournal
       ChildSizing.ShrinkHorizontal = crsScaleChilds
       ChildSizing.ShrinkVertical = crsScaleChilds
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
-      ChildSizing.ControlsPerLine = 1
-      ClientHeight = 37
-      ClientWidth = 94
+      ChildSizing.ControlsPerLine = 2
+      ClientHeight = 12
+      ClientWidth = 230
+      Columns = 2
       ItemIndex = 0
       Items.Strings = (
         'LaufendeNr'
@@ -680,7 +681,7 @@ object frmJournal: TfrmJournal
       Left = 111
       Height = 23
       Top = 200
-      Width = 601
+      Width = 801
       AutoComplete = True
       AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
       DropDownCount = 40
@@ -689,7 +690,7 @@ object frmJournal: TfrmJournal
       OnExit = cbBuchungstextExit
     end
     object btnNeueBuchungLeer: TButton
-      Left = 728
+      Left = 924
       Height = 25
       Hint = 'Neuer Datensatz ohne Übernahme der Daten (leer)'
       Top = 4
@@ -722,9 +723,9 @@ object frmJournal: TfrmJournal
       TabOrder = 16
     end
     object labModus: TLabel
-      Left = 360
+      Left = 254
       Height = 25
-      Top = 4
+      Top = 5
       Width = 123
       Caption = 'Journalmodus:'
       Font.Height = -19

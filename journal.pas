@@ -681,6 +681,8 @@ procedure TfrmJournal.btnImportClick(Sender: TObject);
 begin
   {$ifdef DebugCallStack} myDebugLN('btnImportClick'); {$endif}
 
+  rgSort.ItemIndex := 0; //Sortorder LaufendeNr
+
   frmJournal_CSV_Import.filename := '';
   OpenDialog.Title       := 'Daten-Import CSV Datei auswählen';
   OpenDialog.InitialDir  := UTF8ToSys(sImportPath);         // Set up the starting directory to be the current one
@@ -1127,8 +1129,9 @@ var
 begin
   {$ifdef DebugCallStack} myDebugLN('GetNextImportRec'); {$endif}
   aModus := Modus;
-  labImportMode.Caption := 'Zu importierende Daten';
-  labImportMode.Color   := clSkyBlue; // hebt die Splitbucheung auf
+  labImportMode.Caption  := 'Zu importierende Daten';
+  labImportMode.Color    := clSkyBlue; // hebt die Splitbucheung auf
+  cbAufwendungen.Checked := false;
 
   //Nächster Datensatz
   if frmJournal_CSV_Import.Richtung = 0
