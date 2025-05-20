@@ -11,7 +11,7 @@ object frmDrucken: TfrmDrucken
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '3.6.0.0'
+  LCLVersion = '3.8.0.0'
   object Shape3: TShape
     Left = 0
     Height = 225

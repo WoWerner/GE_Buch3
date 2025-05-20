@@ -193,6 +193,7 @@ uses
   LConvEncoding,
   LCLIntf,  //Opendocument
   LazUTF8,  //UTF8ToSys
+  sevenzip7,
   help,
   freelist,
   progress,
@@ -1156,9 +1157,9 @@ begin
                                 begin
                                   frmProgress.ProgressBar.Position := frmDM.ZQueryHelp.RecNo;
                                   Printer.FileName:=sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+
-                                                    frmDM.ZQueryHelp.FieldByName('Nachname').AsString+'_'+
-                                                    frmDM.ZQueryHelp.FieldByName('Vorname').AsString+'_'+
-                                                    frmDM.ZQueryHelp.FieldByName('PersonenID').AsString+'.pdf';
+                                                   frmDM.ZQueryHelp.FieldByName('Nachname').AsString+'_'+
+                                                   frmDM.ZQueryHelp.FieldByName('Vorname').AsString+'_'+
+                                                   frmDM.ZQueryHelp.FieldByName('PersonenID').AsString+'.pdf';
                                   frmDM.ZQueryDrucken.Close;
 
                                   frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\ZuwendungDrucken.sql');
@@ -1178,6 +1179,7 @@ begin
                                       end;
                                   frmDM.ZQueryHelp.Next;
                                 end;
+
                               frmDM.ZQueryHelp.Close;
                               frReport.ShowProgress:=true;
                               frmProgress.Close;
@@ -1567,6 +1569,8 @@ var
   sName,
   sMessage,
   sErgebnis,
+  sHelp,
+  sFileNameHelp,
   sfileName   : String;
   i,j         : integer;
   SMTP        : TMySMTPSend;
@@ -1580,7 +1584,11 @@ begin
     SMTP      := TMySMTPSend.Create;
     sErgebnis := '';
 
-    Content.Add('Hallo, '#13#13'hier kommt Ihre Zuwendungsbescheinigung!'#13#13'Mit freundlichen Grüßen'#13+frmMain.LabRendant1.Caption);
+    Content.Add('Hallo, '#13#13+
+                'hier kommt Ihre Zuwendungsbescheinigung!'#13#13+
+                'Aus Datenschutzgründen ist die Bescheinigung in einer passwortgeschützen Datei. Das Passwort ist ihr Geburtsdatum in der Form TT.MM.JJJJ. Falls wir Ihr Geburtsdatum nicht kennen, können sie das alternative Passwort bei mir erfragen.'#13#13+
+                'Mit freundlichen Grüßen'#13+
+                frmMain.LabRendant1.Caption);
 
     SMTP.TargetHost       := sEMailServer;
     SMTP.TargetPort       := sEMailPort;
@@ -1598,11 +1606,21 @@ begin
         sName := frmDM.ZQueryHelp.FieldByName('Nachname').AsString+'_'+
                  frmDM.ZQueryHelp.FieldByName('Vorname').AsString+'_'+
                  frmDM.ZQueryHelp.FieldByName('PersonenID').AsString;
-        sfileName := sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+sName+'.pdf';
+        sfileName      := sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+sName+'.pdf';
+        sfileNameHelp  := 'Zuwendung_'+ediBuchungsjahr.Text+'_'+sName;
         //und gibt es eine Zuwendungsbescheinigung?
         if FileExists(sfileName)
           then
             begin
+              //Zip Datei erstellen
+              with CreateOutArchive(CLSID_CFormatZip) do
+                begin
+                  AddFile(sfileName, sFileNameHelp+'.pdf');
+                  sHelp := 'Bescheinigung' ;
+                  if frmDM.ZQueryHelp.FieldByName('Geburtstag').AsString <> '' then sHelp := frmDM.ZQueryHelp.FieldByName('Geburtstag').AsString;
+                  SetPassword(sHelp);
+                  SaveToFile(sPrintPath+sFileNameHelp+'.zip');
+                end;
               slNamen.Add(sName);
               slMail.Add(frmDM.ZQueryHelp.FieldByName('eMail').AsString);
             end;
@@ -1641,7 +1659,7 @@ begin
                           j := slNamen.IndexOf(frmFreieListe.DstList.Items[i]);
                           //MessageDlg('Mail', slMail.Strings[j], mtInformation, [mbOK], 0);
                           Attach.Clear;
-                          Attach.Add(sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+frmFreieListe.DstList.Items[i]+'.pdf');
+                          Attach.Add(sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+frmFreieListe.DstList.Items[i]+'.zip');
                           try
                             if SMTP.SendMessage( frmMain.LabRendant1.Caption+' <'+sRendantEMail+'>',     // AFrom
                                                  slMail.Strings[j], // ATo
@@ -1655,6 +1673,8 @@ begin
                                   myDebugLN(sMessage);
                                   RenameFile(sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+frmFreieListe.DstList.Items[i]+'.pdf',
                                              sPrintPath+'Versendet\Zuwendung_'+ediBuchungsjahr.Text+'_'+frmFreieListe.DstList.Items[i]+'.pdf');
+                                  RenameFile(sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+frmFreieListe.DstList.Items[i]+'.zip',
+                                             sPrintPath+'Versendet\Zuwendung_'+ediBuchungsjahr.Text+'_'+frmFreieListe.DstList.Items[i]+'.zip');
                                 end
                               else
                                 begin
