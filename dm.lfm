@@ -5,7 +5,7 @@ object frmDM: TfrmDM
   Width = 780
   Caption = 'DM'
   OnCreate = FormCreate
-  LCLVersion = '3.6.0.0'
+  LCLVersion = '3.8.0.0'
   object ZQueryBanken: TZQuery
     AfterScroll = ZQueryBankenAfterScroll
     Connection = ZConnectionBuch
@@ -159,7 +159,7 @@ object frmDM: TfrmDM
     )
     DisableSavepoints = False
     Port = 0
-    Protocol = 'sqlite-3'
+    Protocol = 'sqlite'
     Left = 352
     Top = 291
   end
