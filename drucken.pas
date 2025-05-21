@@ -1564,6 +1564,7 @@ procedure TfrmDrucken.btnZuwendungsbescheinigungenMailClick(Sender: TObject);
 var
   slNamen,
   slMail,
+  slPasswort,
   Content,
   Attach      : TStringList;
   sName,
@@ -1579,6 +1580,7 @@ begin
   try
     slNamen   := TStringlist.Create;
     slMail    := TStringlist.Create;
+    slPasswort:= TStringlist.Create;
     Content   := TStringList.Create;
     Attach    := TStringList.Create;
     SMTP      := TMySMTPSend.Create;
@@ -1586,7 +1588,7 @@ begin
 
     Content.Add('Hallo, '#13#13+
                 'hier kommt Ihre Zuwendungsbescheinigung!'#13#13+
-                'Aus Datenschutzgründen ist die Bescheinigung in einer passwortgeschützen Datei. Das Passwort ist ihr Geburtsdatum in der Form TT.MM.JJJJ. Falls wir Ihr Geburtsdatum nicht kennen, können sie das alternative Passwort bei mir erfragen.'#13#13+
+                'Aus Datenschutzgründen ist die Bescheinigung in einer passwortgeschützen Datei. Das Passwort ist ihr Geburtsdatum in der Form TT.MM.JJJJ oder ihre PLZ. Falls wir ihre Daten nicht kennen, können sie das alternative Passwort bei mir erfragen.'#13#13+
                 'Mit freundlichen Grüßen'#13+
                 frmMain.LabRendant1.Caption);
 
@@ -1612,23 +1614,28 @@ begin
         if FileExists(sfileName)
           then
             begin
-              //Zip Datei erstellen
+              //Zip Datei aus PDF erstellen
               with CreateOutArchive(CLSID_CFormatZip) do
                 begin
                   AddFile(sfileName, sFileNameHelp+'.pdf');
-                  sHelp := 'Bescheinigung' ;
-                  if frmDM.ZQueryHelp.FieldByName('Geburtstag').AsString <> '' then sHelp := frmDM.ZQueryHelp.FieldByName('Geburtstag').AsString;
+                  if frmDM.ZQueryHelp.FieldByName('Geburtstag').AsString <> ''
+                    then sHelp := frmDM.ZQueryHelp.FieldByName('Geburtstag').AsString
+                    else if frmDM.ZQueryHelp.FieldByName('PLZ').AsString <> ''
+                      then sHelp := frmDM.ZQueryHelp.FieldByName('PLZ').AsString
+                      else sHelp := 'Bescheinigung';
                   SetPassword(sHelp);
                   SaveToFile(sPrintPath+sFileNameHelp+'.zip');
                 end;
               slNamen.Add(sName);
               slMail.Add(frmDM.ZQueryHelp.FieldByName('eMail').AsString);
+              slPasswort.Add(sHelp);
             end;
         frmDM.ZQueryHelp.Next;
       end;
     frmDM.ZQueryHelp.Close;
     //MessageDlg('Namen', slNamen.Text, mtInformation, [mbOK], 0);
     //MessageDlg('eMail', slMail.Text, mtInformation, [mbOK], 0);
+    //MessageDlg('Passwort', slMail.Text, mtInformation, [mbOK], 0);
     if slNamen.Count > 0
       then
         begin
@@ -1668,7 +1675,8 @@ begin
                                                  Attach)
                               then
                                 begin
-                                  sMessage  := 'Erfolgreich: Sende Mail zu '+slMail.Strings[j]+' mit der Datei: '+Attach.Text;
+                                  sMessage  := 'Erfolgreich: Sende Mail zu '+slMail.Strings[j]+' mit der Datei: '+RemoveLastCRLF(Attach.Text)+
+                                               '. Passwort: '+slPasswort.Strings[j];
                                   sErgebnis := sErgebnis + sMessage + #13#10;
                                   myDebugLN(sMessage);
                                   RenameFile(sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+frmFreieListe.DstList.Items[i]+'.pdf',
@@ -1709,6 +1717,7 @@ begin
   finally
     slNamen.Free;
     slMail.Free;
+    slPasswort.Free;
     Content.Free;
     Attach.free;
     SMTP.Free;
