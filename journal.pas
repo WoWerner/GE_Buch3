@@ -714,7 +714,11 @@ begin
         if frmJournal_CSV_Import.Showmodal = mrOK
           then
             begin
-              help.WriteIniVal(sIniFile, 'CSV-Import', 'Verzeichnis', sImportPath);
+              try
+                help.WriteIniVal(sIniFile, 'CSV-Import', 'Verzeichnis', sImportPath);
+               except
+                 //nix
+               end;
               if frmJournal_CSV_Import.Richtung = 0
                 then CSVImportRow := frmJournal_CSV_Import.RowEnde //Von unten
                 else CSVImportRow := frmJournal_CSV_Import.RowStart;
@@ -1072,9 +1076,12 @@ begin
              end;
     import : begin
                //Daten nach Ini schreiben
-               if ((ediPersonenID.Text <> '0') and (ediPersonenID.Text <> '') and (CSVKeyPers <> ''))
-                  then help.WriteIniVal(sJournalCSVImportINI, 'Key', CSVKeyPers+'_PersID', ediPersonenID.Text);
-
+               try
+                 if ((ediPersonenID.Text <> '0') and (ediPersonenID.Text <> '') and (CSVKeyPers <> ''))
+                    then help.WriteIniVal(sJournalCSVImportINI, 'Key', CSVKeyPers+'_PersID', ediPersonenID.Text);
+               except
+                 //nix
+               end;
                bStartFinished := false;
                frmDM.ZQueryJournal.Refresh;
                frmDM.ZQueryJournal.Last;
