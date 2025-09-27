@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 651
+  Left = 590
   Height = 401
-  Top = 176
+  Top = -980
   Width = 581
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
@@ -235,7 +235,7 @@ object frmMain: TfrmMain
     Height = 25
     Top = 370
     Width = 163
-    Caption = 'Schließen'
+    Caption = 'Beenden'
     TabOrder = 5
     OnClick = btnCloseClick
   end
@@ -312,6 +312,13 @@ object frmMain: TfrmMain
     Top = 8
     object MenuItem4: TMenuItem
       Caption = 'Datei'
+      object mnuSelectDB: TMenuItem
+        Caption = 'Datenbank öffnen'
+        OnClick = mnuSelectDBClick
+      end
+      object Separator6: TMenuItem
+        Caption = '-'
+      end
       object mnuJahresabschluss: TMenuItem
         Caption = 'Jahresabschluss'
         OnClick = mnuJahresabschlussClick
@@ -365,6 +372,13 @@ object frmMain: TfrmMain
           Caption = 'Personen von Winbuch'
           OnClick = mnuWB_Imp_PersClick
         end
+      end
+      object Separator7: TMenuItem
+        Caption = '-'
+      end
+      object mnuExit: TMenuItem
+        Caption = 'Beenden'
+        OnClick = btnCloseClick
       end
     end
     object mnuEinstellungenMain: TMenuItem

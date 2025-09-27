@@ -55,6 +55,10 @@ type
     MainMenu: TMainMenu;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
+    mnuExit: TMenuItem;
+    Separator7: TMenuItem;
+    Separator6: TMenuItem;
+    mnuSelectDB: TMenuItem;
     mnuExportKonten: TMenuItem;
     Separator5: TMenuItem;
     Separator4: TMenuItem;
@@ -140,6 +144,7 @@ type
     procedure mnuJournalLastClick(Sender: TObject);
     procedure mnuLimitsZahlerBetragClick(Sender: TObject);
     procedure mnuLimitsZahlerverteilungAlterClick(Sender: TObject);
+    procedure mnuSelectDBClick(Sender: TObject);
     procedure mnuShowDebugClick(Sender: TObject);
     procedure mnuSQLDebugClick(Sender: TObject);
     procedure mnuSuchtexteImportClick(Sender: TObject);
@@ -904,6 +909,27 @@ begin
   frmAusgabe.ShowModal;
 end;
 
+procedure TfrmMain.mnuSelectDBClick(Sender: TObject);
+
+begin
+  openDialog.Title        := 'Selektiere eine Datenbank';
+  openDialog.InitialDir   := UTF8ToSys(ExtractFilePath(sDatabase));  // Set up the starting directory to be the current one
+  openDialog.Options      := [ofFileMustExist];                      // Only allow existing files to be selected
+  openDialog.Filter       := 'Alle|*.*|DB-Datei |*.db';
+  openDialog.FilterIndex  := 2;                                      // Select report files as the starting filter type
+  if openDialog.Execute                                              // Display the open file dialog
+    then
+      begin
+        frmDM.CloseOpenQuerys;
+        if frmDM.ZConnectionBuch.Connected then frmDM.ZConnectionBuch.Disconnect;
+        sDatabase := openDialog.FileName;
+        myDebugLN('New Database : '+sDatabase);
+        frmDM.ZConnectionBuch.Database := UTF8ToSys(sDatabase);
+        FormShow(sender);          // Prüft die Datei und stellt das Main Formular richtig dar.
+        help.WriteIniVal(sIniFile, 'Datenbank','Name', sDatabase);
+      end;
+end;
+
 procedure TfrmMain.mnuShowDebugClick(Sender: TObject);
 begin
   Opendocument(sDebugFile);
@@ -1661,9 +1687,9 @@ begin
           screen.Cursor:=crDefault;
         end;
 
-        showmessage(sMess+
-                    inttostr(n)+' Einträge gelöscht'+#13+
-                    inttostr(m)+' Einträge überarbeitet');
+        LogAndShow(sMess+
+                   inttostr(n)+' Einträge gelöscht'+#13+
+                   inttostr(m)+' Einträge überarbeitet');
       end;
 end;
 
