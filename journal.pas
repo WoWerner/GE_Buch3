@@ -717,7 +717,7 @@ begin
               try
                 help.WriteIniVal(sIniFile, 'CSV-Import', 'Verzeichnis', sImportPath);
                except
-                 //nix
+                 on E: Exception do myDebugLN(e.Message+' (internal code 5)');
                end;
               if frmJournal_CSV_Import.Richtung = 0
                 then CSVImportRow := frmJournal_CSV_Import.RowEnde //Von unten
@@ -996,7 +996,12 @@ procedure TfrmJournal.btnSpeichernAutoClick(Sender: TObject);
 begin
   {$ifdef DebugCallStack} myDebugLN('btnSpeichernAutoClick');  {$endif}
   if ((ediSachKontoNummer.Text <> '0') and (ediSachKontoNummer.Text <> ''))
-    then help.WriteIniVal(sJournalCSVImportINI,'Key',CSVKeySK+'_SK', ediSachKontoNummer.Text);
+    then
+      try
+        help.WriteIniVal(sJournalCSVImportINI,'Key',CSVKeySK+'_SK', ediSachKontoNummer.Text);
+      except
+        on E: Exception do myDebugLN(e.Message+' (internal code 6)');
+      end;
   btnSpeichernClick(self);
   {$ifdef DebugCallStack} myDebugLN('btnSpeichernAutoClick finished');  {$endif}
 end;
@@ -1061,7 +1066,7 @@ begin
                try
                  DateEditBuchungsdatum.SetFocus; //Weiter mit der Eingabe
                except
-                 on E: Exception do LogAndShowError(e.Message+' (internal code 3)');
+                 on E: Exception do LogAndShowError(e.Message+' (internal code 6)');
                end;
              end;
     edit   : begin
@@ -1080,7 +1085,7 @@ begin
                  if ((ediPersonenID.Text <> '0') and (ediPersonenID.Text <> '') and (CSVKeyPers <> ''))
                     then help.WriteIniVal(sJournalCSVImportINI, 'Key', CSVKeyPers+'_PersID', ediPersonenID.Text);
                except
-                 //nix
+                 on E: Exception do LogAndShowError(e.Message+' (internal code 7)');
                end;
                bStartFinished := false;
                frmDM.ZQueryJournal.Refresh;
@@ -1515,10 +1520,13 @@ begin
   frmDM.ZQuerySachkonten.Close;
   if frmDM.ZQueryHelp.Active then frmDM.ZQueryHelp.Close;
   bStartFinished := false;
-
-  if cbCSVAutomatik.Checked
-    then help.WriteIniVal(sJournalCSVImportINI, 'Daten', 'Automatik', '1')
-    else help.WriteIniVal(sJournalCSVImportINI, 'Daten', 'Automatik', '0');
+  try
+    if cbCSVAutomatik.Checked
+      then help.WriteIniVal(sJournalCSVImportINI, 'Daten', 'Automatik', '1')
+      else help.WriteIniVal(sJournalCSVImportINI, 'Daten', 'Automatik', '0');
+  except
+    on E: Exception do LogAndShowError(e.Message+' (internal code 8)');
+  end;
 end;
 
 procedure TfrmJournal.FormCloseQuery(Sender: TObject; var CanClose: boolean);
