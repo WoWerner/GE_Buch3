@@ -10,7 +10,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
   Constraints.MinWidth = 800
   OnClose = FormClose
   OnShow = FormShow
-  LCLVersion = '3.0.0.3'
+  LCLVersion = '3.8.0.0'
   object Panel1: TPanel
     Left = 0
     Height = 180
@@ -237,7 +237,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         Left = 56
         Height = 15
         Top = 8
-        Width = 73
+        Width = 72
         Caption = 'Buchungstext'
         Color = clYellow
         ParentColor = False

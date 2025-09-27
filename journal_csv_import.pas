@@ -381,39 +381,51 @@ end;
 
 procedure TfrmJournal_CSV_Import.btnOKClick(Sender: TObject);
 begin
-  INI := TINIFile.Create(sJournalCSVImportINI);
-  // Einstellungen sichern
-  INI.WriteInteger('Format','Format',                   rgFormat.ItemIndex);
-  INI.WriteInteger('Format','Textbegrenzung',           rgTextbegrenzung.ItemIndex);
-  INI.WriteInteger('Format','Spaltenbegrenzung',        rgSpaltenbegrenzung.ItemIndex);
-  INI.WriteInteger('Format','Zeilenende',               rgZeilenende.ItemIndex);
-  INI.WriteString ('Format','Textbegrenzungsstring',    ediTextbegrenzung.Text);
-  INI.WriteString ('Format','Spaltenbegrenzungsstring', ediSpaltenbegrenzung.Text);
-  INI.WriteString ('Format','SollHabenString',          ediSollString.Text);
-  INI.WriteString ('Format','Datumsformat',             ediDatumsformat.Text);
+  try
+    INI := TINIFile.Create(sJournalCSVImportINI);
+    ini.CacheUpdates:=true;  // Erst am Ende alles zusammen schreiben
+    // Einstellungen sichern
+    INI.WriteInteger('Format','Format',                   rgFormat.ItemIndex);
+    INI.WriteInteger('Format','Textbegrenzung',           rgTextbegrenzung.ItemIndex);
+    INI.WriteInteger('Format','Spaltenbegrenzung',        rgSpaltenbegrenzung.ItemIndex);
+    INI.WriteInteger('Format','Zeilenende',               rgZeilenende.ItemIndex);
+    INI.WriteString ('Format','Textbegrenzungsstring',    ediTextbegrenzung.Text);
+    INI.WriteString ('Format','Spaltenbegrenzungsstring', ediSpaltenbegrenzung.Text);
+    INI.WriteString ('Format','SollHabenString',          ediSollString.Text);
+    INI.WriteString ('Format','Datumsformat',             ediDatumsformat.Text);
 
-  INI.WriteInteger('Daten','Header',          nHeader.Value);
-  INI.WriteInteger('Daten','Datum',           nDatum.Value);
-  INI.WriteInteger('Daten','Buchungstext',    nBuchungstext.Value);
-  INI.WriteInteger('Daten','BuchungstextBis', nBuchungstextBis.Value);
-  INI.WriteInteger('Daten','KeySK',           nKeySK.Value);
-  INI.WriteInteger('Daten','KeySKBis',        nKeySKBis.Value);
-  INI.WriteInteger('Daten','KeyPers',         nKeyPers.Value);
-  INI.WriteInteger('Daten','KeyPersBis',      nKeyPersBis.Value);
-  INI.WriteInteger('Daten','Betrag',          nBetrag.Value);
-  INI.WriteInteger('Daten','SollHaben',       nSollHaben.Value);
-  INI.WriteInteger('Daten','Richtung',        rgRichtung.ItemIndex);
-  INI.WriteBool   ('Daten','LoescheBis1',     DelUntil1.Checked);
-  INI.WriteString ('Daten','LoeschStr1',      ediDelStr1.Text);
-  INI.WriteBool   ('Daten','LoescheVon1',     DelFrom1.Checked);
-  INI.WriteBool   ('Daten','LoescheBis2',     DelUntil2.Checked);
-  INI.WriteString ('Daten','LoeschStr2',      ediDelStr2.Text);
-  INI.WriteBool   ('Daten','LoescheVon2',     DelFrom2.Checked);
-  INI.WriteBool   ('Daten','LoescheBis3',     DelUntil3.Checked);
-  INI.WriteString ('Daten','LoeschStr3',      ediDelStr3.Text);
-  INI.WriteBool   ('Daten','LoescheVon3',     DelFrom3.Checked);
-  INI.WriteInteger('Daten','BankNr',          integer(cbBank.Items.Objects[cbBank.ItemIndex]));
-  INI.Free;
+    INI.WriteInteger('Daten','Header',          nHeader.Value);
+    INI.WriteInteger('Daten','Datum',           nDatum.Value);
+    INI.WriteInteger('Daten','Buchungstext',    nBuchungstext.Value);
+    INI.WriteInteger('Daten','BuchungstextBis', nBuchungstextBis.Value);
+    INI.WriteInteger('Daten','KeySK',           nKeySK.Value);
+    INI.WriteInteger('Daten','KeySKBis',        nKeySKBis.Value);
+    INI.WriteInteger('Daten','KeyPers',         nKeyPers.Value);
+    INI.WriteInteger('Daten','KeyPersBis',      nKeyPersBis.Value);
+    INI.WriteInteger('Daten','Betrag',          nBetrag.Value);
+    INI.WriteInteger('Daten','SollHaben',       nSollHaben.Value);
+    INI.WriteInteger('Daten','Richtung',        rgRichtung.ItemIndex);
+    INI.WriteBool   ('Daten','LoescheBis1',     DelUntil1.Checked);
+    INI.WriteString ('Daten','LoeschStr1',      ediDelStr1.Text);
+    INI.WriteBool   ('Daten','LoescheVon1',     DelFrom1.Checked);
+    INI.WriteBool   ('Daten','LoescheBis2',     DelUntil2.Checked);
+    INI.WriteString ('Daten','LoeschStr2',      ediDelStr2.Text);
+    INI.WriteBool   ('Daten','LoescheVon2',     DelFrom2.Checked);
+    INI.WriteBool   ('Daten','LoescheBis3',     DelUntil3.Checked);
+    INI.WriteString ('Daten','LoeschStr3',      ediDelStr3.Text);
+    INI.WriteBool   ('Daten','LoescheVon3',     DelFrom3.Checked);
+    INI.WriteInteger('Daten','BankNr',          integer(cbBank.Items.Objects[cbBank.ItemIndex]));
+    try
+      ini.CacheUpdates:=false; //Damit werden die Änderungen geschrieben
+    except
+      on e: Exception do
+        begin
+          LogAndShowError('Fehler beim Speichern'#13+e.Message);
+        end;
+    end;
+  finally
+    INI.Free;
+  end;
 end;
 
 procedure TfrmJournal_CSV_Import.FormShow(Sender: TObject);
