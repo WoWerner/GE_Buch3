@@ -199,6 +199,7 @@ sqlite3_set_authorizer
 sqlite3_set_auxdata
 sqlite3_set_clientdata
 sqlite3_set_last_insert_rowid
+sqlite3_setlk_timeout
 sqlite3_shutdown
 sqlite3_sleep
 sqlite3_snprintf
