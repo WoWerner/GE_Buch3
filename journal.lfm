@@ -1,8 +1,8 @@
 object frmJournal: TfrmJournal
-  Left = 443
+  Left = 364
   Height = 580
   Hint = 'Rechtsklick für Listen'
-  Top = 123
+  Top = 130
   Width = 1100
   Caption = 'Journal'
   ClientHeight = 580
@@ -10,15 +10,15 @@ object frmJournal: TfrmJournal
   Constraints.MinHeight = 580
   Constraints.MinWidth = 1100
   KeyPreview = True
+  PopupMenu = mnuPopup
+  Position = poScreenCenter
+  ShowHint = True
+  LCLVersion = '4.2.0.0'
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   OnShow = FormShow
-  PopupMenu = mnuPopup
-  Position = poScreenCenter
-  ShowHint = True
-  LCLVersion = '3.8.0.0'
   object panDaten: TPanel
     Left = 0
     Height = 267
@@ -332,10 +332,10 @@ object frmJournal: TfrmJournal
       ButtonWidth = 23
       NumGlyphs = 1
       MaxLength = 0
-      OnExit = DateEditBuchungsdatumExit
-      OnKeyDown = DateEditBuchungsdatumKeyDown
       PopupMenu = PopupMenuDatum
       TabOrder = 5
+      OnExit = DateEditBuchungsdatumExit
+      OnKeyDown = DateEditBuchungsdatumKeyDown
     end
     object ediBuchungsjahr: TSpinEdit
       Left = 111
@@ -344,9 +344,9 @@ object frmJournal: TfrmJournal
       Width = 59
       MaxValue = 2099
       MinValue = 2000
-      OnChange = ediBuchungsjahrChange
       TabOrder = 4
       Value = 2000
+      OnChange = ediBuchungsjahrChange
     end
     object Label4: TLabel
       Left = 15
@@ -430,7 +430,7 @@ object frmJournal: TfrmJournal
       Left = 16
       Height = 15
       Top = 202
-      Width = 72
+      Width = 73
       Caption = 'Buchungstext'
       ParentColor = False
     end
@@ -674,8 +674,8 @@ object frmJournal: TfrmJournal
         'LaufendeNr'
         'Datum'
       )
-      OnClick = rgSortClick
       TabOrder = 26
+      OnClick = rgSortClick
     end
     object cbBuchungstext: TComboBox
       Left = 111

@@ -1,16 +1,16 @@
 object frmJournal_CSV_Import: TfrmJournal_CSV_Import
-  Left = 320
+  Left = 329
   Height = 500
-  Top = 138
+  Top = 147
   Width = 800
   Caption = 'Journal CSV Import'
   ClientHeight = 500
   ClientWidth = 800
   Constraints.MinHeight = 500
   Constraints.MinWidth = 800
+  LCLVersion = '4.2.0.0'
   OnClose = FormClose
   OnShow = FormShow
-  LCLVersion = '3.8.0.0'
   object Panel1: TPanel
     Left = 0
     Height = 180
@@ -43,8 +43,8 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         'ANSI'
         'UTF8'
       )
-      OnClick = DeltaDataClick
       TabOrder = 0
+      OnClick = DeltaDataClick
     end
     object rgTextbegrenzung: TRadioGroup
       Left = 8
@@ -69,8 +69,8 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         ''''
         ''
       )
-      OnClick = DeltaDataClick
       TabOrder = 1
+      OnClick = DeltaDataClick
     end
     object ediTextbegrenzung: TEdit
       Left = 104
@@ -105,8 +105,8 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         'Tab'
         ''
       )
-      OnClick = DeltaDataClick
       TabOrder = 3
+      OnClick = DeltaDataClick
     end
     object ediSpaltenbegrenzung: TEdit
       Left = 224
@@ -140,8 +140,8 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         'UNIX'
         'MAC'
       )
-      OnClick = DeltaDataClick
       TabOrder = 5
+      OnClick = DeltaDataClick
     end
     object Panel3: TPanel
       Left = 607
@@ -161,8 +161,8 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         Top = 28
         Width = 54
         MaxValue = 9999
-        OnChange = SelectionChange
         TabOrder = 0
+        OnChange = SelectionChange
       end
       object nDEnd: TSpinEdit
         Left = 2
@@ -170,8 +170,8 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         Top = 65
         Width = 54
         MaxValue = 9999
-        OnChange = SelectionChange
         TabOrder = 1
+        OnChange = SelectionChange
       end
       object rgRichtung: TRadioGroup
         Left = 63
@@ -228,16 +228,16 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         Hint = 'Bei mehrspaltigen Buchungstexten wird hier die letzte Spalte eingegeben'
         Top = 5
         Width = 50
-        OnChange = SelectionChange
         ParentShowHint = False
         ShowHint = True
         TabOrder = 0
+        OnChange = SelectionChange
       end
       object Label3: TLabel
         Left = 56
         Height = 15
         Top = 8
-        Width = 72
+        Width = 73
         Caption = 'Buchungstext'
         Color = clYellow
         ParentColor = False
@@ -249,9 +249,9 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         Top = 5
         Width = 50
         MinValue = 1
-        OnChange = SelectionChange
         TabOrder = 1
         Value = 1
+        OnChange = SelectionChange
       end
       object DelUntil1: TRadioButton
         Left = 213
@@ -301,8 +301,8 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         Top = 5
         Width = 50
         MaxValue = 1000
-        OnChange = SelectionChange
         TabOrder = 0
+        OnChange = SelectionChange
       end
       object Label1: TLabel
         Left = 64
@@ -356,9 +356,9 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         Top = 4
         Width = 50
         MinValue = 1
-        OnChange = SelectionChange
         TabOrder = 1
         Value = 1
+        OnChange = SelectionChange
       end
     end
     object Panel7: TPanel
@@ -379,9 +379,9 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         Top = 5
         Width = 50
         MinValue = 1
-        OnChange = SelectionChange
         TabOrder = 0
         Value = 1
+        OnChange = SelectionChange
       end
       object Label4: TLabel
         Left = 56
@@ -398,10 +398,10 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         Height = 23
         Top = 5
         Width = 50
-        OnChange = SelectionChange
         ParentShowHint = False
         ShowHint = True
         TabOrder = 1
+        OnChange = SelectionChange
       end
     end
     object Panel8: TPanel
@@ -422,9 +422,9 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         Top = 5
         Width = 50
         MinValue = 1
-        OnChange = SelectionChange
         TabOrder = 0
         Value = 1
+        OnChange = SelectionChange
       end
       object Label5: TLabel
         Left = 56
@@ -457,8 +457,8 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         Height = 23
         Top = 4
         Width = 50
-        OnChange = SelectionChange
         TabOrder = 0
+        OnChange = SelectionChange
       end
       object Label7: TLabel
         Left = 64
@@ -617,9 +617,9 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         Top = 5
         Width = 50
         MinValue = 1
-        OnChange = SelectionChange
         TabOrder = 0
         Value = 1
+        OnChange = SelectionChange
       end
       object Label9: TLabel
         Left = 56
@@ -636,10 +636,10 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         Height = 23
         Top = 5
         Width = 50
-        OnChange = SelectionChange
         ParentShowHint = False
         ShowHint = True
         TabOrder = 1
+        OnChange = SelectionChange
       end
     end
   end

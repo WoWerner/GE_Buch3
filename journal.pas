@@ -724,7 +724,7 @@ begin
                 else CSVImportRow := frmJournal_CSV_Import.RowStart;
               SetMode(import);
               if frmJournal_CSV_Import.cbBank.Text <> ''
-                then ediBankNr.Text := inttostr(integer(frmJournal_CSV_Import.cbBank.Items.Objects[frmJournal_CSV_Import.cbBank.ItemIndex]))
+                then ediBankNr.Text := inttostr(NativeInt(frmJournal_CSV_Import.cbBank.Items.Objects[frmJournal_CSV_Import.cbBank.ItemIndex]))
                 else ediBankNr.Text := '0';
               ediBankNrExit(self);
               //Inc Belegnummer  beim 1. Aufruf
@@ -1181,7 +1181,7 @@ begin
   if bStartFinished
     then
       begin
-        ediBankNr.Text := inttostr(integer(cbKonto.Items.Objects[cbKonto.ItemIndex]));
+        ediBankNr.Text := inttostr(NativeInt(cbKonto.Items.Objects[cbKonto.ItemIndex]));
         CheckSettingsForSave;
       end;
   {$ifdef DebugCallStack} myDebugLN('cbKontoChange finished'); {$endif}
@@ -1193,7 +1193,7 @@ begin
   if bStartFinished
     then
       begin
-        ediPersonenID.Text := inttostr(integer(cbPersonenname.Items.Objects[cbPersonenname.ItemIndex]));
+        ediPersonenID.Text := inttostr(NativeInt(cbPersonenname.Items.Objects[cbPersonenname.ItemIndex]));
         CheckSettingsForSave;
       end;
   {$ifdef DebugCallStack} myDebugLN('cbPersonennameChange finished'); {$endif}
@@ -1205,7 +1205,7 @@ begin
   if bStartFinished
     then
       begin
-        ediSachKontoNummer.Text := inttostr(integer(cbSachkonto.Items.Objects[cbSachkonto.ItemIndex]));
+        ediSachKontoNummer.Text := inttostr(NativeInt(cbSachkonto.Items.Objects[cbSachkonto.ItemIndex]));
         CheckSettingsForSave;
       end;
    {$ifdef DebugCallStack} myDebugLN('cbSachkontoChange finished'); {$endif}
@@ -1628,7 +1628,7 @@ begin
       cbSachkonto.AddItem(frmDM.ZQuerySachkonten.FieldByName('Kontotype').AsString+' '+
                           frmDM.ZQuerySachkonten.FieldByName('KontoNr').AsString+' '+
                           frmDM.ZQuerySachkonten.FieldByName('Name').AsString,
-                          TObject(frmDM.ZQuerySachkonten.FieldByName('KontoNr').AsInteger));
+                          TObject(NativeInt(frmDM.ZQuerySachkonten.FieldByName('KontoNr').AsInteger)));
       frmDM.ZQuerySachkonten.Next;
     end;
   cbSachkonto.ItemIndex:=0;
@@ -1647,8 +1647,8 @@ begin
   while not frmDM.ZQueryPersonen.EOF do
     begin
       cbPersonenname.AddItem(frmDM.ZQueryPersonen.FieldByName('Nachname').AsString+', '+
-                             frmDM.ZQueryPersonen.FieldByName('Vorname').AsString,
-                             TObject(frmDM.ZQueryPersonen.FieldByName('PersonenID').AsInteger));
+                            frmDM.ZQueryPersonen.FieldByName('Vorname').AsString,
+                            TObject(NativeInt(frmDM.ZQueryPersonen.FieldByName('PersonenID').AsInteger)));
       frmDM.ZQueryPersonen.Next;
     end;
   cbPersonenname.ItemIndex := 0;
@@ -1665,7 +1665,7 @@ begin
     begin
       cbKonto.AddItem(frmDM.ZQueryBanken.FieldByName('KontoNr').AsString+' '+
                       frmDM.ZQueryBanken.FieldByName('Name').AsString,
-                      TObject(frmDM.ZQueryBanken.FieldByName('KontoNr').AsInteger));
+                      TObject(NativeInt(frmDM.ZQueryBanken.FieldByName('KontoNr').AsInteger)));
       slBankenStartSaldo.Add(frmDM.ZQueryBanken.FieldByName('Anfangssaldo').AsString);
       frmDM.ZQueryBanken.Next;
     end;

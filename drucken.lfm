@@ -1,17 +1,17 @@
 object frmDrucken: TfrmDrucken
-  Left = 590
+  Left = 425
   Height = 397
-  Top = 219
+  Top = 147
   Width = 639
   BorderStyle = bsDialog
   Caption = 'Drucken'
   ClientHeight = 397
   ClientWidth = 639
+  Position = poScreenCenter
+  LCLVersion = '4.2.0.0'
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
-  Position = poScreenCenter
-  LCLVersion = '3.8.0.0'
   object Shape3: TShape
     Left = 0
     Height = 225
@@ -211,9 +211,9 @@ object frmDrucken: TfrmDrucken
       'Nur PersonenNr.'
       'Bemerkung enthält'
     )
-    OnSelectionChanged = rgFilterSelectionChanged
     ParentBackground = False
     TabOrder = 27
+    OnSelectionChanged = rgFilterSelectionChanged
   end
   object btnJournalKompaktFiltered: TButton
     Left = 8

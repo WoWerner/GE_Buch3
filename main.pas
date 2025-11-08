@@ -186,7 +186,7 @@ uses
   drucken,
   einstellungen,
   httpsend,
-  ssl_openssl,
+  ssl_openssl3,
   personen,
   ausgabe,
   PgmUpdate,
@@ -271,7 +271,7 @@ begin
   slHelp      := TStringlist.Create;
   sAppDir     := vConfigurations.MyDirectory;
   sIniFile    := vConfigurations.ConfigFile;
-  sDebugFile  := help.ReadIniVal(sIniFile, 'Debug'     , 'Name', sAppDir+'debug.txt', true);
+  sDebugFile  := help.ReadIniVal(sIniFile, 'Debug'     , 'Name', sAppDir+'debug\debug.txt', true);
   sSavePath   := help.ReadIniVal(sIniFile, 'Sicherung' , 'Verzeichnis', sAppDir+'Sicherung\', true);
   sPrintPath  := help.ReadIniVal(sIniFile, 'Ausgaben'  , 'Verzeichnis', sAppDir+'Ausgaben\', true);
   sImportPath := help.ReadIniVal(sIniFile, 'CSV-Import', 'Verzeichnis', sAppDir, true);

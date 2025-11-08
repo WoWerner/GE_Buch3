@@ -9,20 +9,20 @@ object frmMain: TfrmMain
   ClientHeight = 401
   ClientWidth = 581
   Menu = MainMenu
+  Position = poScreenCenter
+  LCLVersion = '4.2.0.0'
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
-  Position = poScreenCenter
-  LCLVersion = '3.8.0.0'
   object imgSELK: TImage
     Cursor = crHandPoint
     Left = 328
     Height = 240
     Top = 70
     Width = 240
-    OnClick = imgSELKClick
     Stretch = True
     Transparent = True
+    OnClick = imgSELKClick
   end
   object btnBankkonten: TButton
     Left = 210

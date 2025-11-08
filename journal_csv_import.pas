@@ -414,7 +414,7 @@ begin
     INI.WriteBool   ('Daten','LoescheBis3',     DelUntil3.Checked);
     INI.WriteString ('Daten','LoeschStr3',      ediDelStr3.Text);
     INI.WriteBool   ('Daten','LoescheVon3',     DelFrom3.Checked);
-    INI.WriteInteger('Daten','BankNr',          integer(cbBank.Items.Objects[cbBank.ItemIndex]));
+    INI.WriteInteger('Daten','BankNr',          NativeInt(cbBank.Items.Objects[cbBank.ItemIndex]));
     try
       ini.CacheUpdates:=false; //Damit werden die Änderungen geschrieben
     except
@@ -491,7 +491,7 @@ begin
   frmDM.ZQueryHelp.Open;
   while not frmDM.ZQueryHelp.EOF do
     begin
-      cbBank.AddItem(frmDM.ZQueryHelp.FieldByName('Name').AsString,  TObject(frmDM.ZQueryHelp.FieldByName('KontoNr').AsInteger));
+      cbBank.AddItem(frmDM.ZQueryHelp.FieldByName('Name').AsString, TObject(NativeInt(frmDM.ZQueryHelp.FieldByName('KontoNr').asinteger)));
       frmDM.ZQueryHelp.Next;
     end;
   frmDM.ZQueryHelp.Close;
@@ -504,7 +504,7 @@ begin
         for i := 0 to cbBank.Items.Count-1
           do
             begin
-              if nHelp = integer(cbBank.Items.Objects[i])
+              if nHelp = NativeInt(cbBank.Items.Objects[i])
                 then
                   begin
                     cbBank.ItemIndex:=i;
