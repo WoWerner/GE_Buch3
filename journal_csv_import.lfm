@@ -1,11 +1,11 @@
 object frmJournal_CSV_Import: TfrmJournal_CSV_Import
   Left = 329
-  Height = 500
+  Height = 547
   Top = 147
-  Width = 800
+  Width = 1160
   Caption = 'Journal CSV Import'
-  ClientHeight = 500
-  ClientWidth = 800
+  ClientHeight = 547
+  ClientWidth = 1160
   Constraints.MinHeight = 500
   Constraints.MinWidth = 800
   LCLVersion = '4.2.0.0'
@@ -13,17 +13,17 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
   OnShow = FormShow
   object Panel1: TPanel
     Left = 0
-    Height = 180
-    Top = 320
-    Width = 800
+    Height = 219
+    Top = 328
+    Width = 1160
     Align = alBottom
     BevelOuter = bvNone
-    ClientHeight = 180
-    ClientWidth = 800
+    ClientHeight = 219
+    ClientWidth = 1160
     TabOrder = 0
     object rgFormat: TRadioGroup
       Left = 128
-      Height = 40
+      Height = 52
       Top = 2
       Width = 128
       AutoFill = True
@@ -36,7 +36,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       ChildSizing.ShrinkVertical = crsScaleChilds
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 2
-      ClientHeight = 20
+      ClientHeight = 32
       ClientWidth = 124
       Columns = 2
       Items.Strings = (
@@ -48,7 +48,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
     end
     object rgTextbegrenzung: TRadioGroup
       Left = 8
-      Height = 40
+      Height = 52
       Top = 2
       Width = 112
       AutoFill = True
@@ -61,7 +61,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       ChildSizing.ShrinkVertical = crsScaleChilds
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 3
-      ClientHeight = 20
+      ClientHeight = 32
       ClientWidth = 108
       Columns = 3
       Items.Strings = (
@@ -83,8 +83,8 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
     end
     object rgSpaltenbegrenzung: TRadioGroup
       Left = 8
-      Height = 40
-      Top = 88
+      Height = 52
+      Top = 114
       Width = 248
       AutoFill = True
       Caption = 'Spaltenbegrenzung'
@@ -96,7 +96,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       ChildSizing.ShrinkVertical = crsScaleChilds
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 4
-      ClientHeight = 20
+      ClientHeight = 32
       ClientWidth = 244
       Columns = 4
       Items.Strings = (
@@ -111,7 +111,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
     object ediSpaltenbegrenzung: TEdit
       Left = 224
       Height = 23
-      Top = 104
+      Top = 136
       Width = 15
       MaxLength = 1
       TabOrder = 4
@@ -119,8 +119,8 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
     end
     object rgZeilenende: TRadioGroup
       Left = 8
-      Height = 40
-      Top = 48
+      Height = 52
+      Top = 61
       Width = 248
       AutoFill = True
       Caption = 'Zeilenende'
@@ -132,7 +132,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       ChildSizing.ShrinkVertical = crsScaleChilds
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 3
-      ClientHeight = 20
+      ClientHeight = 32
       ClientWidth = 244
       Columns = 3
       Items.Strings = (
@@ -237,7 +237,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         Left = 56
         Height = 15
         Top = 8
-        Width = 73
+        Width = 72
         Caption = 'Buchungstext'
         Color = clYellow
         ParentColor = False
@@ -408,10 +408,10 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       Left = 264
       Height = 32
       Top = 143
-      Width = 136
+      Width = 200
       BevelOuter = bvNone
       ClientHeight = 32
-      ClientWidth = 136
+      ClientWidth = 200
       Color = clSkyBlue
       ParentBackground = False
       ParentColor = False
@@ -438,10 +438,10 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       end
     end
     object Panel9: TPanel
-      Left = 404
+      Left = 264
       Height = 32
       Hint = 'Nur benutzen wenn das ''-'' bei den Beträgen fehlt.'
-      Top = 143
+      Top = 178
       Width = 200
       BevelOuter = bvNone
       ClientHeight = 32
@@ -453,17 +453,17 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
       ShowHint = True
       TabOrder = 12
       object nSollHaben: TSpinEdit
-        Left = 4
+        Left = 2
         Height = 23
-        Top = 4
+        Top = 5
         Width = 50
         TabOrder = 0
         OnChange = SelectionChange
       end
       object Label7: TLabel
-        Left = 64
+        Left = 56
         Height = 15
-        Top = 7
+        Top = 11
         Width = 65
         Caption = 'Soll / Haben'
         Color = clMoneyGreen
@@ -471,11 +471,11 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
         Transparent = False
       end
       object ediSollString: TEdit
-        Left = 136
+        Left = 144
         Height = 23
         Hint = 'Welcher Text steht bei "Soll" Zeilen?'#13#10'Soll = Abbuchung'
-        Top = 4
-        Width = 61
+        Top = 5
+        Width = 50
         TabOrder = 1
         Text = 'S'
       end
@@ -483,7 +483,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
     object btnAbbrechen: TButton
       Left = 608
       Height = 25
-      Top = 144
+      Top = 181
       Width = 89
       Caption = 'Abbrechen'
       ModalResult = 3
@@ -492,7 +492,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
     object btnOK: TButton
       Left = 704
       Height = 25
-      Top = 144
+      Top = 181
       Width = 89
       Caption = 'Weiter'
       ModalResult = 1
@@ -586,7 +586,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
     object cbBank: TComboBox
       Left = 8
       Height = 23
-      Top = 152
+      Top = 183
       Width = 248
       ItemHeight = 15
       TabOrder = 17
@@ -594,7 +594,7 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
     object Label8: TLabel
       Left = 8
       Height = 15
-      Top = 136
+      Top = 167
       Width = 115
       Caption = 'Bank / Kontonummer'
       ParentColor = False
@@ -645,9 +645,9 @@ object frmJournal_CSV_Import: TfrmJournal_CSV_Import
   end
   object StringGridDaten: TStringGrid
     Left = 4
-    Height = 320
+    Height = 328
     Top = 0
-    Width = 796
+    Width = 1156
     Align = alClient
     BorderSpacing.Left = 4
     ColCount = 1
