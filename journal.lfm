@@ -13,7 +13,7 @@ object frmJournal: TfrmJournal
   PopupMenu = mnuPopup
   Position = poScreenCenter
   ShowHint = True
-  LCLVersion = '4.2.0.0'
+  LCLVersion = '4.4.0.0'
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
@@ -430,7 +430,7 @@ object frmJournal: TfrmJournal
       Left = 16
       Height = 15
       Top = 202
-      Width = 73
+      Width = 72
       Caption = 'Buchungstext'
       ParentColor = False
     end
@@ -654,8 +654,8 @@ object frmJournal: TfrmJournal
     end
     object rgSort: TRadioGroup
       Left = 254
-      Height = 32
-      Top = 32
+      Height = 41
+      Top = 29
       Width = 234
       AutoFill = True
       Caption = 'Sortierung'
@@ -666,7 +666,7 @@ object frmJournal: TfrmJournal
       ChildSizing.ShrinkVertical = crsScaleChilds
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 2
-      ClientHeight = 12
+      ClientHeight = 21
       ClientWidth = 230
       Columns = 2
       ItemIndex = 0

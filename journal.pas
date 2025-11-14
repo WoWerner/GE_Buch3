@@ -169,6 +169,7 @@ type
     procedure FilterClear;
     Function  Str2Bool(s: string):boolean;
     Function  Bool2Str(b: boolean):String;
+    Function  GetNextBelegnummer():String;
   public
     { public declarations }
     procedure AfterScroll;
@@ -237,6 +238,34 @@ begin
   if b
     then result := sJa
     else result := sNein;
+end;
+
+Function TfrmJournal.GetNextBelegnummer():String;
+
+begin
+  result := '';
+
+  frmDM.ZQueryHelp1.Close;
+  frmDM.ZQueryHelp1.SQL.Text := Format(sGetLastBelegNr, [inttostr(ediBuchungsjahr.Value)]);
+  try
+    frmDM.ZQueryHelp1.Open;
+    result := frmDM.ZQueryHelp1.FieldByName('Belegnummer').Asstring;
+  except
+
+  end;
+  frmDM.ZQueryHelp1.Close;
+
+  if Modus in [append_TakeOver, append_Empty, import] then
+    begin
+      if OnlyDigits(result) then
+        begin
+          result := inttostr(strtoint(result)+1);
+        end
+      else if trim(result) = '' then
+        begin
+          result := '1';
+        end;
+    end;
 end;
 
 function TfrmJournal.GetSortOrder: String;
@@ -411,6 +440,7 @@ begin
                                cbBuchungstext.Text        := frmDM.ZQueryJournal.FieldByName('Buchungstext').Asstring;
                                ediBemerkung.Text          := frmDM.ZQueryJournal.FieldByName('Bemerkung').Asstring;
                                ediBelegnummer.Text        := frmDM.ZQueryJournal.FieldByName('Belegnummer').Asstring;
+                               if OnlyDigits(ediBelegnummer.Text) then ediBelegnummer.Text := GetNextBelegnummer();
                                cbAufwendungen.Checked     := str2Bool(frmDM.ZQueryJournal.FieldByName('Aufwandsspende').AsString);
                              end;
           append_Empty     : begin
@@ -421,8 +451,8 @@ begin
                                ediBetrag.Text             := '0,00';
                                cbBuchungstext.Text        := '';
                                ediBemerkung.Text          := '';
-                               ediBelegnummer.Text        := frmDM.ZQueryJournal.FieldByName('Belegnummer').Asstring;
                                cbAufwendungen.Checked     := false;
+                               ediBelegnummer.Text        := GetNextBelegnummer();
                              end;
         end;
 
@@ -433,23 +463,14 @@ begin
         ediBankNrExit(self);
 
         case Modus of
-          //import,
-          append_Empty,
-          append_TakeOver: begin
-                             //Inc Belegnummer                       nur bei Sortorder LaufendeNr
-                             if OnlyDigits(ediBelegnummer.Text) and (rgSort.ItemIndex = 0) and (frmDM.ZQueryJournal.EOF)
-                               then ediBelegnummer.Text := inttostr(strtoint(ediBelegnummer.Text)+1);
-                           end;
-        end;
-
-        case Modus of
           edit,
           append_TakeOver,
-          append_Empty   : begin
-                              //Vorschäge für Buchungstexte laden
-                              frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\JournalGetBuchungstext.sql');
-                              cbBuchungstext.Items.Text  := GetFirstDBFieldAsStringList(frmDM.ZQueryHelp);
-                            end;
+          append_Empty:
+            begin
+              //Vorschäge für Buchungstexte laden
+              frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\JournalGetBuchungstext.sql');
+              cbBuchungstext.Items.Text  := GetFirstDBFieldAsStringList(frmDM.ZQueryHelp);
+            end;
         end;
 
         if panSummen.Visible
@@ -559,6 +580,7 @@ begin
                  rgSort.Visible             := true;
                  btnAendern.Visible         := (nBuchungsjahr = ediBuchungsjahr.Value);
                  btnLoeschen.Visible        := (nBuchungsjahr = ediBuchungsjahr.Value);
+                 btnNeueBuchung.Visible     := (nBuchungsjahr = ediBuchungsjahr.Value);
                  frmJournal.Caption         := 'Journalmodus: gefilterte Daten ansehen';
                end;
     append_TakeOver,
@@ -727,10 +749,7 @@ begin
                 then ediBankNr.Text := inttostr(NativeInt(frmJournal_CSV_Import.cbBank.Items.Objects[frmJournal_CSV_Import.cbBank.ItemIndex]))
                 else ediBankNr.Text := '0';
               ediBankNrExit(self);
-              //Inc Belegnummer  beim 1. Aufruf
-              //                                      nur bei Sortorder LaufendeNr
-              if OnlyDigits(ediBelegnummer.Text) and (rgSort.ItemIndex = 0) and (frmDM.ZQueryJournal.EOF)
-                then ediBelegnummer.Text := inttostr(strtoint(ediBelegnummer.Text)+1);
+              ediBelegnummer.Text := GetNextBelegnummer();
               GetImportRec;
             end;
       end;
@@ -1112,15 +1131,8 @@ begin
                    begin
                      //Nächster Datensatz
                      GetNextImportRec;
+                     ediBelegnummer.Text := GetNextBelegnummer();
                    end;
-             end;
-  end;
-
-  case Modus of
-    import : begin
-               //Inc Belegnummer                       bei Splitbuchung nicht erhöhen        nur bei Sortorder LaufendeNr
-               if OnlyDigits(ediBelegnummer.Text) and (labImportMode.Color = clSkyBlue) and (rgSort.ItemIndex = 0)
-                 then ediBelegnummer.Text := inttostr(strtoint(ediBelegnummer.Text)+1);
              end;
   end;
   {$ifdef DebugCallStack} myDebugLN('btnSpeichernClick finish'); {$endif}
