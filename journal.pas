@@ -442,7 +442,9 @@ begin
                                cbBuchungstext.Text        := frmDM.ZQueryJournal.FieldByName('Buchungstext').Asstring;
                                ediBemerkung.Text          := frmDM.ZQueryJournal.FieldByName('Bemerkung').Asstring;
                                ediBelegnummer.Text        := frmDM.ZQueryJournal.FieldByName('Belegnummer').Asstring;
-                               if OnlyDigits(ediBelegnummer.Text) then ediBelegnummer.Text := GetNextBelegnummer();
+                               if (Modus in [append_TakeOver, import]) and
+                                  OnlyDigits(ediBelegnummer.Text)
+                                 then ediBelegnummer.Text := GetNextBelegnummer();
                                cbAufwendungen.Checked     := str2Bool(frmDM.ZQueryJournal.FieldByName('Aufwandsspende').AsString);
                              end;
           append_Empty     : begin
