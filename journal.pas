@@ -38,6 +38,7 @@ type
     btnSpeichern: TButton;
     btnSkip: TButton;
     btnSpeichernAuto: TButton;
+    btnDelFilter: TButton;
     cbCSVAutomatik: TCheckBox;
     cbKonto: TComboBox;
     cbPersonenname: TComboBox;
@@ -111,6 +112,7 @@ type
     procedure btnAbbrechenClick(Sender: TObject);
     procedure btnAendernClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
+    procedure btnDelFilterClick(Sender: TObject);
     procedure btnImportClick(Sender: TObject);
     procedure btnLoeschenClick(Sender: TObject);
     procedure btnNeueBuchungClick(Sender: TObject);
@@ -698,6 +700,11 @@ begin
   close;
 end;
 
+procedure TfrmJournal.btnDelFilterClick(Sender: TObject);
+begin
+  FilterClear;
+end;
+
 procedure TfrmJournal.btnImportClick(Sender: TObject);
 
 begin
@@ -1104,7 +1111,7 @@ begin
                  if ((ediPersonenID.Text <> '0') and (ediPersonenID.Text <> '') and (CSVKeyPers <> ''))
                     then help.WriteIniVal(sJournalCSVImportINI, 'Key', CSVKeyPers+'_PersID', ediPersonenID.Text);
                except
-                 on E: Exception do LogAndShowError(e.Message+' (internal code 7)');
+                 //nix
                end;
                bStartFinished := false;
                frmDM.ZQueryJournal.Refresh;
@@ -1476,11 +1483,13 @@ begin
       begin
         SetMode(browse);
         labFilter.Visible:=false;
+        btnDelFilter.Visible:=false;
       end
     else
       begin
         SetMode(filtered);
         labFilter.Visible:=true;
+        btnDelFilter.Visible:=true;
       end;
 end;
 
@@ -1692,6 +1701,7 @@ begin
   ediBetragFilter.Text          := '';
   ediTextFilter.Text            := '';
   labFilter.Visible             := false;
+  btnDelFilter.Visible          := false;
   labVZ.Visible                 := false;
 
   frmDM.ZQueryJournal.Last;

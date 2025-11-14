@@ -130,6 +130,15 @@ object frmJournal: TfrmJournal
     ClientHeight = 313
     ClientWidth = 1100
     TabOrder = 1
+    object btnDelFilter: TButton
+      Left = 744
+      Height = 25
+      Top = 27
+      Width = 120
+      Caption = 'Filter zurücksetzen'
+      TabOrder = 28
+      OnClick = btnDelFilterClick
+    end
     object panSummen: TPanel
       Left = 642
       Height = 106
