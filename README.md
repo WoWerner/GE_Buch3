@@ -15,11 +15,14 @@ Für den erfolgreichen Build und Betrieb werden folgende Bibliotheken und Werkze
 * **SQLite 3.51.0** – [https://sqlite.org/](https://sqlite.org/)
   Eingebettete SQL-Datenbank.
 
-* **Synapse** – [https://github.com/geby/synapse](https://github.com/geby/synapse)
+* **Synapse 41.0** – [https://github.com/geby/synapse](https://github.com/geby/synapse)
   Netzwerk-Bibliothek für FreePascal/Lazarus.
 
-* **7ZIP.dll 21.07**
+* **7ZIP.dll 21.07** - [https://sourceforge.net/projects/sevenzip/files/7-Zip/21.07/](https://sourceforge.net/projects/sevenzip/files/7-Zip/21.07/)
   Wird für Komprimierungs- und Dekomprimierungsfunktionen benötigt.
+  
+* **OpenSSL DLLs 3.6.0.0** – Anleitung bei [https://www.ghisler.com/openssl/](https://www.ghisler.com/openssl/)
+  Wird für den Internetzugriff auf HTTPS Seiten benötigt
 
 ## Installation
 
