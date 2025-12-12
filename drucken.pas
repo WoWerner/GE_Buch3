@@ -1938,14 +1938,16 @@ begin
                              if Druckmode = Haushaltsplan then
                                if TwoColReportData[FRow].Col2 = '' then
                                  View.FillColor := clWhite
+                               else if (CurrencyToInt(TwoColReportData[FRow].Col1, false) = CurrencyToInt(TwoColReportData[FRow].Col2, false)) then
+                                 View.FillColor := clAqua            //Gleich
                                else if CurrencyToInt(TwoColReportData[FRow].Col2, false) = 0 then
-                                 View.FillColor := clYellow
+                                 View.FillColor := clYellow          //Unerwartet
                                else if ((CurrencyToInt(TwoColReportData[FRow].Col2, false) > 0) and (CurrencyToInt(TwoColReportData[FRow].Col1, false) >= CurrencyToInt(TwoColReportData[FRow].Col2, false))) or
                                        ((CurrencyToInt(TwoColReportData[FRow].Col2, false) < 0) and (CurrencyToInt(TwoColReportData[FRow].Col1, false) >= CurrencyToInt(TwoColReportData[FRow].Col2, false))) then
-                                 View.FillColor := clLime
+                                 View.FillColor := clLime            //Besser
                                else if ((CurrencyToInt(TwoColReportData[FRow].Col2, false) > 0) and (CurrencyToInt(TwoColReportData[FRow].Col1, false) < CurrencyToInt(TwoColReportData[FRow].Col2, false))) or
                                        ((CurrencyToInt(TwoColReportData[FRow].Col2, false) < 0) and (CurrencyToInt(TwoColReportData[FRow].Col1, false) < CurrencyToInt(TwoColReportData[FRow].Col2, false))) then
-                                 View.FillColor := TColor($008080FF) //leichtes Rot
+                                 View.FillColor := TColor($008080FF) //Schlechter = leichtes Rot
                                else
                                  View.FillColor:=clWhite
                              else
