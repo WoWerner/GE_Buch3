@@ -278,6 +278,7 @@ var
   Col1SummePart4         : longint;
   Col2SummePart4         : longint;
   Betrag                 : longint;
+  speicher               : longint;
   i                      : integer;
   nSaveRow               : integer;
 
@@ -703,26 +704,24 @@ begin
                   //Daten Part 1
                   while not frmDM.ZQueryDrucken.EOF do
                     begin
-                      //Kontobereich überprüfen
                       sSachkontoNr := frmDM.ZQueryDrucken.FieldByName('KontoNr').AsString;
-                      AddLine('('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(0), IntToCurrency(0), line);
-
-                      TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint);
-                      Col1SummePart1              := Col1SummePart1         + frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint;
-                      Col1ZwischenSummePart1      := Col1ZwischenSummePart1 + frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint;
                       if Druckmode = Haushaltsplan
+                        then speicher := frmDM.ZQueryDrucken.FieldByName('PlanSumme').aslongint
+                        else speicher := frmDM.ZQueryDrucken.FieldByName('Summe_letztes_Jahr').aslongint;
+                      // Zeilen mit 0 Ausblenden
+                      if (frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint <> 0) or
+                         (speicher <> 0)
                         then
                           begin
-                            TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('PlanSumme').aslongint);
-                            Col2SummePart1              := Col2SummePart1         + frmDM.ZQueryDrucken.FieldByName('PlanSumme').aslongint;
-                            Col2ZwischenSummePart1      := Col2ZwischenSummePart1 + frmDM.ZQueryDrucken.FieldByName('PlanSumme').aslongint;
-                          end
-                        else
-                          begin
-                            TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe_letztes_Jahr').aslongint);
-                            Col2SummePart1              := Col2SummePart1         + frmDM.ZQueryDrucken.FieldByName('Summe_letztes_Jahr').aslongint;
-                            Col2ZwischenSummePart1      := Col2ZwischenSummePart1 + frmDM.ZQueryDrucken.FieldByName('Summe_letztes_Jahr').aslongint;
+                            AddLine('('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(0), IntToCurrency(0), line);
 
+                            TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint);
+                            Col1SummePart1              := Col1SummePart1         + frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint;
+                            Col1ZwischenSummePart1      := Col1ZwischenSummePart1 + frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint;
+
+                            TwoColReportData[FRow].Col2 := IntToCurrency(speicher);
+                            Col2SummePart1              := Col2SummePart1         + speicher;
+                            Col2ZwischenSummePart1      := Col2ZwischenSummePart1 + speicher;
                           end;
                       frmDM.ZQueryDrucken.Next;
                     end;
@@ -732,7 +731,6 @@ begin
                   AddLine('', '', '', blank); //Leerzeile
 
                   frmDM.ZQueryDrucken.Close;
-                  sLastSachkontoNr := '';
                 end;
             end;
           //Abschluss Part 1
@@ -773,24 +771,25 @@ begin
                   //Daten Part 2
                   while not frmDM.ZQueryDrucken.EOF do
                     begin
-                      sSachkontoNr := frmDM.ZQueryDrucken.FieldByName('KontoNr').AsString;
-                      AddLine('('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(0), IntToCurrency(0), line);  //Neues Sachkonto, neue Zeile
-                      sLastSachkontoNr            := sSachkontoNr;
-                      TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint);
-                      Col1SummePart2         := Col1SummePart2         + frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint;
-                      Col1ZwischenSummePart2 := Col1ZwischenSummePart2 + frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint;
+                      sSachkontoNr     := frmDM.ZQueryDrucken.FieldByName('KontoNr').AsString;
+
                       if Druckmode = Haushaltsplan
+                        then speicher := frmDM.ZQueryDrucken.FieldByName('PlanSumme').aslongint
+                        else speicher := frmDM.ZQueryDrucken.FieldByName('Summe_letztes_Jahr').aslongint;
+                      // Zeilen mit 0 Ausblenden
+                      if (frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint <> 0) or
+                         (speicher <> 0)
                         then
                           begin
-                            TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('PlanSumme').aslongint);
-                            Col2SummePart2         := Col2SummePart2         + frmDM.ZQueryDrucken.FieldByName('PlanSumme').aslongint;
-                            Col2ZwischenSummePart2 := Col2ZwischenSummePart2 + frmDM.ZQueryDrucken.FieldByName('PlanSumme').aslongint;
-                          end
-                        else
-                          begin
-                            TwoColReportData[FRow].Col2 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe_letztes_Jahr').aslongint);
-                            Col2SummePart2         := Col2SummePart2         + frmDM.ZQueryDrucken.FieldByName('Summe_letztes_Jahr').aslongint;
-                            Col2ZwischenSummePart2 := Col2ZwischenSummePart2 + frmDM.ZQueryDrucken.FieldByName('Summe_letztes_Jahr').aslongint;
+                            AddLine('('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(0), IntToCurrency(0), line);
+
+                            TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint);
+                            Col1SummePart1              := Col1SummePart1         + frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint;
+                            Col1ZwischenSummePart1      := Col1ZwischenSummePart1 + frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint;
+
+                            TwoColReportData[FRow].Col2 := IntToCurrency(speicher);
+                            Col2SummePart1              := Col2SummePart1         + speicher;
+                            Col2ZwischenSummePart1      := Col2ZwischenSummePart1 + speicher;
                           end;
                       frmDM.ZQueryDrucken.Next;
                     end;
@@ -799,9 +798,7 @@ begin
                   AddLine('', '', '', blank); //Leerzeile
 
                   frmDM.ZQueryDrucken.Close;
-                  sLastSachkontoNr := '';
                 end;
-
             end;
 
           AddLine('Ausgaben gesamt', IntToCurrency(Col1SummePart2), IntToCurrency(Col2SummePart2), footer);  //Abschluss Part 2
