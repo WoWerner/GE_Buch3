@@ -2,7 +2,7 @@ select
    LaufendeNr,
    Belegnummer,
    strftime('%d.%m.%Y',Datum)                                      as Datum,
-   journal.BankNr as BankNr,
+   journal.BankNr                                                  as BankNr,
    (select name from konten where journal.BankNr = konten.KontoNr) as Bank,
    journal.konto_nach                                              as konto_nach,
    (select '('||ifnull(journal.konto_nach,'')||') '||ifnull(konten.Name,'') from konten where journal.konto_nach = konten.KontoNr) as Sachkonto,
@@ -16,7 +16,7 @@ select
    (select Steuer from konten where journal.konto_nach = konten.KontoNr) as Steuer
 from journal
 
-left join Personen on journal.PersonenID   = Personen.PersonenID
+left join Personen on journal.PersonenID = Personen.PersonenID
 
 where (journal.Buchungsjahr=:BJAHR) :AddWhere
 
