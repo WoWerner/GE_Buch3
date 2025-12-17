@@ -68,6 +68,7 @@ type
     btnHaushaltsplanCSV: TButton;
     btnFinanzbericht: TButton;
     btnJournaldruck: TButton;
+    btnJournalNachSachkontenGruppiertCSV: TButton;
     btnZahlerMonatlicheZahlungen: TButton;
     btnJournalFiltered: TButton;
     btnJournalKompaktFiltered: TButton;
@@ -125,6 +126,7 @@ type
     procedure btnJournalNachBankenGruppiertCSVClick(Sender: TObject);
     procedure btnJournalNachBankenGruppiertdruckClick(Sender: TObject);
     procedure btnJournalNachBankenGruppiertdruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+    procedure btnJournalNachSachkontenGruppiertCSVClick(Sender: TObject);
     procedure btnJournalNachSachkontenGruppiertdruckClick(Sender: TObject);
     procedure btnJournalNachSachkontenGruppiertdruckContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnMonatlicheZahlungenClick(Sender: TObject);
@@ -597,21 +599,53 @@ begin
         end;
       JournalNachSachkontenGruppiert:
         begin
-          frDBDataSet.DataSource := frmDM.dsDrucken;
           frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\JournalDruckenSK.sql');
           frmDM.ZQueryDrucken.ParamByName('BJahr').AsString := inttostr(ediBuchungsjahr.value);
-
-          frmDM.ZQueryDruckenDetail.SQL.LoadFromFile(sAppDir+'module\SQL\JournalDrucken.sql');
-          frmDM.ZQueryDruckenDetail.SQL.Text := StringReplace(frmDM.ZQueryDruckenDetail.SQL.Text, ':AddWhere', '', [rfReplaceAll]);
-          frmDM.ZQueryDruckenDetail.ParamByName('BJAHR').AsString := inttostr(ediBuchungsjahr.value);
-
-          frmDM.ZQueryDruckenDetail.MasterFields := 'konto_nach';
-          frmDM.ZQueryDruckenDetail.LinkedFields := 'konto_nach';
-
-          frReport.LoadFromFile(sAppDir+'module\Reporte\JournalDruckenSK.lrf');
           frmDM.ZQueryDrucken.Open;
+
+          frmDM.ZQueryDruckenDetail.SQL.LoadFromFile(sAppDir+'module\SQL\JournalDruckenBK.sql');
+          frmDM.ZQueryDruckenDetail.SQL.Text := StringReplace(frmDM.ZQueryDruckenDetail.SQL.Text, ':AddWhere', sFilterWhere, [rfReplaceAll]);
+          frmDM.ZQueryDruckenDetail.ParamByName('BJAHR').AsString := inttostr(ediBuchungsjahr.value);
           frmDM.ZQueryDruckenDetail.Open;
-          frReport.Dataset := frDBDataSet;
+
+          while not frmDM.ZQueryDrucken.EOF do
+            begin
+              if CSV_Export then sHelp := ';;' else sHelp := '';
+              //Überschrift
+              AddLine(frmDM.ZQueryDrucken.FieldByName('Name').AsString+sHelp, '', '', header);
+              sKontoNr := frmDM.ZQueryDrucken.FieldByName('konto_nach').asString;
+              frmDM.ZQueryDruckenDetail.First;
+              while not frmDM.ZQueryDruckenDetail.EOF do
+                begin
+                  if (sKontoNr = frmDM.ZQueryDruckenDetail.FieldByName('konto_nach').AsString) then
+                    begin
+                      AddLine(frmDM.ZQueryDruckenDetail.FieldByName('LaufendeNr').AsString+';'+
+                              frmDM.ZQueryDruckenDetail.FieldByName('Buchungstext').AsString+';'+
+                              frmDM.ZQueryDruckenDetail.FieldByName('Name').AsString,
+                              IntToCurrency(frmDM.ZQueryDruckenDetail.FieldByName('Betrag').aslongint),
+                              frmDM.ZQueryDruckenDetail.FieldByName('Datum').AsString,
+                              line);
+                    end;
+                  frmDM.ZQueryDruckenDetail.Next;
+                end;
+              AddLine(sHelp, IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Betrag').aslongint), '', footer);  //Zusammenfassung
+              AddLine('', '', '', blank); //Leerzeile
+              frmDM.ZQueryDrucken.Next;
+            end;
+          frmDM.ZQueryDrucken.close;
+          frmDM.ZQueryDruckenDetail.close;
+
+          AddFilterToReport;
+
+          //Debug
+          //for i := 1 to FRow do myDebugLN(TwoColReportData[i].Name+';'+TwoColReportData[i].Col1+';'+TwoColReportData[i].Col2);
+
+          //Init für Report
+          frReport.LoadFromFile(sAppDir+'module\Reporte\SummenlisteDrucken1Part2Cols.lrf');
+          FRowPart1 := FRow;
+          FRow      := 0;
+          FCol      := 0;
+          frReport.Dataset := nil;
         end;
       Journal,
       JournalGefiltert,
@@ -892,6 +926,7 @@ begin
 
               AddLine('Durchgang Weiterleitungen gesamt', IntToCurrency(Col1SummePart3b), IntToCurrency(Col2SummePart3b), footer);  //Abschluss Part 3b
               AddLine('', '', '', blank); //Leerzeile
+              AddLine('', '', '', blank); //Leerzeile
 
               frmDM.ZQueryDrucken.Close;
               sLastSachkontoNr := '';
@@ -1058,6 +1093,17 @@ begin
 
           AddFilterToReport;
 
+          if Druckmode = Haushaltsplan
+            then
+              begin
+                AddLine('', '', '', blank); //Leerzeile
+                AddLine('Legende:', '', '', header);
+                AddLine('Positiv', IntToCurrency(200), IntToCurrency(100), line);
+                AddLine('Neutral', IntToCurrency(100), IntToCurrency(100), line);
+                AddLine('Negativ', IntToCurrency(100), IntToCurrency(200), line);
+                AddLine('Unerwartet', IntToCurrency(100), IntToCurrency(0), line);
+              end;
+
           //Init für Report
           frReport.LoadFromFile(sAppDir+'module\Reporte\SummenlisteDrucken1Part2Cols.lrf');
           FRowPart1 := FRow;
@@ -1079,13 +1125,14 @@ begin
                                  TwoColReportData[i].Col1+';'+
                                  TwoColReportData[i].Col2);
             case Druckmode of
-              BeitragslisteSK:            sFileName := 'BeitragslisteSK.csv';
-              EinAus:                     sFileName := 'EinAus.csv';
-              Haushaltsplan:              sFileName := 'Haushaltsplan.csv';
-              JournalNachBankenGruppiert: sFileName := 'JournalNachBankenGruppiert.csv';
-              Summenliste:                sFileName := 'Summenliste.csv';
-              Zahlungsliste:              sFileName := 'Zahlungsliste.csv';
-              else                        sFileName := 'Ausgabe.csv';
+              BeitragslisteSK:                sFileName := 'BeitragslisteSK.csv';
+              EinAus:                         sFileName := 'EinAus.csv';
+              Haushaltsplan:                  sFileName := 'Haushaltsplan.csv';
+              JournalNachBankenGruppiert:     sFileName := 'JournalNachBankenGruppiert.csv';
+              JournalNachSachkontenGruppiert: sFileName := 'JournalNachSachkontenGruppiert.csv';
+              Summenliste:                    sFileName := 'Summenliste.csv';
+              Zahlungsliste:                  sFileName := 'Zahlungsliste.csv';
+              else                            sFileName := 'Ausgabe.csv';
             end;
             sFileName := sPrintPath+sFileName;
             try
@@ -1267,6 +1314,12 @@ begin
   Druckmode := JournalNachBankenGruppiert;
   PreparePrint(true);
   Handled := true;
+end;
+
+procedure TfrmDrucken.btnJournalNachSachkontenGruppiertCSVClick(Sender: TObject);
+begin
+  Druckmode := JournalNachSachkontenGruppiert;
+  PreparePrint(false, true, false);
 end;
 
 procedure TfrmDrucken.btnJournalFilteredClick(Sender: TObject);
@@ -1820,6 +1873,7 @@ begin
   case Druckmode of
     Summenliste,
     JournalNachBankenGruppiert,
+    JournalNachSachkontenGruppiert,
     EinAus,
     Haushaltsplan,
     BeitragslisteSK,
@@ -1855,6 +1909,7 @@ begin
   case Druckmode of
     Summenliste,
     JournalNachBankenGruppiert,
+    JournalNachSachkontenGruppiert,
     EinAus,
     Haushaltsplan,
     BeitragslisteSK,
@@ -1909,6 +1964,7 @@ begin
   case Druckmode of
     Summenliste,
     JournalNachBankenGruppiert,
+    JournalNachSachkontenGruppiert,
     EinAus,
     Haushaltsplan,
     BeitragslisteSK,
@@ -2054,6 +2110,7 @@ begin
       end;
     Summenliste,
     JournalNachBankenGruppiert,
+    JournalNachSachkontenGruppiert,
     EinAus,
     Haushaltsplan,
     BeitragslisteSK,
@@ -2070,12 +2127,13 @@ begin
         else if ParName = 'ueberschrift' then
           begin
             case Druckmode of
-              Summenliste:                ParValue := 'Summenliste';
-              EinAus:                     ParValue := 'Ein/Ausgaben';
-              Haushaltsplan:              ParValue := 'Haushaltsplan';
-              BeitragslisteSK:            ParValue := 'Zahler- / Empfängerliste nach Sachkonto';
-              Zahlungsliste:              ParValue := 'Zahlungsliste';
-              JournalNachBankenGruppiert: ParValue := 'Journal nach Banken gruppiert';
+              Summenliste:                    ParValue := 'Summenliste';
+              EinAus:                         ParValue := 'Ein/Ausgaben';
+              Haushaltsplan:                  ParValue := 'Haushaltsplan';
+              BeitragslisteSK:                ParValue := 'Zahler- / Empfängerliste nach Sachkonto';
+              Zahlungsliste:                  ParValue := 'Zahlungsliste';
+              JournalNachBankenGruppiert:     ParValue := 'Journal nach Banken gruppiert';
+              JournalNachSachkontenGruppiert: ParValue := 'Journal nach Banken gruppiert';
             end;
           end;
       end;

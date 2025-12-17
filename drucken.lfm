@@ -86,7 +86,7 @@ object frmDrucken: TfrmDrucken
     Left = 216
     Height = 25
     Hint = 'Bericht für die Kirchenleitung'
-    Top = 200
+    Top = 264
     Width = 200
     Caption = 'Finanzbericht (für AKK)'
     ParentShowHint = False
@@ -98,9 +98,9 @@ object frmDrucken: TfrmDrucken
   object btnZuwendungsbescheinigungen: TButton
     Left = 216
     Height = 25
-    Top = 264
-    Width = 150
-    Caption = 'Zuwendungsbeschein...'
+    Top = 296
+    Width = 200
+    Caption = 'Zuwendungsbescheinigungen'
     TabOrder = 24
     OnClick = btnZuwendungsbescheinigungenClick
     OnContextPopup = btnZuwendungsbescheinigungenContextPopup
@@ -242,8 +242,8 @@ object frmDrucken: TfrmDrucken
     Left = 8
     Height = 25
     Top = 40
-    Width = 200
-    Caption = 'Journal nach Sachkonten gruppiert'
+    Width = 159
+    Caption = 'Journal nach SK grup.'
     ParentShowHint = False
     TabOrder = 1
     OnClick = btnJournalNachSachkontenGruppiertdruckClick
@@ -335,7 +335,7 @@ object frmDrucken: TfrmDrucken
   object cbDrucker: TComboBox
     Left = 424
     Height = 23
-    Top = 253
+    Top = 334
     Width = 208
     DropDownCount = 12
     ItemHeight = 15
@@ -343,20 +343,20 @@ object frmDrucken: TfrmDrucken
     Text = 'cbDrucker'
   end
   object cbDruckeDirekt: TCheckBox
-    Left = 429
+    Left = 424
     Height = 19
-    Top = 231
+    Top = 312
     Width = 108
     Caption = 'Drucke direkt auf'
     TabOrder = 33
   end
   object btnZuwendungsbescheinigungenEinzeln: TButton
-    Left = 368
+    Left = 216
     Height = 25
     Hint = 'Bitte einen PDF Drucker rechts wählen'
-    Top = 264
-    Width = 48
-    Caption = 'Einzeln'
+    Top = 332
+    Width = 200
+    Caption = 'Einzelne Bescheinigungen (für Mail)'
     ParentShowHint = False
     ShowHint = True
     TabOrder = 25
@@ -420,7 +420,7 @@ object frmDrucken: TfrmDrucken
   object Label4: TLabel
     Left = 494
     Height = 15
-    Top = 308
+    Top = 268
     Width = 73
     Caption = 'Buchungsjahr'
     ParentColor = False
@@ -428,7 +428,7 @@ object frmDrucken: TfrmDrucken
   object ediBuchungsjahr: TSpinEdit
     Left = 424
     Height = 23
-    Top = 304
+    Top = 264
     Width = 59
     MaxValue = 2099
     MinValue = 2000
@@ -439,7 +439,7 @@ object frmDrucken: TfrmDrucken
     Left = 216
     Height = 25
     Hint = 'Versendet zuvor erstellte Zuwendungsbescheinigungen (PDFs) per Mail.'#13#10#13#10'Rechtsklick: Zeigt die Namen ohne Mail Adresse an'
-    Top = 296
+    Top = 364
     Width = 200
     Caption = 'Erzeugte Zuwe. per Mail versenden'
     ParentShowHint = False
@@ -465,6 +465,15 @@ object frmDrucken: TfrmDrucken
     Caption = 'Monatliche Zahlungen (SK) (CSV)'
     TabOrder = 17
     OnClick = btnMonatlicheZahlungenClick
+  end
+  object btnJournalNachSachkontenGruppiertCSV: TButton
+    Left = 169
+    Height = 25
+    Top = 40
+    Width = 39
+    Caption = 'CSV'
+    TabOrder = 36
+    OnClick = btnJournalNachSachkontenGruppiertCSVClick
   end
   object frReport: TfrReport
     DefaultCopies = 0
