@@ -7,7 +7,7 @@
     <KeyWords Value=""/>
     <Comments Value=""/>
     <ReportCreateDate Value="2014-03-16 20:56:49"/>
-    <ReportLastChange Value="2023-02-05 21:05:23"/>
+    <ReportLastChange Value="2025-12-08 19:00:35"/>
     <ReportVersionBuild Value=""/>
     <ReportVersionMajor Value=""/>
     <ReportVersionMinor Value=""/>
@@ -75,7 +75,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="0"/>
-            <Top Value="490"/>
+            <Top Value="510"/>
             <Width Value="752"/>
             <Height Value="62"/>
           </Size>
@@ -747,9 +747,9 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="72"/>
-            <Top Value="387"/>
+            <Top Value="383"/>
             <Width Value="644"/>
-            <Height Value="30"/>
+            <Height Value="22"/>
           </Size>
           <Flags Value="3"/>
           <FillColor Value="clNone"/>
@@ -763,7 +763,7 @@
           <Data>
             <Format Value="556"/>
             <FormatStr Value=""/>
-            <Memo Value="Es wird bestätigt&#xD;&#xA; dass die Zuwendung nur zur Förderung kirchlicher Zwecke verwendet wird.&#xD;&#xA;"/>
+            <Memo Value="Es wird bestätigt dass die Zuwendung nur zur Förderung kirchlicher Zwecke verwendet wird.&#xD;&#xA;"/>
             <Script Value=""/>
             <GapX Value="0"/>
             <GapY Value="0"/>
@@ -915,7 +915,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="112"/>
-            <Top Value="490"/>
+            <Top Value="510"/>
             <Width Value="602"/>
             <Height Value="62"/>
           </Size>
@@ -1419,7 +1419,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="112"/>
-            <Top Value="490"/>
+            <Top Value="510"/>
             <Width Value="602"/>
             <Height Value="32"/>
           </Size>
@@ -1531,7 +1531,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="72"/>
-            <Top Value="490"/>
+            <Top Value="510"/>
             <Width Value="24"/>
             <Height Value="26"/>
           </Size>
@@ -2005,7 +2005,7 @@
           <StreamMode Value="0"/>
           <Size>
             <Left Value="112"/>
-            <Top Value="522"/>
+            <Top Value="542"/>
             <Width Value="602"/>
             <Height Value="31"/>
           </Size>
