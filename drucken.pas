@@ -1939,7 +1939,7 @@ begin
                                if TwoColReportData[FRow].Col2 = '' then
                                  View.FillColor := clWhite
                                else if (CurrencyToInt(TwoColReportData[FRow].Col1, false) = CurrencyToInt(TwoColReportData[FRow].Col2, false)) then
-                                 View.FillColor := clAqua            //Gleich
+                                 View.FillColor := clWhite           //Gleich
                                else if CurrencyToInt(TwoColReportData[FRow].Col2, false) = 0 then
                                  View.FillColor := clYellow          //Unerwartet
                                else if ((CurrencyToInt(TwoColReportData[FRow].Col2, false) > 0) and (CurrencyToInt(TwoColReportData[FRow].Col1, false) >= CurrencyToInt(TwoColReportData[FRow].Col2, false))) or
