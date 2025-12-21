@@ -257,17 +257,22 @@ begin
   end;
   frmDM.ZQueryHelp1.Close;
 
-  if Modus in [append_TakeOver, append_Empty, import] then
-    begin
-      if OnlyDigits(result) then
-        begin
-          result := inttostr(strtoint(result)+1);
-        end
-      else if trim(result) = '' then
-        begin
-          result := '1';
-        end;
-    end;
+  result := trim(result);
+
+  if Modus in [append_TakeOver, append_Empty, import]
+    then
+      begin
+        if OnlyDigits(result)
+          then
+            begin
+              result := inttostr(strtoint(result)+1);
+            end
+          else if result = ''
+            then
+              begin
+                result := '1';
+              end;
+      end;
 end;
 
 function TfrmJournal.GetSortOrder: String;
