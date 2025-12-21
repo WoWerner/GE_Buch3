@@ -911,32 +911,36 @@ begin
         end;
     ediSachKontoNummerExit(self); //Comboboxen richtig einstellen
 
-    //Suche Person
-    ediPersonenID.Text := help.ReadIniVal(sJournalCSVImportINI, 'Key', CSVKeyPers+'_PersID', '0', false);
-    if ediPersonenID.Text <> '0'
-      then myDebugLN('Person: '+ediPersonenID.Text+' gefunden über '+CSVKeyPers+' in der INI-Datei');
-    ediPersonenIDExit(self);  //Comboboxen richtig einstellen
+    //Nur für Einnahmekonten soll es ein Zahler geben
+    if (pos('E', cbSachkonto.Text) = 1) then
+      begin
+        //Suche Person
+        ediPersonenID.Text := help.ReadIniVal(sJournalCSVImportINI, 'Key', CSVKeyPers+'_PersID', '0', false);
+        if ediPersonenID.Text <> '0'
+          then myDebugLN('Person: '+ediPersonenID.Text+' gefunden über '+CSVKeyPers+' in der INI-Datei');
+        ediPersonenIDExit(self);  //Comboboxen richtig einstellen
 
-    sLine := '';
-    if ediPersonenID.Text = '0'
-      then  //Kandidatensuche über DB
-        begin
-          frmDM.ZQueryPersonen.First;
-          while not frmDM.ZQueryPersonen.EOF do
+        sLine := '';
+        if ediPersonenID.Text = '0'
+          then  //Kandidatensuche über DB
             begin
-              if (pos(DeleteChars(Uppercase(frmDM.ZQueryPersonen.FieldByName('Nachname').AsString+frmDM.ZQueryPersonen.FieldByName('Vorname').AsString), KeyDelChars), CSVKeyPersII) <> 0) or
-                 (pos(DeleteChars(Uppercase(frmDM.ZQueryPersonen.FieldByName('Vorname').AsString+frmDM.ZQueryPersonen.FieldByName('Nachname').AsString), KeyDelChars), CSVKeyPersII) <> 0)
-                 then
-                   sLine := sLine + frmDM.ZQueryPersonen.FieldByName('Nachname').AsString+', '+frmDM.ZQueryPersonen.FieldByName('Vorname').AsString+', '+frmDM.ZQueryPersonen.FieldByName('Strasse').AsString+', ID: '+frmDM.ZQueryPersonen.FieldByName('PersonenID').AsString+#13;
-              frmDM.ZQueryPersonen.Next;
+              frmDM.ZQueryPersonen.First;
+              while not frmDM.ZQueryPersonen.EOF do
+                begin
+                  if (pos(DeleteChars(Uppercase(frmDM.ZQueryPersonen.FieldByName('Nachname').AsString+frmDM.ZQueryPersonen.FieldByName('Vorname').AsString), KeyDelChars), CSVKeyPersII) <> 0) or
+                     (pos(DeleteChars(Uppercase(frmDM.ZQueryPersonen.FieldByName('Vorname').AsString+frmDM.ZQueryPersonen.FieldByName('Nachname').AsString), KeyDelChars), CSVKeyPersII) <> 0)
+                     then
+                       sLine := sLine + frmDM.ZQueryPersonen.FieldByName('Nachname').AsString+', '+frmDM.ZQueryPersonen.FieldByName('Vorname').AsString+', '+frmDM.ZQueryPersonen.FieldByName('Strasse').AsString+', ID: '+frmDM.ZQueryPersonen.FieldByName('PersonenID').AsString+#13;
+                  frmDM.ZQueryPersonen.Next;
+                end;
             end;
-        end;
-    if sLine <> ''
-       then labHinweis.Caption := 'Kandidatensuche anhand der Datenbank in Buchungstext und Schlüssel(Pers):'+#13#13+sLine
-       else labHinweis.Caption := '';
-    if labHinweis.Height > 1
-    then panImportData.Height := panCSVImportData.Height + labHinweis.Height + 10
-    else panImportData.Height := panCSVImportData.Height;
+        if sLine <> ''
+           then labHinweis.Caption := 'Kandidatensuche anhand der Datenbank in Buchungstext und Schlüssel(Pers):'+#13#13+sLine
+           else labHinweis.Caption := '';
+        if labHinweis.Height > 1
+        then panImportData.Height := panCSVImportData.Height + labHinweis.Height + 10
+        else panImportData.Height := panCSVImportData.Height;
+      end;
 
     //Für Einnahmekonten soll es ein Zahler geben
     if (pos('E', cbSachkonto.Text) = 1)
