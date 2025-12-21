@@ -912,7 +912,8 @@ begin
     ediSachKontoNummerExit(self); //Comboboxen richtig einstellen
 
     //Nur für Einnahmekonten soll es ein Zahler geben
-    if (pos('E', cbSachkonto.Text) = 1) then
+    if ((pos('E', cbSachkonto.Text) = 1) or
+        (pos('D', cbSachkonto.Text) = 1)) then
       begin
         //Suche Person
         ediPersonenID.Text := help.ReadIniVal(sJournalCSVImportINI, 'Key', CSVKeyPers+'_PersID', '0', false);
@@ -940,6 +941,12 @@ begin
         if labHinweis.Height > 1
         then panImportData.Height := panCSVImportData.Height + labHinweis.Height + 10
         else panImportData.Height := panCSVImportData.Height;
+      end
+    else
+      begin
+        //Ausgangskonten
+        ediPersonenID.Text := '0';
+        ediPersonenIDExit(self);  //Comboboxen richtig einstellen
       end;
 
     //Für Einnahmekonten soll es ein Zahler geben
@@ -972,6 +979,7 @@ begin
       then ediBetrag.Text := '-'+ediBetrag.Text;
 
     ediBemerkung.Text := ''; //Damit nicht überall die gleiche Bemerkung steht....
+    cbAufwendungen.Checked := false;
 
     //Automatisch buchen
     if  cbCSVAutomatik.Checked          and
