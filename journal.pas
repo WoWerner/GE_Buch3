@@ -1532,27 +1532,30 @@ procedure TfrmJournal.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 
 begin
   {$ifdef DebugCallStack} myDebugLN('FormClose'); {$endif}
-
-  help.WriteIniInt(sIniFile, 'Journal', 'Col0Width'   , DBGridJournal.Columns.Items[0].Width);
-  help.WriteIniInt(sIniFile, 'Journal', 'Col1Width'   , DBGridJournal.Columns.Items[1].Width);
-  help.WriteIniInt(sIniFile, 'Journal', 'Col2Width'   , DBGridJournal.Columns.Items[2].Width);
-  help.WriteIniInt(sIniFile, 'Journal', 'Col3Width'   , DBGridJournal.Columns.Items[3].Width);
-  help.WriteIniInt(sIniFile, 'Journal', 'Col4Width'   , DBGridJournal.Columns.Items[4].Width);
-  help.WriteIniInt(sIniFile, 'Journal', 'Col5Width'   , DBGridJournal.Columns.Items[5].Width);
-  help.WriteIniInt(sIniFile, 'Journal', 'Col6Width'   , DBGridJournal.Columns.Items[6].Width);
-  help.WriteIniInt(sIniFile, 'Journal', 'Col7Width'   , DBGridJournal.Columns.Items[7].Width);
-  help.WriteIniInt(sIniFile, 'Journal', 'Col8Width'   , DBGridJournal.Columns.Items[8].Width);
-  help.WriteIniInt(sIniFile, 'Journal', 'Winleft'     , self.Left);
-  help.WriteIniInt(sIniFile, 'Journal', 'WinTop'      , self.Top);
-  help.WriteIniInt(sIniFile, 'Journal', 'WinWidth'    , self.Width);
-  help.WriteIniInt(sIniFile, 'Journal', 'WinHeight'   , self.Height);
-  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol0Width', sgImportData.ColWidths[0]);
-  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol1Width', sgImportData.ColWidths[1]);
-  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol2Width', sgImportData.ColWidths[2]);
-  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol3Width', sgImportData.ColWidths[3]);
-  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol4Width', sgImportData.ColWidths[4]);
-  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol5Width', sgImportData.ColWidths[5]);
-  help.WriteIniInt(sIniFile, 'Journal', 'ImpCol6Width', sgImportData.ColWidths[6]);
+  try
+    help.WriteIniInt(sIniFile, 'Journal', 'Col0Width'   , DBGridJournal.Columns.Items[0].Width);
+    help.WriteIniInt(sIniFile, 'Journal', 'Col1Width'   , DBGridJournal.Columns.Items[1].Width);
+    help.WriteIniInt(sIniFile, 'Journal', 'Col2Width'   , DBGridJournal.Columns.Items[2].Width);
+    help.WriteIniInt(sIniFile, 'Journal', 'Col3Width'   , DBGridJournal.Columns.Items[3].Width);
+    help.WriteIniInt(sIniFile, 'Journal', 'Col4Width'   , DBGridJournal.Columns.Items[4].Width);
+    help.WriteIniInt(sIniFile, 'Journal', 'Col5Width'   , DBGridJournal.Columns.Items[5].Width);
+    help.WriteIniInt(sIniFile, 'Journal', 'Col6Width'   , DBGridJournal.Columns.Items[6].Width);
+    help.WriteIniInt(sIniFile, 'Journal', 'Col7Width'   , DBGridJournal.Columns.Items[7].Width);
+    help.WriteIniInt(sIniFile, 'Journal', 'Col8Width'   , DBGridJournal.Columns.Items[8].Width);
+    help.WriteIniInt(sIniFile, 'Journal', 'Winleft'     , self.Left);
+    help.WriteIniInt(sIniFile, 'Journal', 'WinTop'      , self.Top);
+    help.WriteIniInt(sIniFile, 'Journal', 'WinWidth'    , self.Width);
+    help.WriteIniInt(sIniFile, 'Journal', 'WinHeight'   , self.Height);
+    help.WriteIniInt(sIniFile, 'Journal', 'ImpCol0Width', sgImportData.ColWidths[0]);
+    help.WriteIniInt(sIniFile, 'Journal', 'ImpCol1Width', sgImportData.ColWidths[1]);
+    help.WriteIniInt(sIniFile, 'Journal', 'ImpCol2Width', sgImportData.ColWidths[2]);
+    help.WriteIniInt(sIniFile, 'Journal', 'ImpCol3Width', sgImportData.ColWidths[3]);
+    help.WriteIniInt(sIniFile, 'Journal', 'ImpCol4Width', sgImportData.ColWidths[4]);
+    help.WriteIniInt(sIniFile, 'Journal', 'ImpCol5Width', sgImportData.ColWidths[5]);
+    help.WriteIniInt(sIniFile, 'Journal', 'ImpCol6Width', sgImportData.ColWidths[6]);
+  except
+    on E: Exception do LogAndShowError(e.Message+' (internal code 8a)');
+  end;
 
   frmDM.ZQueryJournal.Close;
   frmDM.ZQueryBanken.Close;
@@ -1565,7 +1568,7 @@ begin
       then help.WriteIniVal(sJournalCSVImportINI, 'Daten', 'Automatik', '1')
       else help.WriteIniVal(sJournalCSVImportINI, 'Daten', 'Automatik', '0');
   except
-    on E: Exception do LogAndShowError(e.Message+' (internal code 8)');
+    on E: Exception do LogAndShowError(e.Message+' (internal code 8b)');
   end;
 end;
 
