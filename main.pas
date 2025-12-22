@@ -297,13 +297,13 @@ begin
   sProductVersionString := GetProductVersionString;
   labDB.Caption := 'Datenbank: '+sDatabase;
 
-  bSQLDebug              := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Debug',    'SQLDebug'             , 'true' , true));
-  bDebug                 := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Debug',    'Debug'                , 'true' , true));
-  bTausendertrennung     := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Programm', 'Tausendertrennzeichen', 'true' , true));
-  bEuroModus             := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Programm', 'EuroModus'            , 'false', true));
-  bJournalJump           := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Programm', 'JournalJump'          , 'false', true));
-  bJournalLast           := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Programm', 'JournalLast'          , 'true' , true));
-  bCleanUpRequired       := 'TRUE' = Uppercase(help.ReadIniVal(sIniFile, 'Programm', 'CleanUpRequired'      , 'true' , true));
+  bSQLDebug              := help.ReadIniBool(sIniFile, 'Debug',    'SQLDebug'             , true , true);
+  bDebug                 := help.ReadIniBool(sIniFile, 'Debug',    'Debug'                , true , true);
+  bTausendertrennung     := help.ReadIniBool(sIniFile, 'Programm', 'Tausendertrennzeichen', true , true);
+  bEuroModus             := help.ReadIniBool(sIniFile, 'Programm', 'EuroModus'            , false, true);
+  bJournalJump           := help.ReadIniBool(sIniFile, 'Programm', 'JournalJump'          , false, true);
+  bJournalLast           := help.ReadIniBool(sIniFile, 'Programm', 'JournalLast'          , true , true);
+  bCleanUpRequired       := help.ReadIniBool(sIniFile, 'Programm', 'CleanUpRequired'      , true , true);
   mnuSQLDebug.Checked    := bSQLDebug;
   mnuDebug.Checked       := bDebug;
   mnuTausender.Checked   := bTausendertrennung;
@@ -435,7 +435,12 @@ begin
         if slHelp.Text <> ''
           then
             if MessageDlg(slHelp.Text, mtConfirmation, [mbYes, mbNo],0) = mrNo
-              then help.WriteIniVal(sIniFile, 'Programm', 'Version', sProductVersionString)
+              then
+                try
+                  help.WriteIniVal(sIniFile, 'Programm', 'Version', sProductVersionString);
+                except
+
+                end;
       end;
   //CleanUp
   if bCleanUpRequired
@@ -471,7 +476,7 @@ begin
               until FindNext(SR)<>0;
             FindClose(SR);
            end;
-        help.WriteIniVal(sIniFile, 'Programm', 'CleanUpRequired', 'false');
+        help.WriteIniBool(sIniFile, 'Programm', 'CleanUpRequired', false);
       end;
 end;
 
@@ -614,9 +619,7 @@ procedure TfrmMain.mnuDebugClick(Sender: TObject);
 begin
   bDebug           := not bDebug;
   mnuDebug.Checked := bDebug;
-  if bDebug
-    then help.WriteIniVal(sIniFile, 'Debug', 'Debug', 'true')
-    else help.WriteIniVal(sIniFile, 'Debug', 'Debug', 'false');
+  help.WriteIniBool(sIniFile, 'Debug', 'Debug', bDebug);
 end;
 
 procedure TfrmMain.mnuEinstellungenClick(Sender: TObject);
@@ -861,18 +864,14 @@ procedure TfrmMain.mnuJournalJumpClick(Sender: TObject);
 begin
   bJournalJump           := not bJournalJump;
   mnuJournalJump.Checked := bJournalJump;
-  if bJournalJump
-    then help.WriteIniVal(sIniFile, 'Programm', 'JournalJump', 'true')
-    else help.WriteIniVal(sIniFile, 'Programm', 'JournalJump', 'false');
+  help.WriteIniBool(sIniFile, 'Programm', 'JournalJump', bJournalJump);
 end;
 
 procedure TfrmMain.mnuJournalLastClick(Sender: TObject);
 begin
   bJournalLast           := not bJournalLast;
   mnuJournalLast.Checked := bJournalLast;
-  if bJournalLast
-    then help.WriteIniVal(sIniFile, 'Programm', 'JournalLast', 'true')
-    else help.WriteIniVal(sIniFile, 'Programm', 'JournalLast', 'false');
+  help.WriteIniBool(sIniFile, 'Programm', 'JournalLast', bJournalLast)
 end;
 
 procedure TfrmMain.mnuLimitsZahlerBetragClick(Sender: TObject);
@@ -941,9 +940,7 @@ begin
   bSQLDebug                := not bSQLDebug;
   mnuSQLDebug.Checked      := bSQLDebug;
   frmDM.ZSQLMonitor.Active := bSQLDebug;
-  if bSQLDebug
-    then help.WriteIniVal(sIniFile, 'Debug', 'SQLDebug', 'true')
-    else help.WriteIniVal(sIniFile, 'Debug', 'SQLDebug', 'false');
+  help.WriteIniBool(sIniFile, 'Debug', 'SQLDebug', bSQLDebug);
 end;
 
 procedure TfrmMain.mnuSuchtexteImportClick(Sender: TObject);
@@ -967,9 +964,7 @@ procedure TfrmMain.mnuTausenderClick(Sender: TObject);
 begin
   bTausendertrennung   := not bTausendertrennung;
   mnuTausender.Checked := bTausendertrennung;
-  if bTausendertrennung
-    then help.WriteIniVal(sIniFile, 'Programm', 'Tausendertrennzeichen', 'true')
-    else help.WriteIniVal(sIniFile, 'Programm', 'Tausendertrennzeichen', 'false');
+  help.WriteIniBool(sIniFile, 'Programm', 'Tausendertrennzeichen', bTausendertrennung);
 end;
 
 procedure TfrmMain.mnuWB_Imp_PersClick(Sender: TObject);
@@ -1722,9 +1717,7 @@ procedure TfrmMain.mnuEuroModusClick(Sender: TObject);
 begin
   bEuroModus           := not bEuroModus;
   mnuEuroModus.Checked := bEuroModus;
-  if bEuroModus
-    then help.WriteIniVal(sIniFile, 'Programm', 'EuroModus', 'true')
-    else help.WriteIniVal(sIniFile, 'Programm', 'EuroModus', 'false');
+  help.WriteIniBool(sIniFile, 'Programm', 'EuroModus', bEuroModus);
 end;
 
 procedure TfrmMain.mnuExecSQLBatchClick(Sender: TObject);

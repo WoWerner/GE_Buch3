@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 590
+  Left = 644
   Height = 401
-  Top = -980
+  Top = 281
   Width = 581
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
@@ -10,7 +10,7 @@ object frmMain: TfrmMain
   ClientWidth = 581
   Menu = MainMenu
   Position = poScreenCenter
-  LCLVersion = '4.2.0.0'
+  LCLVersion = '4.4.0.0'
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
