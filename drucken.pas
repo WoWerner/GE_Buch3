@@ -47,6 +47,7 @@ type
                  blank,
                  footer,
                  footer2,
+                 footer3,
                  line);
 
   T2ColReport =  record
@@ -818,12 +819,12 @@ begin
                             AddLine('('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(0), IntToCurrency(0), line);
 
                             TwoColReportData[FRow].Col1 := IntToCurrency(frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint);
-                            Col1SummePart1              := Col1SummePart1         + frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint;
-                            Col1ZwischenSummePart1      := Col1ZwischenSummePart1 + frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint;
+                            Col1SummePart2              := Col1SummePart2         + frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint;
+                            Col1ZwischenSummePart2      := Col1ZwischenSummePart2 + frmDM.ZQueryDrucken.FieldByName('Summe_dieses_Jahr').aslongint;
 
                             TwoColReportData[FRow].Col2 := IntToCurrency(speicher);
-                            Col2SummePart1              := Col2SummePart1         + speicher;
-                            Col2ZwischenSummePart1      := Col2ZwischenSummePart1 + speicher;
+                            Col2SummePart2              := Col2SummePart2         + speicher;
+                            Col2ZwischenSummePart2      := Col2ZwischenSummePart2 + speicher;
                           end;
                       frmDM.ZQueryDrucken.Next;
                     end;
@@ -926,6 +927,11 @@ begin
 
               AddLine('Durchgang Weiterleitungen gesamt', IntToCurrency(Col1SummePart3b), IntToCurrency(Col2SummePart3b), footer);  //Abschluss Part 3b
               AddLine('', '', '', blank); //Leerzeile
+              if (Col1SummePart3+Col1SummePart3b <> 0) then
+                begin
+                  AddLine('Offene Weiterleitungen', IntToCurrency(Col1SummePart3+Col1SummePart3b), '', footer3);  //Abschluss Part 3b
+                  AddLine('', '', '', blank); //Leerzeile
+                end;
               AddLine('', '', '', blank); //Leerzeile
 
               frmDM.ZQueryDrucken.Close;
@@ -1986,8 +1992,12 @@ begin
                            end;
                     footer2,
                     header2:begin
-                             Font.Style:=[fsbold];
-                             View.FillColor:=TColor($E0E0E0); //helleres Grau
+                              Font.Style:=[fsbold];
+                              View.FillColor:=TColor($E0E0E0); //helleres Grau
+                           end;
+                    footer3:begin
+                              Font.Style:=[fsbold];
+                              View.FillColor:=TColor($F28FA6); //helles Lila
                            end;
                     line:  begin
                              Font.Style:=[];
