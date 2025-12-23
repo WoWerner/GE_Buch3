@@ -1553,8 +1553,9 @@ begin
     help.WriteIniInt(sIniFile, 'Journal', 'ImpCol4Width', sgImportData.ColWidths[4]);
     help.WriteIniInt(sIniFile, 'Journal', 'ImpCol5Width', sgImportData.ColWidths[5]);
     help.WriteIniInt(sIniFile, 'Journal', 'ImpCol6Width', sgImportData.ColWidths[6]);
+    help.WriteIniBool(sJournalCSVImportINI, 'Daten', 'Automatik', cbCSVAutomatik.Checked);
   except
-    on E: Exception do LogAndShowError(e.Message+' (internal code 8a)');
+    on E: Exception do LogAndShowError(e.Message+' (internal code 8)');
   end;
 
   frmDM.ZQueryJournal.Close;
@@ -1563,13 +1564,6 @@ begin
   frmDM.ZQuerySachkonten.Close;
   if frmDM.ZQueryHelp.Active then frmDM.ZQueryHelp.Close;
   bStartFinished := false;
-  try
-    if cbCSVAutomatik.Checked
-      then help.WriteIniVal(sJournalCSVImportINI, 'Daten', 'Automatik', '1')
-      else help.WriteIniVal(sJournalCSVImportINI, 'Daten', 'Automatik', '0');
-  except
-    on E: Exception do LogAndShowError(e.Message+' (internal code 8b)');
-  end;
 end;
 
 procedure TfrmJournal.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -1715,7 +1709,7 @@ begin
   cbKonto.ItemIndex := 0;
   cbKonto.Hint      := cbKonto.Text;
 
-  cbCSVAutomatik.Checked := ('1' = help.ReadIniVal(sJournalCSVImportINI, 'Daten','Automatik', '0', true));
+  cbCSVAutomatik.Checked := help.ReadIniBool(sJournalCSVImportINI, 'Daten','Automatik', false, true);
 
   ediSachKontoNummerFilter.Text := '';
   ediPersonenNummerFilter.Text  := '';
