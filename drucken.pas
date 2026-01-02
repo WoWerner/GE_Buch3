@@ -678,17 +678,17 @@ begin
       Haushaltsplan,
       Summenliste:
         begin
-          //Der "Summenliste" und "Haushaltsplan" Report enthält 4 Teile.
+          //Der "Summenliste" und "Haushaltsplan" Report enthalten 5 Teile.
           //Part 1 Einnahmen
           //Part 2 Ausgaben
           //Part 3 Durchgang Eingang
           //Part 3b Durchgang Ausgang
           //Part 4 Kassenstände
-          //Der "Summenliste" enthält zusätzlich.
           //Part 5 Ergebnis
+          //Die "Summenliste" enthält zusätzlich.
           //Part 6 Umbuchungen
 
-          //Der "EinAus" Report enthält 2 Teile.
+          //Der "EinAus"-Report enthält 2 Teile.
           //Part 1 Einnahmen
           //Part 2 Ausgaben
           //
@@ -697,7 +697,7 @@ begin
           //Dazu werden die Daten vorher alle aus den Datenbanken gesammelt
           //und zwischengespeichert in TwoColReportData
 
-          //Part 1 Einnahmen
+          //Part 1 Einnahmen und
           //Part 2 Ausgaben
           //werden noch in die "Steuer" - Bereiche aufgeteilt
 
@@ -838,6 +838,9 @@ begin
 
           AddLine('Ausgaben gesamt', IntToCurrency(Col1SummePart2), IntToCurrency(Col2SummePart2), footer);  //Abschluss Part 2
           AddLine('', '', '', blank); //Leerzeile
+          AddLine('Differenz Einnahmen-Ausgaben', IntToCurrency(Col1SummePart1+Col1SummePart2), '', footer3);  //Differenz Einnahmen-Ausgaben
+          AddLine('', '', '', blank); //Leerzeile
+
 
           frmDM.ZQueryDrucken.Close;
           sLastSachkontoNr := '';
@@ -1056,23 +1059,25 @@ begin
               frmDM.ZQueryDrucken.Close;
 
               AddLine('Summe Kassenstände', IntToCurrency(Col1SummePart4), IntToCurrency(Col2SummePart4), footer);  //Abschluss Part 4
+              AddLine('Differenz zum Vorjahr', IntToCurrency(Col1SummePart4 - Col2SummePart4), '', footer3);
+              AddLine('', '', '', blank); //Leerzeile
+
+              //Part 5 Ergebniss
+              AddLine('Ergebnis', inttostr(ediBuchungsjahr.value), '', header);   //Überschrift Part 5
+              AddLine('Anfangsbestand',             IntToCurrency(Col2SummePart4), '', line); //Daten Part 5
+              AddLine('Einnahmen',                  IntToCurrency(Col1SummePart1), '', line);
+              AddLine('Ausgaben',                   IntToCurrency(Col1SummePart2), '', line);
+              AddLine('Delta bei Durchgangskonten', IntToCurrency(Col1SummePart3+Col1SummePart3b), '', line);
+              AddLine('Endbestand',                 IntToCurrency(Col2SummePart4+Col1SummePart1+Col1SummePart2+Col1SummePart3+Col1SummePart3b), '', footer);
+              AddLine('Differenz zum Vorjahr',      IntToCurrency(Col1SummePart1+Col1SummePart2+Col1SummePart3+Col1SummePart3b), '', footer3);
               AddLine('', '', '', blank); //Leerzeile
             end;
 
           if Druckmode in [Summenliste] then
             begin
-              //Part 5 Ergebniss
-              AddLine('Ergebnis', '', '', header);                                //Überschrift Part 5
-              AddLine('Anfangsbestand', IntToCurrency(Col2SummePart4), '', line); //Daten Part 5
-              AddLine('Einnahmen',      IntToCurrency(Col1SummePart1), '', line);
-              AddLine('Ausgaben',       IntToCurrency(Col1SummePart2), '', line);
-              AddLine('Delta bei Durchgangskonten', IntToCurrency(Col1SummePart3+Col1SummePart3b), '', line);
-              AddLine('Endbestand',     IntToCurrency(Col2SummePart4+Col1SummePart1+Col1SummePart2+Col1SummePart3+Col1SummePart3b), '', footer); //Abschluss Part 5
-              AddLine('', '', '', blank); //Leerzeile
-
               //Part 6 Umbuchungen
-              AddLine('Umbuchungen (werden alle 2 mal aufgeführt)', '', '', header);  //Überschrift Part 6
-
+              AddLine('Umbuchungen', '', '', header);  //Überschrift Part 6
+              AddLine('nach "Banknr"', '', '', header2);
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenUmbuchungen.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sFilterWhere, [rfReplaceAll]);
@@ -1084,6 +1089,7 @@ begin
                   frmDM.ZQueryDrucken.Next;
                 end;
               frmDM.ZQueryDrucken.Close;
+              AddLine('nach "Konto nach"', '', '', header2);
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenUmbuchungen2.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
               frmDM.ZQueryDrucken.SQL.Text:=StringReplace(frmDM.ZQueryDrucken.SQL.Text, ':AddWhere', sFilterWhere, [rfReplaceAll]);
@@ -1108,6 +1114,7 @@ begin
                 AddLine('Neutral', IntToCurrency(100), IntToCurrency(100), line);
                 AddLine('Negativ', IntToCurrency(100), IntToCurrency(200), line);
                 AddLine('Unerwartet', IntToCurrency(100), IntToCurrency(0), line);
+                AddLine('Ergebnis des Bereiches', '', '', footer3);
               end;
 
           //Init für Report
@@ -1997,7 +2004,9 @@ begin
                            end;
                     footer3:begin
                               Font.Style:=[fsbold];
-                              View.FillColor:=TColor($F28FA6); //helles Lila
+                              if Druckmode = Haushaltsplan
+                                then View.FillColor:=TColor($F28FA6) //helles Lila
+                                else View.FillColor:=clWhite;
                            end;
                     line:  begin
                              Font.Style:=[];
