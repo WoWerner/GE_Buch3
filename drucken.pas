@@ -392,7 +392,7 @@ begin
                   end;
               frmDM.ZQueryDrucken.Next;
             end;
-            if FRow > 0 then AddLine('Summe', IntToCurrency(Col1SummePart1), IntToCurrency(Col2SummePart1), header);  //Zusammenfassung
+            if FRow > 0 then AddLine('Summe', IntToCurrency(Col1SummePart1), IntToCurrency(Col2SummePart1), footer);  //Zusammenfassung
 
           frmDM.ZQueryDrucken.close;
 
@@ -430,7 +430,7 @@ begin
                           AddLine('Summe', IntToCurrency(Col1SummePart1), IntToCurrency(Col2SummePart1), footer);  //Zusammenfassung
                           AddLine('', '', '', blank); //Leerzeile
                         end;
-                    AddLine(sName, inttostr(ediBuchungsjahr.value), inttostr(ediBuchungsjahr.value-1), header); //Neues Sachkonto, neue Rubrik
+                    AddLine(sName, inttostr(ediBuchungsjahr.value), inttostr(ediBuchungsjahr.value-1), header); //Neuer Name, neue Rubrik
                     sLastName        := sName;
                     Col1SummePart1   := 0;
                     Col2SummePart1   := 0;
@@ -439,7 +439,7 @@ begin
               if sSachkontoNr <> sLastSachkontoNr
                 then
                   begin
-                    AddLine(sSachkontoNr, IntToCurrency(0), IntToCurrency(0), line);  //Neuer Name, neue Zeile
+                    AddLine(sSachkontoNr, IntToCurrency(0), IntToCurrency(0), line);  //Neues Sachkonto, neue Zeile
                     sLastSachkontoNr := sSachkontoNr;
                   end;
               if frmDM.ZQueryDrucken.FieldByName('BuchungsJahr').AsInteger = ediBuchungsjahr.value
@@ -455,7 +455,7 @@ begin
                   end;
               frmDM.ZQueryDrucken.Next;
             end;
-            if FRow > 0 then AddLine('Summe', IntToCurrency(Col1SummePart1), IntToCurrency(Col2SummePart1), header);  //Zusammenfassung
+            if FRow > 0 then AddLine('Summe', IntToCurrency(Col1SummePart1), IntToCurrency(Col2SummePart1), footer);  //Zusammenfassung
           frmDM.ZQueryDrucken.close;
 
           AddFilterToReport;
@@ -1147,7 +1147,7 @@ begin
               Zahlungsliste:                  sFileName := 'Zahlungsliste.csv';
               else                            sFileName := 'Ausgabe.csv';
             end;
-            sFileName := sPrintPath+sFileName;
+            sFileName := sPrintPath+inttostr(ediBuchungsjahr.value)+'_'+sFileName;
             try
               frmMain.slHelp.SaveToFile(sFileName);
               frmMain.slHelp.Clear;
@@ -1170,30 +1170,31 @@ begin
                   frReport.ChangePrinter(Printer.PrinterIndex, cbDrucker.ItemIndex);
                   Printer.PrinterIndex := cbDrucker.ItemIndex;
                 end;
+            case Druckmode of
+              Bankenliste:                    Printer.FileName := 'Bankenliste.pdf';
+              BeitragslisteSK:                Printer.FileName := 'Beitragsliste.pdf';
+              EinAus:                         Printer.FileName := 'EinAus.pdf';
+              Haushaltsplan:                  Printer.FileName := 'Haushaltsplan.pdf';
+              Finanzbericht:                  Printer.FileName := 'Finanzbericht.pdf';
+              Journal:                        Printer.FileName := 'Journal.pdf';
+              JournalGefiltert:               Printer.FileName := 'JournalGefiltert.pdf';
+              JournalKompaktGefiltert:        Printer.FileName := 'JournalKompaktGefiltert.pdf';
+              JournalNachBankenGruppiert:     Printer.FileName := 'JournalNachBankenGruppiert.pdf';
+              JournalNachSachkontenGruppiert: Printer.FileName := 'JournalNachSachkontenGruppiert.pdf';
+              Personenliste:                  Printer.FileName := 'Personenliste.pdf';
+              PersonenlisteKompakt:           Printer.FileName := 'PersonenlisteKompakt.pdf';
+              Sachkontenliste:                Printer.FileName := 'Sachkontenliste.pdf';
+              Summenliste:                    Printer.FileName := 'Summenliste.pdf';
+              Zahlungsliste:                  Printer.FileName := 'Zahlungsliste.pdf';
+              Zuwendung:                      Printer.FileName := 'Zuwendung.pdf';
+              else                            Printer.FileName := 'Ausgabe.pdf';
+            end;
+            Printer.FileName := inttostr(ediBuchungsjahr.value)+'_'+Printer.FileName;
+            Printer.Title    := Printer.FileName;
+            Printer.FileName := sPrintPath+Printer.FileName;
             if cbDruckeDirekt.Checked
               then
                 begin
-                  case Druckmode of
-                    Bankenliste:                    Printer.FileName:='Bankenliste.pdf';
-                    BeitragslisteSK:                Printer.FileName:='Beitragsliste.pdf';
-                    EinAus:                         Printer.FileName:='EinAus.pdf';
-                    Haushaltsplan:                  Printer.FileName:='Haushaltsplan.pdf';
-                    Finanzbericht:                  Printer.FileName:='Finanzbericht.pdf';
-                    Journal:                        Printer.FileName:='Journal.pdf';
-                    JournalGefiltert:               Printer.FileName:='JournalGefiltert.pdf';
-                    JournalKompaktGefiltert:        Printer.FileName:='JournalKompaktGefiltert.pdf';
-                    JournalNachBankenGruppiert:     Printer.FileName:='JournalNachBankenGruppiert.pdf';
-                    JournalNachSachkontenGruppiert: Printer.FileName:='JournalNachSachkontenGruppiert.pdf';
-                    Personenliste:                  Printer.FileName:='Personenliste.pdf';
-                    PersonenlisteKompakt:           Printer.FileName:='PersonenlisteKompakt.pdf';
-                    Sachkontenliste:                Printer.FileName:='Sachkontenliste.pdf';
-                    Summenliste:                    Printer.FileName:='Summenliste.pdf';
-                    Zahlungsliste:                  Printer.FileName:='Zahlungsliste.pdf';
-                    Zuwendung:                      Printer.FileName:='Zuwendung'+inttostr(ediBuchungsjahr.value)+'.pdf';
-                    else                            Printer.FileName:='Ausgabe.pdf';
-                  end;
-                  Printer.Title    := Printer.FileName;
-                  Printer.FileName := sPrintPath+Printer.FileName;
                   if einzeln
                     then
                       begin
@@ -1996,6 +1997,13 @@ begin
                     header:begin
                              Font.Style:=[fsbold];
                              View.FillColor:=TColor($C0C0C0); //helles Grau
+                             if (Druckmode = Zahlungsliste) and (TwoColReportData[FRow].typ = footer) then
+                               if ((CurrencyToInt(TwoColReportData[FRow].Col2, false) > 0) and (CurrencyToInt(TwoColReportData[FRow].Col1, false) > CurrencyToInt(TwoColReportData[FRow].Col2, false))) or
+                                  ((CurrencyToInt(TwoColReportData[FRow].Col2, false) < 0) and (CurrencyToInt(TwoColReportData[FRow].Col1, false) > CurrencyToInt(TwoColReportData[FRow].Col2, false))) then
+                                 View.FillColor := clLime            //Besser
+                               else if ((CurrencyToInt(TwoColReportData[FRow].Col2, false) > 0) and (CurrencyToInt(TwoColReportData[FRow].Col1, false) < CurrencyToInt(TwoColReportData[FRow].Col2, false))) or
+                                       ((CurrencyToInt(TwoColReportData[FRow].Col2, false) < 0) and (CurrencyToInt(TwoColReportData[FRow].Col1, false) < CurrencyToInt(TwoColReportData[FRow].Col2, false))) then
+                                 View.FillColor := TColor($008080FF); //Schlechter = leichtes Rot
                            end;
                     footer2,
                     header2:begin

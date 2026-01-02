@@ -1,7 +1,7 @@
 object frmDrucken: TfrmDrucken
-  Left = 425
+  Left = 967
   Height = 397
-  Top = 147
+  Top = 153
   Width = 639
   BorderStyle = bsDialog
   Caption = 'Drucken'
