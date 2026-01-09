@@ -64,8 +64,8 @@ type
     labImportMode: TLabel;
     labModus: TLabel;
     labFilter: TLabel;
-    Label15: TLabel;
-    Label16: TLabel;
+    labVJ: TLabel;
+    labLJ: TLabel;
     Label17: TLabel;
     Label18: TLabel;
     Label19: TLabel;
@@ -489,8 +489,7 @@ begin
                 then
                   begin
                     lab_A_SK.Caption := IntToCurrency(GetDBSum(frmDM.ZQueryHelp, 'Journal', 'Betrag', '', 'Konto_nach='+ediSachKontoNummer.Text+
-                                                                                 ' and BuchungsJahr='+inttostr(ediBuchungsjahr.Value-1)+
-                                                                                 ' and LaufendeNr <='+frmDM.ZQueryJournal.FieldByName('LaufendeNr').Asstring));
+                                                                                 ' and BuchungsJahr='+inttostr(ediBuchungsjahr.Value-1)));
                     lab_N_SK.Caption := IntToCurrency(GetDBSum(frmDM.ZQueryHelp, 'Journal', 'Betrag', '', 'Konto_nach='+ediSachKontoNummer.Text+
                                                                                  ' and BuchungsJahr='+inttostr(ediBuchungsjahr.Value)+
                                                                                  ' and LaufendeNr<='+frmDM.ZQueryJournal.FieldByName('LaufendeNr').Asstring));
@@ -506,16 +505,20 @@ begin
                   begin
                     lab_A_Pers.Caption := IntToCurrency(GetDBSum(frmDM.ZQueryHelp, 'Journal', 'Betrag', '', 'PersonenID='+ediPersonenID.Text+
                                                                             ' and BuchungsJahr='+inttostr(ediBuchungsjahr.Value-1)+
-                                                                            ' and LaufendeNr<='+frmDM.ZQueryJournal.FieldByName('LaufendeNr').Asstring));
+                                                                            ' and konto_nach='+ediSachKontoNummer.Text));
                     lab_N_Pers.Caption := IntToCurrency(GetDBSum(frmDM.ZQueryHelp, 'Journal', 'Betrag', '', 'PersonenID='+ediPersonenID.Text+
                                                                             ' and BuchungsJahr='+inttostr(ediBuchungsjahr.Value)+
-                                                                            ' and LaufendeNr<='+frmDM.ZQueryJournal.FieldByName('LaufendeNr').Asstring));
+                                                                            ' and LaufendeNr<='+frmDM.ZQueryJournal.FieldByName('LaufendeNr').Asstring+
+                                                                            ' and konto_nach='+ediSachKontoNummer.Text));
                   end
                 else
                   begin
                     lab_A_Pers.Caption := '';
                     lab_N_Pers.Caption := '';
                   end;
+
+              labVJ.Visible := ((lab_N_Pers.Caption <> '') or (lab_N_SK.Caption <> ''));
+              labLJ.Visible := labVJ.Visible;
 
               //Bank Kontostand
               try

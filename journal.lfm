@@ -148,7 +148,7 @@ object frmJournal: TfrmJournal
       ClientHeight = 106
       ClientWidth = 240
       TabOrder = 0
-      object Label15: TLabel
+      object labVJ: TLabel
         Left = 33
         Height = 15
         Top = 35
@@ -166,7 +166,7 @@ object frmJournal: TfrmJournal
         Caption = '0,00'
         ParentColor = False
       end
-      object Label16: TLabel
+      object labLJ: TLabel
         Left = 75
         Height = 15
         Top = 35
