@@ -925,7 +925,11 @@ begin
         myDebugLN('New Database : '+sDatabase);
         frmDM.ZConnectionBuch.Database := UTF8ToSys(sDatabase);
         FormShow(sender);          // Prüft die Datei und stellt das Main Formular richtig dar.
-        help.WriteIniVal(sIniFile, 'Datenbank','Name', sDatabase);
+        try
+          help.WriteIniVal(sIniFile, 'Datenbank','Name', sDatabase);
+        except
+
+        end;
       end;
 end;
 
@@ -1275,10 +1279,14 @@ begin
           else
             begin
               dtLastSave := now;
-              help.WriteIniVal(sIniFile, 'Sicherung', 'Datum', DateToStr(dtLastSave));
               labDatensicherung.Caption := 'Letzte Datensicherung: '+DateToStr(dtLastSave);
               labDatensicherung.Color   := clNone;
-              help.WriteIniVal(sIniFile, 'Sicherung', 'Verzeichnis', sSavePath);
+              try
+                help.WriteIniVal(sIniFile, 'Sicherung', 'Datum', DateToStr(dtLastSave));
+                help.WriteIniVal(sIniFile, 'Sicherung', 'Verzeichnis', sSavePath);
+              except
+
+              end;
             end;
       end;
 

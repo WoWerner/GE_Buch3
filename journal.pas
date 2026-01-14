@@ -664,7 +664,7 @@ begin
                  try
                    DBGridJournal.SetFocus;
                  except
-                   on E: Exception do LogAndShowError(e.Message+' (internal code 1)');
+                   //on E: Exception do LogAndShowError(e.Message+' (internal code 1)');
                  end;
                end;
     import,
@@ -691,7 +691,7 @@ begin
                    DateEditBuchungsdatum.Refresh;
                    DateEditBuchungsdatum.SetFocus;
                  except
-                   on E: Exception do  LogAndShowError(e.Message+' (internal code 2)');
+                   //on E: Exception do  LogAndShowError(e.Message+' (internal code 2)');
                  end;
                end;
   end;
@@ -756,7 +756,7 @@ begin
               try
                 help.WriteIniVal(sIniFile, 'CSV-Import', 'Verzeichnis', sImportPath);
                except
-                 on E: Exception do myDebugLN(e.Message+' (internal code 5)');
+                 //on E: Exception do myDebugLN(e.Message+' (internal code 5)');
                end;
               if frmJournal_CSV_Import.Richtung = 0
                 then CSVImportRow := frmJournal_CSV_Import.RowEnde //Von unten
@@ -1048,7 +1048,7 @@ begin
       try
         help.WriteIniVal(sJournalCSVImportINI,'Key',CSVKeySK+'_SK', ediSachKontoNummer.Text);
       except
-        on E: Exception do myDebugLN(e.Message+' (internal code 6)');
+        //on E: Exception do myDebugLN(e.Message+' (internal code 6)');
       end;
   btnSpeichernClick(self);
   {$ifdef DebugCallStack} myDebugLN('btnSpeichernAutoClick finished');  {$endif}
@@ -1114,7 +1114,7 @@ begin
                try
                  DateEditBuchungsdatum.SetFocus; //Weiter mit der Eingabe
                except
-                 on E: Exception do LogAndShowError(e.Message+' (internal code 6)');
+                 //on E: Exception do LogAndShowError(e.Message+' (internal code 6)');
                end;
              end;
     edit   : begin
@@ -1558,7 +1558,7 @@ begin
     help.WriteIniInt(sIniFile, 'Journal', 'ImpCol6Width', sgImportData.ColWidths[6]);
     help.WriteIniBool(sJournalCSVImportINI, 'Daten', 'Automatik', cbCSVAutomatik.Checked);
   except
-    on E: Exception do LogAndShowError(e.Message+' (internal code 8)');
+    //on E: Exception do LogAndShowError(e.Message+' (internal code 8)');
   end;
 
   frmDM.ZQueryJournal.Close;
