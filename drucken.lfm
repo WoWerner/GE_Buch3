@@ -476,11 +476,11 @@ object frmDrucken: TfrmDrucken
     OnClick = btnJournalNachSachkontenGruppiertCSVClick
   end
   object frReport: TfrReport
-    DefaultCopies = 0
     InitialZoom = pzOnePage
     Options = []
-    PreviewButtons = [pbZoom, pbLoad, pbSave, pbPrint, pbFind, pbHelp, pbExit]
+    PreviewButtons = [pbZoom, pbPrint, pbExit]
     DataType = dtDataSet
+    Title = 'Ausdruck von GE_Buch'
     OnBeginDoc = frReportBeginDoc
     OnBeginPage = frReportBeginPage
     OnBeginBand = frReportBeginBand

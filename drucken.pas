@@ -1171,27 +1171,32 @@ begin
                   Printer.PrinterIndex := cbDrucker.ItemIndex;
                 end;
             case Druckmode of
-              Bankenliste:                    Printer.FileName := 'Bankenliste.pdf';
-              BeitragslisteSK:                Printer.FileName := 'Beitragsliste.pdf';
-              EinAus:                         Printer.FileName := 'EinAus.pdf';
-              Haushaltsplan:                  Printer.FileName := 'Haushaltsplan.pdf';
-              Finanzbericht:                  Printer.FileName := 'Finanzbericht.pdf';
-              Journal:                        Printer.FileName := 'Journal.pdf';
-              JournalGefiltert:               Printer.FileName := 'JournalGefiltert.pdf';
-              JournalKompaktGefiltert:        Printer.FileName := 'JournalKompaktGefiltert.pdf';
-              JournalNachBankenGruppiert:     Printer.FileName := 'JournalNachBankenGruppiert.pdf';
-              JournalNachSachkontenGruppiert: Printer.FileName := 'JournalNachSachkontenGruppiert.pdf';
-              Personenliste:                  Printer.FileName := 'Personenliste.pdf';
-              PersonenlisteKompakt:           Printer.FileName := 'PersonenlisteKompakt.pdf';
-              Sachkontenliste:                Printer.FileName := 'Sachkontenliste.pdf';
-              Summenliste:                    Printer.FileName := 'Summenliste.pdf';
-              Zahlungsliste:                  Printer.FileName := 'Zahlungsliste.pdf';
-              Zuwendung:                      Printer.FileName := 'Zuwendung.pdf';
-              else                            Printer.FileName := 'Ausgabe.pdf';
+              Bankenliste:                    Printer.Title := 'Bankenliste';
+              BeitragslisteSK:                Printer.Title := 'Beitragsliste';
+              EinAus:                         Printer.Title := 'EinAus';
+              Haushaltsplan:                  Printer.Title := 'Haushaltsplan';
+              Finanzbericht:                  Printer.Title := 'Finanzbericht';
+              Journal:                        Printer.Title := 'Journal';
+              JournalGefiltert:               Printer.Title := 'JournalGefiltert';
+              JournalKompaktGefiltert:        Printer.Title := 'JournalKompaktGefiltert';
+              JournalNachBankenGruppiert:     Printer.Title := 'JournalNachBankenGruppiert';
+              JournalNachSachkontenGruppiert: Printer.Title := 'JournalNachSachkontenGruppiert';
+              Personenliste:                  Printer.Title := 'Personenliste';
+              PersonenlisteKompakt:           Printer.Title := 'PersonenlisteKompakt';
+              Sachkontenliste:                Printer.Title := 'Sachkontenliste';
+              Summenliste:                    Printer.Title := 'Summenliste';
+              Zahlungsliste:                  Printer.Title := 'Zahlungsliste';
+              Zuwendung:                      Printer.Title := 'Zuwendung';
+              else                            Printer.Title := 'Ausgabe';
             end;
-            Printer.FileName := inttostr(ediBuchungsjahr.value)+'_'+Printer.FileName;
-            Printer.Title    := Printer.FileName;
-            Printer.FileName := sPrintPath+Printer.FileName;
+
+            Printer.Title  := inttostr(ediBuchungsjahr.value)+'_'+Printer.Title;
+            frReport.Title := Printer.Title;
+
+            if pos('PDF', Uppercase(Printer.PrinterName), 1)=0
+              then Printer.FileName := ''
+              else Printer.FileName := sPrintPath+Printer.Title+'.pdf';
+
             if cbDruckeDirekt.Checked
               then
                 begin
