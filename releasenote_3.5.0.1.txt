@@ -1,4 +1,7 @@
-﻿Änderungen in der Version 3.5.0.0
+﻿Änderungen in der Version 3.5.0.1
+- Drucken auf "echte" Drucker wieder möglich
+
+Änderungen in der Version 3.5.0.0
 - Man kann über das Menu eine Datenbank auswählen
 - Journal: Filter Löschen Button
 - Journal: Buchungsnummer wird besser automatisch erhöht
