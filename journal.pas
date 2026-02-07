@@ -1400,13 +1400,18 @@ begin
   if bStartFinished and ediBuchungsjahr.Enabled
     then
       begin
-        FilterClear;
+        //FilterClear;
         frmDM.ZQueryJournal.Close;
         frmDM.ZQueryJournal.SQL.Text := Format(sSelectJournal, [inttostr(ediBuchungsjahr.Value)]) + GetSortOrder;
         frmDM.ZQueryJournal.Open;
         frmDM.ZQueryJournal.Last;
         if nBuchungsjahr = ediBuchungsjahr.Value
-          then aModus := browse
+          then
+            begin
+              if labFilter.Visible = true
+                then aModus := filtered
+                else aModus := browse;
+            end
           else aModus := readonly;
         SetMode(aModus);  //Ruft dann SetFormular auf
       end;
@@ -1504,14 +1509,14 @@ begin
     then
       begin
         SetMode(browse);
-        labFilter.Visible:=false;
-        btnDelFilter.Visible:=false;
+        labFilter.Visible    := false;
+        btnDelFilter.Visible := false;
       end
     else
       begin
         SetMode(filtered);
-        labFilter.Visible:=true;
-        btnDelFilter.Visible:=true;
+        labFilter.Visible    := true;
+        btnDelFilter.Visible := true;
       end;
 end;
 
