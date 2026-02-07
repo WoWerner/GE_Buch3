@@ -1483,7 +1483,7 @@ begin
   if ediSachKontoNummerFilter.Text <> '' then sFilter := sFilter + ' and Konto_nach = '          + ediSachKontoNummerFilter.Text+ ' ';
   if ediBankNummerFilter.Text      <> '' then sFilter := sFilter + ' and BankNr = '              + ediBankNummerFilter.Text+ ' ';
   if ediPersonenNummerFilter.Text  <> '' then sFilter := sFilter + ' and journal.PersonenID =  ' + ediPersonenNummerFilter.Text+ ' ';
-  if ediBetragFilter.Text          <> '' then sFilter := sFilter + ' and journal.Betrag = '      + inttostr(CurrencyToInt(ediBetragFilter.Text, bEuroModus))+ ' ';
+  if ediBetragFilter.Text          <> '' then sFilter := sFilter + ' and abs(journal.Betrag) = ' + inttostr(CurrencyToInt(ediBetragFilter.Text, bEuroModus))+ ' ';
   if ediTextFilter.Text            <> '' then sFilter := sFilter + ' and ((Buchungstext like ''%'+ ediTextFilter.Text+'%'') or '+
                                                                          '(Belegnummer  like ''%'+ ediTextFilter.Text+'%'') or '+
                                                                          '(Bemerkung    like ''%'+ ediTextFilter.Text+'%'') or '+
