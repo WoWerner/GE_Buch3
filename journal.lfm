@@ -714,8 +714,8 @@ object frmJournal: TfrmJournal
       Left = 224
       Height = 20
       Top = 168
-      Width = 81
-      Caption = 'Vorzeichen!'
+      Width = 132
+      Caption = 'Vorzeichen richtig?'
       Font.Color = clRed
       Font.Height = -15
       Font.Style = [fsBold]
