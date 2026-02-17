@@ -169,6 +169,7 @@ type
     procedure CheckSettingsForSave;
     procedure CheckSettingsForSave2;
     procedure FilterClear;
+    Procedure FilterClear2;
     Function  Str2Bool(s: string):boolean;
     Function  Bool2Str(b: boolean):String;
     Function  GetNextBelegnummer():String;
@@ -583,7 +584,9 @@ begin
                  panFilter.Visible          := true;
                  panFilter1.Visible         := true;
                  rgSort.Visible             := true;
-                 frmJournal.Caption         := 'Journalmodus: alte Daten ansehen';
+                 if labFilter.Visible
+                   then frmJournal.Caption  := 'Journalmodus: gefilterte alte Daten ansehen'
+                   else frmJournal.Caption  := 'Journalmodus: alte Daten ansehen';
                end;
     filtered : begin
                  btnClose.Visible           := true;
@@ -795,7 +798,6 @@ begin
         frmDM.ZQueryJournal.Last;
         frmDM.ZQueryJournal.EnableControls;
         frmDM.ZQueryBanken.Refresh;
-        FilterClear;
         SetFormular;
       end
     else
@@ -1016,7 +1018,8 @@ end;
 procedure TfrmJournal.btnAbbrechenClick(Sender: TObject);
 begin
   {$ifdef DebugCallStack} myDebugLN('btnAbbrechenClick'); {$endif}
-  SetMode(browse);
+  ediFilterExit(Sender);
+  //SetMode(browse);
   {$ifdef DebugCallStack} myDebugLN('btnAbbrechenClick finished'); {$endif}
 end;
 
@@ -1043,7 +1046,7 @@ end;
 procedure TfrmJournal.btnSpeichernAutoClick(Sender: TObject);
 begin
   {$ifdef DebugCallStack} myDebugLN('btnSpeichernAutoClick');  {$endif}
-  if ((ediSachKontoNummer.Text <> '0') and (ediSachKontoNummer.Text <> ''))
+  if ((ediSachKontoNummer.Text <> '0') and (ediSachKontoNummer.Text <> '') and (CSVKeyPers <> ''))
     then
       try
         help.WriteIniVal(sJournalCSVImportINI,'Key',CSVKeySK+'_SK', ediSachKontoNummer.Text);
@@ -1057,7 +1060,6 @@ end;
 procedure TfrmJournal.btnSpeichernClick(Sender: TObject);
 
 var
-  nHelp,
   Betrag,
   Sollbetrag: longint;
 
@@ -1119,16 +1121,13 @@ begin
              end;
     edit   : begin
                bStartFinished := false;
-               nHelp := frmDM.ZQueryJournal.RecNo;
                frmDM.ZQueryJournal.Refresh;
                frmDM.ZQueryJournal.Last;
                bStartFinished := true;
-               if labFilter.Visible
-                  then FilterClear
-                  else SetMode(browse, nHelp);
+               ediFilterExit(self);
              end;
     import : begin
-               //Daten nach Ini schreiben
+               //PersonenDaten nach Ini schreiben
                try
                  if ((ediPersonenID.Text <> '0') and (ediPersonenID.Text <> '') and (CSVKeyPers <> ''))
                     then help.WriteIniVal(sJournalCSVImportINI, 'Key', CSVKeyPers+'_PersID', ediPersonenID.Text);
@@ -1392,29 +1391,9 @@ end;
 
 procedure TfrmJournal.ediBuchungsjahrChange(Sender: TObject);
 
-var
-  aModus : TMode;
-  
 begin
   {$ifdef DebugCallStack} myDebugLN('ediBuchungsjahrChange'); {$endif}
-  if bStartFinished and ediBuchungsjahr.Enabled
-    then
-      begin
-        //FilterClear;
-        frmDM.ZQueryJournal.Close;
-        frmDM.ZQueryJournal.SQL.Text := Format(sSelectJournal, [inttostr(ediBuchungsjahr.Value)]) + GetSortOrder;
-        frmDM.ZQueryJournal.Open;
-        frmDM.ZQueryJournal.Last;
-        if nBuchungsjahr = ediBuchungsjahr.Value
-          then
-            begin
-              if labFilter.Visible = true
-                then aModus := filtered
-                else aModus := browse;
-            end
-          else aModus := readonly;
-        SetMode(aModus);  //Ruft dann SetFormular auf
-      end;
+  ediFilterExit(Sender);
   {$ifdef DebugCallStack} myDebugLN('ediBuchungsjahrChange finished'); {$endif}
 end;
 
@@ -1495,29 +1474,22 @@ begin
     frmDM.ZQueryJournal.Open;
   except
     sFilter                       := '';
-    ediSachKontoNummerFilter.Text := '';
-    ediBankNummerFilter.Text      := '';
-    ediPersonenNummerFilter.Text  := '';
-    ediBetragFilter.Text          := '';
-    ediTextFilter.Text            := '';
+    FilterClear2;
     Showmessage('Fehler beim Öffnen der Datenbank'+#13+frmDM.ZQueryJournal.SQL.Text);
     frmDM.ZQueryJournal.SQL.Text := Format(sSelectJournal, [inttostr(ediBuchungsjahr.Value)]) + GetSortOrder;
     frmDM.ZQueryJournal.Open;
   end;
   frmDM.ZQueryJournal.Last;
-  if sFilter = ''
+
+  labFilter.Visible    := sFilter <> '';
+  btnDelFilter.Visible := sFilter <> '';
+
+  if nBuchungsjahr = ediBuchungsjahr.Value
     then
-      begin
-        SetMode(browse);
-        labFilter.Visible    := false;
-        btnDelFilter.Visible := false;
-      end
-    else
-      begin
-        SetMode(filtered);
-        labFilter.Visible    := true;
-        btnDelFilter.Visible := true;
-      end;
+      if labFilter.Visible
+        then SetMode(filtered)
+        else SetMode(browse)
+    else SetMode(readonly);
 end;
 
 procedure TfrmJournal.FilterPopUp(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -1526,13 +1498,18 @@ begin
   Handled := true;
 end;
 
-procedure TfrmJournal.FilterClear;
+procedure TfrmJournal.FilterClear2;
 begin
   ediSachKontoNummerFilter.Text := '';
   ediBankNummerFilter.Text      := '';
   ediPersonenNummerFilter.Text  := '';
   ediBetragFilter.Text          := '';
   ediTextFilter.Text            := '';
+end;
+
+procedure TfrmJournal.FilterClear;
+begin
+  FilterClear2;
   ediFilterExit(self);
 end;
 
@@ -1719,11 +1696,7 @@ begin
 
   cbCSVAutomatik.Checked := help.ReadIniBool(sJournalCSVImportINI, 'Daten','Automatik', false, true);
 
-  ediSachKontoNummerFilter.Text := '';
-  ediPersonenNummerFilter.Text  := '';
-  ediBankNummerFilter.Text      := '';
-  ediBetragFilter.Text          := '';
-  ediTextFilter.Text            := '';
+  FilterClear2;
   labFilter.Visible             := false;
   btnDelFilter.Visible          := false;
   labVZ.Visible                 := false;

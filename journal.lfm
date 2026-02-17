@@ -208,8 +208,8 @@ object frmJournal: TfrmJournal
         Left = 57
         Height = 15
         Top = 4
-        Width = 13
-        Caption = 'alt'
+        Width = 15
+        Caption = 'Alt'
         ParentColor = False
       end
       object lab_A_Konto: TLabel
@@ -236,8 +236,8 @@ object frmJournal: TfrmJournal
         Left = 133
         Height = 15
         Top = 4
-        Width = 20
-        Caption = 'neu'
+        Width = 22
+        Caption = 'Neu'
         ParentColor = False
       end
       object lab_KontoStart: TLabel
@@ -488,9 +488,9 @@ object frmJournal: TfrmJournal
       OnClick = btnImportClick
     end
     object cbCSVAutomatik: TCheckBox
-      Left = 813
+      Left = 817
       Height = 19
-      Top = 32
+      Top = 11
       Width = 99
       Caption = 'autom. buchen'
       Checked = True
