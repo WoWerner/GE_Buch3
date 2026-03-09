@@ -70,6 +70,7 @@ type
     btnFinanzbericht: TButton;
     btnJournaldruck: TButton;
     btnJournalNachSachkontenGruppiertCSV: TButton;
+    btnBankenlisteCSV: TButton;
     btnZahlerMonatlicheZahlungen: TButton;
     btnJournalFiltered: TButton;
     btnJournalKompaktFiltered: TButton;
@@ -108,6 +109,7 @@ type
     Shape3: TShape;
     procedure btnBankenlisteClick(Sender: TObject);
     procedure btnBankenlisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+    procedure btnBankenlisteCSVClick(Sender: TObject);
     procedure btnBeitragslisteClick(Sender: TObject);
     procedure btnBeitragslisteContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure btnBeitragslisteCSVClick(Sender: TObject);
@@ -1132,33 +1134,43 @@ begin
         then
           begin
             //CSV Export
-            frmMain.slHelp.Clear;
-            for i := 0 to FRowPart1 do
-              frmMain.slHelp.Add(UTF8toCP1252(TwoColReportData[i].Name)+';'+
-                                 TwoColReportData[i].Col1+';'+
-                                 TwoColReportData[i].Col2);
             case Druckmode of
-              BeitragslisteSK:                sFileName := 'BeitragslisteSK.csv';
-              EinAus:                         sFileName := 'EinAus.csv';
-              Haushaltsplan:                  sFileName := 'Haushaltsplan.csv';
-              JournalNachBankenGruppiert:     sFileName := 'JournalNachBankenGruppiert.csv';
-              JournalNachSachkontenGruppiert: sFileName := 'JournalNachSachkontenGruppiert.csv';
-              Summenliste:                    sFileName := 'Summenliste.csv';
-              Zahlungsliste:                  sFileName := 'Zahlungsliste.csv';
-              else                            sFileName := 'Ausgabe.csv';
-            end;
-            sFileName := sPrintPath+inttostr(ediBuchungsjahr.value)+'_'+sFileName;
-            try
-              frmMain.slHelp.SaveToFile(sFileName);
-              frmMain.slHelp.Clear;
-               if MessageDlg(Inttostr(FRowPart1)+' Zeilen exportiert in Datei '+sFileName+#13+
-                          'Sollen Sie angezeigt werden?', mtConfirmation, [mbYes, mbNo],0)= mrYes
-                 then opendocument(sFileName);
-            except
-              on E : Exception do
+              Bankenliste:
                 begin
-                  Screen.Cursor := crDefault;
-                  LogAndShowError('Fehler beim Schreiben der Datei: '+sFileName+#13#13+E.ClassName+ ': '+ E.Message);
+                  sFileName := sPrintPath+inttostr(ediBuchungsjahr.value)+'_Bankenliste.csv';
+                  ExportQueToCSVFile(frmDM.ZQueryDrucken, sFileName, ';', '"', true, false, true);
+                end;
+              else
+                begin
+                  frmMain.slHelp.Clear;
+                  for i := 0 to FRowPart1 do
+                    frmMain.slHelp.Add(UTF8toCP1252(TwoColReportData[i].Name)+';'+
+                                       TwoColReportData[i].Col1+';'+
+                                       TwoColReportData[i].Col2);
+                  case Druckmode of
+                    BeitragslisteSK:                sFileName := 'BeitragslisteSK.csv';
+                    EinAus:                         sFileName := 'EinAus.csv';
+                    Haushaltsplan:                  sFileName := 'Haushaltsplan.csv';
+                    JournalNachBankenGruppiert:     sFileName := 'JournalNachBankenGruppiert.csv';
+                    JournalNachSachkontenGruppiert: sFileName := 'JournalNachSachkontenGruppiert.csv';
+                    Summenliste:                    sFileName := 'Summenliste.csv';
+                    Zahlungsliste:                  sFileName := 'Zahlungsliste.csv';
+                    else                            sFileName := 'Ausgabe.csv';
+                  end;
+                  sFileName := sPrintPath+inttostr(ediBuchungsjahr.value)+'_'+sFileName;
+                  try
+                    frmMain.slHelp.SaveToFile(sFileName);
+                    frmMain.slHelp.Clear;
+                     if MessageDlg(Inttostr(FRowPart1)+' Zeilen exportiert in Datei '+sFileName+#13+
+                                'Sollen Sie angezeigt werden?', mtConfirmation, [mbYes, mbNo],0)= mrYes
+                       then opendocument(sFileName);
+                  except
+                    on E : Exception do
+                      begin
+                        Screen.Cursor := crDefault;
+                        LogAndShowError('Fehler beim Schreiben der Datei: '+sFileName+#13#13+E.ClassName+ ': '+ E.Message);
+                      end;
+                  end;
                 end;
             end;
           end
@@ -1302,6 +1314,12 @@ begin
   Druckmode := BankenListe;
   PreparePrint(true);
   Handled := true;
+end;
+
+procedure TfrmDrucken.btnBankenlisteCSVClick(Sender: TObject);
+begin
+  Druckmode := BankenListe;
+  PreparePrint(false, true);
 end;
 
 procedure TfrmDrucken.btnEinAusClick(Sender: TObject);
