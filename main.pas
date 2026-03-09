@@ -295,7 +295,6 @@ begin
     then MessageDlg('Die Datenbank '+sDatabase+' wurde nicht gefunden.', mtInformation, [mbOK],0);
 
   sProductVersionString := GetProductVersionString;
-  labDB.Caption := 'Datenbank: '+sDatabase;
 
   bSQLDebug              := help.ReadIniBool(sIniFile, 'Debug',    'SQLDebug'             , true , true);
   bDebug                 := help.ReadIniBool(sIniFile, 'Debug',    'Debug'                , true , true);
@@ -324,6 +323,7 @@ begin
 
   myDebugLN('Starte        : '+frmMain.caption);
   myDebugLN('LazarusVersion: '+frmMain.LCLVersion);
+  myDebugLN('FP-Version    : '+{$I %FPCVERSION%});
   myDebugLN('AppDir        : '+sAppDir);
   myDebugLN('sIniFile      : '+sIniFile);
   myDebugLN('sSavePath     : '+sSavePath);
@@ -521,6 +521,7 @@ begin
   end;
 
   labBJahr.Caption           := 'Buchungsjahr: '+inttostr(nBuchungsjahr);
+  labDB.Caption              := 'Datenbank: '+sDatabase;
   mnuJahresabschluss.Enabled := nBuchungsjahr<>jahr_;
   mnuDelOld.Caption          := 'Lösche Einträge im Journal bis '+inttostr(nBuchungsjahr-3);
   mnuJahresabschluss.Caption := 'Jahresabschluss für '+inttostr(nBuchungsjahr);
@@ -853,6 +854,9 @@ begin
         Showmessage('Das Buchungsjahr ist jetzt '+inttostr(nBuchungsjahr)+#13+
                     'Bitte prüfen sie Kontostände der Banken'#13+
                     'Es wurde vorher eine automatische Datensicherung gemacht');
+        if frmDM.ZQueryInit.Active then frmDM.ZQueryInit.close;
+        frmDM.ZQueryInit.open;
+        FormShow(sender);          // Prüft die Datei und stellt das Main Formular richtig dar.
       end
     else
       begin
