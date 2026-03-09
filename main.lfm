@@ -17,10 +17,10 @@ object frmMain: TfrmMain
   OnShow = FormShow
   object imgSELK: TImage
     Cursor = crHandPoint
-    Left = 492
-    Height = 360
+    Left = 536
+    Height = 320
     Top = 105
-    Width = 360
+    Width = 316
     Stretch = True
     Transparent = True
     OnClick = imgSELKClick
