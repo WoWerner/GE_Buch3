@@ -87,11 +87,13 @@ begin
     DBGridBankListe.Columns.Items[1].Width        :=  60;    //Sortpos
     DBGridBankListe.Columns.Items[2].Width        :=  60;    //Statistik
     DBGridBankListe.Columns.Items[3].Width        := 350;    //Name
-    DBGridBankListe.Columns.Items[4].Width        :=  90;    //Kontostand
-    DBGridBankListe.Columns.Items[5].Width        :=  90;    //Kontostand
+    DBGridBankListe.Columns.Items[4].Width        := 110;    //StartKontostand
+    DBGridBankListe.Columns.Items[4].Alignment    := taRightJustify;
+    DBGridBankListe.Columns.Items[5].Width        := 110;    //Kontostand
+    DBGridBankListe.Columns.Items[5].Alignment    := taRightJustify;
     ediKontoNr.Value   := frmDM.ZQueryBanken.FieldByName('BankNr').AsInteger;
     ediName.Text       := frmDM.ZQueryBanken.FieldByName('Name').AsString;
-    ediKontostand.Text := IntToCurrency(frmDM.ZQueryBanken.FieldByName('Kontostand').AsLongint);
+    ediKontostand.Text := frmDM.ZQueryBanken.FieldByName('Kontostand').AsString;
     ediSortPos.Value   := frmDM.ZQueryBanken.FieldByName('Sortpos').AsInteger;
     ediStatistik.Value := frmDM.ZQueryBanken.FieldByName('Statistik').AsInteger;
   except
@@ -149,7 +151,7 @@ begin
           //den, vom System gezeichneten, Inhalt löschen
           DBGridBankListe.Canvas.FillRect(Rect);
           //eigenen Text reinschreiben
-          DBGridBankListe.Canvas.TextRect(Rect,Rect.Left,Rect.Top+2, Format('%m ',[Column.Field.AsLongint/100]));
+          DBGridBankListe.Canvas.TextRect(Rect,Rect.Left,Rect.Top+2, Format('%s',[Column.Field.asstring]));
         end;
   except
 
