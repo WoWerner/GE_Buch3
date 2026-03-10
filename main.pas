@@ -1316,7 +1316,7 @@ begin
   frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := nBuchungsjahr;
   frmDM.ZQueryHelp.ExecSQL;
 
-  frmDM.ZQueryBanken.SQL.LoadFromFile(sAppDir+'module\SQL\BankenDrucken.sql');
+  frmDM.ZQueryBanken.SQL.LoadFromFile(sAppDir+'module\SQL\BankenDruckenEuro.sql');
   frmDM.ZQueryBanken.ParamByName('BJahr').AsString := inttostr(nBuchungsjahr);
   frmDM.ZQueryBanken.Open;
   frmBanken.showmodal;

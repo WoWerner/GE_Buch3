@@ -498,7 +498,7 @@ begin
       Bankenliste:
         begin
           frDBDataSet.DataSource := frmDM.dsDrucken;
-          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\BankenDrucken.sql');
+          frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\BankenDruckenEuro.sql');
           frmDM.ZQueryDrucken.ParamByName('BJahr').AsString := inttostr(ediBuchungsjahr.value);
           frReport.LoadFromFile(sAppDir+'module\Reporte\BankenDrucken.lrf');
           frmDM.ZQueryDrucken.Open;
@@ -2183,7 +2183,7 @@ begin
               BeitragslisteSK:                ParValue := 'Zahler- / Empfängerliste nach Sachkonto';
               Zahlungsliste:                  ParValue := 'Zahlungsliste';
               JournalNachBankenGruppiert:     ParValue := 'Journal nach Banken gruppiert';
-              JournalNachSachkontenGruppiert: ParValue := 'Journal nach Banken gruppiert';
+              JournalNachSachkontenGruppiert: ParValue := 'Journal nach Sachkonten gruppiert';
             end;
           end;
       end;
