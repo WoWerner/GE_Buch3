@@ -1399,6 +1399,8 @@ end;
 
 procedure TfrmJournal.ediPersonenIDExit(Sender: TObject);
 
+var sName : string;
+
 begin
   {$ifdef DebugCallStack} myDebugLN('ediPersonenIDExit'); {$endif}
   if bStartFinished
@@ -1412,7 +1414,9 @@ begin
               if frmDM.ZQueryPersonen.Locate('PersonenID', ediPersonenID.Text, [])
                 then
                   begin
-                    cbPersonenname.Text:= frmDM.ZQueryPersonen.FieldByName('Nachname').AsString+', '+frmDM.ZQueryPersonen.FieldByName('Vorname').AsString;
+                    sName := frmDM.ZQueryPersonen.FieldByName('Nachname').AsString;
+                    if (trim(frmDM.ZQueryPersonen.FieldByName('Vorname').AsString) <> '') then sName += ', '+frmDM.ZQueryPersonen.FieldByName('Vorname').AsString;
+                    cbPersonenname.Text := sName;
                   end
                 else
                   begin
@@ -1581,6 +1585,8 @@ end;
 
 procedure TfrmJournal.FormShow(Sender: TObject);
 
+var sName : String;
+
 begin
   {$ifdef DebugCallStack} myDebugLN('FormShow'); {$endif}
 
@@ -1668,9 +1674,9 @@ begin
   frmDM.ZQueryPersonen.First;
   while not frmDM.ZQueryPersonen.EOF do
     begin
-      cbPersonenname.AddItem(frmDM.ZQueryPersonen.FieldByName('Nachname').AsString+', '+
-                            frmDM.ZQueryPersonen.FieldByName('Vorname').AsString,
-                            TObject(NativeInt(frmDM.ZQueryPersonen.FieldByName('PersonenID').AsInteger)));
+      sName := frmDM.ZQueryPersonen.FieldByName('Nachname').AsString;
+      if (trim(frmDM.ZQueryPersonen.FieldByName('Vorname').AsString) <> '') then sName += ', '+frmDM.ZQueryPersonen.FieldByName('Vorname').AsString;
+      cbPersonenname.AddItem(sName, TObject(NativeInt(frmDM.ZQueryPersonen.FieldByName('PersonenID').AsInteger)));
       frmDM.ZQueryPersonen.Next;
     end;
   cbPersonenname.ItemIndex := 0;
