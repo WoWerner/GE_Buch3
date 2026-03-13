@@ -10,7 +10,7 @@ Für den erfolgreichen Build und Betrieb werden folgende Bibliotheken und Werkze
   Entwicklungsumgebung für FreePascal.
 * **ZeosLib 8.0** – <https://sourceforge.net/projects/zeoslib/>
   Datenbankzugriffskomponenten für verschiedene DBMS.
-* **SQLite 3.51.0** – <https://sqlite.org/>
+* **SQLite 3.51.2** – <https://sqlite.org/>
   Eingebettete SQL-Datenbank.
 * **Synapse 41.0** – <https://github.com/geby/synapse>
   Netzwerk-Bibliothek für FreePascal/Lazarus.
@@ -23,7 +23,7 @@ Für den erfolgreichen Build und Betrieb werden folgende Bibliotheken und Werkze
 
 1. Lazarus 4.4 installieren.
 2. ZeosLib 8.0 herunterladen und in Lazarus einbinden.
-3. SQLite 3.51.0 bereitstellen (DLL im Projektverzeichnis oder im Systempfad).
+3. SQLite 3.51.2 bereitstellen (DLL im Projektverzeichnis oder im Systempfad).
 4. Synapse-Bibliothek herunterladen und in Lazarus einrichten.
 5. 7ZIP.dll in das Programmverzeichnis legen.
 
