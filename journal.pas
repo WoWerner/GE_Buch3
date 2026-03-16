@@ -173,6 +173,7 @@ type
     Function  Str2Bool(s: string):boolean;
     Function  Bool2Str(b: boolean):String;
     Function  GetNextBelegnummer():String;
+    procedure SetControlsVisibility(AVisible: Boolean; const myControls: array of TControl);
   public
     { public declarations }
     procedure AfterScroll;
@@ -298,91 +299,41 @@ end;
 
 procedure TfrmJournal.CheckSettingsForSave2;
 
-Var
-  bAllesOK : Boolean;
+  procedure SetColorAndFocus(state: boolean; const myControl: TWinControl);
+  begin
+    if state
+      then myControl.Color := clDefault
+      else
+        begin
+          myControl.Color := $8080FF;
+          if btnSpeichern.Enabled and bJournalJump then myControl.SetFocus;
+          btnSpeichern.Enabled := false;
+        end;
+  end;
 
 begin
   {$ifdef DebugCallStack} myDebugLN('CheckSettingsForSave2'); {$endif}
-  bAllesOK := true;
+  btnSpeichern.Enabled := true;
   try
-    if btnSpeichern.Visible
-      then
-        begin
-          //Taborder beachten
-          //Datum
-          if FormatDateTime('yyyy',DateEditBuchungsdatum.Date) = inttostr(nBuchungsjahr)
-            then DateEditBuchungsdatum.Color := clDefault
-            else
-              begin
-                DateEditBuchungsdatum.Color := $8080FF;
-                if bAllesOK and bJournalJump then DateEditBuchungsdatum.SetFocus;
-                bAllesOK := false;
-              end;
-          //Bank
-          if (ediBankNr.Text <> '0') and (ediBankNr.Text <> '') and (cbKonto.ItemIndex>0)
-            then ediBankNr.Color := clDefault
-            else
-              begin
-                ediBankNr.Color := $8080FF;
-                if bAllesOK and bJournalJump then ediBankNr.SetFocus;
-                bAllesOK := false;
-              end;
-          //Sachkonto
-          if (ediSachKontoNummer.Text <> '0') and (ediSachKontoNummer.Text <> '') and (cbSachkonto.ItemIndex>0)
-            then ediSachKontoNummer.Color := clDefault
-            else
-              begin
-                ediSachKontoNummer.Color := $8080FF;
-                if bAllesOK and bJournalJump then ediSachKontoNummer.SetFocus;
-                bAllesOK := false;
-              end;
-          //Person
-          if ((ediPersonenID.Text =  '0') and                                (cbPersonenname.ItemIndex=0)) or //keine Person
-             ((ediPersonenID.Text <> '0') and (ediPersonenID.Text <> '') and (cbPersonenname.Text <> ''))     //gültige Person
-            then ediPersonenID.Color := clDefault
-            else
-              begin
-                ediPersonenID.Color := $8080FF;
-                if bAllesOK and bJournalJump then ediPersonenID.SetFocus;
-                bAllesOK := false;
-              end;
-          //Betrag
-          if CurrencyToInt(ediBetrag.Text, bEuroModus) <> 0
-            then ediBetrag.Color := clDefault
-            else
-              begin
-                ediBetrag.Color := $8080FF;
-                if bAllesOK and bJournalJump then ediBetrag.SetFocus;
-                bAllesOK := false;
-              end;
-          //Buchungstext
-          if cbBuchungstext.Text <> ''
-            then cbBuchungstext.Color := clDefault
-            else
-              begin
-                cbBuchungstext.Color := $8080FF;
-                if bAllesOK and bJournalJump then cbBuchungstext.SetFocus;
-                bAllesOK := false;
-              end;
-          //Belegnummer
-          if ediBelegnummer.Text <> ''
-            then ediBelegnummer.Color := clDefault
-            else
-              begin
-                ediBelegnummer.Color := $8080FF;
-                if bAllesOK and bJournalJump then ediBelegnummer.SetFocus;
-                bAllesOK := false;
-              end;
-        end;
+    if btnSpeichern.Visible then
+      begin
+        //Taborder beachten
+        SetColorAndFocus(FormatDateTime('yyyy',DateEditBuchungsdatum.Date) = inttostr(nBuchungsjahr)                       , DateEditBuchungsdatum); //Datum
+        SetColorAndFocus((ediBankNr.Text <> '0') and (ediBankNr.Text <> '') and (cbKonto.ItemIndex>0)                      , ediBankNr);             //Bank
+        SetColorAndFocus((ediSachKontoNummer.Text <> '0') and (ediSachKontoNummer.Text <> '') and (cbSachkonto.ItemIndex>0), ediSachKontoNummer);    //Sachkonto
+        SetColorAndFocus(((ediPersonenID.Text =  '0') and                                (cbPersonenname.ItemIndex=0)) or                            //keine Person
+                         ((ediPersonenID.Text <> '0') and (ediPersonenID.Text <> '') and (cbPersonenname.Text <> ''))      , ediPersonenID);         //gültige Person
+        SetColorAndFocus(CurrencyToInt(ediBetrag.Text, bEuroModus) <> 0                                                    , ediBetrag);             //Betrag
+        SetColorAndFocus(cbBuchungstext.Text <> ''                                                                         , cbBuchungstext);        //Buchungstext
+        SetColorAndFocus(ediBelegnummer.Text <> ''                                                                         , ediBelegnummer);        //Belegnummer
+      end;
   except
     on e: Exception do
       begin
         LogAndShowError(e.Message);
-        bAllesOK := false;
+        btnSpeichern.Enabled := false;
       end;
   end;
-
-  btnSpeichern.Enabled := bAllesOK;
 
   //Vorzeichen
   labVZ.Visible := ((pos('A', cbSachKonto.Text) = 1) and (CurrencyToInt(ediBetrag.Text, bEuroModus) > 0)) or
@@ -557,70 +508,45 @@ begin
   {$ifdef DebugCallStack} myDebugLN('SetFormular finished');  {$endif}
 end;
 
+procedure TfrmJournal.SetControlsVisibility(AVisible: Boolean; const myControls: array of TControl);
+var
+  I: Integer;
+begin
+  for I := Low(myControls) to High(myControls) do
+    myControls[I].Visible := AVisible;
+end;
+
 procedure TfrmJournal.SetMode(aModus : TMode; RecNo: integer = 0);
 
 begin
   {$ifdef DebugCallStack} myDebugLN('SetMode'); {$endif}
-  btnImport.Visible          := false;
-  panFilter.Visible          := false;
-  panFilter1.Visible         := false;
-  rgSort.Visible             := false;
-  cbCSVAutomatik.Visible     := false;
-  btnSpeichern.Visible       := false;
-  btnSpeichernAuto.Visible   := false;
-  btnNeueBuchung.Visible     := false;
-  btnNeueBuchungLeer.Visible := false;
-  btnAendern.Visible         := false;
-  btnLoeschen.Visible        := false;
-  panImportData.Visible      := false;
-  btnClose.Visible           := false;
-  btnSkip.Visible            := false;
-  btnAbbrechen.Visible       := false;
-  panSummen.Visible          := true;
-  Modus                      := aModus;
+  SetControlsVisibility(False, [btnImport, panFilter, panFilter1, panSummen, rgSort, cbCSVAutomatik, btnSpeichern, btnSpeichernAuto, btnNeueBuchung,
+                                btnNeueBuchungLeer, btnAendern, btnLoeschen, panImportData, btnClose, btnSkip, btnAbbrechen]);
+  Modus := aModus;
   case Modus of
     readonly : begin
-                 btnClose.Visible           := true;
-                 panFilter.Visible          := true;
-                 panFilter1.Visible         := true;
-                 rgSort.Visible             := true;
+                 SetControlsVisibility(true, [btnClose, panFilter, panFilter1, rgSort, panSummen]);
                  if labFilter.Visible
                    then frmJournal.Caption  := 'Journalmodus: gefilterte alte Daten ansehen'
                    else frmJournal.Caption  := 'Journalmodus: alte Daten ansehen';
                end;
     filtered : begin
-                 btnClose.Visible           := true;
-                 panFilter.Visible          := true;
-                 panFilter1.Visible         := true;
-                 rgSort.Visible             := true;
-                 btnAendern.Visible         := (nBuchungsjahr = ediBuchungsjahr.Value);
-                 btnLoeschen.Visible        := (nBuchungsjahr = ediBuchungsjahr.Value);
-                 btnNeueBuchung.Visible     := (nBuchungsjahr = ediBuchungsjahr.Value);
+                 SetControlsVisibility(true                                  ,  [btnClose, panFilter, panFilter1, rgSort, panSummen]);
+                 SetControlsVisibility((nBuchungsjahr = ediBuchungsjahr.Value), [btnAendern, btnLoeschen, btnNeueBuchung]);
                  frmJournal.Caption         := 'Journalmodus: gefilterte Daten ansehen';
                end;
     append_TakeOver,
     append_Empty
              : begin
-                 btnSpeichern.Visible       := true;
-                 btnAbbrechen.Visible       := true;
+                 SetControlsVisibility(True, [btnSpeichern, btnAbbrechen, panSummen]);
                  frmJournal.Caption         := 'Journalmodus: neu erfassen';
                end;
     edit     : begin
-                 btnSpeichern.Visible       := true;
-                 btnAbbrechen.Visible       := true;
+                 SetControlsVisibility(True, [btnSpeichern, btnAbbrechen, panSummen]);
                  frmJournal.Caption         := 'Journalmodus: bearbeiten';
                end;
     browse   : begin
-                 btnClose.Visible           := true;
-                 btnNeueBuchung.Visible     := true;
-                 btnNeueBuchungLeer.Visible := true;
-                 btnAendern.Visible         := true;
-                 btnLoeschen.Visible        := true;
-                 btnImport.Visible          := true;
-                 cbCSVAutomatik.Visible     := true;
-                 panFilter.Visible          := true;
-                 panFilter1.Visible         := true;
-                 rgSort.Visible             := true;
+                 SetControlsVisibility(True, [btnClose, panFilter, panFilter1, rgSort, panSummen, btnNeueBuchung, btnNeueBuchungLeer, btnAendern, btnLoeschen, btnImport, cbCSVAutomatik]);
                  ediSachKontoNummer.Color   := clDefault;
                  ediBankNr.Color            := clDefault;
                  ediBetrag.Color            := clDefault;
@@ -630,14 +556,7 @@ begin
                  frmJournal.Caption         := 'Journalmodus: aktuelles Jahr ansehen';
                end;
     import   : begin
-                 btnSpeichern.Visible       := true;
-                 btnSpeichernAuto.Visible   := true;
-                 btnAbbrechen.Visible       := true;
-                 btnSkip.Visible            := true;
-
-                 panImportData.visible      := true;
-
-                 panSummen.Visible          := false;
+                 SetControlsVisibility(True, [btnSpeichern, btnSpeichernAuto, btnAbbrechen, btnSkip, panImportData]);
                  frmJournal.Caption         := 'Journalmodus: importieren';
                end;
   end;
