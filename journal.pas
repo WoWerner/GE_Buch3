@@ -120,7 +120,9 @@ type
     procedure btnSkipClick(Sender: TObject);
     procedure btnSpeichernAutoClick(Sender: TObject);
     procedure btnSpeichernClick(Sender: TObject);
-    procedure cbBuchungstextExit(Sender: TObject);
+    procedure ediBankNrChange(Sender: TObject);
+    procedure ediSachKontoNummerChange(Sender: TObject);
+    procedure EingabeExit(Sender: TObject);
     procedure cbKontoChange(Sender: TObject);
     procedure cbPersonennameChange(Sender: TObject);
     procedure cbSachkontoChange(Sender: TObject);
@@ -130,7 +132,6 @@ type
     procedure DBGridJournalColumnSized(Sender: TObject);
     procedure DBGridJournalDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure ediBankNrExit(Sender: TObject);
-    procedure ediBelegnummerExit(Sender: TObject);
     procedure ediBetragExit(Sender: TObject);
     procedure ediBuchungsjahrChange(Sender: TObject);
     procedure ediPersonenIDExit(Sender: TObject);
@@ -167,11 +168,8 @@ type
     procedure GetImportRec;
     procedure GetNextImportRec;
     procedure CheckSettingsForSave;
-    procedure CheckSettingsForSave2;
     procedure FilterClear;
     Procedure FilterClear2;
-    Function  Str2Bool(s: string):boolean;
-    Function  Bool2Str(b: boolean):String;
     Function  GetNextBelegnummer():String;
     procedure SetControlsVisibility(AVisible: Boolean; const myControls: array of TControl);
   public
@@ -201,28 +199,6 @@ uses
   LCLType,
   DateUtils;
 
-var
-  ImpCol0Width,
-  ImpCol1Width,
-  ImpCol2Width,
-  ImpCol3Width,
-  ImpCol4Width,
-  ImpCol5Width,
-  ImpCol6Width,
-  Col0Width,
-  Col1Width,
-  Col2Width,
-  Col3Width,
-  Col4Width,
-  Col5Width,
-  Col6Width,
-  Col7Width,
-  Col8Width,
-  Winleft,
-  WinTop,
-  WinWidth,
-  WinHeight : integer;
-
 const
   ImpColZeile   = 0;
   ImpColDatum   = 1;
@@ -231,18 +207,32 @@ const
   ImpColSoll_H  = 4;
   ImpColKeySK   = 5;
   ImpColKeyPers = 6;
+  NumOfCols     = 8;
 
-Function TfrmJournal.Str2Bool(s: string):boolean;
-begin
-  result := (s = sJa);
-end;
+  ModeNames: array[TMode] of string = (
+    'Journalmodus: alte Daten ansehen',
+    'Journalmodus: gefilterte Daten ansehen',
+    'Journalmodus: neu erfassen',
+    'Journalmodus: neu erfassen',
+    'Journalmodus: bearbeiten',
+    'Journalmodus: aktuelles Jahr ansehen',
+    'Journalmodus: importieren'
+  );
+var
+  ColCounter,
+  ImpCol0Width,
+  ImpCol1Width,
+  ImpCol2Width,
+  ImpCol3Width,
+  ImpCol4Width,
+  ImpCol5Width,
+  ImpCol6Width,
+  Winleft,
+  WinTop,
+  WinWidth,
+  WinHeight : integer;
 
-Function TfrmJournal.Bool2Str(b: boolean):String;
-begin
-  if b
-    then result := sJa
-    else result := sNein;
-end;
+  ColWidth: array[0..NumOfCols] of integer;
 
 Function TfrmJournal.GetNextBelegnummer():String;
 
@@ -285,34 +275,24 @@ begin
     else result := ' SortDate, LaufendeNr';
 end;
 
-procedure TfrmJournal.CheckSettingsForSave;
+procedure TfrmJournal.TimCheckSettingsForSaveTimer(Sender: TObject);
+
+    procedure SetColorAndFocus(state: boolean; const myControl: TWinControl);
+    begin
+      if state
+        then myControl.Color := clDefault
+        else
+          begin
+            myControl.Color := $8080FF;
+            if btnSpeichern.Enabled and bJournalJump then myControl.SetFocus;
+            btnSpeichern.Enabled := false;
+          end;
+    end;
 
 begin
-  if Modus in [append_TakeOver, append_Empty, edit, import]
-     then
-       begin
-         TimCheckSettingsForSave.Enabled := true;
-         //Jetzt kan z.B. der Abbruchbutton ausgewertet werden. Ansonsten hängt man duch das SetFocus fest
-         {$ifdef DebugCallStack} myDebugLN('TimCheckSettingsForSave.Enabled := true'); {$endif}
-       end;
-end;
+  {$ifdef DebugCallStack} myDebugLN('TimCheckSettingsForSaveTimer'); {$endif}
 
-procedure TfrmJournal.CheckSettingsForSave2;
-
-  procedure SetColorAndFocus(state: boolean; const myControl: TWinControl);
-  begin
-    if state
-      then myControl.Color := clDefault
-      else
-        begin
-          myControl.Color := $8080FF;
-          if btnSpeichern.Enabled and bJournalJump then myControl.SetFocus;
-          btnSpeichern.Enabled := false;
-        end;
-  end;
-
-begin
-  {$ifdef DebugCallStack} myDebugLN('CheckSettingsForSave2'); {$endif}
+  TimCheckSettingsForSave.Enabled := false;
   btnSpeichern.Enabled := true;
   try
     if btnSpeichern.Visible then
@@ -339,13 +319,20 @@ begin
   labVZ.Visible := ((pos('A', cbSachKonto.Text) = 1) and (CurrencyToInt(ediBetrag.Text, bEuroModus) > 0)) or
                    ((pos('E', cbSachKonto.Text) = 1) and (CurrencyToInt(ediBetrag.Text, bEuroModus) < 0));
 
-  if btnSpeichernAuto.Visible
-    then
-      begin
-        btnSpeichernAuto.Enabled := btnSpeichern.Enabled;
-        //btnSkip.Enabled          := btnSpeichern.Enabled;
-      end;
-  {$ifdef DebugCallStack} myDebugLN('CheckSettingsForSave2 finished'); {$endif}
+  if btnSpeichernAuto.Visible then btnSpeichernAuto.Enabled := btnSpeichern.Enabled;
+
+  {$ifdef DebugCallStack} myDebugLN('TimCheckSettingsForSaveTimer finished'); {$endif}
+end;
+
+procedure TfrmJournal.CheckSettingsForSave;
+
+begin
+  if Modus in [append_TakeOver, append_Empty, edit, import]
+     then
+       begin
+         TimCheckSettingsForSave.Enabled := true;   //Jetzt kan z.B. der Abbruchbutton ausgewertet werden. Ansonsten hängt man duch das SetFocus fest
+         {$ifdef DebugCallStack} myDebugLN('TimCheckSettingsForSave.Enabled := true'); {$endif}
+       end;
 end;
 
 procedure TfrmJournal.AfterScroll;
@@ -493,16 +480,10 @@ begin
             end;
 
         //Hier wegen refresh auf Query
-        DBGridJournal.Columns.Items[0].Width := Col0Width;
-        DBGridJournal.Columns.Items[1].Width := Col1Width;
-        DBGridJournal.Columns.Items[2].Width := Col2Width;
-        DBGridJournal.Columns.Items[3].Width := Col3Width;
-        DBGridJournal.Columns.Items[4].Width := Col4Width;
-        DBGridJournal.Columns.Items[5].Width := Col5Width;
-        DBGridJournal.Columns.Items[6].Width := Col6Width;
-        DBGridJournal.Columns.Items[7].Width := Col7Width;
-        DBGridJournal.Columns.Items[8].Width := Col8Width;
-        for i := 9 to DBGridJournal.Columns.Count-1
+        for i := 0 to NumOfCols
+          do DBGridJournal.Columns.Items[i].Width := ColWidth[i];
+
+        for i := NumOfCols + 1 to DBGridJournal.Columns.Count-1
           do DBGridJournal.Columns.Items[i].Visible  := false;
       end;
   {$ifdef DebugCallStack} myDebugLN('SetFormular finished');  {$endif}
@@ -526,24 +507,15 @@ begin
   case Modus of
     readonly : begin
                  SetControlsVisibility(true, [btnClose, panFilter, panFilter1, rgSort, panSummen]);
-                 if labFilter.Visible
-                   then frmJournal.Caption  := 'Journalmodus: gefilterte alte Daten ansehen'
-                   else frmJournal.Caption  := 'Journalmodus: alte Daten ansehen';
                end;
     filtered : begin
                  SetControlsVisibility(true                                  ,  [btnClose, panFilter, panFilter1, rgSort, panSummen]);
                  SetControlsVisibility((nBuchungsjahr = ediBuchungsjahr.Value), [btnAendern, btnLoeschen, btnNeueBuchung]);
-                 frmJournal.Caption         := 'Journalmodus: gefilterte Daten ansehen';
                end;
     append_TakeOver,
-    append_Empty
-             : begin
-                 SetControlsVisibility(True, [btnSpeichern, btnAbbrechen, panSummen]);
-                 frmJournal.Caption         := 'Journalmodus: neu erfassen';
-               end;
+    append_Empty,
     edit     : begin
                  SetControlsVisibility(True, [btnSpeichern, btnAbbrechen, panSummen]);
-                 frmJournal.Caption         := 'Journalmodus: bearbeiten';
                end;
     browse   : begin
                  SetControlsVisibility(True, [btnClose, panFilter, panFilter1, rgSort, panSummen, btnNeueBuchung, btnNeueBuchungLeer, btnAendern, btnLoeschen, btnImport, cbCSVAutomatik]);
@@ -553,15 +525,13 @@ begin
                  cbBuchungstext.Color       := clDefault;
                  ediBelegnummer.Color       := clDefault;
                  DateEditBuchungsdatum.Color:= clDefault;
-                 frmJournal.Caption         := 'Journalmodus: aktuelles Jahr ansehen';
                end;
     import   : begin
                  SetControlsVisibility(True, [btnSpeichern, btnSpeichernAuto, btnAbbrechen, btnSkip, panImportData]);
-                 frmJournal.Caption         := 'Journalmodus: importieren';
                end;
   end;
-
-  labModus.Caption := frmJournal.Caption;
+  labModus.Caption   := ModeNames[Modus];
+  frmJournal.Caption := ModeNames[Modus];
 
   case Modus of
     readonly,
@@ -1085,11 +1055,19 @@ begin
   {$ifdef DebugCallStack} myDebugLN('btnSpeichernClick finish'); {$endif}
 end;
 
-procedure TfrmJournal.cbBuchungstextExit(Sender: TObject);
+procedure TfrmJournal.ediBankNrChange(Sender: TObject);
 begin
-  {$ifdef DebugCallStack} myDebugLN('cbBuchungstextExit'); {$endif}
+
+end;
+
+procedure TfrmJournal.ediSachKontoNummerChange(Sender: TObject);
+begin
+
+end;
+
+procedure TfrmJournal.EingabeExit(Sender: TObject);
+begin
   CheckSettingsForSave;
-  {$ifdef DebugCallStack} myDebugLN('cbBuchungstextExit finish'); {$endif}
 end;
 
 procedure TfrmJournal.GetNextImportRec;
@@ -1170,12 +1148,6 @@ begin
    {$ifdef DebugCallStack} myDebugLN('cbSachkontoChange finished'); {$endif}
 end;
 
-procedure TfrmJournal.TimCheckSettingsForSaveTimer(Sender: TObject);
-begin
-  TimCheckSettingsForSave.Enabled := false;
-  CheckSettingsForSave2;
-end;
-
 procedure TfrmJournal.DateEditBuchungsdatumExit(Sender: TObject);
 
 begin
@@ -1221,16 +1193,10 @@ begin
 end;
 
 procedure TfrmJournal.DBGridJournalColumnSized(Sender: TObject);
+var i : integer;
 begin
-  Col0Width := DBGridJournal.Columns.Items[0].Width;
-  Col1Width := DBGridJournal.Columns.Items[1].Width;
-  Col2Width := DBGridJournal.Columns.Items[2].Width;
-  Col3Width := DBGridJournal.Columns.Items[3].Width;
-  Col4Width := DBGridJournal.Columns.Items[4].Width;
-  Col5Width := DBGridJournal.Columns.Items[5].Width;
-  Col6Width := DBGridJournal.Columns.Items[6].Width;
-  Col7Width := DBGridJournal.Columns.Items[7].Width;
-  Col8Width := DBGridJournal.Columns.Items[8].Width;
+  for i := 0 to NumOfCols-1
+    do ColWidth[i] := DBGridJournal.Columns.Items[i].Width;
 end;
 
 procedure TfrmJournal.DBGridJournalDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -1239,7 +1205,7 @@ var
   myRect: TRect;
 
 begin
-  DBGridJournal.Canvas.Font.Color:=clDefault;
+  DBGridJournal.Canvas.Font.Color := clDefault;
   myRect := Rect;
   case DBGridJournal.Canvas.TextStyle.Alignment of
     taRightJustify : myRect.Right := Rect.Right - 4;
@@ -1249,9 +1215,8 @@ begin
   // bessere Lesbarkeit der selektierten Zeile wenn enabled = false
   if (gdSelected in State) and not DBGridJournal.Enabled then
     begin
-      DBGridJournal.Canvas.Font.Color:= clWhite;
-      //den, vom System gezeichneten, Inhalt löschen
-      DBGridJournal.Canvas.FillRect(Rect);
+      DBGridJournal.Canvas.Font.Color := clWhite;
+      DBGridJournal.Canvas.FillRect(Rect);   //den, vom System gezeichneten, Inhalt löschen
       DBGridJournal.Canvas.TextRect(myRect,myRect.Left,Rect.Top,Column.Field.AsString);
     end;
 
@@ -1259,12 +1224,9 @@ begin
   if Column.FieldName = 'Betrag'
     then
       begin
-        //den, vom System gezeichneten, Inhalt löschen
-        DBGridJournal.Canvas.FillRect(Rect);
-        //eigenen Text reinschreiben
-        if Column.Field.AsLongint < 0
-          then DBGridJournal.Canvas.Font.Color:=clRed;
-        DBGridJournal.Canvas.TextRect(myRect,Rect.Left,Rect.Top, Format('%m',[Column.Field.AsLongint/100]));
+        DBGridJournal.Canvas.FillRect(Rect); //den, vom System gezeichneten, Inhalt löschen
+        if Column.Field.AsLongint < 0 then DBGridJournal.Canvas.Font.Color := clRed;
+        DBGridJournal.Canvas.TextRect(myRect,Rect.Left,Rect.Top, Format('%m',[Column.Field.AsLongint/100]));  //eigenen Text reinschreiben
       end;
 end;
 
@@ -1289,13 +1251,6 @@ begin
   {$ifdef DebugCallStack} myDebugLN('ediBankNrExit finished'); {$endif}
 end;
 
-procedure TfrmJournal.ediBelegnummerExit(Sender: TObject);
-begin
-  {$ifdef DebugCallStack} myDebugLN('ediBelegnummerExit'); {$endif}
-  CheckSettingsForSave;
-  {$ifdef DebugCallStack} myDebugLN('ediBelegnummerExit finished'); {$endif}
-end;
-
 procedure TfrmJournal.ediBetragExit(Sender: TObject);
 begin
   {$ifdef DebugCallStack} myDebugLN('ediBetragExit'); {$endif}
@@ -1309,11 +1264,8 @@ begin
 end;
 
 procedure TfrmJournal.ediBuchungsjahrChange(Sender: TObject);
-
 begin
-  {$ifdef DebugCallStack} myDebugLN('ediBuchungsjahrChange'); {$endif}
-  ediFilterExit(Sender);
-  {$ifdef DebugCallStack} myDebugLN('ediBuchungsjahrChange finished'); {$endif}
+
 end;
 
 procedure TfrmJournal.ediPersonenIDExit(Sender: TObject);
@@ -1396,7 +1348,7 @@ begin
   try
     frmDM.ZQueryJournal.Open;
   except
-    sFilter                       := '';
+    sFilter := '';
     FilterClear2;
     Showmessage('Fehler beim Öffnen der Datenbank'+#13+frmDM.ZQueryJournal.SQL.Text);
     frmDM.ZQueryJournal.SQL.Text := Format(sSelectJournal, [inttostr(ediBuchungsjahr.Value)]) + GetSortOrder;
@@ -1509,15 +1461,15 @@ var sName : String;
 begin
   {$ifdef DebugCallStack} myDebugLN('FormShow'); {$endif}
 
-  Col0Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col0Width'   ,  50);
-  Col1Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col1Width'   , 100);
-  Col2Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col2Width'   ,  70);
-  Col3Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col3Width'   ,  50);
-  Col4Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col4Width'   ,  70);
-  Col5Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col5Width'   ,  70);
-  Col6Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col6Width'   ,  80);
-  Col7Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col7Width'   , 280);
-  Col8Width    := help.ReadIniInt(sIniFile, 'Journal', 'Col8Width'   , 280);
+  ColWidth[0]  := help.ReadIniInt(sIniFile, 'Journal', 'Col0Width'   ,  50);
+  ColWidth[1]  := help.ReadIniInt(sIniFile, 'Journal', 'Col1Width'   , 100);
+  ColWidth[2]  := help.ReadIniInt(sIniFile, 'Journal', 'Col2Width'   ,  70);
+  ColWidth[3]  := help.ReadIniInt(sIniFile, 'Journal', 'Col3Width'   ,  50);
+  ColWidth[4]  := help.ReadIniInt(sIniFile, 'Journal', 'Col4Width'   ,  70);
+  ColWidth[5]  := help.ReadIniInt(sIniFile, 'Journal', 'Col5Width'   ,  70);
+  ColWidth[6]  := help.ReadIniInt(sIniFile, 'Journal', 'Col6Width'   ,  80);
+  ColWidth[7]  := help.ReadIniInt(sIniFile, 'Journal', 'Col7Width'   , 280);
+  ColWidth[8]  := help.ReadIniInt(sIniFile, 'Journal', 'Col8Width'   , 280);
   Winleft      := help.ReadIniInt(sIniFile, 'Journal', 'Winleft'     , self.Left);
   WinTop       := help.ReadIniInt(sIniFile, 'Journal', 'WinTop'      , self.Top);
   WinWidth     := help.ReadIniInt(sIniFile, 'Journal', 'WinWidth'    , self.Width);
@@ -1529,9 +1481,10 @@ begin
   ImpCol4Width := help.ReadIniInt(sIniFile, 'Journal', 'ImpCol4Width',  75);
   ImpCol5Width := help.ReadIniInt(sIniFile, 'Journal', 'ImpCol5Width', 230);
   ImpCol6Width := help.ReadIniInt(sIniFile, 'Journal', 'ImpCol6Width', 230);
+  cbCSVAutomatik.Checked := help.ReadIniBool(sJournalCSVImportINI, 'Daten','Automatik', false, true);
 
-  if (Winleft < VirtualScreenSize.Left) or (Winleft > (VirtualScreenSize.Left + VirtualScreenSize.Right)) then Winleft := 0;
-  if (WinTop < VirtualScreenSize.Top) or (WinTop > (VirtualScreenSize.Top + VirtualScreenSize.Bottom)) then WinTop := 0;
+  if (Winleft < VirtualScreenSize.Left) or (Winleft > (VirtualScreenSize.Left + VirtualScreenSize.Right))  then Winleft := 0;
+  if (WinTop < VirtualScreenSize.Top)   or (WinTop  > (VirtualScreenSize.Top  + VirtualScreenSize.Bottom)) then WinTop  := 0;
 
   self.Left    := Winleft;
   self.Top     := WinTop;
@@ -1560,7 +1513,7 @@ begin
   frmDM.ZQueryHelp.Open;
   try
     ediBuchungsjahr.MinValue := frmDM.ZQueryHelp.FieldByName('minBJ').asinteger;
-  Except
+  except
     ediBuchungsjahr.MinValue := ediBuchungsjahr.MaxValue;
   end;
   frmDM.ZQueryHelp.Close;
@@ -1619,8 +1572,6 @@ begin
   cbKonto.ItemIndex := 0;
   cbKonto.Hint      := cbKonto.Text;
 
-  cbCSVAutomatik.Checked := help.ReadIniBool(sJournalCSVImportINI, 'Daten','Automatik', false, true);
-
   FilterClear2;
   labFilter.Visible             := false;
   btnDelFilter.Visible          := false;
@@ -1630,21 +1581,6 @@ begin
   bStartFinished := true;
   SetMode(browse);
   {$ifdef DebugCallStack} myDebugLN('FormShowFinished'); {$endif}
-end;
-
-procedure TfrmJournal.mnuBankenlisteClick(Sender: TObject);
-begin
-  ZeigeListe('select * from konten where kontotype = "B" order by Sortpos');
-end;
-
-procedure TfrmJournal.mnuBankenliste_NrClick(Sender: TObject);
-begin
-  ZeigeListe('select * from konten where kontotype = "B" order by KontoNr');
-end;
-
-procedure TfrmJournal.mnuInternBankClick(Sender: TObject);
-begin
-  ZeigeListe(frmDM.ZQueryBanken.SQL.Text);
 end;
 
 procedure TfrmJournal.mnuKorrDatumClick(Sender: TObject);
@@ -1661,17 +1597,17 @@ begin
       end;
 end;
 
-procedure TfrmJournal.mnuSachkontenlisteClick(Sender: TObject);
-begin
-  ZeigeListe('select * from konten where kontotype <> "B" order by Sortpos');
-end;
-
 procedure TfrmJournal.ZeigeListe(SQL: String);
 begin
   frmDM.ZQueryHelp.SQL.Text := SQL;
   frmDM.ZQueryHelp.Open;
   frmListe.Showmodal;
   frmDM.ZQueryHelp.Close;
+end;
+
+procedure TfrmJournal.mnuSachkontenlisteClick(Sender: TObject);
+begin
+  ZeigeListe('select * from konten where kontotype <> "B" order by Sortpos');
 end;
 
 procedure TfrmJournal.mnuShowPersonenIDClick(Sender: TObject);
@@ -1682,6 +1618,21 @@ end;
 procedure TfrmJournal.mnuShowPersonenNameClick(Sender: TObject);
 begin
   ZeigeListe('select PersonenID, Nachname, Vorname, Ort, Strasse from Personen order by Nachname COLLATE NOCASE, Vorname COLLATE NOCASE, Ort COLLATE NOCASE, Strasse COLLATE NOCASE');
+end;
+
+procedure TfrmJournal.mnuBankenlisteClick(Sender: TObject);
+begin
+  ZeigeListe('select * from konten where kontotype = "B" order by Sortpos');
+end;
+
+procedure TfrmJournal.mnuBankenliste_NrClick(Sender: TObject);
+begin
+  ZeigeListe('select * from konten where kontotype = "B" order by KontoNr');
+end;
+
+procedure TfrmJournal.mnuInternBankClick(Sender: TObject);
+begin
+  ZeigeListe(frmDM.ZQueryBanken.SQL.Text);
 end;
 
 procedure TfrmJournal.rgSortClick(Sender: TObject);
