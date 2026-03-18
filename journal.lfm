@@ -355,7 +355,7 @@ object frmJournal: TfrmJournal
       MinValue = 2000
       TabOrder = 4
       Value = 2000
-      OnChange = ediBuchungsjahrChange
+      OnChange = ediFilterExit
     end
     object Label4: TLabel
       Left = 15
@@ -458,7 +458,7 @@ object frmJournal: TfrmJournal
       Top = 231
       Width = 480
       TabOrder = 14
-      OnExit = ediBelegnummerExit
+      OnExit = EingabeExit
     end
     object btnSpeichern: TButton
       Left = 924
@@ -531,7 +531,7 @@ object frmJournal: TfrmJournal
       Width = 801
       ParentShowHint = False
       TabOrder = 15
-      OnExit = ediBelegnummerExit
+      OnExit = EingabeExit
     end
     object panFilter: TPanel
       Left = 600
@@ -583,7 +583,7 @@ object frmJournal: TfrmJournal
         Left = 5
         Height = 23
         Hint = 'Hier kann zur Kontrolle die ... Nummer eingegeben werden. '#13#10'Buchungen sind dann nicht möglich.'#13#10#13#10'Rechtsklick löscht den Filter'
-        Top = 18
+        Top = 16
         Width = 40
         Alignment = taRightJustify
         ParentShowHint = False
@@ -696,7 +696,7 @@ object frmJournal: TfrmJournal
       DropDownCount = 40
       ItemHeight = 15
       TabOrder = 13
-      OnExit = cbBuchungstextExit
+      OnExit = EingabeExit
     end
     object btnNeueBuchungLeer: TButton
       Left = 924

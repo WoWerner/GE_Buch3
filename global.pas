@@ -49,8 +49,6 @@ const
   sSteuerDef           = ',Umsatzsteuerfrei,Nicht umsatzsteuerbar,Umsatzsteuerpflichtig 7%,Umsatzsteuerpflichtig 19%';
   nDefDPI              = 96;
   CSV_Delimiter        = ';';
-  sJa                  = 'Ja';
-  sNein                = 'Nein';
   KeyDelChars          = [' ', ',', '.', ':', '_', '-', '+', '*'];
 
 var

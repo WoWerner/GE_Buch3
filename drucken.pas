@@ -1142,6 +1142,7 @@ begin
                 end;
               else
                 begin
+                  //TwoColReport's
                   frmMain.slHelp.Clear;
                   for i := 0 to FRowPart1 do
                     frmMain.slHelp.Add(UTF8toCP1252(TwoColReportData[i].Name)+';'+
