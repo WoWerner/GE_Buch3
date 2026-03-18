@@ -24,6 +24,7 @@ uses
 
 type
   TMode = (readonly, filtered, append_Empty, append_TakeOver, edit, browse, import);
+  TModeUI = array of TControl;
 
   { TfrmJournal }
 
@@ -120,8 +121,6 @@ type
     procedure btnSkipClick(Sender: TObject);
     procedure btnSpeichernAutoClick(Sender: TObject);
     procedure btnSpeichernClick(Sender: TObject);
-    procedure ediBankNrChange(Sender: TObject);
-    procedure ediSachKontoNummerChange(Sender: TObject);
     procedure EingabeExit(Sender: TObject);
     procedure cbKontoChange(Sender: TObject);
     procedure cbPersonennameChange(Sender: TObject);
@@ -172,6 +171,7 @@ type
     Procedure FilterClear2;
     Function  GetNextBelegnummer():String;
     procedure SetControlsVisibility(AVisible: Boolean; const myControls: array of TControl);
+    procedure ApplyModeUI(const UI: TModeUI);
   public
     { public declarations }
     procedure AfterScroll;
@@ -232,7 +232,8 @@ var
   WinWidth,
   WinHeight : integer;
 
-  ColWidth: array[0..NumOfCols] of integer;
+  ColWidth  : array[0..NumOfCols] of integer;
+  ModeConfig: array[TMode]        of TModeUI;
 
 Function TfrmJournal.GetNextBelegnummer():String;
 
@@ -497,37 +498,40 @@ begin
     myControls[I].Visible := AVisible;
 end;
 
+procedure TfrmJournal.ApplyModeUI(const UI: TModeUI);
+var
+  c: TControl;
+begin
+  // Alle relevanten Elemente zuerst unsichtbar setzen
+  SetControlsVisibility(False,
+    [btnImport, panFilter, panFilter1, panSummen, rgSort, cbCSVAutomatik,
+     btnSpeichern, btnSpeichernAuto, btnNeueBuchung, btnNeueBuchungLeer,
+     btnAendern, btnLoeschen, panImportData, btnClose, btnSkip, btnAbbrechen]);
+
+  // Sichtbare Elemente einblenden
+  for c in UI do
+    c.Visible := True;
+end;
+
 procedure TfrmJournal.SetMode(aModus : TMode; RecNo: integer = 0);
 
 begin
   {$ifdef DebugCallStack} myDebugLN('SetMode'); {$endif}
-  SetControlsVisibility(False, [btnImport, panFilter, panFilter1, panSummen, rgSort, cbCSVAutomatik, btnSpeichern, btnSpeichernAuto, btnNeueBuchung,
-                                btnNeueBuchungLeer, btnAendern, btnLoeschen, panImportData, btnClose, btnSkip, btnAbbrechen]);
   Modus := aModus;
+
+  ApplyModeUI(ModeConfig[aModus]);
+
   case Modus of
-    readonly : begin
-                 SetControlsVisibility(true, [btnClose, panFilter, panFilter1, rgSort, panSummen]);
-               end;
     filtered : begin
-                 SetControlsVisibility(true                                  ,  [btnClose, panFilter, panFilter1, rgSort, panSummen]);
                  SetControlsVisibility((nBuchungsjahr = ediBuchungsjahr.Value), [btnAendern, btnLoeschen, btnNeueBuchung]);
                end;
-    append_TakeOver,
-    append_Empty,
-    edit     : begin
-                 SetControlsVisibility(True, [btnSpeichern, btnAbbrechen, panSummen]);
-               end;
     browse   : begin
-                 SetControlsVisibility(True, [btnClose, panFilter, panFilter1, rgSort, panSummen, btnNeueBuchung, btnNeueBuchungLeer, btnAendern, btnLoeschen, btnImport, cbCSVAutomatik]);
                  ediSachKontoNummer.Color   := clDefault;
                  ediBankNr.Color            := clDefault;
                  ediBetrag.Color            := clDefault;
                  cbBuchungstext.Color       := clDefault;
                  ediBelegnummer.Color       := clDefault;
                  DateEditBuchungsdatum.Color:= clDefault;
-               end;
-    import   : begin
-                 SetControlsVisibility(True, [btnSpeichern, btnSpeichernAuto, btnAbbrechen, btnSkip, panImportData]);
                end;
   end;
   labModus.Caption   := ModeNames[Modus];
@@ -1055,16 +1059,6 @@ begin
   {$ifdef DebugCallStack} myDebugLN('btnSpeichernClick finish'); {$endif}
 end;
 
-procedure TfrmJournal.ediBankNrChange(Sender: TObject);
-begin
-
-end;
-
-procedure TfrmJournal.ediSachKontoNummerChange(Sender: TObject);
-begin
-
-end;
-
 procedure TfrmJournal.EingabeExit(Sender: TObject);
 begin
   CheckSettingsForSave;
@@ -1438,6 +1432,14 @@ begin
   bStartFinished     := false;
   slBankenStartSaldo := TStringList.Create;
   slSuchTexteImport  := TStringList.Create;
+
+  ModeConfig[readonly]        := [btnClose, panFilter, panFilter1, rgSort, panSummen];
+  ModeConfig[filtered]        := [btnClose, panFilter, panFilter1, rgSort, panSummen];
+  ModeConfig[browse]          := [btnClose, panFilter, panFilter1, rgSort, panSummen, btnNeueBuchung, btnNeueBuchungLeer, btnAendern, btnLoeschen, btnImport, cbCSVAutomatik];
+  ModeConfig[append_TakeOver] := [btnSpeichern, btnAbbrechen, panSummen];
+  ModeConfig[append_Empty]    := [btnSpeichern, btnAbbrechen, panSummen];
+  ModeConfig[edit]            := [btnSpeichern, btnAbbrechen, panSummen];
+  ModeConfig[import]          := [btnSpeichern, btnSpeichernAuto, btnAbbrechen, btnSkip, panImportData];
   {$ifdef DebugCallStack} myDebugLN('FormCreate finished'); {$endif}
 end;
 
