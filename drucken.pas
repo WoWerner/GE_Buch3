@@ -1651,14 +1651,16 @@ end;
 procedure TfrmDrucken.btnZuwendungsbescheinigungenMailClick(Sender: TObject);
 var
   slNamen,
+  slNamen_kurz,
   slMail,
   slPasswort,
+  slPasswort_used,
   Content,
   Attach      : TStringList;
   sName,
   sMessage,
   sErgebnis,
-  sHelp,
+  sPassword,
   sFileNameHelp,
   sfileName   : String;
   i,j         : integer;
@@ -1666,19 +1668,15 @@ var
 
 begin
   try
-    slNamen   := TStringlist.Create;
-    slMail    := TStringlist.Create;
-    slPasswort:= TStringlist.Create;
-    Content   := TStringList.Create;
-    Attach    := TStringList.Create;
-    SMTP      := TMySMTPSend.Create;
-    sErgebnis := '';
-
-    Content.Add('Hallo, '#13#13+
-                'hier kommt Ihre Zuwendungsbescheinigung!'#13#13+
-                'Aus Datenschutzgründen ist die Bescheinigung in einer passwortgeschützen Datei. Das Passwort ist ihr Geburtsdatum in der Form TT.MM.JJJJ oder ihre PLZ. Falls wir ihre Daten nicht kennen, können sie das alternative Passwort bei mir erfragen.'#13#13+
-                'Mit freundlichen Grüßen'#13+
-                frmMain.LabRendant1.Caption);
+    slNamen         := TStringlist.Create;
+    slNamen_kurz    := TStringlist.Create;
+    slMail          := TStringlist.Create;
+    slPasswort      := TStringlist.Create;
+    slPasswort_used := TStringlist.Create;
+    Content         := TStringList.Create;
+    Attach          := TStringList.Create;
+    SMTP            := TMySMTPSend.Create;
+    sErgebnis       := '';
 
     SMTP.TargetHost       := sEMailServer;
     SMTP.TargetPort       := sEMailPort;
@@ -1706,17 +1704,31 @@ begin
               with CreateOutArchive(CLSID_CFormatZip) do
                 begin
                   AddFile(sfileName, sFileNameHelp+'.pdf');
+                  //Passwort
                   if frmDM.ZQueryHelp.FieldByName('Geburtstag').AsString <> ''
-                    then sHelp := frmDM.ZQueryHelp.FieldByName('Geburtstag').AsString
+                    then
+                      begin
+                        sPassword := frmDM.ZQueryHelp.FieldByName('Geburtstag').AsString;
+                        slPasswort_used.Add('Das Passwort ist ihr Geburtsdatum in der Form TT.MM.JJJJ.');
+                      end
                     else if frmDM.ZQueryHelp.FieldByName('PLZ').AsString <> ''
-                      then sHelp := frmDM.ZQueryHelp.FieldByName('PLZ').AsString
-                      else sHelp := 'Bescheinigung';
-                  SetPassword(sHelp);
+                      then
+                        begin
+                          sPassword := frmDM.ZQueryHelp.FieldByName('PLZ').AsString;
+                          slPasswort_used.Add('Das Passwort ist ihre PLZ.');
+                        end
+                      else
+                        begin
+                          sPassword := 'Bescheinigung';
+                          slPasswort_used.Add('Das Passwort können sie bei mir erfragen.');
+                        end;
+                  SetPassword(sPassword);
                   SaveToFile(sPrintPath+sFileNameHelp+'.zip');
                 end;
               slNamen.Add(sName);
+              slNamen_kurz.Add(frmDM.ZQueryHelp.FieldByName('Vorname').AsString+' '+frmDM.ZQueryHelp.FieldByName('Nachname').AsString);
               slMail.Add(frmDM.ZQueryHelp.FieldByName('eMail').AsString);
-              slPasswort.Add(sHelp);
+              slPasswort.Add(sPassword);
             end;
         frmDM.ZQueryHelp.Next;
       end;
@@ -1730,8 +1742,8 @@ begin
           frmFreieListe.SrcList.Items.Text := slNamen.Text;
           frmFreieListe.DstList.Items.Clear;
           frmFreieListe.Caption          := 'Personen auswählen.';
-          frmFreieListe.SrcLabel.Caption :='Namen';
-          frmFreieListe.DstLabel.Caption :='zu versenden';
+          frmFreieListe.SrcLabel.Caption := 'Namen';
+          frmFreieListe.DstLabel.Caption := 'zu versenden';
           frmFreieListe.rbCSV.Visible    := false;
           frmFreieListe.rbFix.Visible    := false;
           if frmFreieListe.ShowModal = mrOK
@@ -1753,6 +1765,13 @@ begin
                           frmProgress.ProgressBar.Position:=i;
                           j := slNamen.IndexOf(frmFreieListe.DstList.Items[i]);
                           //MessageDlg('Mail', slMail.Strings[j], mtInformation, [mbOK], 0);
+                          Content.Clear;
+                          Content.Add('Sehr geehrte(r) '+slNamen_kurz.Strings[j]+', '#13#13+
+                                      'hier kommt Ihre Zuwendungsbescheinigung!'#13#13+
+                                      'Aus Datenschutzgründen ist die Bescheinigung in einer passwortgeschützen Datei. '+slPasswort_used.Strings[j]+#13#13+
+                                      'Mit freundlichen Grüßen'#13+
+                                      frmMain.LabRendant1.Caption+#13+
+                                      frmMain.LabRendant2.Caption);
                           Attach.Clear;
                           Attach.Add(sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+frmFreieListe.DstList.Items[i]+'.zip');
                           try
@@ -1804,8 +1823,10 @@ begin
         end;
   finally
     slNamen.Free;
+    slNamen_kurz.Free;
     slMail.Free;
     slPasswort.Free;
+    slPasswort_used.Free;
     Content.Free;
     Attach.free;
     SMTP.Free;
