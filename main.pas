@@ -330,7 +330,7 @@ begin
   myDebugLN('sPrintPath    : '+sPrintPath);
   myDebugLN('sDatabase     : '+sDatabase);
 
-  WorkArea          := GetWorkArea;
+  //WorkArea          := GetWorkArea;
   MaxWindowsSize    := GetMaxWindowsSize;
   GetMonitorCount;
   VirtualScreenSize := GetVirtualScreenSize;

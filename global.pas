@@ -83,7 +83,7 @@ var
   bCleanUpRequired     : boolean;
   bJournalJump         : boolean;
   bJournalLast         : boolean;
-  WorkArea             : TRect;
+  //WorkArea             : TRect;
   MaxWindowsSize       : TRect;
   VirtualScreenSize    : TRect;
 
