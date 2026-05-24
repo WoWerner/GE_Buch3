@@ -1668,15 +1668,15 @@ var
 
 begin
   try
-    slNamen         := TStringlist.Create;
-    slNamen_kurz    := TStringlist.Create;
-    slMail          := TStringlist.Create;
-    slPasswort      := TStringlist.Create;
-    slPasswort_used := TStringlist.Create;
-    Content         := TStringList.Create;
-    Attach          := TStringList.Create;
-    SMTP            := TMySMTPSend.Create;
-    sErgebnis       := '';
+    slNamen               := TStringlist.Create;
+    slNamen_kurz          := TStringlist.Create;
+    slMail                := TStringlist.Create;
+    slPasswort            := TStringlist.Create;
+    slPasswort_used       := TStringlist.Create;
+    Content               := TStringList.Create;
+    Attach                := TStringList.Create;
+    SMTP                  := TMySMTPSend.Create;
+    sErgebnis             := '';
 
     SMTP.TargetHost       := sEMailServer;
     SMTP.TargetPort       := sEMailPort;
@@ -1782,8 +1782,7 @@ begin
                                                  Attach)
                               then
                                 begin
-                                  sMessage  := 'Erfolgreich: Sende Mail zu '+slMail.Strings[j]+' mit der Datei: '+RemoveLastCRLF(Attach.Text)+
-                                               '. Passwort: '+slPasswort.Strings[j];
+                                  sMessage  := 'Erfolgreich: Sende Mail zu '+slMail.Strings[j]+' mit der Datei: '+RemoveLastCRLF(Attach.Text)+'. Passwort: '+slPasswort.Strings[j];
                                   sErgebnis := sErgebnis + sMessage + #13#10;
                                   myDebugLN(sMessage);
                                   RenameFile(sPrintPath+'Zuwendung_'+ediBuchungsjahr.Text+'_'+frmFreieListe.DstList.Items[i]+'.pdf',
