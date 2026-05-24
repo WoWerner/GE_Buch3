@@ -164,6 +164,7 @@ type
     procedure ZeigeListe(SQL: String);
     procedure SetMode(aModus : TMode; RecNo: integer = 0);
     procedure SetFormular;
+    procedure UpdateKontostand;
     procedure GetImportRec;
     procedure GetNextImportRec;
     procedure CheckSettingsForSave;
@@ -234,6 +235,18 @@ var
 
   ColWidth  : array[0..NumOfCols] of integer;
   ModeConfig: array[TMode]        of TModeUI;
+
+
+procedure TfrmJournal.UpdateKontostand;
+
+begin
+  with frmDM.ZQueryHelp do begin
+    SQL.LoadFromFile(sAppDir+'module\SQL\updateKontostand.sql');
+    ParamByName('BJahr').AsInteger := ediBuchungsjahr.Value;
+    ExecSQL;
+  end;
+end;
+
 
 Function TfrmJournal.GetNextBelegnummer():String;
 
@@ -680,9 +693,7 @@ begin
         frmDM.ZQueryHelp.SQL.Text := 'delete from journal where LaufendeNr=' + frmDM.ZQueryJournal.FieldByName('LaufendeNr').AsString;
         frmDM.ZQueryHelp.ExecSQL;
         //Kontostand Bank(en) neu berechnen
-        frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\updateKontostand.sql');
-        frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := ediBuchungsjahr.Value;
-        frmDM.ZQueryHelp.ExecSQL;
+        UpdateKontostand;
 
         frmDM.ZQueryJournal.DisableControls;
         //frmDM.ZQueryJournal.Refresh;  //Verursacht Access violation
@@ -993,9 +1004,7 @@ begin
   end;
 
   //Kontostand Bank(en)
-  frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\updateKontostand.sql');
-  frmDM.ZQueryHelp.ParamByName('BJahr').AsInteger := ediBuchungsjahr.Value;
-  frmDM.ZQueryHelp.ExecSQL;
+  UpdateKontostand;
 
   case Modus of
     append_TakeOver,
@@ -1384,18 +1393,14 @@ end;
 
 procedure TfrmJournal.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 
+var
+  i : integer;
+
 begin
   {$ifdef DebugCallStack} myDebugLN('FormClose'); {$endif}
   try
-    help.WriteIniInt(sIniFile, 'Journal', 'Col0Width'   , DBGridJournal.Columns.Items[0].Width);
-    help.WriteIniInt(sIniFile, 'Journal', 'Col1Width'   , DBGridJournal.Columns.Items[1].Width);
-    help.WriteIniInt(sIniFile, 'Journal', 'Col2Width'   , DBGridJournal.Columns.Items[2].Width);
-    help.WriteIniInt(sIniFile, 'Journal', 'Col3Width'   , DBGridJournal.Columns.Items[3].Width);
-    help.WriteIniInt(sIniFile, 'Journal', 'Col4Width'   , DBGridJournal.Columns.Items[4].Width);
-    help.WriteIniInt(sIniFile, 'Journal', 'Col5Width'   , DBGridJournal.Columns.Items[5].Width);
-    help.WriteIniInt(sIniFile, 'Journal', 'Col6Width'   , DBGridJournal.Columns.Items[6].Width);
-    help.WriteIniInt(sIniFile, 'Journal', 'Col7Width'   , DBGridJournal.Columns.Items[7].Width);
-    help.WriteIniInt(sIniFile, 'Journal', 'Col8Width'   , DBGridJournal.Columns.Items[8].Width);
+    for i := 0 to NumOfCols
+      do help.WriteIniInt(sIniFile, 'Journal', 'Col'+inttostr(i)+'Width'   , DBGridJournal.Columns.Items[i].Width);
     help.WriteIniInt(sIniFile, 'Journal', 'Winleft'     , self.Left);
     help.WriteIniInt(sIniFile, 'Journal', 'WinTop'      , self.Top);
     help.WriteIniInt(sIniFile, 'Journal', 'WinWidth'    , self.Width);

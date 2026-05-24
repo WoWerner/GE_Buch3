@@ -131,10 +131,10 @@ object frmJournal: TfrmJournal
     ClientWidth = 1100
     TabOrder = 1
     object btnDelFilter: TButton
-      Left = 744
+      Left = 924
       Height = 25
-      Top = 27
-      Width = 120
+      Top = 256
+      Width = 164
       Caption = 'Filter zurücksetzen'
       TabOrder = 28
       OnClick = btnDelFilterClick
@@ -262,7 +262,7 @@ object frmJournal: TfrmJournal
     object btnClose: TButton
       Left = 924
       Height = 25
-      Top = 283
+      Top = 284
       Width = 164
       Caption = 'Schließen'
       TabOrder = 1
@@ -296,7 +296,7 @@ object frmJournal: TfrmJournal
       Left = 924
       Height = 25
       Hint = 'Neuer Datensatz mit Übernahme der aktuellen Daten'#13#10#13#10'Felder:'#13#10'Datum'#13#10'Sachkonto'#13#10'Personen'#13#10'Bank'#13#10'Betrag'#13#10'Buchungstext'#13#10'Bemerkung'#13#10'Belegnummer'#13#10'Aufwendungsersatz'
-      Top = 35
+      Top = 32
       Width = 164
       Caption = 'Neu (Übernahme)'
       ParentShowHint = False
@@ -307,7 +307,7 @@ object frmJournal: TfrmJournal
     object btnAendern: TButton
       Left = 924
       Height = 25
-      Top = 97
+      Top = 88
       Width = 164
       Caption = 'Datensatz bearbeiten'
       TabOrder = 3
@@ -316,7 +316,7 @@ object frmJournal: TfrmJournal
     object btnAbbrechen: TButton
       Left = 924
       Height = 25
-      Top = 252
+      Top = 228
       Width = 164
       Caption = 'Abbrechen / Beenden'
       TabOrder = 19
@@ -464,7 +464,7 @@ object frmJournal: TfrmJournal
       Left = 924
       Height = 25
       Hint = 'Hotkey: ALT-S'
-      Top = 192
+      Top = 172
       Width = 164
       Caption = '&Speichern'
       TabOrder = 17
@@ -481,7 +481,7 @@ object frmJournal: TfrmJournal
     object btnImport: TButton
       Left = 924
       Height = 25
-      Top = 66
+      Top = 60
       Width = 164
       Caption = 'Kontoauszugsimport (CSV)'
       TabOrder = 20
@@ -501,7 +501,7 @@ object frmJournal: TfrmJournal
       Left = 924
       Height = 25
       Hint = 'Hotkey: ALT-A'#13#10#13#10'Speichert auch die Informationen für automatische Buchen'
-      Top = 221
+      Top = 200
       Width = 164
       Caption = 'Speichern für &Autom.'
       TabOrder = 18
@@ -510,7 +510,7 @@ object frmJournal: TfrmJournal
     object btnLoeschen: TButton
       Left = 924
       Height = 25
-      Top = 128
+      Top = 116
       Width = 164
       Caption = 'Löschen'
       TabOrder = 23
@@ -655,7 +655,7 @@ object frmJournal: TfrmJournal
     object btnSkip: TButton
       Left = 924
       Height = 25
-      Top = 159
+      Top = 144
       Width = 164
       Caption = 'Datensatz überspringen'
       TabOrder = 21
