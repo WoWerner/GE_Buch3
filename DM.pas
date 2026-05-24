@@ -273,7 +273,7 @@ begin
               Halt; // End of program execution
             end;
 
-        sHelp := DoDBUpdate('3.0',sAppDir+'module\update30.sql');
+        sHelp := DoDBUpdate('3.0',sAppDir+'module\SQL\update30.sql');
       end;
 
   if sHelp = '3.0' then sHelp := DoDBUpdate('3.1',sAppDir+'module\SQL\update31.sql');

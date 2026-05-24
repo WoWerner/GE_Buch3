@@ -4,8 +4,8 @@ object frmDM: TfrmDM
   Top = 166
   Width = 780
   Caption = 'DM'
+  LCLVersion = '4.6.0.0'
   OnCreate = FormCreate
-  LCLVersion = '3.8.0.0'
   object ZQueryBanken: TZQuery
     AfterScroll = ZQueryBankenAfterScroll
     Connection = ZConnectionBuch
