@@ -591,6 +591,8 @@ begin
     else
       if (trunc(random(12)) = 1)
         then Showmessage('Denken Sie an eine regelmäßige Datensicherung'+#13+labDatensicherung.Caption);
+  // DB fix
+  frmDM.ExecSQL('Update PERSONEN SET Geburtstag='''' where Geburtstag=="30.12.1899"');
 end;
 
 procedure TfrmMain.imgSELKClick(Sender: TObject);
