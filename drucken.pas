@@ -946,20 +946,23 @@ begin
               frmDM.ZQueryDrucken.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenBanken.sql');
               frmDM.ZQueryDrucken.ParamByName('BJahr').AsInteger := ediBuchungsjahr.value;
               frmDM.ZQueryDrucken.Open;
+
               AddLine('Kassenstände', '', '', header);  //Überschrift Part 4
 
               if cbDatum.Checked
                 then
                   begin
                     //Daten Part 4 1. Durchgang "Normale Buchungen"
+                    frmDM.ZQueryHelp.Close;
                     frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenBankenUmsatz.sql');
                     frmDM.ZQueryHelp.ParamByName('BJAHR').AsInteger := ediBuchungsjahr.value;
-                    frmDM.ZQueryHelp.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd',DateTimePickerVon.Date-1);
+                    frmDM.ZQueryHelp.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd', DateTimePickerVon.Date-1);
                     frmDM.ZQueryHelp.Open;
 
+                    frmDM.ZQueryHelp1.Close;
                     frmDM.ZQueryHelp1.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenBankenUmsatz.sql');
                     frmDM.ZQueryHelp1.ParamByName('BJAHR').AsInteger := ediBuchungsjahr.value;
-                    frmDM.ZQueryHelp1.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd',DateTimePickerBis.Date);
+                    frmDM.ZQueryHelp1.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd', DateTimePickerbis.Date);
                     frmDM.ZQueryHelp1.Open;
 
                     TwoColReportData[FRow].Col1 := DatetoStr(DateTimePickerBis.Date);
@@ -1004,12 +1007,12 @@ begin
                     //Daten Part 4 2. Durchgang "Umbuchungen"
                     frmDM.ZQueryHelp.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenBankenUmsatz2.sql');
                     frmDM.ZQueryHelp.ParamByName('BJAHR').AsInteger := ediBuchungsjahr.value;
-                    frmDM.ZQueryHelp.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd',DateTimePickerVon.Date-1);
+                    frmDM.ZQueryHelp.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd', DateTimePickerVon.Date-1);
                     frmDM.ZQueryHelp.Open;
 
                     frmDM.ZQueryHelp1.SQL.LoadFromFile(sAppDir+'module\SQL\SummenlisteDruckenBankenUmsatz2.sql');
                     frmDM.ZQueryHelp1.ParamByName('BJAHR').AsInteger := ediBuchungsjahr.value;
-                    frmDM.ZQueryHelp1.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd',DateTimePickerBis.Date);
+                    frmDM.ZQueryHelp1.ParamByName('DAT').AsString    := FormatDateTime('yyyy-mm-dd', DateTimePickerbis.Date);
                     frmDM.ZQueryHelp1.Open;
 
                     FRow := nSaveRow;
