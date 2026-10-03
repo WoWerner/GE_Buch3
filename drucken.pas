@@ -48,7 +48,8 @@ type
                  footer,
                  footer2,
                  footer3,
-                 line);
+                 line,
+                 white);
 
   T2ColReport =  record
     Name : string;
@@ -867,7 +868,7 @@ begin
                         if sSachkontoNr <> sLastSachkontoNr
                           then
                             begin
-                              AddLine('('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(0), IntToCurrency(0), line);  //Neues Sachkonto, neue Zeile
+                              AddLine('('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(0), IntToCurrency(0), white);  //Neues Sachkonto, neue Zeile
                               sLastSachkontoNr   := sSachkontoNr;
                               Col1LineSummePart3 := 0;
                               Col2LineSummePart3 := 0;
@@ -908,7 +909,7 @@ begin
                         if sSachkontoNr <> sLastSachkontoNr
                           then
                             begin
-                              AddLine('('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(0), IntToCurrency(0), line); //Neues Sachkonto, neue Zeile
+                              AddLine('('+sSachkontoNr+') '+frmDM.ZQueryDrucken.FieldByName('Name').AsString, IntToCurrency(0), IntToCurrency(0), white); //Neues Sachkonto, neue Zeile
                               sLastSachkontoNr    := sSachkontoNr;
                               Col1LineSummePart3b := 0;
                               Col2LineSummePart3b := 0;
@@ -1048,6 +1049,7 @@ begin
                     frmDM.ZQueryHelp1.close;
                   end
                 else
+                  //Ganzes Jahr, ohne Filter
                   begin
                     TwoColReportData[FRow].Col1 := inttostr(ediBuchungsjahr.value);
                     TwoColReportData[FRow].Col2 := '31.12.'+inttostr(ediBuchungsjahr.value-1);
@@ -2082,6 +2084,10 @@ begin
                                  View.FillColor:=clWhite
                              else
                                View.FillColor:=clWhite;
+                           end;
+                    white: begin
+                             Font.Style:=[];
+                             View.FillColor:=clWhite;
                            end;
                     blank: begin
                              Visible:= false;
